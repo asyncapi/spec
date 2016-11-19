@@ -1,0 +1,92 @@
+asyncapi: "0.1.0"
+info:
+  title: AsyncAPI Sample
+  version: v1
+  protocol: "#/components/protocols/mqtt"
+
+topics:
+  v1.user.signup:
+    message:
+      headers:
+        - $ref: "#/components/definitions/qosHeader"
+        - $ref: "#/components/definitions/retainFlagHeader"
+        - $ref: "#/components/definitions/contentType"
+      payload:
+        - description: User Id
+          required: true
+          $ref: "#/components/definitions/id"
+        - name: full_name
+          description: User full name
+          type: string
+        - $ref: "#/components/definitions/username"
+          required: true
+        - name: method
+          description: Signup method
+          type: string
+          required: true
+          enum:
+            - email
+            - facebook
+            - twitter
+            - github
+            - google
+        - $ref: "#/components/definitions/datetime"
+
+components:
+  protocols:
+    mqtt:
+      name: MQTT
+      topic:
+        separator: /
+        singleLevel: +
+        multiLevel: "#"
+
+  definitions:
+    id:
+      name: id
+      description: Resource identifier
+      type: string
+    username:
+      name: username
+      description: User handle
+      type: string
+    datetime:
+      name: datetime
+      description: Date and Time of the message
+      type: string
+      format: date-time
+    qosHeader:
+      name: qos
+      description: Quality of Service
+      type: integer
+      format: int32
+      default: 1
+      enum:
+        - 0
+        - 2
+    retainFlagHeader:
+      name: retainFlag
+      description:
+        | This flag determines if the message will be saved by the broker for the specified
+        | topic as last known good value. New clients that subscribe to that topic will receive
+        | the last retained message on that topic instantly after subscribing. More on retained messages
+        | and best practices in one of the next posts.
+      type: boolean
+      default: false
+    contentType:
+      name: contentType
+      description: Message content type
+      default: application/json
+      type: string
+      enum:
+        - application/xml
+
+servers:
+  - url: mqtt://localhost:{port}
+    description: Development Broker instance
+    templates:
+      port:
+        default: 1883
+        enum:
+          - 1883
+          - 8883

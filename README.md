@@ -82,11 +82,10 @@ Field Name | Type | Description
 ---|:---:|---
 asyncapi | [AsyncAPI Version String](#aasVersion) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
-servers | [[Server Object](#serverObject)] | An optional array of Server Objects which provide connectivity information to a target server.
 topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
 components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a request. Individual operations can override this definition.
-tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the [Operation Object](#operationObject) must be declared. The tags that are not declared may be organized randomly or based on the tools' logic. Each tag name in the list MUST be unique.
+servers | [[Server Object](#serverObject)] | An optional array of Server Objects which provide connectivity information to a target server.
 externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -99,8 +98,127 @@ A `major`.`minor` shall be used to designate the AsyncAPI Specification version,
 
 In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
 
+#### <a name="infoObject"></a>Info Object
+
+The object provides metadata about the API.
+The metadata can be used by the clients if needed, and can be presented in the AsyncAPI-UI for convenience.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="infoTitle"></a>title | `string` | **Required.** The title of the application.
+<a name="infoDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="infoTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API.
+<a name="infoContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
+<a name="infoLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
+<a name="infoVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
+
+This object can be extended with [Specification Extensions](#specificationExtensions). 
+
+##### Info Object Example:
+
+```json
+{
+  "title": "AsyncAPI Sample App",
+  "description": "This is a sample server.",
+  "termsOfService": "http://asyncapi.org/terms/",
+  "contact": {
+    "name": "API Support",
+    "url": "http://www.asyncapi.org/support",
+    "email": "support@asyncapi.org"
+  },
+  "license": {
+    "name": "Apache 2.0",
+    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "version": "1.0.1"
+}
+```
+
+```yaml
+title: AsyncAPI Sample App
+description: This is a sample server.
+termsOfService: http://asyncapi.org/terms/
+contact:
+  name: API Support
+  url: http://www.asyncapi.org/support
+  email: support@asyncapi.org
+license:
+  name: Apache 2.0
+  url: http://www.apache.org/licenses/LICENSE-2.0.html
+version: 1.0.1
+```
+
+#### <a name="contactObject"></a>Contact Object
+
+Contact information for the exposed API.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+name | `string` | The identifying name of the contact person/organization.
+url | `string` | The URL pointing to the contact information. MUST be in the format of a URL.
+email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
+
+This object can be extended with [Specification Extensions](#specificationExtensions). 
+
+##### Contact Object Example:
+
+```json
+{
+  "name": "API Support",
+  "url": "http://www.asyncapi.org/support",
+  "email": "support@asyncapi.org"
+}
+```
+
+```yaml
+name: API Support
+url: http://www.asyncapi.org/support
+email: support@asyncapi.org
+```
+
+#### <a name="licenseObject"></a>License Object
+
+License information for the exposed API.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+name | `string` | **Required.** The license name used for the API.
+url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
+
+This object can be extended with [Specification Extensions](#specificationExtensions). 
+
+##### License Object Example:
+
+```json
+{
+  "name": "Apache 2.0",
+  "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+}
+```
+
+```yaml
+name: Apache 2.0
+url: http://www.apache.org/licenses/LICENSE-2.0.html
+```
 
 
+### <a name="specificationExtensions"></a>Specification Extensions
+
+While the AsyncAPI Specification tries to accommodate most use cases, additional data can be added to extend the specification at certain points.
+
+The extensions properties are implemented as patterned fields that are always prefixed by `"x-"`.
+
+Field Pattern | Type | Description
+---|:---:|---
+^x- | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
+
+The extensions may or may not be supported by the available tooling, but those may be extended as well to add requested support (if tools are internal or open-sourced).
 
 
 
