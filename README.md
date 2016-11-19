@@ -452,7 +452,7 @@ The [XML Object](#xmlObject) contains additional information about the available
 
 ###### Primitive Sample
 
-Unlike previous versions of Swagger, AsyncAPI Schema definitions can be used to describe primitive and arrays as well.
+AsyncAPI Schema definitions can be used to describe primitive and arrays as well.
 
 ```json
 {
@@ -928,7 +928,7 @@ In this example, a full model definition is shown.
       "name": {
         "type": "string",
         "xml": {
-          "namespace": "http://swagger.io/schema/sample",
+          "namespace": "http://asyncapi.org/schema/sample",
           "prefix": "sample"
         }
       }
@@ -949,13 +949,13 @@ Person:
     name:
       type: string
       xml:
-        namespace: http://swagger.io/schema/sample
+        namespace: http://asyncapi.org/schema/sample
         prefix: sample
 ```
 
 ```xml
 <Person id="123">
-    <sample:name xmlns:sample="http://swagger.io/schema/sample">example</sample:name>
+    <sample:name xmlns:sample="http://asyncapi.org/schema/sample">example</sample:name>
 </Person>
 ```
 
