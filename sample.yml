@@ -1,36 +1,39 @@
 asyncapi: "0.1.0"
 info:
   title: AsyncAPI Sample
-  version: v1
-  protocol: "#/components/protocols/mqtt"
+  version: "1.0.0"
+  protocols:
+    - "#/components/protocols/mqtt"
 
 topics:
-  v1.user.signup:
+  hitch.accounts.1.0.0.actions.signup:
     message:
       headers:
-        - $ref: "#/components/definitions/qosHeader"
-        - $ref: "#/components/definitions/retainFlagHeader"
-        - $ref: "#/components/definitions/contentType"
+        qos:
+          $ref: "#/components/definitions/MQTTQoSHeader"
+        retainFlag:
+          $ref: "#/components/definitions/MQTTRetainHeader"
       payload:
-        - description: User Id
-          required: true
-          $ref: "#/components/definitions/id"
-        - name: full_name
-          description: User full name
-          type: string
-        - $ref: "#/components/definitions/username"
-          required: true
-        - name: method
-          description: Signup method
-          type: string
-          required: true
-          enum:
-            - email
-            - facebook
-            - twitter
-            - github
-            - google
-        - $ref: "#/components/definitions/datetime"
+        contentType:
+          $ref: "#/components/definitions/contentType"
+        user:
+          $ref: "#/components/definitions/userCreate"
+        signup:
+          $ref: "#/components/definitions/signup"
+  hitch.accounts.1.0.0.events.signedup:
+    message:
+      headers:
+        qos:
+          $ref: "#/components/definitions/MQTTQoSHeader"
+        retainFlag:
+          $ref: "#/components/definitions/MQTTRetainHeader"
+      payload:
+        contentType:
+          $ref: "#/components/definitions/contentType"
+        user:
+          $ref: "#/components/definitions/user"
+        signup:
+          $ref: "#/components/definitions/signup"
 
 components:
   protocols:
@@ -55,7 +58,7 @@ components:
       description: Date and Time of the message
       type: string
       format: date-time
-    qosHeader:
+    MQTTQoSHeader:
       name: qos
       description: Quality of Service
       type: integer
@@ -64,7 +67,7 @@ components:
       enum:
         - 0
         - 2
-    retainFlagHeader:
+    MQTTRetainHeader:
       name: retainFlag
       description:
         | This flag determines if the message will be saved by the broker for the specified
@@ -80,6 +83,47 @@ components:
       type: string
       enum:
         - application/xml
+    user:
+      type: object
+      required:
+        - id
+        - username
+      properties:
+        id:
+          description: User Id
+          $ref: "#/components/definitions/id"
+        full_name:
+          description: User full name
+          type: string
+        username:
+          $ref: "#/components/definitions/username"
+    userCreate:
+      type: object
+      required:
+        - username
+      properties:
+        full_name:
+          description: User full name
+          type: string
+        username:
+          $ref: "#/components/definitions/username"
+    signup:
+      type: object
+      required:
+        - method
+        - datetime
+      properties:
+        method:
+          description: Signup method
+          type: string
+          enum:
+            - email
+            - facebook
+            - twitter
+            - github
+            - google
+        datetime:
+          $ref: "#/components/definitions/datetime"
 
 servers:
   - url: mqtt://localhost:{port}
