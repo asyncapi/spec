@@ -1,136 +1,116 @@
-asyncapi: "0.1.0"
+asyncapi: "1.0"
 info:
   title: AsyncAPI Sample
   version: "1.0.0"
-  protocols:
-    - "#/components/protocols/mqtt"
+baseTopic: 'hitch'
 
 topics:
-  hitch.accounts.1.0.0.actions.signup:
-    message:
+  accounts.1.0.0.actions.signup:
+    publish:
       headers:
         qos:
-          $ref: "#/components/definitions/MQTTQoSHeader"
+          $ref: "#/definitions/MQTTQoSHeader"
         retainFlag:
-          $ref: "#/components/definitions/MQTTRetainHeader"
+          $ref: "#/definitions/MQTTRetainHeader"
       payload:
         contentType:
-          $ref: "#/components/definitions/contentType"
+          $ref: "#/definitions/contentType"
         user:
-          $ref: "#/components/definitions/userCreate"
+          $ref: "#/definitions/userCreate"
         signup:
-          $ref: "#/components/definitions/signup"
-  hitch.accounts.1.0.0.events.signedup:
-    message:
+          $ref: "#/definitions/signup"
+  accounts.1.0.0.events.signedup:
+    subscribe:
       headers:
         qos:
-          $ref: "#/components/definitions/MQTTQoSHeader"
+          $ref: "#/definitions/MQTTQoSHeader"
         retainFlag:
-          $ref: "#/components/definitions/MQTTRetainHeader"
+          $ref: "#/definitions/MQTTRetainHeader"
       payload:
         contentType:
-          $ref: "#/components/definitions/contentType"
+          $ref: "#/definitions/contentType"
         user:
-          $ref: "#/components/definitions/user"
+          $ref: "#/definitions/user"
         signup:
-          $ref: "#/components/definitions/signup"
+          $ref: "#/definitions/signup"
 
-components:
-  protocols:
-    mqtt:
-      name: MQTT
-      topic:
-        separator: /
-        singleLevel: +
-        multiLevel: "#"
-
-  definitions:
-    id:
-      name: id
-      description: Resource identifier
-      type: string
-    username:
-      name: username
-      description: User handle
-      type: string
-    datetime:
-      name: datetime
-      description: Date and Time of the message
-      type: string
-      format: date-time
-    MQTTQoSHeader:
-      name: qos
-      description: Quality of Service
-      type: integer
-      format: int32
-      default: 1
-      enum:
-        - 0
-        - 2
-    MQTTRetainHeader:
-      name: retainFlag
-      description:
-        | This flag determines if the message will be saved by the broker for the specified
-        | topic as last known good value. New clients that subscribe to that topic will receive
-        | the last retained message on that topic instantly after subscribing. More on retained messages
-        | and best practices in one of the next posts.
-      type: boolean
-      default: false
-    contentType:
-      name: contentType
-      description: Message content type
-      default: application/json
-      type: string
-      enum:
-        - application/xml
-    user:
-      type: object
-      required:
-        - id
-        - username
-      properties:
-        id:
-          description: User Id
-          $ref: "#/components/definitions/id"
-        full_name:
-          description: User full name
-          type: string
-        username:
-          $ref: "#/components/definitions/username"
-    userCreate:
-      type: object
-      required:
-        - username
-      properties:
-        full_name:
-          description: User full name
-          type: string
-        username:
-          $ref: "#/components/definitions/username"
-    signup:
-      type: object
-      required:
-        - method
-        - datetime
-      properties:
-        method:
-          description: Signup method
-          type: string
-          enum:
-            - email
-            - facebook
-            - twitter
-            - github
-            - google
-        datetime:
-          $ref: "#/components/definitions/datetime"
-
-servers:
-  - url: mqtt://localhost:{port}
-    description: Development Broker instance
-    templates:
-      port:
-        default: 1883
+definitions:
+  id:
+    title: id
+    description: Resource identifier
+    type: string
+  username:
+    title: username
+    description: User handle
+    type: string
+  datetime:
+    title: datetime
+    description: Date and Time of the message
+    type: string
+    format: date-time
+  MQTTQoSHeader:
+    title: qos
+    description: Quality of Service
+    type: integer
+    format: int32
+    default: 1
+    enum:
+      - 0
+      - 2
+  MQTTRetainHeader:
+    title: retainFlag
+    description: |
+      This flag determines if the message will be saved by the broker for the specified
+      topic as last known good value. New clients that subscribe to that topic will receive
+      the last retained message on that topic instantly after subscribing. More on retained messages
+      and best practices in one of the next posts.
+    type: boolean
+    default: false
+  contentType:
+    title: contentType
+    description: Message content type
+    default: application/json
+    type: string
+    enum:
+      - application/xml
+  user:
+    type: object
+    required:
+      - id
+      - username
+    properties:
+      id:
+        description: User Id
+        $ref: "#/definitions/id"
+      full_name:
+        description: User full name
+        type: string
+      username:
+        $ref: "#/definitions/username"
+  userCreate:
+    type: object
+    required:
+      - username
+    properties:
+      full_name:
+        description: User full name
+        type: string
+      username:
+        $ref: "#/definitions/username"
+  signup:
+    type: object
+    required:
+      - method
+      - datetime
+    properties:
+      method:
+        description: Signup method
+        type: string
         enum:
-          - 1883
-          - 8883
+          - email
+          - facebook
+          - twitter
+          - github
+          - google
+      datetime:
+        $ref: "#/definitions/datetime"
