@@ -32,7 +32,7 @@
     },
     "baseTopic": {
       "type": "string",
-      "pattern": "^[^/]",
+      "pattern": "^[^/.]",
       "description": "The base topic to the API. Example: 'hitch'."
     },
     "schemes": {
@@ -178,7 +178,7 @@
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
         },
-        "^[^/]": {
+        "^[^/.]": {
           "$ref": "#/definitions/topicItem"
         }
       },
