@@ -1,0 +1,25 @@
+{
+  "name": "asyncapi",
+  "version": "1.0.0",
+  "description": "Async API",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fmvilas/asyncapi.git"
+  },
+  "author": "Francisco Mendez Vilas (fmvilas@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fmvilas/asyncapi/issues"
+  },
+  "homepage": "https://github.com/fmvilas/asyncapi#readme",
+  "dependencies": {
+    "js-yaml": "^3.7.0",
+    "json-schema-ref-parser": "^3.1.2",
+    "load-json-file": "^2.0.0",
+    "z-schema": "^3.18.2"
+  }
+}
