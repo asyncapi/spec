@@ -19,8 +19,9 @@ loadJsonFile(path.resolve(__dirname, '../schema/asyncapi.json')).then(schema => 
     }).then((json) => {
       validator.validate(json, schema, (err, valid) => {
         if (err) return console.error(err);
-        console.log('Valid:', valid);
-        console.log(util.inspect(json, { depth: null, colors: true }));
+        //console.log('Valid:', valid);
+        //console.log(util.inspect(json, { depth: null, colors: true }));
+        console.log(JSON.stringify(json));
       });
     }).catch((err) => {
       console.error(err);

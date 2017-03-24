@@ -1,4 +1,4 @@
-asyncapi: "1.0"
+asyncapi: "1.0.0"
 info:
   title: AsyncAPI Sample
   version: "1.0.0"
@@ -6,7 +6,10 @@ baseTopic: 'hitch'
 
 topics:
   accounts.1.0.0.actions.signup:
-    publish:
+    operations:
+      publish: true
+      subscribe: false
+    message:
       headers:
         qos:
           $ref: "#/definitions/MQTTQoSHeader"
@@ -20,7 +23,10 @@ topics:
         signup:
           $ref: "#/definitions/signup"
   accounts.1.0.0.events.signedup:
-    subscribe:
+    operations:
+      publish: false
+      subscribe: true
+    message:
       headers:
         qos:
           $ref: "#/definitions/MQTTQoSHeader"

@@ -18,9 +18,9 @@
     "asyncapi": {
       "type": "string",
       "enum": [
-        "1.0"
+        "1.0.0"
       ],
-      "description": "The AsyncAPI version of this document."
+      "description": "The AsyncAPI specification version of this document."
     },
     "info": {
       "$ref": "#/definitions/info"
@@ -38,39 +38,11 @@
     "schemes": {
       "$ref": "#/definitions/schemesList"
     },
-    "consumes": {
-      "description": "A list of MIME types accepted by the API.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/mediaTypeList"
-        }
-      ]
-    },
-    "produces": {
-      "description": "A list of MIME types the API can produce.",
-      "allOf": [
-        {
-          "$ref": "#/definitions/mediaTypeList"
-        }
-      ]
-    },
     "topics": {
       "$ref": "#/definitions/topics"
     },
     "definitions": {
       "$ref": "#/definitions/definitions"
-    },
-    "parameters": {
-      "$ref": "#/definitions/parameterDefinitions"
-    },
-    "responses": {
-      "$ref": "#/definitions/responseDefinitions"
-    },
-    "security": {
-      "$ref": "#/definitions/security"
-    },
-    "securityDefinitions": {
-      "$ref": "#/definitions/securityDefinitions"
     },
     "tags": {
       "type": "array",
@@ -108,7 +80,7 @@
         },
         "description": {
           "type": "string",
-          "description": "A longer description of the API. Should be different from the title. GitHub Flavored Markdown is allowed."
+          "description": "A longer description of the API. Should be different from the title. CommonMark is allowed."
         },
         "termsOfService": {
           "type": "string",
@@ -190,705 +162,6 @@
         "$ref": "#/definitions/schema"
       },
       "description": "One or more JSON objects describing the schemas being consumed and produced by the API."
-    },
-    "parameterDefinitions": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/parameter"
-      },
-      "description": "One or more JSON representations for parameters"
-    },
-    "responseDefinitions": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/response"
-      },
-      "description": "One or more JSON representations for parameters"
-    },
-    "externalDocs": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "information about external documentation",
-      "required": [
-        "url"
-      ],
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string",
-          "format": "uri"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "examples": {
-      "type": "object",
-      "additionalProperties": true
-    },
-    "mimeType": {
-      "type": "string",
-      "description": "The MIME type of the HTTP message."
-    },
-    "operation": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "headers": {
-          "type": "object",
-          "description": "Message headers"
-        },
-        "payload": {
-          "type": "object",
-          "description": "Message content"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "uniqueItems": true
-        },
-        "summary": {
-          "type": "string",
-          "description": "A brief summary of the operation."
-        },
-        "description": {
-          "type": "string",
-          "description": "A longer description of the operation, GitHub Flavored Markdown is allowed."
-        },
-        "externalDocs": {
-          "$ref": "#/definitions/externalDocs"
-        },
-        "deprecated": {
-          "type": "boolean",
-          "default": false
-        },
-        "security": {
-          "$ref": "#/definitions/security"
-        }
-      }
-    },
-    "topicItem": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "$ref": {
-          "type": "string"
-        },
-        "publish": {
-          "$ref": "#/definitions/operation"
-        },
-        "subscribe": {
-          "$ref": "#/definitions/operation"
-        }
-      }
-    },
-    "responses": {
-      "type": "object",
-      "description": "Response objects names can either be any valid HTTP status code or 'default'.",
-      "minProperties": 1,
-      "additionalProperties": false,
-      "patternProperties": {
-        "^([0-9]{3})$|^(default)$": {
-          "$ref": "#/definitions/responseValue"
-        },
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "not": {
-        "type": "object",
-        "additionalProperties": false,
-        "patternProperties": {
-          "^x-": {
-            "$ref": "#/definitions/vendorExtension"
-          }
-        }
-      }
-    },
-    "responseValue": {
-      "oneOf": [
-        {
-          "$ref": "#/definitions/response"
-        },
-        {
-          "$ref": "#/definitions/jsonReference"
-        }
-      ]
-    },
-    "response": {
-      "type": "object",
-      "required": [
-        "description"
-      ],
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "schema": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/schema"
-            },
-            {
-              "$ref": "#/definitions/fileSchema"
-            }
-          ]
-        },
-        "headers": {
-          "$ref": "#/definitions/headers"
-        },
-        "examples": {
-          "$ref": "#/definitions/examples"
-        }
-      },
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "headers": {
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/definitions/header"
-      }
-    },
-    "header": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "number",
-            "integer",
-            "boolean",
-            "array"
-          ]
-        },
-        "format": {
-          "type": "string"
-        },
-        "items": {
-          "$ref": "#/definitions/primitivesItems"
-        },
-        "collectionFormat": {
-          "$ref": "#/definitions/collectionFormat"
-        },
-        "default": {
-          "$ref": "#/definitions/default"
-        },
-        "maximum": {
-          "$ref": "#/definitions/maximum"
-        },
-        "exclusiveMaximum": {
-          "$ref": "#/definitions/exclusiveMaximum"
-        },
-        "minimum": {
-          "$ref": "#/definitions/minimum"
-        },
-        "exclusiveMinimum": {
-          "$ref": "#/definitions/exclusiveMinimum"
-        },
-        "maxLength": {
-          "$ref": "#/definitions/maxLength"
-        },
-        "minLength": {
-          "$ref": "#/definitions/minLength"
-        },
-        "pattern": {
-          "$ref": "#/definitions/pattern"
-        },
-        "maxItems": {
-          "$ref": "#/definitions/maxItems"
-        },
-        "minItems": {
-          "$ref": "#/definitions/minItems"
-        },
-        "uniqueItems": {
-          "$ref": "#/definitions/uniqueItems"
-        },
-        "enum": {
-          "$ref": "#/definitions/enum"
-        },
-        "multipleOf": {
-          "$ref": "#/definitions/multipleOf"
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "vendorExtension": {
-      "description": "Any property starting with x- is valid.",
-      "additionalProperties": true,
-      "additionalItems": true
-    },
-    "bodyParameter": {
-      "type": "object",
-      "required": [
-        "name",
-        "in",
-        "schema"
-      ],
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "description": {
-          "type": "string",
-          "description": "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "in": {
-          "type": "string",
-          "description": "Determines the location of the parameter.",
-          "enum": [
-            "body"
-          ]
-        },
-        "required": {
-          "type": "boolean",
-          "description": "Determines whether or not this parameter is required or optional.",
-          "default": false
-        },
-        "schema": {
-          "$ref": "#/definitions/schema"
-        }
-      },
-      "additionalProperties": false
-    },
-    "headerParameterSubSchema": {
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "required": {
-          "type": "boolean",
-          "description": "Determines whether or not this parameter is required or optional.",
-          "default": false
-        },
-        "in": {
-          "type": "string",
-          "description": "Determines the location of the parameter.",
-          "enum": [
-            "header"
-          ]
-        },
-        "description": {
-          "type": "string",
-          "description": "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "number",
-            "boolean",
-            "integer",
-            "array"
-          ]
-        },
-        "format": {
-          "type": "string"
-        },
-        "items": {
-          "$ref": "#/definitions/primitivesItems"
-        },
-        "collectionFormat": {
-          "$ref": "#/definitions/collectionFormat"
-        },
-        "default": {
-          "$ref": "#/definitions/default"
-        },
-        "maximum": {
-          "$ref": "#/definitions/maximum"
-        },
-        "exclusiveMaximum": {
-          "$ref": "#/definitions/exclusiveMaximum"
-        },
-        "minimum": {
-          "$ref": "#/definitions/minimum"
-        },
-        "exclusiveMinimum": {
-          "$ref": "#/definitions/exclusiveMinimum"
-        },
-        "maxLength": {
-          "$ref": "#/definitions/maxLength"
-        },
-        "minLength": {
-          "$ref": "#/definitions/minLength"
-        },
-        "pattern": {
-          "$ref": "#/definitions/pattern"
-        },
-        "maxItems": {
-          "$ref": "#/definitions/maxItems"
-        },
-        "minItems": {
-          "$ref": "#/definitions/minItems"
-        },
-        "uniqueItems": {
-          "$ref": "#/definitions/uniqueItems"
-        },
-        "enum": {
-          "$ref": "#/definitions/enum"
-        },
-        "multipleOf": {
-          "$ref": "#/definitions/multipleOf"
-        }
-      }
-    },
-    "queryParameterSubSchema": {
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "required": {
-          "type": "boolean",
-          "description": "Determines whether or not this parameter is required or optional.",
-          "default": false
-        },
-        "in": {
-          "type": "string",
-          "description": "Determines the location of the parameter.",
-          "enum": [
-            "query"
-          ]
-        },
-        "description": {
-          "type": "string",
-          "description": "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "allowEmptyValue": {
-          "type": "boolean",
-          "default": false,
-          "description": "allows sending a parameter by name only or with an empty value."
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "number",
-            "boolean",
-            "integer",
-            "array"
-          ]
-        },
-        "format": {
-          "type": "string"
-        },
-        "items": {
-          "$ref": "#/definitions/primitivesItems"
-        },
-        "collectionFormat": {
-          "$ref": "#/definitions/collectionFormatWithMulti"
-        },
-        "default": {
-          "$ref": "#/definitions/default"
-        },
-        "maximum": {
-          "$ref": "#/definitions/maximum"
-        },
-        "exclusiveMaximum": {
-          "$ref": "#/definitions/exclusiveMaximum"
-        },
-        "minimum": {
-          "$ref": "#/definitions/minimum"
-        },
-        "exclusiveMinimum": {
-          "$ref": "#/definitions/exclusiveMinimum"
-        },
-        "maxLength": {
-          "$ref": "#/definitions/maxLength"
-        },
-        "minLength": {
-          "$ref": "#/definitions/minLength"
-        },
-        "pattern": {
-          "$ref": "#/definitions/pattern"
-        },
-        "maxItems": {
-          "$ref": "#/definitions/maxItems"
-        },
-        "minItems": {
-          "$ref": "#/definitions/minItems"
-        },
-        "uniqueItems": {
-          "$ref": "#/definitions/uniqueItems"
-        },
-        "enum": {
-          "$ref": "#/definitions/enum"
-        },
-        "multipleOf": {
-          "$ref": "#/definitions/multipleOf"
-        }
-      }
-    },
-    "formDataParameterSubSchema": {
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "required": {
-          "type": "boolean",
-          "description": "Determines whether or not this parameter is required or optional.",
-          "default": false
-        },
-        "in": {
-          "type": "string",
-          "description": "Determines the location of the parameter.",
-          "enum": [
-            "formData"
-          ]
-        },
-        "description": {
-          "type": "string",
-          "description": "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "allowEmptyValue": {
-          "type": "boolean",
-          "default": false,
-          "description": "allows sending a parameter by name only or with an empty value."
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "number",
-            "boolean",
-            "integer",
-            "array",
-            "file"
-          ]
-        },
-        "format": {
-          "type": "string"
-        },
-        "items": {
-          "$ref": "#/definitions/primitivesItems"
-        },
-        "collectionFormat": {
-          "$ref": "#/definitions/collectionFormatWithMulti"
-        },
-        "default": {
-          "$ref": "#/definitions/default"
-        },
-        "maximum": {
-          "$ref": "#/definitions/maximum"
-        },
-        "exclusiveMaximum": {
-          "$ref": "#/definitions/exclusiveMaximum"
-        },
-        "minimum": {
-          "$ref": "#/definitions/minimum"
-        },
-        "exclusiveMinimum": {
-          "$ref": "#/definitions/exclusiveMinimum"
-        },
-        "maxLength": {
-          "$ref": "#/definitions/maxLength"
-        },
-        "minLength": {
-          "$ref": "#/definitions/minLength"
-        },
-        "pattern": {
-          "$ref": "#/definitions/pattern"
-        },
-        "maxItems": {
-          "$ref": "#/definitions/maxItems"
-        },
-        "minItems": {
-          "$ref": "#/definitions/minItems"
-        },
-        "uniqueItems": {
-          "$ref": "#/definitions/uniqueItems"
-        },
-        "enum": {
-          "$ref": "#/definitions/enum"
-        },
-        "multipleOf": {
-          "$ref": "#/definitions/multipleOf"
-        }
-      }
-    },
-    "pathParameterSubSchema": {
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "required": [
-        "required"
-      ],
-      "properties": {
-        "required": {
-          "type": "boolean",
-          "enum": [
-            true
-          ],
-          "description": "Determines whether or not this parameter is required or optional."
-        },
-        "in": {
-          "type": "string",
-          "description": "Determines the location of the parameter.",
-          "enum": [
-            "path"
-          ]
-        },
-        "description": {
-          "type": "string",
-          "description": "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the parameter."
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "number",
-            "boolean",
-            "integer",
-            "array"
-          ]
-        },
-        "format": {
-          "type": "string"
-        },
-        "items": {
-          "$ref": "#/definitions/primitivesItems"
-        },
-        "collectionFormat": {
-          "$ref": "#/definitions/collectionFormat"
-        },
-        "default": {
-          "$ref": "#/definitions/default"
-        },
-        "maximum": {
-          "$ref": "#/definitions/maximum"
-        },
-        "exclusiveMaximum": {
-          "$ref": "#/definitions/exclusiveMaximum"
-        },
-        "minimum": {
-          "$ref": "#/definitions/minimum"
-        },
-        "exclusiveMinimum": {
-          "$ref": "#/definitions/exclusiveMinimum"
-        },
-        "maxLength": {
-          "$ref": "#/definitions/maxLength"
-        },
-        "minLength": {
-          "$ref": "#/definitions/minLength"
-        },
-        "pattern": {
-          "$ref": "#/definitions/pattern"
-        },
-        "maxItems": {
-          "$ref": "#/definitions/maxItems"
-        },
-        "minItems": {
-          "$ref": "#/definitions/minItems"
-        },
-        "uniqueItems": {
-          "$ref": "#/definitions/uniqueItems"
-        },
-        "enum": {
-          "$ref": "#/definitions/enum"
-        },
-        "multipleOf": {
-          "$ref": "#/definitions/multipleOf"
-        }
-      }
-    },
-    "nonBodyParameter": {
-      "type": "object",
-      "required": [
-        "name",
-        "in",
-        "type"
-      ],
-      "oneOf": [
-        {
-          "$ref": "#/definitions/headerParameterSubSchema"
-        },
-        {
-          "$ref": "#/definitions/formDataParameterSubSchema"
-        },
-        {
-          "$ref": "#/definitions/queryParameterSubSchema"
-        },
-        {
-          "$ref": "#/definitions/pathParameterSubSchema"
-        }
-      ]
-    },
-    "parameter": {
-      "oneOf": [
-        {
-          "$ref": "#/definitions/bodyParameter"
-        },
-        {
-          "$ref": "#/definitions/nonBodyParameter"
-        }
-      ]
     },
     "schema": {
       "type": "object",
@@ -1019,163 +292,108 @@
       },
       "additionalProperties": false
     },
-    "fileSchema": {
+    "externalDocs": {
       "type": "object",
-      "description": "A deterministic version of a JSON Schema object.",
+      "additionalProperties": false,
+      "description": "information about external documentation",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      }
+    },
+    "operations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publish", "subscribe"],
+      "properties": {
+        "publish": {
+          "type": "boolean",
+          "description": "Whether the consumer can publish or not."
+        },
+        "subscribe": {
+          "type": "boolean",
+          "description": "Whether the consumer can subscribe or not."
+        }
+      }
+    },
+    "topicItem": {
+      "type": "object",
+      "additionalProperties": false,
       "patternProperties": {
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
         }
       },
-      "required": [
-        "type"
-      ],
       "properties": {
-        "format": {
+        "$ref": {
           "type": "string"
         },
-        "title": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/title"
+        "operations": {
+          "$ref": "#/definitions/operations"
+        },
+        "message": {
+          "$ref": "#/definitions/message"
+        }
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "headers": {
+          "type": "object",
+          "description": "Message headers"
+        },
+        "payload": {
+          "type": "object",
+          "description": "Message content"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "summary": {
+          "type": "string",
+          "description": "A brief summary of the message."
         },
         "description": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/description"
-        },
-        "default": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
-        },
-        "required": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/stringArray"
-        },
-        "type": {
           "type": "string",
-          "enum": [
-            "file"
-          ]
-        },
-        "readOnly": {
-          "type": "boolean",
-          "default": false
+          "description": "A longer description of the message. CommonMark is allowed."
         },
         "externalDocs": {
           "$ref": "#/definitions/externalDocs"
         },
-        "example": {}
-      },
-      "additionalProperties": false
-    },
-    "primitivesItems": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "string",
-            "number",
-            "integer",
-            "boolean",
-            "array"
-          ]
-        },
-        "format": {
-          "type": "string"
-        },
-        "items": {
-          "$ref": "#/definitions/primitivesItems"
-        },
-        "collectionFormat": {
-          "$ref": "#/definitions/collectionFormat"
-        },
-        "default": {
-          "$ref": "#/definitions/default"
-        },
-        "maximum": {
-          "$ref": "#/definitions/maximum"
-        },
-        "exclusiveMaximum": {
-          "$ref": "#/definitions/exclusiveMaximum"
-        },
-        "minimum": {
-          "$ref": "#/definitions/minimum"
-        },
-        "exclusiveMinimum": {
-          "$ref": "#/definitions/exclusiveMinimum"
-        },
-        "maxLength": {
-          "$ref": "#/definitions/maxLength"
-        },
-        "minLength": {
-          "$ref": "#/definitions/minLength"
-        },
-        "pattern": {
-          "$ref": "#/definitions/pattern"
-        },
-        "maxItems": {
-          "$ref": "#/definitions/maxItems"
-        },
-        "minItems": {
-          "$ref": "#/definitions/minItems"
-        },
-        "uniqueItems": {
-          "$ref": "#/definitions/uniqueItems"
-        },
-        "enum": {
-          "$ref": "#/definitions/enum"
-        },
-        "multipleOf": {
-          "$ref": "#/definitions/multipleOf"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "security": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/securityRequirement"
-      },
-      "uniqueItems": true
-    },
-    "securityRequirement": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        },
-        "uniqueItems": true
-      }
-    },
-    "xml": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "namespace": {
-          "type": "string"
-        },
-        "prefix": {
-          "type": "string"
-        },
-        "attribute": {
-          "type": "boolean",
-          "default": false
-        },
-        "wrapped": {
+        "deprecated": {
           "type": "boolean",
           "default": false
         }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
       }
+    },
+    "vendorExtension": {
+      "description": "Any property starting with x- is valid.",
+      "additionalProperties": true,
+      "additionalItems": true
     },
     "tag": {
       "type": "object",
@@ -1200,309 +418,21 @@
         }
       }
     },
-    "securityDefinitions": {
-      "type": "object",
-      "additionalProperties": {
-        "oneOf": [
-          {
-            "$ref": "#/definitions/basicAuthenticationSecurity"
-          },
-          {
-            "$ref": "#/definitions/apiKeySecurity"
-          },
-          {
-            "$ref": "#/definitions/oauth2ImplicitSecurity"
-          },
-          {
-            "$ref": "#/definitions/oauth2PasswordSecurity"
-          },
-          {
-            "$ref": "#/definitions/oauth2ApplicationSecurity"
-          },
-          {
-            "$ref": "#/definitions/oauth2AccessCodeSecurity"
-          }
-        ]
-      }
-    },
-    "basicAuthenticationSecurity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "basic"
-          ]
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "apiKeySecurity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "name",
-        "in"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "apiKey"
-          ]
-        },
-        "name": {
-          "type": "string"
-        },
-        "in": {
-          "type": "string",
-          "enum": [
-            "header",
-            "query"
-          ]
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "oauth2ImplicitSecurity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "flow",
-        "authorizationUrl"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "oauth2"
-          ]
-        },
-        "flow": {
-          "type": "string",
-          "enum": [
-            "implicit"
-          ]
-        },
-        "scopes": {
-          "$ref": "#/definitions/oauth2Scopes"
-        },
-        "authorizationUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "oauth2PasswordSecurity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "flow",
-        "tokenUrl"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "oauth2"
-          ]
-        },
-        "flow": {
-          "type": "string",
-          "enum": [
-            "password"
-          ]
-        },
-        "scopes": {
-          "$ref": "#/definitions/oauth2Scopes"
-        },
-        "tokenUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "oauth2ApplicationSecurity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "flow",
-        "tokenUrl"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "oauth2"
-          ]
-        },
-        "flow": {
-          "type": "string",
-          "enum": [
-            "application"
-          ]
-        },
-        "scopes": {
-          "$ref": "#/definitions/oauth2Scopes"
-        },
-        "tokenUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "oauth2AccessCodeSecurity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "flow",
-        "authorizationUrl",
-        "tokenUrl"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "oauth2"
-          ]
-        },
-        "flow": {
-          "type": "string",
-          "enum": [
-            "accessCode"
-          ]
-        },
-        "scopes": {
-          "$ref": "#/definitions/oauth2Scopes"
-        },
-        "authorizationUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "tokenUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      }
-    },
-    "oauth2Scopes": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      }
-    },
-    "mediaTypeList": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/mimeType"
-      },
-      "uniqueItems": true
-    },
-    "parametersList": {
-      "type": "array",
-      "description": "The parameters needed to send a valid API call.",
-      "additionalItems": false,
-      "items": {
-        "oneOf": [
-          {
-            "$ref": "#/definitions/parameter"
-          },
-          {
-            "$ref": "#/definitions/jsonReference"
-          }
-        ]
-      },
-      "uniqueItems": true
-    },
     "schemesList": {
       "type": "array",
       "description": "The transfer protocol of the API.",
       "items": {
         "type": "string",
         "enum": [
-          "http",
-          "https",
+          "amqp",
+          "amqps",
+          "mqtt",
+          "mqtts",
           "ws",
           "wss"
         ]
       },
       "uniqueItems": true
-    },
-    "collectionFormat": {
-      "type": "string",
-      "enum": [
-        "csv",
-        "ssv",
-        "tsv",
-        "pipes"
-      ],
-      "default": "csv"
-    },
-    "collectionFormatWithMulti": {
-      "type": "string",
-      "enum": [
-        "csv",
-        "ssv",
-        "tsv",
-        "pipes",
-        "multi"
-      ],
-      "default": "csv"
     },
     "title": {
       "$ref": "http://json-schema.org/draft-04/schema#/properties/title"
@@ -1548,18 +478,6 @@
     },
     "enum": {
       "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
-    },
-    "jsonReference": {
-      "type": "object",
-      "required": [
-        "$ref"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "$ref": {
-          "type": "string"
-        }
-      }
     }
   }
 }
