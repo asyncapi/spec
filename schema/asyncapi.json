@@ -1,5 +1,5 @@
 {
-  "title": "Async API 1.0 schema.",
+  "title": "AsyncAPI 1.0 schema.",
   "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
@@ -159,7 +159,7 @@
     },
     "components": {
       "type": "object",
-      "description": "An object to hold a set of reusable objects for different aspects of the Async API Specification.",
+      "description": "An object to hold a set of reusable objects for different aspects of the AsyncAPI Specification.",
       "additionalProperties": false,
       "properties": {
         "schemas": {
