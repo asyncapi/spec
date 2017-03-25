@@ -33,7 +33,8 @@
     "baseTopic": {
       "type": "string",
       "pattern": "^[^/.]",
-      "description": "The base topic to the API. Example: 'hitch'."
+      "description": "The base topic to the API. Example: 'hitch'.",
+      "default": ""
     },
     "schemes": {
       "$ref": "#/definitions/schemesList"
