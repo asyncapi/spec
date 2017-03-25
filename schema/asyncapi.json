@@ -41,8 +41,8 @@
     "topics": {
       "$ref": "#/definitions/topics"
     },
-    "definitions": {
-      "$ref": "#/definitions/definitions"
+    "components": {
+      "$ref": "#/definitions/components"
     },
     "tags": {
       "type": "array",
@@ -156,7 +156,17 @@
       },
       "additionalProperties": false
     },
-    "definitions": {
+    "components": {
+      "type": "object",
+      "description": "An object to hold a set of reusable objects for different aspects of the Async API Specification.",
+      "additionalProperties": false,
+      "properties": {
+        "schemas": {
+          "$ref": "#/definitions/schemas"
+        }
+      }
+    },
+    "schemas": {
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/schema"
@@ -314,20 +324,18 @@
         }
       }
     },
-    "operations": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["publish", "subscribe"],
-      "properties": {
-        "publish": {
-          "type": "boolean",
-          "description": "Whether the consumer can publish or not."
-        },
-        "subscribe": {
-          "type": "boolean",
-          "description": "Whether the consumer can subscribe or not."
-        }
-      }
+    "allowedOperations": {
+      "type": "array",
+      "description": "The allowed operations for this topic.",
+      "items": {
+        "type": "string",
+        "minItems": 1,
+        "enum": [
+          "publish",
+          "subscribe"
+        ]
+      },
+      "uniqueItems": true
     },
     "topicItem": {
       "type": "object",
@@ -337,12 +345,13 @@
           "$ref": "#/definitions/vendorExtension"
         }
       },
+      "required": ["allowedOperations", "message"],
       "properties": {
         "$ref": {
           "type": "string"
         },
-        "operations": {
-          "$ref": "#/definitions/operations"
+        "allowedOperations": {
+          "$ref": "#/definitions/allowedOperations"
         },
         "message": {
           "$ref": "#/definitions/message"
