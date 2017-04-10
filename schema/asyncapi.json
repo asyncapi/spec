@@ -164,6 +164,9 @@
       "properties": {
         "schemas": {
           "$ref": "#/definitions/schemas"
+        },
+        "messages": {
+          "$ref": "#/definitions/messages"
         }
       }
     },
@@ -173,6 +176,10 @@
         "$ref": "#/definitions/schema"
       },
       "description": "One or more JSON objects describing the schemas being consumed and produced by the API."
+    },
+    "messages": {
+      "type": "object",
+      "description": "One or more JSON objects describing the messages being consumed and produced by the API."
     },
     "schema": {
       "type": "object",
@@ -325,19 +332,6 @@
         }
       }
     },
-    "allowedOperations": {
-      "type": "array",
-      "description": "The allowed operations for this topic.",
-      "items": {
-        "type": "string",
-        "minItems": 1,
-        "enum": [
-          "publish",
-          "subscribe"
-        ]
-      },
-      "uniqueItems": true
-    },
     "topicItem": {
       "type": "object",
       "additionalProperties": false,
@@ -346,15 +340,15 @@
           "$ref": "#/definitions/vendorExtension"
         }
       },
-      "required": ["allowedOperations", "message"],
+      "minProperties": 1,
       "properties": {
         "$ref": {
           "type": "string"
         },
-        "allowedOperations": {
-          "$ref": "#/definitions/allowedOperations"
+        "publish": {
+          "$ref": "#/definitions/message"
         },
-        "message": {
+        "subscribe": {
           "$ref": "#/definitions/message"
         }
       }

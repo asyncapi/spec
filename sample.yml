@@ -6,9 +6,15 @@ baseTopic: 'hitch'
 
 topics:
   accounts.1.0.0.actions.signup:
-    allowedOperations:
-      - publish
-    message:
+    publish:
+      $ref: "#/components/messages/userSignUp"
+  accounts.1.0.0.events.signedup:
+    subscribe:
+      $ref: "#/components/messages/userSignedUp"
+
+components:
+  messages:
+    userSignUp:
       headers:
         qos:
           $ref: "#/components/schemas/MQTTQoSHeader"
@@ -21,15 +27,8 @@ topics:
           $ref: "#/components/schemas/userCreate"
         signup:
           $ref: "#/components/schemas/signup"
-  accounts.1.0.0.events.signedup:
-    allowedOperations:
-      - subscribe
-    message:
-      headers:
-        qos:
-          $ref: "#/components/schemas/MQTTQoSHeader"
-        retainFlag:
-          $ref: "#/components/schemas/MQTTRetainHeader"
+
+    userSignedUp:
       payload:
         contentType:
           $ref: "#/components/schemas/contentType"
@@ -37,8 +36,6 @@ topics:
           $ref: "#/components/schemas/user"
         signup:
           $ref: "#/components/schemas/signup"
-
-components:
   schemas:
     id:
       title: id
