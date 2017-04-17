@@ -3,18 +3,26 @@ info:
   title: AsyncAPI Sample
   version: "1.0.0"
 baseTopic: 'hitch'
+host: asyncapi.hitchhq.com
+schemes:
+  - amqp
+  - mqtt
 
 topics:
-  accounts.1.0.0.actions.signup:
+  accounts.1.0.action.user.signup:
     publish:
       $ref: "#/components/messages/userSignUp"
-  accounts.1.0.0.events.signedup:
+  accounts.1.0.event.user.signup:
     subscribe:
       $ref: "#/components/messages/userSignedUp"
 
 components:
   messages:
     userSignUp:
+      summary: Action to sign a user up.
+      description: |
+        Multiline description of what this action does.
+        Here you have another line.
       headers:
         qos:
           $ref: "#/components/schemas/MQTTQoSHeader"

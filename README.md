@@ -1,5 +1,7 @@
 # AsyncAPI Specification
 
+# ATTENTION: THIS DOCUMENTATION IS OUT OF DATE. PLEASE REFER TO THE CODE OR HELP US KEEP IT UP TO DATE.
+
 #### Disclaimer
 
 Part of this content has been taken from the great work done by the folks at the [Open API Initiative](https://openapis.org). Mainly because it's a great work and we want to keep as much compatibility as possible with the [Open API Specification](https://github.com/OAI/OpenAPI-Specification).
