@@ -23,27 +23,32 @@ components:
       description: |
         Multiline description of what this action does.
         Here you have another line.
+      tags:
+        - name: user
+        - name: signup
       headers:
-        qos:
-          $ref: "#/components/schemas/MQTTQoSHeader"
-        retainFlag:
-          $ref: "#/components/schemas/MQTTRetainHeader"
+        type: object
+        properties:
+          qos:
+            $ref: "#/components/schemas/MQTTQoSHeader"
+          retainFlag:
+            $ref: "#/components/schemas/MQTTRetainHeader"
       payload:
-        contentType:
-          $ref: "#/components/schemas/contentType"
-        user:
-          $ref: "#/components/schemas/userCreate"
-        signup:
-          $ref: "#/components/schemas/signup"
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/userCreate"
+          signup:
+            $ref: "#/components/schemas/signup"
 
     userSignedUp:
       payload:
-        contentType:
-          $ref: "#/components/schemas/contentType"
-        user:
-          $ref: "#/components/schemas/user"
-        signup:
-          $ref: "#/components/schemas/signup"
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/user"
+          signup:
+            $ref: "#/components/schemas/signup"
   schemas:
     id:
       title: id
@@ -76,13 +81,6 @@ components:
         and best practices in one of the next posts.
       type: boolean
       default: false
-    contentType:
-      title: contentType
-      description: Message content type
-      default: application/json
-      type: string
-      enum:
-        - application/xml
     user:
       type: object
       required:
