@@ -24,18 +24,22 @@ components:
         A message notifying that an
         email has been sent to a user.
       payload:
-        user:
-          $ref: "#/components/schemas/user"
-        content:
-          $ref: "#/components/schemas/content"
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/user"
+          content:
+            $ref: "#/components/schemas/content"
 
     userSignedUp:
       summary: A user has signed up.
       payload:
-        user:
-          $ref: "#/components/schemas/user"
-        signup:
-          $ref: "#/components/schemas/signup"
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/user"
+          signup:
+            $ref: "#/components/schemas/signup"
   schemas:
     content:
       title: content

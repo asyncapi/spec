@@ -18,6 +18,7 @@
     "asyncapi": {
       "type": "string",
       "enum": [
+        "1.0.0-rc1",
         "1.0.0"
       ],
       "description": "The AsyncAPI specification version of this document."
@@ -151,7 +152,7 @@
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
         },
-        "^[^/.]": {
+        "^[^.]": {
           "$ref": "#/definitions/topicItem"
         }
       },
@@ -175,11 +176,14 @@
       "additionalProperties": {
         "$ref": "#/definitions/schema"
       },
-      "description": "One or more JSON objects describing the schemas being consumed and produced by the API."
+      "description": "JSON objects describing schemas the API uses."
     },
     "messages": {
       "type": "object",
-      "description": "One or more JSON objects describing the messages being consumed and produced by the API."
+      "additionalProperties": {
+        "$ref": "#/definitions/message"
+      },
+      "description": "JSON objects describing the messages being consumed and produced by the API."
     },
     "schema": {
       "type": "object",
@@ -310,6 +314,29 @@
       },
       "additionalProperties": false
     },
+    "xml": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        },
+        "attribute": {
+          "type": "boolean",
+          "default": false
+        },
+        "wrapped": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
     "externalDocs": {
       "type": "object",
       "additionalProperties": false,
@@ -363,17 +390,15 @@
       },
       "properties": {
         "headers": {
-          "type": "object",
-          "description": "Message headers"
+          "$ref": "#/definitions/schema"
         },
         "payload": {
-          "type": "object",
-          "description": "Message content"
+          "$ref": "#/definitions/schema"
         },
         "tags": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/tag"
           },
           "uniqueItems": true
         },
@@ -424,7 +449,7 @@
     },
     "schemesList": {
       "type": "array",
-      "description": "The transfer protocol of the API.",
+      "description": "The transfer protocol(s) the API supports.",
       "items": {
         "type": "string",
         "enum": [
@@ -433,7 +458,9 @@
           "mqtt",
           "mqtts",
           "ws",
-          "wss"
+          "wss",
+          "stomp",
+          "stomps"
         ]
       },
       "uniqueItems": true
