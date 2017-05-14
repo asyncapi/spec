@@ -17,6 +17,40 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
+## Table of Contents
+<!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
+
+- [Definitions](#definitions)
+		- [Message Broker](#definitionsMessageBroker)
+		- [Message](#definitionsMessage)
+		- [Topic](#definitionstTopic)
+		- [Process](#definitionsProcess)
+		- [Producer](#definitionsProducer)
+		- [Consumer](#definitionsConsumer)
+		- [Topic Templating](#definitionsTopicTemplating)
+- [Specification](#specification)
+	- [Format](#format)
+	- [File Structure](#file-structure)
+	- [Schema](#schema)
+		- [AsyncAPI Object](#A2SObject)
+		- [AsyncAPI Version String](#A2SVersionString)
+		- [Info Object](#infoObject)
+		- [Contact Object](#contactObject)
+		- [License Object](#licenseObject)
+		- [Host String](#hostString)
+		- [Base Topic String](#baseTopicString)
+		- [Schemes List](#schemesList)
+		- [Topics Object](#topicsObject)
+		- [Topic Item Object](topicItemObject)
+		- [Message Object](#messageObject)
+		- [Tag Object](#tagObject)
+		- [External Documentation Object](#externalDocumentationObject)
+		- [Schema Object](#schemaObject)
+		- [XML Object](#xmlObject)
+	- [Specification Extensions](#specificationExtensions)
+
+<!-- /TOC -->
+
 ## Definitions
 
 #### <a name="definitionsMessageBroker"></a>Message Broker
