@@ -1486,7 +1486,7 @@ The extensions may or may not be supported by the available tooling, but those m
 
 ### <a name="dataTypeFormat"></a>Data Type Formats
 
-<a name="dataTypeFormat"></a>Primitives have an optional modifier property: `format`.
+Primitives have an optional modifier property: `format`.
 The AsyncAPI specification uses several known formats to more finely define the data type being used.
 However, the `format` property is an open `string`-valued property, and can have any value to support documentation needs.
 Formats such as `"email"`, `"uuid"`, etc., can be used even though they are not defined by this specification.
