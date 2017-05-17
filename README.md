@@ -544,11 +544,6 @@ description: Find more info here
 url: https://example.com
 ```
 
-#### <a name="componentsObject"></a>Components Object
-
-Holds a set of reusable objects for different aspects of the AsyncAPI specification.
-All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
-
 #### <a name="referenceObject"></a>Reference Object
 
 A simple object to allow referencing other components in the specification, internally and externally.
@@ -577,6 +572,11 @@ This object cannot be extended with additional properties and any properties add
 ```yaml
   $ref: '#/components/schemas/Pet'
 ```
+
+#### <a name="componentsObject"></a>Components Object
+
+Holds a set of reusable objects for different aspects of the AsyncAPI specification.
+All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
 
 ##### Fixed Fields
 
