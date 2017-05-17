@@ -45,6 +45,7 @@ These files can then be used to create utilities, such as documentation, integra
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
+		- [Reference Object](#referenceObject)
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
 	- [Specification Extensions](#specificationExtensions)
@@ -542,8 +543,33 @@ description: Find more info here
 url: https://example.com
 ```
 
+#### <a name="referenceObject"></a>Reference Object
 
+A simple object to allow referencing other components in the specification, internally and externally.
 
+The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules.
+
+For this specification, reference resolution is done as defined by the JSON Reference specification
+and not by the JSON Schema specification.
+
+##### Fixed Fields
+Field Name | Type | Description
+---|:---:|---
+<a name="referenceRef"></a>$ref | `string` | **Required.** The reference string.
+
+This object cannot be extended with additional properties and any properties added SHALL be ignored.
+
+##### Reference Object Example
+
+```json
+{
+  "$ref": "#/components/schemas/Pet"
+}
+```
+
+```yaml
+  $ref: '#/components/schemas/Pet'
+```
 
 #### <a name="schemaObject"></a>Schema Object
 
