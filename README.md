@@ -611,7 +611,7 @@ The following properties are taken from the JSON Schema definition but their def
 - properties - Property definitions MUST be a [Schema Object](#schemaObject) and not a standard JSON Schema (inline or referenced).
 - additionalProperties - Value can be boolean or object. Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-- format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the OAS offers a few additional predefined formats.
+- format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline.
@@ -1341,3 +1341,29 @@ Field Pattern | Type | Description
 <a name="infoExtensions"></a>^x- | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
 
 The extensions may or may not be supported by the available tooling, but those may be extended as well to add requested support (if tools are internal or open-sourced).
+
+### <a name="dataTypeFormat"></a>Data Type Formats
+
+<a name="dataTypeFormat"></a>Primitives have an optional modifier property: `format`.
+The AsyncAPI specification uses several known formats to more finely define the data type being used.
+However, the `format` property is an open `string`-valued property, and can have any value to support documentation needs.
+Formats such as `"email"`, `"uuid"`, etc., can be used even though they are not defined by this specification.
+Types that are not accompanied by a `format` property follow their definition from the JSON Schema.
+Tools that do not recognize a specific `format` MAY default back to the `type` alone, as if the `format` was not specified.
+
+The formats defined by the AsyncAPI Specification are:
+
+
+Common Name | `type` | [`format`](#dataTypeFormat) | Comments
+----------- | ------ | -------- | --------
+integer | `integer` | `int32` | signed 32 bits
+long | `integer` | `int64` | signed 64 bits
+float | `number` | `float` | |
+double | `number` | `double` | |
+string | `string` | | |
+byte | `string` | `byte` | base64 encoded characters
+binary | `string` | `binary` | any sequence of octets
+boolean | `boolean` | | |
+date | `string` | `date` | As defined by `full-date` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+password | `string` | `password` | Used to hint UIs the input needs to be obscured.
