@@ -1,6 +1,6 @@
 {
   "name": "asyncapi",
-  "version": "1.0.0",
+  "version": "1.0.0-rc1",
   "description": "Async API",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,17 @@
     "type": "git",
     "url": "git+https://github.com/fmvilas/asyncapi.git"
   },
-  "author": "Francisco Mendez Vilas (fmvilas@gmail.com)",
-  "license": "MIT",
+  "author": {
+    "name": "Francisco Mendez Vilas",
+    "email": "fmvilas@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Bruno Pedro",
+      "email": "bpedro@hitchhq.com"
+    }
+  ],
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/fmvilas/asyncapi/issues"
   },
