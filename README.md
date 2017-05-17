@@ -45,6 +45,7 @@ These files can then be used to create utilities, such as documentation, integra
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
+		- [Components Object](#componentsObject)
 		- [Reference Object](#referenceObject)
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
@@ -547,6 +548,7 @@ url: https://example.com
 
 A simple object to allow referencing other components in the specification, internally and externally.
 
+
 The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules.
 
 For this specification, reference resolution is done as defined by the JSON Reference specification
@@ -569,6 +571,146 @@ This object cannot be extended with additional properties and any properties add
 
 ```yaml
   $ref: '#/components/schemas/Pet'
+```
+
+#### <a name="componentsObject"></a>Components Object
+
+Holds a set of reusable objects for different aspects of the AsyncAPI specification.
+All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+<a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
+<a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+All the fixed fields declared above are objects that MUST use keys that match the regular expression: `^[a-zA-Z0-9\.\-_]+$`.
+
+Field Name Examples:
+
+```
+User
+User_1
+User_Name
+user-name
+my.org.User
+```
+
+##### Components Object Example
+
+```json
+"components": {
+  "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "messages": {
+    "userSignUp": {
+      "summary": "Action to sign a user up.",
+      "description": "Multiline description of what this action does.\nHere you have another line.\n",
+      "tags": [
+        {
+          "name": "user"
+        },
+        {
+          "name": "signup"
+        }
+      ],
+      "headers": {
+        "type": "object",
+        "properties": {
+          "qos": {
+            "$ref": "#/components/schemas/MQTTQoSHeader"
+          },
+          "retainFlag": {
+            "$ref": "#/components/schemas/MQTTRetainHeader"
+          }
+        }
+      },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/userCreate"
+          },
+          "signup": {
+            "$ref": "#/components/schemas/signup"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+```yaml
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+  messages:
+    userSignUp:
+      summary: Action to sign a user up.
+      description: |
+        Multiline description of what this action does.
+        Here you have another line.
+      tags:
+        - name: user
+        - name: signup
+      headers:
+        type: object
+        properties:
+          qos:
+            $ref: "#/components/schemas/MQTTQoSHeader"
+          retainFlag:
+            $ref: "#/components/schemas/MQTTRetainHeader"
+      payload:
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/userCreate"
+          signup:
+            $ref: "#/components/schemas/signup"
 ```
 
 #### <a name="schemaObject"></a>Schema Object
