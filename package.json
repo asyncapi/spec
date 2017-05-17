@@ -1,6 +1,6 @@
 {
   "name": "asyncapi",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "description": "Async API",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,7 @@
     "js-yaml": "^3.7.0",
     "json-schema-ref-parser": "^3.1.2",
     "load-json-file": "^2.0.0",
+    "mdv": "^1.0.5",
     "z-schema": "^3.18.2"
   }
 }

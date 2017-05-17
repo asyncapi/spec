@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [Open API Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [Open API Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 1.0.0-rc1
+#### Version 1.0.0-rc2
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
 
@@ -45,6 +45,8 @@ These files can then be used to create utilities, such as documentation, integra
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
+		- [Components Object](#componentsObject)
+		- [Reference Object](#referenceObject)
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
 	- [Specification Extensions](#specificationExtensions)
@@ -542,8 +544,174 @@ description: Find more info here
 url: https://example.com
 ```
 
+#### <a name="referenceObject"></a>Reference Object
+
+A simple object to allow referencing other components in the specification, internally and externally.
 
 
+The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules.
+
+For this specification, reference resolution is done as defined by the JSON Reference specification
+and not by the JSON Schema specification.
+
+##### Fixed Fields
+Field Name | Type | Description
+---|:---:|---
+<a name="referenceRef"></a>$ref | `string` | **Required.** The reference string.
+
+This object cannot be extended with additional properties and any properties added SHALL be ignored.
+
+##### Reference Object Example
+
+```json
+{
+  "$ref": "#/components/schemas/Pet"
+}
+```
+
+```yaml
+  $ref: '#/components/schemas/Pet'
+```
+
+#### <a name="componentsObject"></a>Components Object
+
+Holds a set of reusable objects for different aspects of the AsyncAPI specification.
+All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+<a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
+<a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+All the fixed fields declared above are objects that MUST use keys that match the regular expression: `^[a-zA-Z0-9\.\-_]+$`.
+
+Field Name Examples:
+
+```
+User
+User_1
+User_Name
+user-name
+my.org.User
+```
+
+##### Components Object Example
+
+```json
+"components": {
+  "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "messages": {
+    "userSignUp": {
+      "summary": "Action to sign a user up.",
+      "description": "Multiline description of what this action does.\nHere you have another line.\n",
+      "tags": [
+        {
+          "name": "user"
+        },
+        {
+          "name": "signup"
+        }
+      ],
+      "headers": {
+        "type": "object",
+        "properties": {
+          "qos": {
+            "$ref": "#/components/schemas/MQTTQoSHeader"
+          },
+          "retainFlag": {
+            "$ref": "#/components/schemas/MQTTRetainHeader"
+          }
+        }
+      },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/userCreate"
+          },
+          "signup": {
+            "$ref": "#/components/schemas/signup"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+```yaml
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+  messages:
+    userSignUp:
+      summary: Action to sign a user up.
+      description: |
+        Multiline description of what this action does.
+        Here you have another line.
+      tags:
+        - name: user
+        - name: signup
+      headers:
+        type: object
+        properties:
+          qos:
+            $ref: "#/components/schemas/MQTTQoSHeader"
+          retainFlag:
+            $ref: "#/components/schemas/MQTTRetainHeader"
+      payload:
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/userCreate"
+          signup:
+            $ref: "#/components/schemas/signup"
+```
 
 #### <a name="schemaObject"></a>Schema Object
 
@@ -585,7 +753,7 @@ The following properties are taken from the JSON Schema definition but their def
 - properties - Property definitions MUST be a [Schema Object](#schemaObject) and not a standard JSON Schema (inline or referenced).
 - additionalProperties - Value can be boolean or object. Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-- format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the OAS offers a few additional predefined formats.
+- format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline.
@@ -1315,3 +1483,29 @@ Field Pattern | Type | Description
 <a name="infoExtensions"></a>^x- | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
 
 The extensions may or may not be supported by the available tooling, but those may be extended as well to add requested support (if tools are internal or open-sourced).
+
+### <a name="dataTypeFormat"></a>Data Type Formats
+
+Primitives have an optional modifier property: `format`.
+The AsyncAPI specification uses several known formats to more finely define the data type being used.
+However, the `format` property is an open `string`-valued property, and can have any value to support documentation needs.
+Formats such as `"email"`, `"uuid"`, etc., can be used even though they are not defined by this specification.
+Types that are not accompanied by a `format` property follow their definition from the JSON Schema.
+Tools that do not recognize a specific `format` MAY default back to the `type` alone, as if the `format` was not specified.
+
+The formats defined by the AsyncAPI Specification are:
+
+
+Common Name | `type` | [`format`](#dataTypeFormat) | Comments
+----------- | ------ | -------- | --------
+integer | `integer` | `int32` | signed 32 bits
+long | `integer` | `int64` | signed 64 bits
+float | `number` | `float` | |
+double | `number` | `double` | |
+string | `string` | | |
+byte | `string` | `byte` | base64 encoded characters
+binary | `string` | `binary` | any sequence of octets
+boolean | `boolean` | | |
+date | `string` | `date` | As defined by `full-date` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+password | `string` | `password` | Used to hint UIs the input needs to be obscured.
