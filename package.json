@@ -10,7 +10,16 @@
     "type": "git",
     "url": "git+https://github.com/fmvilas/asyncapi.git"
   },
-  "author": "Francisco Mendez Vilas (fmvilas@gmail.com)",
+  "author": {
+    "name": "Francisco Mendez Vilas",
+    "email": "fmvilas@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Bruno Pedro",
+      "email": "bpedro@hitchhq.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fmvilas/asyncapi/issues"
