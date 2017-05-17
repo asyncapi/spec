@@ -45,6 +45,7 @@ These files can then be used to create utilities, such as documentation, integra
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
+		- [Components Object](#componentsObject)
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
 	- [Specification Extensions](#specificationExtensions)
@@ -542,8 +543,146 @@ description: Find more info here
 url: https://example.com
 ```
 
+#### <a name="componentsObject"></a>Components Object
+
+Holds a set of reusable objects for different aspects of the OAS.
+All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
 
 
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+<a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
+<a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+All the fixed fields declared above are objects that MUST use keys that match the regular expression: `^[a-zA-Z0-9\.\-_]+$`.
+
+Field Name Examples:
+
+```
+User
+User_1
+User_Name
+user-name
+my.org.User
+```
+
+##### Components Object Example
+
+```json
+"components": {
+  "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "messages": {
+    "userSignUp": {
+      "summary": "Action to sign a user up.",
+      "description": "Multiline description of what this action does.\nHere you have another line.\n",
+      "tags": [
+        {
+          "name": "user"
+        },
+        {
+          "name": "signup"
+        }
+      ],
+      "headers": {
+        "type": "object",
+        "properties": {
+          "qos": {
+            "$ref": "#/components/schemas/MQTTQoSHeader"
+          },
+          "retainFlag": {
+            "$ref": "#/components/schemas/MQTTRetainHeader"
+          }
+        }
+      },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/userCreate"
+          },
+          "signup": {
+            "$ref": "#/components/schemas/signup"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+```yaml
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+  messages:
+    userSignUp:
+      summary: Action to sign a user up.
+      description: |
+        Multiline description of what this action does.
+        Here you have another line.
+      tags:
+        - name: user
+        - name: signup
+      headers:
+        type: object
+        properties:
+          qos:
+            $ref: "#/components/schemas/MQTTQoSHeader"
+          retainFlag:
+            $ref: "#/components/schemas/MQTTRetainHeader"
+      payload:
+        type: object
+        properties:
+          user:
+            $ref: "#/components/schemas/userCreate"
+          signup:
+            $ref: "#/components/schemas/signup"
+```
 
 #### <a name="schemaObject"></a>Schema Object
 
