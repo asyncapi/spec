@@ -284,7 +284,7 @@ The base topic to the API. You MAY use this field to avoid repeating the beginni
 ```
 
 ```yaml
-host: hitch.accounts
+baseTopic: hitch.accounts
 ```
 
 
