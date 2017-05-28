@@ -417,7 +417,7 @@ Field Name | Type | Description
 <a name="messageObjectPayload"></a>payload | [Schema Object](#schemaObject) | Definition of the message payload.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="messageObjectTags"></a>tags | [`string`] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
+<a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 
 This object can be extended with [Specification Extensions](#specificationExtensions). 
