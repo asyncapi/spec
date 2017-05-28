@@ -314,7 +314,7 @@ Value | Type | Description
 ```
 
 ```yaml
-host:
+schemes:
   - amqps
   - mqtts
 ```
