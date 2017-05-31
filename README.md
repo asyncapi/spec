@@ -17,6 +17,21 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
+**The AsyncAPI files MUST describe a [process](#definitionsProcess) _behavior_ and MUST NOT describe what it expects:**
+
+```yaml
+accounts.1.0.event.user.signup:
+  subscribe:
+    $ref: "#/components/messages/userSignUp"
+email.1.0.event.user.welcome:
+  publish:
+    $ref: "#/components/messages/emailUserWelcome"
+```
+
+This example MUST be understood as _"the API process subscribes to `accounts.1.0.event.user.signup` and, eventually, will receive messages like the one described at `#/components/messages/userSignUp`. It also publishes messages to `email.1.0.event.user.welcome`, and they are like the one described at `#/components/messages/emailUserWelcome`"_.
+
+Conversely, this example MUST NOT be understood as _"your application must subscribe to `accounts.1.0.event.user.signup` in order to receive messages like the one described at `#/components/messages/userSignUp`. And you must publish messages to `email.1.0.event.user.welcome` with the form described at `#/components/messages/emailUserWelcome`"_.
+
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
 
