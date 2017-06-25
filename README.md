@@ -17,20 +17,17 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-**The AsyncAPI files MUST describe a [process](#definitionsProcess) _behavior_ and MUST NOT describe what it expects:**
+The AsyncAPI Specification is often used to describe the inter-process communication (IPC) in distributed systems built using a broker-centric architecture. In such cases, it's very easy to get confused with what the AsyncAPI files must describe. **It's RECOMMENDED to create a single file describing the whole system instead of creating a file for each [process](#definitionsProcess).** Otherwise, you will end up having lots of interdependent files.
+
+The file(s) MUST describe the operations a new [process](#definitionsProcess) can perform. For instance:
 
 ```yaml
-accounts.1.0.event.user.signup:
+event.user.signup:
   subscribe:
     $ref: "#/components/messages/userSignUp"
-email.1.0.event.user.welcome:
-  publish:
-    $ref: "#/components/messages/emailUserWelcome"
 ```
 
-This example MUST be understood as _"the API process subscribes to `accounts.1.0.event.user.signup` and, eventually, will receive messages like the one described at `#/components/messages/userSignUp`. It also publishes messages to `email.1.0.event.user.welcome`, and they are like the one described at `#/components/messages/emailUserWelcome`"_.
-
-Conversely, this example MUST NOT be understood as _"your application must subscribe to `accounts.1.0.event.user.signup` in order to receive messages like the one described at `#/components/messages/userSignUp`. And you must publish messages to `email.1.0.event.user.welcome` with the form described at `#/components/messages/emailUserWelcome`"_.
+It means [processes](#definitionsProcess) can subscribe to `event.user.signup` topic. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this topic.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
