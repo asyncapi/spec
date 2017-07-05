@@ -53,7 +53,7 @@ It means [processes](#definitionsProcess) can subscribe to `event.user.signup` t
 		- [Base Topic String](#baseTopicString)
 		- [Schemes List](#schemesList)
 		- [Topics Object](#topicsObject)
-		- [Topic Item Object](topicItemObject)
+		- [Topic Item Object](#topicItemObject)
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
