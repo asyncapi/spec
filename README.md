@@ -441,9 +441,9 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "tags": [
-    { "name" "user" },
-    { "name" "signup" },
-    { "name" "register" }
+    { "name": "user" },
+    { "name": "signup" },
+    { "name": "register" }
   ],
   "headers": {
     "type": "object",
@@ -616,28 +616,27 @@ my.org.User
 ```json
 "components": {
   "schemas": {
-      "Category": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
         }
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
         }
       }
     }

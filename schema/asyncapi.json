@@ -389,6 +389,9 @@
         }
       },
       "properties": {
+        "$ref": {
+          "type": "string"
+        },
         "headers": {
           "$ref": "#/definitions/schema"
         },
