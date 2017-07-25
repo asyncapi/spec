@@ -377,6 +377,10 @@
         },
         "subscribe": {
           "$ref": "#/definitions/message"
+        },
+        "deprecated": {
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -419,7 +423,8 @@
         "deprecated": {
           "type": "boolean",
           "default": false
-        }
+        },
+        "example": {}
       }
     },
     "vendorExtension": {
