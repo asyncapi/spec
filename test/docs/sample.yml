@@ -2,6 +2,11 @@ asyncapi: "1.0.0"
 info:
   title: AsyncAPI Sample
   version: "1.0.0"
+  x-logo: https://avatars0.githubusercontent.com/u/16401334?v=4&s=200
+  description: |
+    This is a simple example of an _AsyncAPI_ document.
+  termsOfService: |
+    You can specify the terms of service here. **It supports Markdown as well.**
 baseTopic: 'hitch'
 host: asyncapi.hitchhq.com
 schemes:
@@ -19,10 +24,10 @@ topics:
 components:
   messages:
     userSignUp:
+      deprecated: true
       summary: Action to sign a user up.
       description: |
-        Multiline description of what this action does.
-        Here you have another line.
+        Multiline description of what this action does. **It allows Markdown.**
       tags:
         - name: user
         - name: signup
@@ -40,6 +45,7 @@ components:
             $ref: "#/components/schemas/userCreate"
           signup:
             $ref: "#/components/schemas/signup"
+        
 
     userSignedUp:
       payload:
@@ -105,6 +111,7 @@ components:
           type: string
         username:
           $ref: "#/components/schemas/username"
+
     signup:
       type: object
       required:
