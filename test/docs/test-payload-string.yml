@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
 
 servers:
-  - url: //wolksense.com:8883
+  - url: wolksense.com:8883
     description: WolkSense MQTT broker is hosted on wolksense.com on port 8883 and accepts SSL/TLS encrypted connections. Username/password authentication is used to identify MQTT clients and grant them access to specific topics.
     scheme: mqtts
 

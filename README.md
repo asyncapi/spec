@@ -307,14 +307,14 @@ A single server would be described as:
 
 ```json
 {
-  "url": "//development.gigantic-server.com",
+  "url": "development.gigantic-server.com",
   "description": "Development server",
   "scheme": "mqtts"
 }
 ```
 
 ```yaml
-url: //development.gigantic-server.com
+url: development.gigantic-server.com
 description: Development server
 scheme: mqtts
 ```
@@ -325,17 +325,17 @@ The following shows how multiple servers can be described, for example, at the A
 {
   "servers": [
     {
-      "url": "//development.gigantic-server.com",
+      "url": "development.gigantic-server.com",
       "description": "Development server",
       "scheme": "mqtts"
     },
     {
-      "url": "//staging.gigantic-server.com",
+      "url": "staging.gigantic-server.com",
       "description": "Staging server",
       "scheme": "mqtts"
     },
     {
-      "url": "//api.gigantic-server.com",
+      "url": "api.gigantic-server.com",
       "description": "Production server",
       "scheme": "mqtts"
     }
@@ -345,13 +345,13 @@ The following shows how multiple servers can be described, for example, at the A
 
 ```yaml
 servers:
-- url: //development.gigantic-server.com
+- url: development.gigantic-server.com
   description: Development server
   scheme: mqtts
-- url: //staging.gigantic-server.com
+- url: staging.gigantic-server.com
   description: Staging server
   scheme: mqtts
-- url: //api.gigantic-server.com
+- url: api.gigantic-server.com
   description: Production server
   scheme: mqtts
 ```
@@ -362,7 +362,7 @@ The following shows how variables can be used for a server configuration:
 {
   "servers": [
     {
-      "url": "//{username}.gigantic-server.com:{port}/{basePath}",
+      "url": "{username}.gigantic-server.com:{port}/{basePath}",
       "description": "The production API server",
       "variables": {
         "username": {
@@ -387,7 +387,7 @@ The following shows how variables can be used for a server configuration:
 
 ```yaml
 servers:
-- url: //{username}.gigantic-server.com:{port}/{basePath}
+- url: {username}.gigantic-server.com:{port}/{basePath}
   description: The production API server
   variables:
     username:

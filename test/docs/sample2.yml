@@ -5,7 +5,7 @@ info:
 baseTopic: 'hitch'
 
 servers:
-  - url: //api.company.com:{port}/{app-id}
+  - url: api.company.com:{port}/{app-id}
     description: Allows you to connect using the MQTT protocol.
     scheme: mqtt
     variables:
