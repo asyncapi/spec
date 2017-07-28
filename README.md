@@ -49,9 +49,8 @@ It means [processes](#definitionsProcess) can subscribe to `event.user.signup` t
 		- [Info Object](#infoObject)
 		- [Contact Object](#contactObject)
 		- [License Object](#licenseObject)
-		- [Host String](#hostString)
 		- [Base Topic String](#baseTopicString)
-		- [Schemes List](#schemesList)
+		- [Servers Object](#A2SServers)
 		- [Topics Object](#topicsObject)
 		- [Topic Item Object](#topicItemObject)
 		- [Message Object](#messageObject)
@@ -138,6 +137,7 @@ Field Name | Type | Description
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
+<a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
 <a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -266,26 +266,10 @@ url: http://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
 
-#### <a name="hostString"></a>Host String
-
-The host (name or ip) of the target server. This MAY point to a message broker.
-
-##### Host String Example:
-
-```json
-{
-  "host": "myapi.example.com"
-}
-```
-
-```yaml
-host: myapi.example.com
-```
 
 #### <a name="baseTopicString"></a>Base Topic String
 
 The base topic to the API. You MAY use this field to avoid repeating the beginning of the topics.
-
 
 ##### Base Topic String Example:
 
@@ -301,35 +285,144 @@ baseTopic: hitch.accounts
 
 
 
-#### <a name="schemesList"></a>Schemes List
 
-An array of the transfer protocol(s) the API supports. Values MUST be one (or more) of the following values:
+#### <a name="serverObject"></a>Server Object
 
-Value | Type | Description
+An object representing a Server.
+
+##### Fixed Fields
+
+Field Name | Type | Description
 ---|:---:|---
-<a name="schemesListValueAMQP"></a>amqp | `string` | AMQP protocol.
-<a name="schemesListValueAMQPS"></a>amqps | `string` | AMQP protocol over SSL/TLS.
-<a name="schemesListValueMQTT"></a>mqtt | `string` | MQTT protocol
-<a name="schemesListValueMQTTS"></a>mqtts | `string` | MQTT protocol over SSL/TLS.
-<a name="schemesListValueWS"></a>ws | `string` | WebSockets protocol
-<a name="schemesListValueWSS"></a>wss | `string` | WebSockets protocol over SSL/TLS.
-<a name="schemesListValueSTOMP"></a>stomp | `string` | STOMP protocol.
-<a name="schemesListValueSTOMPS"></a>stomps | `string` | STOMP protocol over SSL/TLS.
+<a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
+<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `amqp`, `amqps`, `mqtt`, `mqtts`, `ws`, `wss`, `stomp`, `stomps`.
+<a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### Schemes List Example:
+##### Server Object Example
+
+A single server would be described as:
 
 ```json
 {
-  "schemes": ["amqps", "mqtts"]
+  "url": "development.gigantic-server.com",
+  "description": "Development server",
+  "scheme": "mqtts"
 }
 ```
 
 ```yaml
-schemes:
-  - amqps
-  - mqtts
+url: development.gigantic-server.com
+description: Development server
+scheme: mqtts
 ```
+
+The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
+
+```json
+{
+  "servers": [
+    {
+      "url": "development.gigantic-server.com",
+      "description": "Development server",
+      "scheme": "mqtts"
+    },
+    {
+      "url": "staging.gigantic-server.com",
+      "description": "Staging server",
+      "scheme": "mqtts"
+    },
+    {
+      "url": "api.gigantic-server.com",
+      "description": "Production server",
+      "scheme": "mqtts"
+    }
+  ]
+}
+```
+
+```yaml
+servers:
+- url: development.gigantic-server.com
+  description: Development server
+  scheme: mqtts
+- url: staging.gigantic-server.com
+  description: Staging server
+  scheme: mqtts
+- url: api.gigantic-server.com
+  description: Production server
+  scheme: mqtts
+```
+
+The following shows how variables can be used for a server configuration:
+
+```json
+{
+  "servers": [
+    {
+      "url": "{username}.gigantic-server.com:{port}/{basePath}",
+      "description": "The production API server",
+      "variables": {
+        "username": {
+          "default": "demo",
+          "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+        },
+        "port": {
+          "enum": [
+            "8883",
+            "8884"
+          ],
+          "default": "8883"
+        },
+        "basePath": {
+          "default": "v2"
+        }
+      }
+    }
+  ]
+}
+```
+
+```yaml
+servers:
+- url: {username}.gigantic-server.com:{port}/{basePath}
+  description: The production API server
+  variables:
+    username:
+      # note! no enum here means it is an open value
+      default: demo
+      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+    port:
+      enum:
+        - '8883'
+        - '8884'
+      default: '8883'
+    basePath:
+      # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
+      default: v2
+```
+
+
+#### <a name="serverVariableObject"></a>Server Variable Object
+
+An object representing a Server Variable for server URL template substitution.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
+<a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
+<a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+
+At least one of the fields MUST be provided.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+
+
 
 
 #### <a name="topicsObject"></a>Topics Object

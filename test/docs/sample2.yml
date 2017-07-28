@@ -3,10 +3,20 @@ info:
   title: Sign up email example
   version: "1.0.0"
 baseTopic: 'hitch'
-host: asyncapi.hitchhq.com
-schemes:
-  - amqp
-  - mqtt
+
+servers:
+  - url: api.company.com:{port}/{app-id}
+    description: Allows you to connect using the MQTT protocol.
+    scheme: mqtt
+    variables:
+      app-id:
+        default: demo
+        description: You can find your `app-id` in our control panel, under the auth tab.
+      port:
+        enum:
+          - '5676'
+          - '5677'
+        default: '5676'
 
 topics:
   accounts.1.0.event.user.signup:

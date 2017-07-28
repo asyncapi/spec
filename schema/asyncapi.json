@@ -26,19 +26,18 @@
     "info": {
       "$ref": "#/definitions/info"
     },
-    "host": {
-      "type": "string",
-      "pattern": "^[^{}/ :\\\\]+(?::\\d+)?$",
-      "description": "The host (name or ip) of the API. Example: 'asyncapi.hitchhq.com'"
-    },
     "baseTopic": {
       "type": "string",
       "pattern": "^[^/.]",
       "description": "The base topic to the API. Example: 'hitch'.",
       "default": ""
     },
-    "schemes": {
-      "$ref": "#/definitions/schemesList"
+    "servers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/server"
+      },
+      "uniqueItems": true
     },
     "topics": {
       "$ref": "#/definitions/topics"
@@ -142,6 +141,77 @@
       "patternProperties": {
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
+        }
+      }
+    },
+    "server": {
+      "type": "object",
+      "description": "An object representing a Server.",
+      "required": [
+        "url",
+        "scheme"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "scheme": {
+          "type": "string",
+          "description": "The transfer protocol.",
+          "enum": [
+            "amqp",
+            "amqps",
+            "mqtt",
+            "mqtts",
+            "ws",
+            "wss",
+            "stomp",
+            "stomps"
+          ]
+        },
+        "variables": {
+          "$ref": "#/definitions/serverVariables"
+        }
+      }
+    },
+    "serverVariables": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/serverVariable"
+      }
+    },
+    "serverVariable": {
+      "type": "object",
+      "description": "An object representing a Server Variable for server URL template substitution.",      
+      "minProperties": 1,
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "enum": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "default": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
       }
     },
@@ -454,24 +524,6 @@
           "$ref": "#/definitions/vendorExtension"
         }
       }
-    },
-    "schemesList": {
-      "type": "array",
-      "description": "The transfer protocol(s) the API supports.",
-      "items": {
-        "type": "string",
-        "enum": [
-          "amqp",
-          "amqps",
-          "mqtt",
-          "mqtts",
-          "ws",
-          "wss",
-          "stomp",
-          "stomps"
-        ]
-      },
-      "uniqueItems": true
     },
     "title": {
       "$ref": "http://json-schema.org/draft-04/schema#/properties/title"
