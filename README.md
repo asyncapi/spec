@@ -168,7 +168,7 @@ Field Name | Type | Description
 <a name="infoObjectTitle"></a>title | `string` | **Required.** The title of the application.
 <a name="infoObjectVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API.
+<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
 
