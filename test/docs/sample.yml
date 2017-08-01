@@ -5,8 +5,7 @@ info:
   x-logo: https://avatars0.githubusercontent.com/u/16401334?v=4&s=200
   description: |
     This is a simple example of an _AsyncAPI_ document.
-  termsOfService: |
-    You can specify the terms of service here. **It supports Markdown as well.**
+  termsOfService: https://api.company.com/terms
 baseTopic: 'hitch'
 
 servers:
