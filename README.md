@@ -96,7 +96,7 @@ YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI
 
 For example, if a field is said to have an array value, the JSON array representation will be used:
 
-```json
+```yaml
 {
    "field" : [...]
 }
