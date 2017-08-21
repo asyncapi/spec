@@ -85,7 +85,8 @@
         },
         "termsOfService": {
           "type": "string",
-          "description": "A URL to the Terms of Service for the API. MUST be in the format of a URL."
+          "description": "A URL to the Terms of Service for the API. MUST be in the format of a URL.",
+          "format": "uri"
         },
         "contact": {
           "$ref": "#/definitions/contact"
