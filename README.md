@@ -60,6 +60,8 @@ It means [processes](#definitionsProcess) can subscribe to `event.user.signup` t
 		- [Reference Object](#referenceObject)
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
+    - [Security Scheme Object](#securitySchemeObject)
+    - [Security Requirement Object](#securityRequirementObject)
 	- [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
@@ -140,6 +142,7 @@ Field Name | Type | Description
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
 <a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
+<a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
@@ -621,6 +624,57 @@ description: User-related messages
 
 
 
+#### <a name="referenceObject"></a>Reference Object
+
+A simple object to allow referencing other components in the specification, internally and externally.
+
+The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules.
+
+For this specification, reference resolution is accomplished as defined by the JSON Reference specification and not by the JSON Schema specification.
+
+##### Fixed Fields
+Field Name | Type | Description
+---|:---:|---
+<a name="referenceRef"></a>$ref | `string` | **REQUIRED**. The reference string.
+
+This object cannot be extended with additional properties and any properties added SHALL be ignored.
+
+##### Reference Object Example
+
+```json
+{
+	"$ref": "#/components/schemas/Pet"
+}
+```
+
+```yaml
+$ref: '#/components/schemas/Pet'
+```
+
+##### Relative Schema Document Example
+```json
+{
+  "$ref": "Pet.json"
+}
+```
+
+```yaml
+$ref: Pet.yaml
+```
+
+##### Relative Documents With Embedded Schema Example
+```json
+{
+  "$ref": "definitions.json#/Pet"
+}
+```
+
+```yaml
+$ref: definitions.yaml#/Pet
+```
+
+
+
 
 #### <a name="externalDocumentationObject"></a>External Documentation Object
 
@@ -689,6 +743,7 @@ Field Name | Type | Description
 ---|:---|---
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
+<a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1570,6 +1625,167 @@ animals:
 
 
 
+
+
+
+#### <a name="securitySchemeObject"></a>Security Scheme Object
+
+Defines a security scheme that can be used by the operations.
+Supported schemes are User/Password, API key (either as user or as password), X.509 certificate, end-to-end encryption (either symmetric or asymmetric), HTTP authentication and HTTP API key.
+
+##### Fixed Fields
+Field Name | Type | Applies To | Description
+---|:---:|---|---
+<a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`.
+<a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
+<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey | httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
+<a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
+<a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Security Scheme Object Example
+
+###### User/Password Authentication Sample
+
+```json
+{
+  "type": "userPassword"
+}
+```
+
+```yaml
+type: userPassword
+```
+
+###### API Key Authentication Sample
+
+```json
+{
+  "type": "apiKey",
+  "in": "user"
+}
+```
+
+```yaml
+type: apiKey,
+in: user
+```
+
+###### X.509 Authentication Sample
+
+```json
+{
+  "type": "X509"
+}
+```
+
+```yaml
+type: X509
+```
+
+###### End-to-end Encryption Authentication Sample
+
+```json
+{
+  "type": "symmetricEncryption"
+}
+```
+
+```yaml
+type: symmetricEncryption
+```
+
+###### Basic Authentication Sample
+
+```json
+{
+  "type": "http",
+  "scheme": "basic"
+}
+```
+
+```yaml
+type: http
+scheme: basic
+```
+
+###### API Key Sample
+
+```json
+{
+  "type": "httpApiKey",
+  "name": "api_key",
+  "in": "header"
+}
+```
+
+```yaml
+type: httpApiKey
+name: api_key
+in: header
+```
+
+###### JWT Bearer Sample
+
+```json
+{
+  "type": "http",
+  "scheme": "bearer",
+  "bearerFormat": "JWT",
+}
+```
+
+```yaml
+type: http
+scheme: bearer
+bearerFormat: JWT
+```
+
+
+
+
+
+
+#### <a name="securityRequirementObject"></a>Security Requirement Object
+
+Lists the required security schemes to execute this operation.
+The name used for each property MUST correspond to a security scheme declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject).
+
+When a list of Security Requirement Objects is defined on the [AsyncAPI object](#A2SObject), only one of Security Requirement Objects in the list needs to be satisfied to authorize the connection or operation.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="securityRequirementsName"></a>{name} | [`string`] | Each name MUST correspond to a security scheme which is declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject). The value MUST be an empty array.
+
+##### Security Requirement Object Examples
+
+###### User/Password Security Requirement
+
+```json
+{
+  "user_pass": []
+}
+```
+
+```yaml
+user_pass: []
+```
+
+###### API Key Security Requirement
+
+```json
+{
+  "api_key": []
+}
+```
+
+```yaml
+api_key: []
+```
 
 
 
