@@ -1,7 +1,7 @@
 asyncapi: '1.0.0'
 info:
   title: Streetlights API
-  version: '1.0'
+  version: '1.0.0'
   description: |
     The Smartylighting Streetlights API allows you to remotely manage the city lights.
     
