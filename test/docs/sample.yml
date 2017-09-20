@@ -1,140 +1,107 @@
-asyncapi: "1.0.0"
+asyncapi: '1.0.0'
 info:
-  title: AsyncAPI Sample
-  version: "1.0.0"
-  x-logo: https://avatars0.githubusercontent.com/u/16401334?v=4&s=200
+  title: Streetlights API
+  version: '1.0'
   description: |
-    This is a simple example of an _AsyncAPI_ document.
-  termsOfService: https://api.company.com/terms
-baseTopic: 'hitch'
+    The Smartylighting Streetlights API allows you to remotely manage the city lights.
+    
+    ### Check out its awesome features:
+    
+    * Turn a specific streetlight on/off 🌃
+    * Dim a specific streetlight 😎
+    * Receive real-time information about environmental lighting conditions 📈
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+baseTopic: smartylighting.streetlights.1.0
 
 servers:
-  - url: api.company.com:{port}/{app-id}
-    description: Allows you to connect using the MQTT protocol.
+  - url: api.streetlights.smartylighting.com:{port}
     scheme: mqtt
+    description: Test broker
     variables:
-      app-id:
-        default: demo
-        description: You can find your `app-id` in our control panel, under the auth tab.
       port:
+        description: Secure connection (TLS) is available through port 8883.
+        default: '1883'
         enum:
-          - '5676'
-          - '5677'
-        default: '5676'
+          - '1883'
+          - '8883'
+
+security:
+  - apiKey: []
 
 topics:
-  accounts.1.0.action.user.signup:
+  event.{streetlightId}.lighting.measured:
     publish:
-      $ref: "#/components/messages/userSignUp"
-  accounts.1.0.event.user.signup:
+      $ref: '#/components/messages/lightMeasured'
+
+  action.{streetlightId}.turn.on:
     subscribe:
-      $ref: "#/components/messages/userSignedUp"
+      $ref: '#/components/messages/turnOnOff'
+
+  action.{streetlightId}.turn.off:
+    subscribe:
+      $ref: '#/components/messages/turnOnOff'
+
+  action.{streetlightId}.dim:
+    subscribe:
+      $ref: '#/components/messages/dimLight'
 
 components:
   messages:
-    userSignUp:
-      deprecated: true
-      summary: Action to sign a user up.
-      description: |
-        Multiline description of what this action does. **It allows Markdown.**
-      tags:
-        - name: user
-        - name: signup
-      headers:
-        type: object
-        properties:
-          qos:
-            $ref: "#/components/schemas/MQTTQoSHeader"
-          retainFlag:
-            $ref: "#/components/schemas/MQTTRetainHeader"
+    lightMeasured:
+      summary: Inform about environmental lighting conditions for a particular streetlight.
       payload:
-        type: object
-        properties:
-          user:
-            $ref: "#/components/schemas/userCreate"
-          signup:
-            $ref: "#/components/schemas/signup"
-        
+        $ref: "#/components/schemas/lightMeasuredPayload"
+    turnOnOff:
+      summary: Command a particular streetlight to turn the lights on or off.
+      payload:
+        $ref: "#/components/schemas/turnOnOffPayload"
+    dimLight:
+      summary: Command a particular streetlight to dim the lights.
+      payload:
+        $ref: "#/components/schemas/dimLightPayload"
 
-    userSignedUp:
-      payload:
-        type: object
-        properties:
-          user:
-            $ref: "#/components/schemas/user"
-          signup:
-            $ref: "#/components/schemas/signup"
   schemas:
-    id:
-      title: id
-      description: Resource identifier
-      type: string
-    username:
-      title: username
-      description: User handle
-      type: string
-    datetime:
-      title: datetime
-      description: Date and Time of the message
-      type: string
-      format: date-time
-    MQTTQoSHeader:
-      title: qos
-      description: Quality of Service
-      type: integer
-      format: int32
-      default: 1
-      enum:
-        - 0
-        - 2
-    MQTTRetainHeader:
-      title: retainFlag
-      description: |
-        This flag determines if the message will be saved by the broker for the specified
-        topic as last known good value. New clients that subscribe to that topic will receive
-        the last retained message on that topic instantly after subscribing. More on retained messages
-        and best practices in one of the next posts.
-      type: boolean
-      default: false
-    user:
+    lightMeasuredPayload:
       type: object
-      required:
-        - id
-        - username
       properties:
-        id:
-          description: User Id
-          $ref: "#/components/schemas/id"
-        full_name:
-          description: User full name
-          type: string
-        username:
-          $ref: "#/components/schemas/username"
-    userCreate:
+        lumens:
+          type: integer
+          minimum: 0
+          description: Light intensity measured in lumens.
+        sentAt:
+          $ref: "#/components/schemas/sentAt"
+    turnOnOffPayload:
       type: object
-      required:
-        - username
       properties:
-        full_name:
-          description: User full name
-          type: string
-        username:
-          $ref: "#/components/schemas/username"
-
-    signup:
-      type: object
-      required:
-        - method
-        - datetime
-      properties:
-        method:
-          description: Signup method
+        command:
           type: string
           enum:
-            - email
-            - facebook
-            - twitter
-            - github
-            - google
-        datetime:
-          $ref: "#/components/schemas/datetime"
+            - on
+            - off
+          description: Whether to turn on or off the light.
+        sentAt:
+          $ref: "#/components/schemas/sentAt"
+    dimLightPayload:
+      type: object
+      properties:
+        percentage:
+          type: integer
+          description: Percentage to which the light should be dimmed to.
+          minimum: 0
+          maximum: 100
+        sentAt:
+          $ref: "#/components/schemas/sentAt"
+    sentAt:
+      type: string
+      format: date-time
+      description: Date and time when the message was sent.
+
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: user
+      description: Provide your API key as the user and leave the password empty.
+      
+      
