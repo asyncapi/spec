@@ -1,6 +1,6 @@
 {
   "name": "asyncapi",
-  "version": "1.0.0-rc2",
+  "version": "1.0.0",
   "description": "Async API",
   "main": "index.js",
   "scripts": {

@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [Open API Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [Open API Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 1.0.0-rc2
+#### Version 1.0.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
 
@@ -16,6 +16,18 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
+
+The AsyncAPI Specification is often used to describe the inter-process communication (IPC) in distributed systems built using a broker-centric architecture. In such cases, it's very easy to get confused with what the AsyncAPI files must describe. **It's RECOMMENDED to create a single file describing the whole system instead of creating a file for each [process](#definitionsProcess).** Otherwise, you will end up having lots of interdependent files.
+
+The file(s) MUST describe the operations a new [process](#definitionsProcess) can perform. For instance:
+
+```yaml
+event.user.signup:
+  subscribe:
+    $ref: "#/components/messages/userSignUp"
+```
+
+It means [processes](#definitionsProcess) can subscribe to `event.user.signup` topic. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this topic.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -37,11 +49,10 @@ These files can then be used to create utilities, such as documentation, integra
 		- [Info Object](#infoObject)
 		- [Contact Object](#contactObject)
 		- [License Object](#licenseObject)
-		- [Host String](#hostString)
 		- [Base Topic String](#baseTopicString)
-		- [Schemes List](#schemesList)
+		- [Servers Object](#A2SServers)
 		- [Topics Object](#topicsObject)
-		- [Topic Item Object](topicItemObject)
+		- [Topic Item Object](#topicItemObject)
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
@@ -49,6 +60,8 @@ These files can then be used to create utilities, such as documentation, integra
 		- [Reference Object](#referenceObject)
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
+    - [Security Scheme Object](#securitySchemeObject)
+    - [Security Requirement Object](#securityRequirementObject)
 	- [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
@@ -85,7 +98,7 @@ YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI
 
 For example, if a field is said to have an array value, the JSON array representation will be used:
 
-```json
+```yaml
 {
    "field" : [...]
 }
@@ -126,8 +139,10 @@ Field Name | Type | Description
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
+<a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
 <a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
+<a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
@@ -156,7 +171,7 @@ Field Name | Type | Description
 <a name="infoObjectTitle"></a>title | `string` | **Required.** The title of the application.
 <a name="infoObjectVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API.
+<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
 
@@ -254,26 +269,10 @@ url: http://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
 
-#### <a name="hostString"></a>Host String
-
-The host (name or ip) of the target server. This MAY point to a message broker.
-
-##### Host String Example:
-
-```json
-{
-  "host": "myapi.example.com"
-}
-```
-
-```yaml
-host: myapi.example.com
-```
 
 #### <a name="baseTopicString"></a>Base Topic String
 
 The base topic to the API. You MAY use this field to avoid repeating the beginning of the topics.
-
 
 ##### Base Topic String Example:
 
@@ -284,40 +283,149 @@ The base topic to the API. You MAY use this field to avoid repeating the beginni
 ```
 
 ```yaml
-host: hitch.accounts
+baseTopic: hitch.accounts
 ```
 
 
 
-#### <a name="schemesList"></a>Schemes List
 
-An array of the transfer protocol(s) the API supports. Values MUST be one (or more) of the following values:
+#### <a name="serverObject"></a>Server Object
 
-Value | Type | Description
+An object representing a Server.
+
+##### Fixed Fields
+
+Field Name | Type | Description
 ---|:---:|---
-<a name="schemesListValueAMQP"></a>amqp | `string` | AMQP protocol.
-<a name="schemesListValueAMQPS"></a>amqps | `string` | AMQP protocol over SSL/TLS.
-<a name="schemesListValueMQTT"></a>mqtt | `string` | MQTT protocol
-<a name="schemesListValueMQTTS"></a>mqtts | `string` | MQTT protocol over SSL/TLS.
-<a name="schemesListValueWS"></a>ws | `string` | WebSockets protocol
-<a name="schemesListValueWSS"></a>wss | `string` | WebSockets protocol over SSL/TLS.
-<a name="schemesListValueSTOMP"></a>stomp | `string` | STOMP protocol.
-<a name="schemesListValueSTOMPS"></a>stomps | `string` | STOMP protocol over SSL/TLS.
+<a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
+<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `amqp`, `amqps`, `mqtt`, `mqtts`, `ws`, `wss`, `stomp`, `stomps`.
+<a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### Schemes List Example:
+##### Server Object Example
+
+A single server would be described as:
 
 ```json
 {
-  "schemes": ["amqps", "mqtts"]
+  "url": "development.gigantic-server.com",
+  "description": "Development server",
+  "scheme": "mqtts"
 }
 ```
 
 ```yaml
-host:
-  - amqps
-  - mqtts
+url: development.gigantic-server.com
+description: Development server
+scheme: mqtts
 ```
+
+The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
+
+```json
+{
+  "servers": [
+    {
+      "url": "development.gigantic-server.com",
+      "description": "Development server",
+      "scheme": "mqtts"
+    },
+    {
+      "url": "staging.gigantic-server.com",
+      "description": "Staging server",
+      "scheme": "mqtts"
+    },
+    {
+      "url": "api.gigantic-server.com",
+      "description": "Production server",
+      "scheme": "mqtts"
+    }
+  ]
+}
+```
+
+```yaml
+servers:
+- url: development.gigantic-server.com
+  description: Development server
+  scheme: mqtts
+- url: staging.gigantic-server.com
+  description: Staging server
+  scheme: mqtts
+- url: api.gigantic-server.com
+  description: Production server
+  scheme: mqtts
+```
+
+The following shows how variables can be used for a server configuration:
+
+```json
+{
+  "servers": [
+    {
+      "url": "{username}.gigantic-server.com:{port}/{basePath}",
+      "description": "The production API server",
+      "variables": {
+        "username": {
+          "default": "demo",
+          "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+        },
+        "port": {
+          "enum": [
+            "8883",
+            "8884"
+          ],
+          "default": "8883"
+        },
+        "basePath": {
+          "default": "v2"
+        }
+      }
+    }
+  ]
+}
+```
+
+```yaml
+servers:
+- url: {username}.gigantic-server.com:{port}/{basePath}
+  description: The production API server
+  variables:
+    username:
+      # note! no enum here means it is an open value
+      default: demo
+      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+    port:
+      enum:
+        - '8883'
+        - '8884'
+      default: '8883'
+    basePath:
+      # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
+      default: v2
+```
+
+
+#### <a name="serverVariableObject"></a>Server Variable Object
+
+An object representing a Server Variable for server URL template substitution.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
+<a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
+<a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+
+At least one of the fields MUST be provided.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+
+
 
 
 #### <a name="topicsObject"></a>Topics Object
@@ -417,7 +525,7 @@ Field Name | Type | Description
 <a name="messageObjectPayload"></a>payload | [Schema Object](#schemaObject) | Definition of the message payload.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="messageObjectTags"></a>tags | [`string`] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
+<a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 
 This object can be extended with [Specification Extensions](#specificationExtensions). 
@@ -429,9 +537,9 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "tags": [
-    { "name" "user" },
-    { "name" "signup" },
-    { "name" "register" }
+    { "name": "user" },
+    { "name": "signup" },
+    { "name": "register" }
   ],
   "headers": {
     "type": "object",
@@ -517,6 +625,8 @@ description: User-related messages
 
 
 
+
+
 #### <a name="externalDocumentationObject"></a>External Documentation Object
 
 Allows referencing an external resource for extended documentation.
@@ -584,6 +694,7 @@ Field Name | Type | Description
 ---|:---|---
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
+<a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -604,28 +715,27 @@ my.org.User
 ```json
 "components": {
   "schemas": {
-      "Category": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
         }
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
         }
       }
     }
@@ -1466,6 +1576,167 @@ animals:
 
 
 
+
+
+
+#### <a name="securitySchemeObject"></a>Security Scheme Object
+
+Defines a security scheme that can be used by the operations.
+Supported schemes are User/Password, API key (either as user or as password), X.509 certificate, end-to-end encryption (either symmetric or asymmetric), HTTP authentication and HTTP API key.
+
+##### Fixed Fields
+Field Name | Type | Applies To | Description
+---|:---:|---|---
+<a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`.
+<a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
+<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey | httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
+<a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
+<a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Security Scheme Object Example
+
+###### User/Password Authentication Sample
+
+```json
+{
+  "type": "userPassword"
+}
+```
+
+```yaml
+type: userPassword
+```
+
+###### API Key Authentication Sample
+
+```json
+{
+  "type": "apiKey",
+  "in": "user"
+}
+```
+
+```yaml
+type: apiKey,
+in: user
+```
+
+###### X.509 Authentication Sample
+
+```json
+{
+  "type": "X509"
+}
+```
+
+```yaml
+type: X509
+```
+
+###### End-to-end Encryption Authentication Sample
+
+```json
+{
+  "type": "symmetricEncryption"
+}
+```
+
+```yaml
+type: symmetricEncryption
+```
+
+###### Basic Authentication Sample
+
+```json
+{
+  "type": "http",
+  "scheme": "basic"
+}
+```
+
+```yaml
+type: http
+scheme: basic
+```
+
+###### API Key Sample
+
+```json
+{
+  "type": "httpApiKey",
+  "name": "api_key",
+  "in": "header"
+}
+```
+
+```yaml
+type: httpApiKey
+name: api_key
+in: header
+```
+
+###### JWT Bearer Sample
+
+```json
+{
+  "type": "http",
+  "scheme": "bearer",
+  "bearerFormat": "JWT",
+}
+```
+
+```yaml
+type: http
+scheme: bearer
+bearerFormat: JWT
+```
+
+
+
+
+
+
+#### <a name="securityRequirementObject"></a>Security Requirement Object
+
+Lists the required security schemes to execute this operation.
+The name used for each property MUST correspond to a security scheme declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject).
+
+When a list of Security Requirement Objects is defined on the [AsyncAPI object](#A2SObject), only one of Security Requirement Objects in the list needs to be satisfied to authorize the connection or operation.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="securityRequirementsName"></a>{name} | [`string`] | Each name MUST correspond to a security scheme which is declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject). The value MUST be an empty array.
+
+##### Security Requirement Object Examples
+
+###### User/Password Security Requirement
+
+```json
+{
+  "user_pass": []
+}
+```
+
+```yaml
+user_pass: []
+```
+
+###### API Key Security Requirement
+
+```json
+{
+  "api_key": []
+}
+```
+
+```yaml
+api_key: []
+```
 
 
 
