@@ -186,6 +186,8 @@
           "type": "string",
           "description": "The transfer protocol.",
           "enum": [
+            "kafka",
+            "kafka-secure",
             "amqp",
             "amqps",
             "mqtt",
