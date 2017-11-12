@@ -299,6 +299,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
 <a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `kafka`, `kafka-secure`, `amqp`, `amqps`, `mqtt`, `mqtts`, `ws`, `wss`, `stomp`, `stomps`.
+<a name="serverObjectSchemeVersion"></a>schemeVersion | `string` | The version of the scheme. For instance: AMQP `0.9.1`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 
@@ -312,14 +313,16 @@ A single server would be described as:
 {
   "url": "development.gigantic-server.com",
   "description": "Development server",
-  "scheme": "mqtts"
+  "scheme": "kafka",
+  "schemeVersion": "1.0.0"
 }
 ```
 
 ```yaml
 url: development.gigantic-server.com
 description: Development server
-scheme: mqtts
+scheme: kafka
+schemeVersion: '1.0.0'
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -330,17 +333,20 @@ The following shows how multiple servers can be described, for example, at the A
     {
       "url": "development.gigantic-server.com",
       "description": "Development server",
-      "scheme": "mqtts"
+      "scheme": "amqp",
+      "schemeVersion": "0.9.1"
     },
     {
       "url": "staging.gigantic-server.com",
       "description": "Staging server",
-      "scheme": "mqtts"
+      "scheme": "amqp",
+      "schemeVersion": "0.9.1"
     },
     {
       "url": "api.gigantic-server.com",
       "description": "Production server",
-      "scheme": "mqtts"
+      "scheme": "amqp",
+      "schemeVersion": "0.9.1"
     }
   ]
 }
@@ -350,13 +356,16 @@ The following shows how multiple servers can be described, for example, at the A
 servers:
 - url: development.gigantic-server.com
   description: Development server
-  scheme: mqtts
+  scheme: amqp
+  schemeVersion: 0.9.1
 - url: staging.gigantic-server.com
   description: Staging server
-  scheme: mqtts
+  scheme: amqp
+  schemeVersion: 0.9.1
 - url: api.gigantic-server.com
   description: Production server
-  scheme: mqtts
+  scheme: amqp
+  schemeVersion: 0.9.1
 ```
 
 The following shows how variables can be used for a server configuration:

@@ -198,6 +198,9 @@
             "stomps"
           ]
         },
+        "schemeVersion": {
+          "type": "string"
+        },
         "variables": {
           "$ref": "#/definitions/serverVariables"
         }
