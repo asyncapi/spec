@@ -1,6 +1,5 @@
 - [x] Multiple messages per topic.
-- [ ] Meta information on messages.
-- [ ] Protocol-specific payload, headers, and meta.
+- [x] Protocol-specific payload, headers.
 - [ ] HTTP Streaming.
   * SSE, carriage-return, and newline.
   * Headers used when connecting (i.e Content-Type).

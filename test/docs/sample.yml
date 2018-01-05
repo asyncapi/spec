@@ -53,6 +53,10 @@ components:
       summary: Inform about environmental lighting conditions for a particular streetlight.
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
+      schemes:
+        amqp:
+          version: 0-9-1
+          x-exchange: hitch
     turnOnOff:
       summary: Command a particular streetlight to turn the lights on or off.
       payload:

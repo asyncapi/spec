@@ -515,6 +515,33 @@
         "payload": {
           "$ref": "#/definitions/schema"
         },
+        "schemes": {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "object",
+              "required": ["version"],
+              "minProperties": 2,
+              "additionalProperties": false,
+              "patternProperties": {
+                "^x-": {
+                  "$ref": "#/definitions/vendorExtension"
+                }
+              },
+              "properties": {
+                "version": {
+                  "type": "string"
+                },
+                "payload": {
+                  "$ref": "#/definitions/schema"
+                },
+                "headers": {
+                  "$ref": "#/definitions/schema"
+                }
+              }
+            }
+          }
+        },
         "tags": {
           "type": "array",
           "items": {
