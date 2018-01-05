@@ -33,19 +33,19 @@ security:
 topics:
   event.{streetlightId}.lighting.measured:
     publish:
-      $ref: '#/components/messages/lightMeasured'
+      - $ref: '#/components/messages/lightMeasured'
 
   action.{streetlightId}.turn.on:
     subscribe:
-      $ref: '#/components/messages/turnOnOff'
+      - $ref: '#/components/messages/turnOnOff'
 
   action.{streetlightId}.turn.off:
     subscribe:
-      $ref: '#/components/messages/turnOnOff'
+      - $ref: '#/components/messages/turnOnOff'
 
   action.{streetlightId}.dim:
     subscribe:
-      $ref: '#/components/messages/dimLight'
+      - $ref: '#/components/messages/dimLight'
 
 components:
   messages:

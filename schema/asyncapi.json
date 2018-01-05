@@ -478,10 +478,18 @@
           "type": "string"
         },
         "publish": {
-          "$ref": "#/definitions/message"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
         },
         "subscribe": {
-          "$ref": "#/definitions/message"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
         },
         "deprecated": {
           "type": "boolean",
