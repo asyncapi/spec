@@ -5,8 +5,19 @@
   "type": "object",
   "required": [
     "asyncapi",
-    "info",
-    "topics"
+    "info"
+  ],
+  "oneOf": [
+    {
+      "required": [
+        "topics"
+      ]
+    },
+    {
+      "required": [
+        "stream"
+      ]
+    }
   ],
   "additionalProperties": false,
   "patternProperties": {
@@ -18,7 +29,7 @@
     "asyncapi": {
       "type": "string",
       "enum": [
-        "1.0.0"
+        "2.0.0"
       ],
       "description": "The AsyncAPI specification version of this document."
     },
@@ -26,54 +37,28 @@
       "$ref": "#/definitions/info"
     },
     "baseTopic": {
-      "type": "string",
-      "pattern": "^[^/.]",
-      "description": "The base topic to the API. Example: 'hitch'.",
-      "default": ""
+      "$ref": "#/definitions/baseTopic"
     },
     "servers": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/server"
-      },
-      "uniqueItems": true
+      "$ref": "#/definitions/servers"
     },
     "topics": {
       "$ref": "#/definitions/topics"
+    },
+    "stream": {
+      "$ref": "#/definitions/stream"
     },
     "components": {
       "$ref": "#/definitions/components"
     },
     "tags": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/tag"
-      },
-      "uniqueItems": true
-    },
-    "security": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/SecurityRequirement"
-      }
+      "$ref": "#/definitions/tags"
     },
     "externalDocs": {
       "$ref": "#/definitions/externalDocs"
     }
   },
   "definitions": {
-    "Reference": {
-      "type": "object",
-      "required": [
-        "$ref"
-      ],
-      "properties": {
-        "$ref": {
-          "type": "string",
-          "format": "uri"
-        }
-      }
-    },
     "info": {
       "type": "object",
       "description": "General information about the API.",
@@ -112,6 +97,129 @@
           "$ref": "#/definitions/license"
         }
       }
+    },
+    "baseTopic": {
+      "type": "string",
+      "pattern": "^[^/.]",
+      "description": "The base topic to the API. Example: 'hitch'.",
+      "default": ""
+    },
+    "servers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/server"
+      },
+      "uniqueItems": true
+    },
+    "topics": {
+      "type": "object",
+      "description": "Relative paths to the individual topics. They must be relative to the 'baseTopic'.",
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        },
+        "^[^.]": {
+          "$ref": "#/definitions/topicItem"
+        }
+      },
+      "additionalProperties": false
+    },
+    "stream": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "minProperties": 1,
+      "properties": {
+        "framing": {
+          "type": "object",
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          },
+          "minProperties": 1,
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "chunked"
+                  ]
+                },
+                "delimiter": {
+                  "type": "string",
+                  "enum": [
+                    "\\r\\n",
+                    "\\n"
+                  ],
+                  "default": "\\r\\n"
+                }
+              }
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "sse"
+                  ]
+                },
+                "delimiter": {
+                  "type": "string",
+                  "enum": [
+                    "\\n\\n"
+                  ],
+                  "default": "\\n\\n"
+                }
+              }
+            }
+          ]
+        },
+        "read": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
+        },
+        "write": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "components": {
+      "type": "object",
+      "description": "An object to hold a set of reusable objects for different aspects of the AsyncAPI Specification.",
+      "additionalProperties": false,
+      "properties": {
+        "schemas": {
+          "$ref": "#/definitions/schemas"
+        },
+        "messages": {
+          "$ref": "#/definitions/messages"
+        },
+        "securitySchemes": {
+          "$ref": "#/definitions/securitySchemes"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/tag"
+      },
+      "uniqueItems": true
     },
     "contact": {
       "type": "object",
@@ -196,11 +304,19 @@
             "ws",
             "wss",
             "stomp",
-            "stomps"
+            "stomps",
+            "http",
+            "https"
           ]
         },
         "schemeVersion": {
           "type": "string"
+        },
+        "security": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityRequirement"
+          }
         },
         "variables": {
           "$ref": "#/definitions/serverVariables"
@@ -239,40 +355,36 @@
         }
       }
     },
-    "topics": {
+    "topicItem": {
       "type": "object",
-      "description": "Relative paths to the individual topics. They must be relative to the 'baseTopic'.",
+      "additionalProperties": false,
       "patternProperties": {
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
-        },
-        "^[^.]": {
-          "$ref": "#/definitions/topicItem"
         }
       },
-      "additionalProperties": false
-    },
-    "components": {
-      "type": "object",
-      "description": "An object to hold a set of reusable objects for different aspects of the AsyncAPI Specification.",
-      "additionalProperties": false,
+      "minProperties": 1,
       "properties": {
-        "schemas": {
-          "$ref": "#/definitions/schemas"
+        "$ref": {
+          "type": "string"
         },
-        "messages": {
-          "$ref": "#/definitions/messages"
+        "publish": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
         },
-        "securitySchemes": {
-          "type": "object",
-          "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
-              "oneOf": [
-                { "$ref": "#/definitions/Reference" },
-                { "$ref": "#/definitions/SecurityScheme" }
-              ]
-            }
-          }
+        "subscribe": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
+        },
+        "deprecated": {
+          "type": "boolean",
+          "default": false
         }
       }
     },
@@ -289,6 +401,21 @@
         "$ref": "#/definitions/message"
       },
       "description": "JSON objects describing the messages being consumed and produced by the API."
+    },
+    "securitySchemes": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z0-9\\.\\-_]+$": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Reference"
+            },
+            {
+              "$ref": "#/definitions/SecurityScheme"
+            }
+          ]
+        }
+      }
     },
     "schema": {
       "type": "object",
@@ -464,39 +591,6 @@
         }
       }
     },
-    "topicItem": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "minProperties": 1,
-      "properties": {
-        "$ref": {
-          "type": "string"
-        },
-        "publish": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/message"
-          },
-          "uniqueItems": true
-        },
-        "subscribe": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/message"
-          },
-          "uniqueItems": true
-        },
-        "deprecated": {
-          "type": "boolean",
-          "default": false
-        }
-      }
-    },
     "message": {
       "type": "object",
       "additionalProperties": false,
@@ -520,7 +614,9 @@
           "patternProperties": {
             ".*": {
               "type": "object",
-              "required": ["version"],
+              "required": [
+                "version"
+              ],
               "minProperties": 2,
               "additionalProperties": false,
               "patternProperties": {
@@ -597,12 +693,24 @@
     },
     "SecurityScheme": {
       "oneOf": [
-        { "$ref": "#/definitions/userPassword" },
-        { "$ref": "#/definitions/apiKey" },
-        { "$ref": "#/definitions/X509" },
-        { "$ref": "#/definitions/symmetricEncryption" },
-        { "$ref": "#/definitions/asymmetricEncryption" },
-        { "$ref": "#/definitions/HTTPSecurityScheme" }
+        {
+          "$ref": "#/definitions/userPassword"
+        },
+        {
+          "$ref": "#/definitions/apiKey"
+        },
+        {
+          "$ref": "#/definitions/X509"
+        },
+        {
+          "$ref": "#/definitions/symmetricEncryption"
+        },
+        {
+          "$ref": "#/definitions/asymmetricEncryption"
+        },
+        {
+          "$ref": "#/definitions/HTTPSecurityScheme"
+        }
       ]
     },
     "userPassword": {
@@ -720,9 +828,15 @@
     },
     "HTTPSecurityScheme": {
       "oneOf": [
-        { "$ref": "#/definitions/NonBearerHTTPSecurityScheme" },
-        { "$ref": "#/definitions/BearerHTTPSecurityScheme" },
-        { "$ref": "#/definitions/APIKeyHTTPSecurityScheme" }
+        {
+          "$ref": "#/definitions/NonBearerHTTPSecurityScheme"
+        },
+        {
+          "$ref": "#/definitions/BearerHTTPSecurityScheme"
+        },
+        {
+          "$ref": "#/definitions/APIKeyHTTPSecurityScheme"
+        }
       ]
     },
     "NonBearerHTTPSecurityScheme": {
@@ -835,50 +949,17 @@
         }
       }
     },
-    "title": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/title"
-    },
-    "description": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/description"
-    },
-    "default": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
-    },
-    "multipleOf": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
-    },
-    "maximum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
-    },
-    "exclusiveMaximum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
-    },
-    "minimum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
-    },
-    "exclusiveMinimum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
-    },
-    "maxLength": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
-    },
-    "minLength": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
-    },
-    "pattern": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
-    },
-    "maxItems": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
-    },
-    "minItems": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
-    },
-    "uniqueItems": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
-    },
-    "enum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+    "Reference": {
+      "type": "object",
+      "required": [
+        "$ref"
+      ],
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
     }
   }
 }
