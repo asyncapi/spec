@@ -5,7 +5,7 @@
   * (not needed for now) Headers used when connecting (i.e Content-Type).
 - [x] Events without topics.
 - [x] Move security requirements to server objects.
-- [ ] Topic parameters description.
+- [x] Topic parameters description.
 - [ ] Review XML functionality.
 - [ ] IoT:
   * String payloads (Fixed-length and variable-length fields).
