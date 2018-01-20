@@ -1,0 +1,52 @@
+asyncapi: '2.0.0'
+info:
+  title: XML Example
+  version: '1.0.0'
+
+baseTopic:
+  topic: smartylighting/{streetlightId}
+  params:
+    streetlightId:
+      description: ID of the streetlight.
+      pattern: '^ST-[0-9]{10}$'
+    
+topics:
+  turn/{onOrOff}:
+    params:
+      onOrOff:
+        description: Whether to turn lights on or off.
+        enum:
+          - on
+          - off
+    publish:
+      - $ref: '#/components/messages/turnOnOff'
+
+components:
+  messages:
+    turnOnOff:
+      summary: Command a particular streetlight to turn the lights on or off.
+      content-type: application/xml
+      payload:
+        type: object
+        xml:
+          name: turnOnOff
+        properties:
+          reason:
+            type: string
+            description: An optional explanation why you are turning lights on or off.
+            xml:
+              attribute: true
+              namespace: ns1
+              prefix: urn1
+          sentAt:
+            $ref: "#/components/schemas/sentAt"
+
+  schemas:
+    sentAt:
+      type: string
+      format: date-time
+      description: Date and time when the message was sent.
+      xml:
+        attribute: true
+        namespace: ns1
+        prefix: urn1

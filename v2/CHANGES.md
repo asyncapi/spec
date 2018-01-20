@@ -6,7 +6,8 @@
 - [x] Events without topics.
 - [x] Move security requirements to server objects.
 - [x] Topic parameters description.
-- [ ] Review XML functionality.
+- [x] Review XML functionality.
+  * Content-Type on messages
 - [ ] IoT:
   * String payloads (Fixed-length and variable-length fields).
   * Binary payloads (same as strings but describing binary values).

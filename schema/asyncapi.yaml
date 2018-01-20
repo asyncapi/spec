@@ -548,6 +548,9 @@ definitions:
       deprecated:
         type: boolean
         default: false
+      content-type:
+        type: string
+        default: application/json
       example: {}
   
   vendorExtension:
