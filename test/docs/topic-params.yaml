@@ -1,0 +1,37 @@
+asyncapi: '2.0.0'
+info:
+  title: Topic Parameters Example
+  version: '1.0.0'
+
+topics:
+  action/{streetlightId}/turn/{onOrOff}:
+    params:
+      streetlightId:
+        description: ID of the streetlight.
+        pattern: '^ST-[0-9]{10}$'
+      onOrOff:
+        description: Whether to turn lights on or off.
+        enum:
+          - on
+          - off
+    publish:
+      - $ref: '#/components/messages/turnOnOff'
+
+components:
+  messages:
+    turnOnOff:
+      summary: Command a particular streetlight to turn the lights on or off.
+      payload:
+        type: object
+        properties:
+          reason:
+            type: string
+            description: An optional explanation why you are turning lights on or off.
+          sentAt:
+            $ref: "#/components/schemas/sentAt"
+
+  schemas:
+    sentAt:
+      type: string
+      format: date-time
+      description: Date and time when the message was sent.

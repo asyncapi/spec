@@ -306,6 +306,25 @@ definitions:
     properties:
       $ref:
         type: string
+      params:
+        type: object
+        patternProperties:
+          '[a-zA-Z0-9-_]+':
+            type: object
+            properties:
+              description:
+                type: string
+            oneOf:
+              - required: ['enum']
+                properties:
+                  enum:
+                    type: array
+                    items:
+                      type: string
+              - required: ['pattern']
+                properties:
+                  pattern:
+                    type: string
       publish:
         type: array
         items:
