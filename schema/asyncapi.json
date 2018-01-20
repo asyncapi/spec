@@ -1,5 +1,5 @@
 {
-  "title": "AsyncAPI 1.0 schema.",
+  "title": "AsyncAPI 2.0.0 schema.",
   "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
@@ -107,10 +107,25 @@
       }
     },
     "baseTopic": {
-      "type": "string",
-      "pattern": "^[^/.]",
       "description": "The base topic to the API. Example: 'hitch'.",
-      "default": ""
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9]{1}",
+          "default": ""
+        },
+        {
+          "type": "object",
+          "properties": {
+            "topic": {
+              "type": "string"
+            },
+            "params": {
+              "$ref": "#/definitions/topicParams"
+            }
+          }
+        }
+      ]
     },
     "servers": {
       "type": "array",
@@ -403,42 +418,7 @@
           "type": "string"
         },
         "params": {
-          "type": "object",
-          "patternProperties": {
-            "[a-zA-Z0-9-_]+": {
-              "type": "object",
-              "properties": {
-                "description": {
-                  "type": "string"
-                }
-              },
-              "oneOf": [
-                {
-                  "required": [
-                    "enum"
-                  ],
-                  "properties": {
-                    "enum": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                },
-                {
-                  "required": [
-                    "pattern"
-                  ],
-                  "properties": {
-                    "pattern": {
-                      "type": "string"
-                    }
-                  }
-                }
-              ]
-            }
-          }
+          "$ref": "#/definitions/topicParams"
         },
         "publish": {
           "type": "array",
@@ -457,6 +437,44 @@
         "deprecated": {
           "type": "boolean",
           "default": false
+        }
+      }
+    },
+    "topicParams": {
+      "type": "object",
+      "patternProperties": {
+        "[a-zA-Z0-9-_]+": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            }
+          },
+          "oneOf": [
+            {
+              "required": [
+                "enum"
+              ],
+              "properties": {
+                "enum": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            {
+              "required": [
+                "pattern"
+              ],
+              "properties": {
+                "pattern": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
         }
       }
     },

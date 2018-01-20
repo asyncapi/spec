@@ -3,12 +3,16 @@ info:
   title: Topic Parameters Example
   version: '1.0.0'
 
+baseTopic:
+  topic: smartylighting/{streetlightId}
+  params:
+    streetlightId:
+      description: ID of the streetlight.
+      pattern: '^ST-[0-9]{10}$'
+    
 topics:
-  action/{streetlightId}/turn/{onOrOff}:
+  turn/{onOrOff}:
     params:
-      streetlightId:
-        description: ID of the streetlight.
-        pattern: '^ST-[0-9]{10}$'
       onOrOff:
         description: Whether to turn lights on or off.
         enum:
