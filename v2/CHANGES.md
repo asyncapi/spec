@@ -1,8 +1,8 @@
 - [x] Multiple messages per topic.
 - [x] Protocol-specific payload, headers.
-- [ ] HTTP Streaming.
+- [x] HTTP Streaming.
   * SSE, carriage-return, and newline.
-  * Headers used when connecting (i.e Content-Type).
+  * (not needed for now) Headers used when connecting (i.e Content-Type).
 - [ ] Events without topics.
 - [ ] Move security requirements to server objects.
 - [ ] Topic parameters description.
