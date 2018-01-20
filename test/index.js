@@ -1,31 +1,46 @@
-const util = require('util');
 const fs = require('fs');
 const path = require('path');
-const ZSchema = require('z-schema');
-const loadJsonFile = require('load-json-file');
 const YAML = require('js-yaml');
 const RefParser = require('json-schema-ref-parser');
+const ZSchema = require('z-schema');
 
 const validator = new ZSchema();
+const schema = YAML.safeLoad(fs.readFileSync(path.resolve(__dirname, '../schema/asyncapi.yaml'), 'utf8'));
 
-loadJsonFile(path.resolve(__dirname, '../schema/asyncapi.json')).then(schema => {
-  fs.readFile(path.resolve(__dirname, 'docs/sample.yml'), (err, yaml) => {
-    yaml = yaml.toString();
-    const json = YAML.safeLoad(yaml);
-    RefParser.dereference(json, {
+const testFile = async (file) => {
+  let yaml, json, derefJSON;
+  
+  try {
+    yaml = fs.readFileSync(path.resolve(__dirname, file)).toString();
+    json = YAML.safeLoad(yaml);
+    
+    derefJSON = await RefParser.dereference(json, {
       dereference: {
         circular: 'ignore'
       }
-    }).then((json) => {
-      validator.validate(json, schema, (err, valid) => {
-        if (err) return console.error(err);
-        console.log(util.inspect(json, { depth: null, colors: true }));
-        console.log('Valid:', valid);
-      });
-    }).catch((err) => {
-      console.error(err);
+    });
+  } catch (e) {
+    throw e;
+  }
+  
+  return new Promise((resolve, reject) => {
+    validator.validate(derefJSON, schema, (err, valid) => {
+      if (err) return reject(err);
+      resolve();
     });
   });
-}).catch(err => {
-  console.error(err);
+};
+
+describe('AsyncAPI 2.0.0', () => {
+  const files = fs.readdirSync(path.resolve(__dirname, 'docs'));
+  
+  files.forEach(file => {
+    it(`Passes ${file} example`, async () => {
+      try {
+        await testFile(path.resolve(__dirname, 'docs', file));
+      } catch (e) {
+        throw e;
+      }
+    });
+  });
 });

@@ -1,4 +1,4 @@
-asyncapi: '1.0.0'
+asyncapi: '2.0.0'
 info:
   title: Streetlights API
   version: '1.0.0'
@@ -19,6 +19,8 @@ servers:
   - url: api.streetlights.smartylighting.com:{port}
     scheme: mqtt
     description: Test broker
+    security:
+      - apiKey: []
     variables:
       port:
         description: Secure connection (TLS) is available through port 8883.
@@ -26,9 +28,6 @@ servers:
         enum:
           - '1883'
           - '8883'
-
-security:
-  - apiKey: []
 
 topics:
   event.{streetlightId}.lighting.measured:

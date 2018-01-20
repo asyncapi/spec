@@ -1,14 +1,15 @@
 {
   "name": "asyncapi",
   "version": "1.0.0",
-  "description": "Async API",
+  "description": "AsyncAPI specification",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js"
+    "dist": "node scripts/dist.js",
+    "test": "mocha -b test/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fmvilas/asyncapi.git"
+    "url": "git+https://github.com/asyncapi/asyncapi.git"
   },
   "author": {
     "name": "Francisco Mendez Vilas",
@@ -22,14 +23,14 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/fmvilas/asyncapi/issues"
+    "url": "https://github.com/asyncapi/asyncapi/issues"
   },
-  "homepage": "https://github.com/fmvilas/asyncapi#readme",
-  "dependencies": {
+  "homepage": "https://github.com/asyncapi/asyncapi#readme",
+  "devDependencies": {
     "js-yaml": "^3.7.0",
     "json-schema-ref-parser": "^3.1.2",
-    "load-json-file": "^2.0.0",
     "mdv": "^1.0.5",
-    "z-schema": "^3.18.2"
+    "z-schema": "^3.18.2",
+    "mocha": "^5.0.0"
   }
 }
