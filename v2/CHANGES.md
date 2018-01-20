@@ -3,8 +3,8 @@
 - [x] HTTP Streaming.
   * SSE, carriage-return, and newline.
   * (not needed for now) Headers used when connecting (i.e Content-Type).
-- [ ] Events without topics.
-- [ ] Move security requirements to server objects.
+- [x] Events without topics.
+- [x] Move security requirements to server objects.
 - [ ] Topic parameters description.
 - [ ] Review XML functionality.
 - [ ] IoT:
