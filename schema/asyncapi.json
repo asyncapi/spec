@@ -17,6 +17,11 @@
       "required": [
         "stream"
       ]
+    },
+    {
+      "required": [
+        "events"
+      ]
     }
   ],
   "additionalProperties": false,
@@ -47,6 +52,9 @@
     },
     "stream": {
       "$ref": "#/definitions/stream"
+    },
+    "events": {
+      "$ref": "#/definitions/events"
     },
     "components": {
       "$ref": "#/definitions/components"
@@ -190,6 +198,32 @@
           "uniqueItems": true
         },
         "write": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "events": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "minProperties": 1,
+      "properties": {
+        "receive": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          },
+          "uniqueItems": true
+        },
+        "send": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/message"
