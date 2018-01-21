@@ -10,4 +10,5 @@
   * Content-Type on messages
 - [x] IoT:
   * String payloads (Fixed-length and variable-length fields).
+- [x] Allow for payload media types to be documented.
 - [ ] Human-readable documentation generated from the machine-readable one.
