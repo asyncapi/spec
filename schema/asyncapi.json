@@ -605,6 +605,22 @@
           ],
           "default": {}
         },
+        "requiredItems": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "repeatableItems": {
+          "type": "boolean",
+          "default": false
+        },
+        "itemSeparator": {
+          "type": "string"
+        },
+        "value": {},
         "allOf": {
           "type": "array",
           "minItems": 1,
@@ -631,6 +647,9 @@
         },
         "externalDocs": {
           "$ref": "#/definitions/externalDocs"
+        },
+        "eol": {
+          "type": "string"
         },
         "example": {}
       },
