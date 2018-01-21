@@ -25,7 +25,7 @@ components:
   messages:
     turnOnOff:
       summary: Command a particular streetlight to turn the lights on or off.
-      content-type: application/xml
+      contentType: application/xml
       payload:
         type: object
         xml:

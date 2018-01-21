@@ -26,7 +26,7 @@ components:
   messages:
     sensorCommand:
       summary: Commands sent from sensor to broker.
-      content-type: text/plain
+      contentType: text/plain
       payload:
         type: string
         requiredItems:
@@ -68,7 +68,7 @@ components:
     
     brokerCommand:
       summary: Commands sent from broker to sensor.
-      content-type: text/plain
+      contentType: text/plain
       payload:
         type: string
         requiredItems:
