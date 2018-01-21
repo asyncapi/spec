@@ -11,7 +11,7 @@
 - [x] IoT:
   * String payloads (Fixed-length and variable-length fields).
 - [x] Allow for payload media types to be documented.
-- [ ] Add support for server.scheme 'jms'.
+- [x] Add support for server.scheme 'jms'.
 - [ ] Allow for complete topic name description through flexible baseTopic & topics.topic composition.
 - [ ] Support callback message descriptions.
 - [ ] Human-readable documentation generated from the machine-readable one.
