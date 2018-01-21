@@ -1,0 +1,248 @@
+asyncapi: '2.0.0'
+info:
+  title: Wolksense MQTT Device API
+  version: '1.0.0'
+  description: >-
+    WolkSense Sensor Data Cloud uses MQTT protocol to exchange data with devices.
+
+servers:
+  - url: wolksense.com:8883
+    scheme: secure-mqtt
+    description: WolkSense MQTT broker.
+    security:
+      - userPassword: []
+
+topics:
+  sensors.{serialNumber}:
+    publish:
+      - $ref: '#/components/messages/sensorCommand'
+  
+  config.{serialNumber}:
+    subscribe:
+      - $ref: '#/components/messages/brokerCommand'
+
+
+components:
+  messages:
+    sensorCommand:
+      summary: Commands sent from sensor to broker.
+      content-type: text/plain
+      payload:
+        type: string
+        requiredItems:
+          - 0
+        items:
+          - $ref: '#/components/schemas/RTC'
+          - type: string
+            eol: ';'
+            repeatableItems: true
+            requiredItems:
+              - 0
+              - 1
+            items:
+              - $ref: '#/components/schemas/READINGS'
+              - type: string
+                itemSeparator: '|'
+                repeatableItems: true
+                requiredItems:
+                  - 0
+                items:
+                  - type: string
+                    itemSeparator: ','
+                    repeatableItems: true
+                    requiredItems:
+                      - 0
+                    minItems: 2
+                    items:
+                      - $ref: '#/components/schemas/R'
+                      - $ref: '#/components/schemas/T'
+                      - $ref: '#/components/schemas/P'
+                      - $ref: '#/components/schemas/H'
+                      - $ref: '#/components/schemas/LT'
+                      - $ref: '#/components/schemas/STP'
+                      - $ref: '#/components/schemas/BPM'
+                      - $ref: '#/components/schemas/GEN'
+                      - $ref: '#/components/schemas/ACL'
+                      - $ref: '#/components/schemas/MAG'
+                      - $ref: '#/components/schemas/GYR'
+    
+    brokerCommand:
+      summary: Commands sent from broker to sensor.
+      content-type: text/plain
+      payload:
+        type: string
+        requiredItems:
+          - 0
+        items:
+          - $ref: '#/components/schemas/RTC'
+          - type: string
+            maxItems: 2
+            uniqueItems: true
+            items:
+              - $ref: '#/components/schemas/HEARTBEAT'            
+              - type: string
+                eol: ';'
+                requiredItems:
+                  - 0
+                  - 1
+                items:
+                  - $ref: '#/components/schemas/ALARM'
+                  - type: string
+                    repeatableItems: true
+                    itemSeparator: '|'
+                    minItems: 1
+                    items:
+                      - $ref: '#/components/schemas/T_ALARM'
+                      - $ref: '#/components/schemas/P_ALARM'
+                      - $ref: '#/components/schemas/H_ALARM'
+                      - $ref: '#/components/schemas/LT_ALARM'
+                      - $ref: '#/components/schemas/STP_ALARM'
+                      - $ref: '#/components/schemas/BPM_ALARM'
+      
+  schemas:
+    RTC:
+      type: string
+      pattern: '^RTC [0-9]{10,};$'
+      title: RTC
+      description: >-
+        Real time clock timestamp which is the number of seconds since 00:00:00 GMT on
+        January 1, 1970. This is used to synchronize clock on devices with clock from the
+        MQTT broker.
+    
+    READINGS:
+      type: string
+      value: 'READINGS '
+      title: READINGS
+      description: >-
+        Readings are sent as a list of reading types with values for a specific timestamp.
+    
+    R:
+      type: string
+      pattern: '^R:[0-9]{10,}$'
+      description: Timestamp of the reading.
+    
+    T:
+      type: string
+      pattern: '^T:[+-]{1}[0-9]{2,3}$'
+      title: Temperature
+      description: Values in Celsius degrees where the last digit reads 1/10th of degree.
+    
+    P:
+      type: string
+      pattern: '^P:[+-]{1}[0-9]{5}$'
+      title: Pressure
+      description: Value in millibars (mb, mbar) where the last digit reads 1/10th of millibar.
+    
+    H:
+      type: string
+      pattern: '^H:\+[0-9]{3}$'
+      title: Humidity
+      description: Value in % (relative air humidity) where the last digit reads 1/10th of %.
+    
+    LT:
+      type: string
+      pattern: '^LT:\+[0-9]{3}$'
+      title: Light
+      description: Value in % where the last digit reads 1/10th of %.
+    
+    STP:
+      type: string
+      pattern: '^STP:\+[0-9]+$'
+      title: Steps
+      description: Count of steps.
+    
+    BPM:
+      type: string
+      pattern: '^BPM:\+[0-9]+$'
+      title: Heartrate
+      description: Value in beats per minute (BPM).
+    
+    GEN:
+      type: string
+      pattern: '^GEN:[+-]{1}[0-9]{2,}$'
+      title: Generic
+      description: Generic value without unit where the last digit reads 1/10.
+    
+    ACL:
+      type: string
+      pattern: '^ACL:([+-]{1}[0-9]{2,}){3}$'
+      title: Accelerometer
+      description: Values for x, y and z axes in G where the last digit reads 1/10th of G.
+    
+    MAG:
+      type: string
+      pattern: '^MAG:([+-]{1}[0-9]{2,}){3}$'
+      title: Magnetometer
+      description: Values for x, y and z axes in micro Tesla (µT) where the last digit reads 1/10th µT.
+    
+    GYR:
+      type: string
+      pattern: '^GYR:([+-]{1}[0-9]{2,}){3}$'
+      title: Gyroscope
+      description: Values for x, y and z axes in degrees/second (deg/sec) where the last digit reads 1/10th deg/sec.
+    
+    HEARTBEAT:
+      type: string
+      pattern: '^HEARTBEAT [0-9]+$'
+      title: Heartbeat
+      description: How often IoT device automatically sends readings to the broker.
+    
+    ALARM:
+      type: string
+      pattern: '^ALARM [0-9]+$'
+      title: Alarm
+      description: >-
+        Low and high alarm settings for IoT device readings. Device should immediately (irrelevant
+        of heartbeat value) send reading values whenever low or high alarm thresholds are reached.
+    
+    T_ALARM:
+      type: string
+      pattern: '^T:([+-]{1}[0-9]{2,3},OFF$)|(OFF,[+-]{1}[0-9]{2,3}$)|(OFF,OFF$)'
+      title: Temperature alarm
+      description: Temperature low and high alarm values.
+    
+    P_ALARM:
+      type: string
+      pattern: '^P:([+-]{1}[0-9]{5},OFF$)|(OFF,[+-]{1}[0-9]{5}$)|(OFF,OFF$)'
+      title: Pressure alarm
+      description: Pressure low and high alarm values.
+    
+    H_ALARM:
+      type: string
+      pattern: '^H:(\+[0-9]{3},OFF$)|(OFF,\+[0-9]{3}$)|(OFF,OFF$)'
+      title: Humidity alarm
+      description: Humidity low and high alarm values.
+    
+    LT_ALARM:
+      type: string
+      pattern: '^LT:(\+[0-9]{3},OFF$)|(OFF,\+[0-9]{3}$)|(OFF,OFF$)'
+      title: Light alarm
+      description: Light low and high alarm values.
+    
+    STP_ALARM:
+      type: string
+      pattern: '^STP:(\+[0-9]+,OFF$)|(OFF,\+[0-9]+$)|(OFF,OFF$)'
+      title: Step counter alarm
+      description: Step counter low and high alarm values.
+    
+    BPM_ALARM:
+      type: string
+      pattern: '^BPM:(\+[0-9]+,OFF$)|(OFF,\+[0-9]+$)|(OFF,OFF$)'
+      title: Heartrate alarm
+      description: Heartrate low and high alarm values.
+
+  securitySchemes:
+    userPassword:
+      type: userPassword
+      description: >-
+        Username/password authentication is used to identify MQTT clients and
+        grant them access to specific topics.
+        
+        In order to connect IoT device (i.e. MQTT client) to the broker, the device should
+        be first registered on WolkSense Sensor Data Cloud. Device registration is performed
+        via RESTful Web API call, during which, credentials for MQTT broker are obtained.
+        Credentials consist of username and password, where username maps to device serial number.
+        Both device serial number and password are generated and returned in the response from
+        RESTful Web API.
+      
+      
