@@ -25,6 +25,7 @@ properties:
   
   info: { $ref: '#/definitions/info' }
   baseTopic: { $ref: '#/definitions/baseTopic' }
+  defaultMediaType: { $ref: '#/definitions/defaultMediaType' }
   servers: { $ref: '#/definitions/servers' }
   topics: { $ref: '#/definitions/topics' }
   stream: { $ref: '#/definitions/stream' }
@@ -85,7 +86,10 @@ definitions:
             type: string
           params:
             $ref: '#/definitions/topicParams'
-        
+  
+  defaultMediaType:
+    type: string
+    default: application/json
     
   servers:
     type: array
@@ -562,9 +566,8 @@ definitions:
       deprecated:
         type: boolean
         default: false
-      content-type:
+      contentType:
         type: string
-        default: application/json
       example: {}
   
   vendorExtension:

@@ -44,6 +44,9 @@
     "baseTopic": {
       "$ref": "#/definitions/baseTopic"
     },
+    "defaultMediaType": {
+      "$ref": "#/definitions/defaultMediaType"
+    },
     "servers": {
       "$ref": "#/definitions/servers"
     },
@@ -126,6 +129,10 @@
           }
         }
       ]
+    },
+    "defaultMediaType": {
+      "type": "string",
+      "default": "application/json"
     },
     "servers": {
       "type": "array",
@@ -769,9 +776,8 @@
           "type": "boolean",
           "default": false
         },
-        "content-type": {
-          "type": "string",
-          "default": "application/json"
+        "contentType": {
+          "type": "string"
         },
         "example": {}
       }
