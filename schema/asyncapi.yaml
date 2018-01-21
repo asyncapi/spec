@@ -270,6 +270,7 @@ definitions:
           - stomps
           - http
           - https
+          - jms
       schemeVersion:
         type: string
       security:
