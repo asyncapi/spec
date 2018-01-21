@@ -8,7 +8,6 @@
 - [x] Topic parameters description.
 - [x] Review XML functionality.
   * Content-Type on messages
-- [ ] IoT:
+- [x] IoT:
   * String payloads (Fixed-length and variable-length fields).
-  * Binary payloads (same as strings but describing binary values).
 - [ ] Human-readable documentation generated from the machine-readable one.
