@@ -1,0 +1,38 @@
+asyncapi: '2.0.0'
+info:
+  title: Schema Combinations Example
+  version: '1.0.0'
+    
+topics:
+  turn/{onOrOff}:
+    params:
+      onOrOff:
+        description: Whether to turn lights on or off.
+        enum:
+          - on
+          - off
+    publish:
+      - $ref: '#/components/messages/turnOnOff'
+
+components:
+  messages:
+    turnOnOff:
+      payload:
+        type: object
+        anyOf:
+          - required: ['ts']
+          - required: ['sentAt']
+        properties:
+          reason:
+            type: string
+            description: An optional explanation why you are turning lights on or off.
+            oneOf:
+              - pattern: '^REASON:.+$'
+              - pattern: '^R:.+$'
+            not:
+              pattern: '^REASON:\s*$'
+          ts:
+            type: number
+          sentAt:
+            type: string
+            format: date-time

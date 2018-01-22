@@ -652,6 +652,23 @@
             "$ref": "#/definitions/schema"
           }
         },
+        "oneOf": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/definitions/schema"
+          }
+        },
+        "anyOf": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/definitions/schema"
+          }
+        },
+        "not": {
+          "$ref": "#/definitions/schema"
+        },
         "properties": {
           "type": "object",
           "additionalProperties": {
