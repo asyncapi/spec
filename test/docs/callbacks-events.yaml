@@ -1,0 +1,59 @@
+asyncapi: '2.0.0'
+info:
+  title: Callbacks in Events Example
+  version: '1.0.0'
+
+events:
+  send:
+    - $ref: '#/components/messages/turnOnOff'
+
+components:
+  messages:
+    turnOnOff:
+      summary: Command a particular streetlight to turn the lights on or off.
+      payload:
+        type: object
+        properties:
+          messageId:
+            type: string
+            description: Message unique's ID.
+          streetlightId:
+            type: string
+            description: ID of the streetlight.
+          status:
+            type: string
+            enum:
+              - on
+              - off
+          reason:
+            type: string
+            description: An optional explanation why you are turning lights on or off.
+          sentAt:
+            type: string
+            format: date-time
+      callbacks:
+        reply:
+          message:
+            allOf:
+              - $ref: '#/components/messages/turnOnOffReply'
+              - payload:
+                  type: object
+                  properties:
+                    replyId:
+                      value: '${payload.messageId}'
+    
+    turnOnOffReply:
+      summary: Reply to the turnOnOff message.
+      payload:
+        type: object
+        properties:
+          replyId:
+            type: string
+            description: Message unique's ID identifying who is this reply for.
+          status:
+            type: string
+            enum:
+              - success
+              - error
+
+  

@@ -1,0 +1,56 @@
+asyncapi: '2.0.0'
+info:
+  title: Callbacks Example
+  version: '1.0.0'
+
+topics:
+  '{streetlightId}/turn/{onOrOff}':
+    params:
+      streetlightId:
+        description: ID of the streetlight.
+        pattern: '^ST-[0-9]{10}$'
+      onOrOff:
+        description: Whether to turn lights on or off.
+        enum:
+          - on
+          - off
+    publish:
+      - $ref: '#/components/messages/turnOnOff'
+
+components:
+  messages:
+    turnOnOff:
+      summary: Command a particular streetlight to turn the lights on or off.
+      headers:
+        type: object
+        properties:
+          reply-to:
+            type: string
+            description: Topic name where callback message should be placed.
+      payload:
+        type: object
+        properties:
+          reason:
+            type: string
+            description: An optional explanation why you are turning lights on or off.
+          sentAt:
+            type: string
+            format: date-time
+      callbacks:
+        reply:
+          topic: '{$headers.reply-to}'
+          message:
+            $ref: '#/components/messages/turnOnOffReply'
+    
+    turnOnOffReply:
+      summary: Reply to the turnOnOff message.
+      payload:
+        type: object
+        properties:
+          status:
+            type: string
+            enum:
+              - success
+              - error
+
+  

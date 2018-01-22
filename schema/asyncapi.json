@@ -726,6 +726,12 @@
         "payload": {
           "$ref": "#/definitions/schema"
         },
+        "callbacks": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/callback"
+          }
+        },
         "schemes": {
           "type": "object",
           "patternProperties": {
@@ -781,6 +787,39 @@
           "type": "string"
         },
         "example": {}
+      }
+    },
+    "callback": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "topic": {
+          "type": "string"
+        },
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/message"
+            },
+            {
+              "type": "object",
+              "required": [
+                "allOf"
+              ],
+              "properties": {
+                "allOf": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/definitions/message"
+                  }
+                }
+              }
+            }
+          ]
+        }
       }
     },
     "vendorExtension": {
