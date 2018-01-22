@@ -24,6 +24,11 @@ topics:
 components:
   messages:
     turnOnOff:
+      # Example of a turnOnOff:
+      # 
+      # <turnOnOff sentAt="2018-01-22T09:44:48.537Z">
+      #   <sample:reason>Any reason</sample:reason>
+      # </turnOnOff>
       summary: Command a particular streetlight to turn the lights on or off.
       contentType: application/xml
       payload:
@@ -36,8 +41,7 @@ components:
             description: An optional explanation why you are turning lights on or off.
             xml:
               attribute: true
-              namespace: ns1
-              prefix: urn1
+              prefix: sample
           sentAt:
             $ref: "#/components/schemas/sentAt"
 
@@ -48,5 +52,3 @@ components:
       description: Date and time when the message was sent.
       xml:
         attribute: true
-        namespace: ns1
-        prefix: urn1
