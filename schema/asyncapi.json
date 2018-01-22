@@ -214,17 +214,19 @@
         },
         "read": {
           "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/message"
-          },
-          "uniqueItems": true
+          }
         },
         "write": {
           "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/message"
-          },
-          "uniqueItems": true
+          }
         }
       }
     },
