@@ -237,20 +237,34 @@
         }
       },
       "minProperties": 1,
+      "anyOf": [
+        {
+          "required": [
+            "receive"
+          ]
+        },
+        {
+          "required": [
+            "send"
+          ]
+        }
+      ],
       "properties": {
         "receive": {
           "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/message"
-          },
-          "uniqueItems": true
+          }
         },
         "send": {
           "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
           "items": {
             "$ref": "#/definitions/message"
-          },
-          "uniqueItems": true
+          }
         }
       }
     },
