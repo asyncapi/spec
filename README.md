@@ -6,7 +6,7 @@ Part of this content has been taken from the great work done by the folks at the
 
 #### Version 1.0.0
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14](https://tools.ietf.org/html/bcp14) [RFC2119](https://tools.ietf.org/html/rfc2119) [RFC8174](https://tools.ietf.org/html/rfc8174) when, and only when, they appear in all capitals, as shown here.
 
 The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
@@ -112,7 +112,7 @@ The schema exposes two types of fields.
 Fixed fields, which have a declared name, and Patterned fields, which declare a regex pattern for the field name.
 Patterned fields can have multiple occurrences as long as each has a unique name.
 
-In order to preserve the ability to round-trip between YAML and JSON formats, YAML version [1.2](http://www.yaml.org/spec/1.2/spec.html) is recommended along with some additional constraints:
+In order to preserve the ability to round-trip between YAML and JSON formats, YAML version [1.2](http://www.yaml.org/spec/1.2/spec.html) is RECOMMENDED along with some additional constraints:
 
 - Tags MUST be limited to those allowed by the [JSON Schema ruleset](http://www.yaml.org/spec/1.2/spec.html#id2803231)
 - Keys used in YAML maps MUST be limited to a scalar string, as defined by the YAML Failsafe schema ruleset
@@ -136,11 +136,11 @@ It combines resource listing and API declaration together into one document.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
-<a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
+<a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED**. Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure SHALL be `major`.`minor`.`patch`, where `patch` versions MUST be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.\*). Patch versions will correspond to patches of this document.
+<a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED**. Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
-<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
+<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **REQUIRED**. The available topics and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -152,9 +152,9 @@ This object can be extended with [Specification Extensions](#specificationExtens
 #### <a name="A2SVersionString"></a>AsyncAPI Version String
 
 The version string signifies the version of the AsyncAPI Specification that the document complies to.
-The format for this string _must_ be `major`.`minor`.`patch`.  The `patch` _may_ be suffixed by a hyphen and extra alphanumeric characters.
+The format for this string MUST be `major`.`minor`.`patch`.  The `patch` MAY be suffixed by a hyphen and extra alphanumeric characters.
 
-A `major`.`minor` shall be used to designate the AsyncAPI Specification version, and will be considered compatible with the AsyncAPI Specification specified by that `major`.`minor` version.
+A `major`.`minor` SHALL be used to designate the AsyncAPI Specification version, and will be considered compatible with the AsyncAPI Specification specified by that `major`.`minor` version.
 The patch version will not be considered by tooling, making no distinction between `1.0.0` and `1.0.1`.
 
 In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
@@ -168,8 +168,8 @@ The metadata can be used by the clients if needed.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="infoObjectTitle"></a>title | `string` | **Required.** The title of the application.
-<a name="infoObjectVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
+<a name="infoObjectTitle"></a>title | `string` | **REQUIRED**. The title of the application.
+<a name="infoObjectVersion"></a>version | `string` | **REQUIRED**. Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
@@ -249,7 +249,7 @@ License information for the exposed API.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="licenseObjectName"></a>name | `string` | **Required.** The license name used for the API.
+<a name="licenseObjectName"></a>name | `string` | **REQUIRED**. The license name used for the API.
 <a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
 
 This object can be extended with [Specification Extensions](#specificationExtensions). 
@@ -610,7 +610,7 @@ Allows adding meta data to a single tag.
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="tagObjectName"></a>name | `string` | **Required.** The name of the tag.
+<a name="tagObjectName"></a>name | `string` | **REQUIRED**. The name of the tag.
 <a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this tag.
 
@@ -645,7 +645,7 @@ Allows referencing an external resource for extended documentation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. Value MUST be in the format of a URL.
+<a name="externalDocUrl"></a>url | `string` | **REQUIRED**. The URL for the target documentation. Value MUST be in the format of a URL.
 
 This object can be extended with [Specification Extensions](#specificationExtensions). 
 
@@ -676,7 +676,7 @@ and not by the JSON Schema specification.
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="referenceRef"></a>$ref | `string` | **Required.** The reference string.
+<a name="referenceRef"></a>$ref | `string` | **REQUIRED**. The reference string.
 
 This object cannot be extended with additional properties and any properties added SHALL be ignored.
 
