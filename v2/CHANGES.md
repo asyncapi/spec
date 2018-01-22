@@ -13,5 +13,6 @@
 - [x] Allow for payload media types to be documented.
 - [x] Add support for server.scheme 'jms'.
 - [ ] Allow for complete topic name description through flexible baseTopic & topics.topic composition.
-- [ ] Support callback message descriptions.
+- [x] Support callback message descriptions.
+- [x] Add support for "oneOf", "anyOf", and "not" on schemas.
 - [ ] Human-readable documentation generated from the machine-readable one.
