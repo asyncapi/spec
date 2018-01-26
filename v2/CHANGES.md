@@ -12,7 +12,8 @@
   * String payloads (Fixed-length and variable-length fields).
 - [x] Allow for payload media types to be documented.
 - [x] Add support for server.scheme 'jms'.
-- [ ] Allow for complete topic name description through flexible baseTopic & topics.topic composition.
 - [x] Support callback message descriptions.
 - [x] Add support for "oneOf", "anyOf", and "not" on schemas.
+- [ ] Add global property to override the default topic separator.
 - [ ] Human-readable documentation generated from the machine-readable one.
+  * Allow for complete topic name description through flexible baseTopic & topics.topic composition.
