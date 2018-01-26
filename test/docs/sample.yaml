@@ -13,7 +13,8 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
-baseTopic: smartylighting.streetlights.1.0
+baseTopic: smartylighting/streetlights/1/0
+topicSeparator: /
 
 servers:
   - url: api.streetlights.smartylighting.com:{port}
@@ -30,19 +31,19 @@ servers:
           - '8883'
 
 topics:
-  event.{streetlightId}.lighting.measured:
+  event/{streetlightId}/lighting/measured:
     publish:
       - $ref: '#/components/messages/lightMeasured'
 
-  action.{streetlightId}.turn.on:
+  action/{streetlightId}/turn/on:
     subscribe:
       - $ref: '#/components/messages/turnOnOff'
 
-  action.{streetlightId}.turn.off:
+  action/{streetlightId}/turn/off:
     subscribe:
       - $ref: '#/components/messages/turnOnOff'
 
-  action.{streetlightId}.dim:
+  action/{streetlightId}/dim:
     subscribe:
       - $ref: '#/components/messages/dimLight'
 

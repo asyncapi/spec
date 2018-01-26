@@ -33,6 +33,10 @@ properties:
     $ref: '#/definitions/baseTopic'
     description: >-
       The base topic to the API.
+  topicSeparator:
+    $ref: '#/definitions/topicSeparator'
+    description: >-
+      The string or character used to separate topic parts. For example, MQTT uses `/`, AMQP uses `.`. Defaults to `.`.
   defaultMediaType:
     $ref: '#/definitions/defaultMediaType'
     description: Sets the default media type for messages. Defaults to `application/json`.
@@ -147,6 +151,12 @@ definitions:
           params:
             $ref: '#/definitions/topicParams'
   
+  topicSeparator:
+    title: topicSeparator
+    type: string
+    default: '.'
+    x-avoid-section: true
+
   defaultMediaType:
     title: defaultMediaType
     type: string
@@ -232,21 +242,23 @@ definitions:
     title: Topic Param Object
     description: TODO
     type: object
-    properties:
-      description:
-        type: string
-        description: TODO
-      oneOf:
-        - required: ['enum']
-          properties:
-            enum:
-              type: array
-              items:
-                type: string
-        - required: ['pattern']
-          properties:
-            pattern:
+    oneOf:
+      - required: ['enum']
+        properties:
+          description:
+            type: string
+            description: TODO
+          enum:
+            type: array
+            items:
               type: string
+      - required: ['pattern']
+        properties:
+          description:
+            type: string
+            description: TODO
+          pattern:
+            type: string
 
   stream:
     title: Stream Object
