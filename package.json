@@ -27,10 +27,12 @@
   },
   "homepage": "https://github.com/asyncapi/asyncapi#readme",
   "devDependencies": {
+    "handlebars": "^4.0.11",
     "js-yaml": "^3.7.0",
     "json-schema-ref-parser": "^3.1.2",
+    "lodash": "^4.17.4",
     "mdv": "^1.0.5",
-    "z-schema": "^3.18.2",
-    "mocha": "^5.0.0"
+    "mocha": "^5.0.0",
+    "z-schema": "^3.18.2"
   }
 }

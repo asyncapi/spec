@@ -1,4 +1,8 @@
 title: AsyncAPI 2.0.0 schema.
+description: |
+  This is the root document object for the API specification. It combines resource listing and API declaration together into one document.
+  
+  One, and only one, of the following is required: `topics` or `stream` or `events`.
 id: 'http://asyncapi.hitchhq.com/v1/schema.json#'
 $schema: 'http://json-schema.org/draft-04/schema#'
 type: object
@@ -18,21 +22,48 @@ patternProperties:
     $ref: '#/definitions/vendorExtension'
 properties:
   asyncapi:
-    type: string
-    enum:
-      - 2.0.0
-    description: The AsyncAPI specification version of this document.
-  
-  info: { $ref: '#/definitions/info' }
-  baseTopic: { $ref: '#/definitions/baseTopic' }
-  defaultMediaType: { $ref: '#/definitions/defaultMediaType' }
-  servers: { $ref: '#/definitions/servers' }
-  topics: { $ref: '#/definitions/topics' }
-  stream: { $ref: '#/definitions/stream' }
-  events: { $ref: '#/definitions/events' }
-  components: { $ref: '#/definitions/components' }
-  tags: { $ref: '#/definitions/tags' }
-  externalDocs: { $ref: '#/definitions/externalDocs' }
+    $ref: '#/definitions/asyncapi'
+    description: >-
+      **REQUIRED**. Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure SHALL be `major`.`minor`.`patch`, where `patch` versions MUST be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.\*). Patch versions will correspond to patches of this document.
+  info:
+    $ref: '#/definitions/info'
+    description: >-
+      **REQUIRED**. Provides metadata about the API. The metadata can be used by the clients if needed.
+  baseTopic:
+    $ref: '#/definitions/baseTopic'
+    description: >-
+      The base topic to the API.
+  defaultMediaType:
+    $ref: '#/definitions/defaultMediaType'
+    description: Sets the default media type for messages. Defaults to `application/json`.
+  servers:
+    $ref: '#/definitions/servers'
+    description: >-
+      An array of [Server Objects](#server-object), which provide connectivity information to a target server.
+  topics:
+    $ref: '#/definitions/topics'
+    description: >-
+      The available topics and messages for the API.
+  stream:
+    $ref: '#/definitions/stream'
+    description: >-
+      The list of messages a consumer can read or write from/to a streaming API.
+  events:
+    $ref: '#/definitions/events'
+    description: >-
+      The list of messages an events API sends and/or receives.
+  components:
+    $ref: '#/definitions/components'
+    description: >-
+      An element to hold various schemas for the specification.
+  tags:
+    $ref: '#/definitions/tags'
+    description: >-
+      A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
+  externalDocs:
+    $ref: '#/definitions/externalDocs'
+    description: >-
+      Additional external documentation.
 
 # Spec definitions
 # ================
@@ -41,8 +72,23 @@ definitions:
   # First-level objects
   # ===================
   
+  asyncapi:
+    type: string
+    title: AsyncAPI Version String
+    enum:
+      - 2.0.0
+    description: |
+      The version string signifies the version of the AsyncAPI Specification that the document complies to.
+      The format for this string _must_ be `major`.`minor`.`patch`.  The `patch` _may_ be suffixed by a hyphen and extra alphanumeric characters.
+
+      A `major`.`minor` shall be used to designate the AsyncAPI Specification version, and will be considered compatible with the AsyncAPI Specification specified by that `major`.`minor` version.
+      The patch version will not be considered by tooling, making no distinction between `1.0.0` and `1.0.1`.
+
+      In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
+  
   info:
     type: object
+    title: Info Object
     description: General information about the API.
     required:
       - version
@@ -73,8 +119,22 @@ definitions:
         $ref: '#/definitions/contact'
       license:
         $ref: '#/definitions/license'
+    examples:
+      - yaml: |
+          title: AsyncAPI Sample App
+          description: This is a sample server.
+          termsOfService: http://asyncapi.org/terms/
+          contact:
+            name: API Support
+            url: http://www.asyncapi.org/support
+            email: support@asyncapi.org
+          license:
+            name: Apache 2.0
+            url: http://www.apache.org/licenses/LICENSE-2.0.html
+          version: 1.0.1
   
   baseTopic:
+    title: Base Topic Object
     description: 'The base topic to the API. Example: ''hitch''.'
     oneOf:
       - type: string
@@ -88,28 +148,109 @@ definitions:
             $ref: '#/definitions/topicParams'
   
   defaultMediaType:
+    title: defaultMediaType
     type: string
     default: application/json
+    x-avoid-section: true
     
   servers:
+    title: Servers Array
     type: array
     items:
       $ref: '#/definitions/server'
     uniqueItems: true
+    x-avoid-section: true
   
   topics:
+    title: Topics Object
     type: object
     description: >-
-      Relative paths to the individual topics. They must be relative to the
-      'baseTopic'.
+      Holds the relative paths to the individual topic and their operations.
+      The topic is appended to the [`Base Topic`](#base-topic-object) in order to construct the full one.
     patternProperties:
       ^x-:
         $ref: '#/definitions/vendorExtension'
       '^[^.]':
         $ref: '#/definitions/topicItem'
+        description: >-
+          A relative path to an individual topic. The field name MUST NOT begin with a dot. [Topic templating](#topic-templating) is allowed.
     additionalProperties: false
-  
+    examples:
+      - yaml: |
+          accounts.1.0.event.user.signup:
+            subscribe:
+              $ref: "#/components/messages/userSignedUp"
+
+  topicItem:
+    title: Topic Item Object
+    description: >-
+      Describes the operations available on a single topic.
+    type: object
+    additionalProperties: false
+    patternProperties:
+      ^x-:
+        $ref: '#/definitions/vendorExtension'
+    minProperties: 1
+    properties:
+      $ref:
+        type: string
+        x-avoid-section: true
+        description: >-
+          Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topic-item-object). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
+      params:
+        $ref: '#/definitions/topicParams'
+        description: TODO
+      publish:
+        type: array
+        description: >-
+          An array of messages a PUBLISH operation might receive on this topic.
+        items:
+          $ref: '#/definitions/message'
+        uniqueItems: true
+      subscribe:
+        type: array
+        description: >-
+          An array of messages a SUBSCRIBE operation might receive on this topic.
+        items:
+          $ref: '#/definitions/message'
+        uniqueItems: true
+      deprecated:
+        type: boolean
+        default: false
+        description: TODO
+
+  topicParams:
+    title: Topic Params Object
+    description: TODO
+    type: object
+    patternProperties:
+      '[a-zA-Z0-9-_]+':
+        description: TODO
+        $ref: '#/definitions/topicParam'
+
+  topicParam:
+    title: Topic Param Object
+    description: TODO
+    type: object
+    properties:
+      description:
+        type: string
+        description: TODO
+      oneOf:
+        - required: ['enum']
+          properties:
+            enum:
+              type: array
+              items:
+                type: string
+        - required: ['pattern']
+          properties:
+            pattern:
+              type: string
+
   stream:
+    title: Stream Object
+    description: TODO
     type: object
     additionalProperties: false
     patternProperties:
@@ -118,6 +259,8 @@ definitions:
     minProperties: 1
     properties:
       framing:
+        title: Stream Framing Object
+        description: TODO
         type: object
         patternProperties:
           ^x-:
@@ -144,7 +287,10 @@ definitions:
                 type: string
                 enum: ['\n\n']
                 default: \n\n
+      
       read:
+        title: Stream Read Object
+        description: TODO
         type: array
         uniqueItems: true
         minItems: 1
@@ -152,6 +298,8 @@ definitions:
           $ref: '#/definitions/message'
         
       write:
+        title: Stream Write Object
+        description: TODO
         type: array
         uniqueItems: true
         minItems: 1
@@ -159,6 +307,8 @@ definitions:
           $ref: '#/definitions/message'
   
   events:
+    title: Events Object
+    description: TODO
     type: object
     additionalProperties: false
     patternProperties:
@@ -170,12 +320,16 @@ definitions:
       - required: ['send']
     properties:
       receive:
+        title: Events Receive Object
+        description: TODO
         type: array
         uniqueItems: true
         minItems: 1
         items:
           $ref: '#/definitions/message'
       send:
+        title: Events Send Object
+        description: TODO
         type: array
         uniqueItems: true
         minItems: 1
@@ -183,10 +337,11 @@ definitions:
           $ref: '#/definitions/message'
   
   components:
-    type: object
+    title: Components Object
     description: >-
       An object to hold a set of reusable objects for different aspects of the
       AsyncAPI Specification.
+    type: object
     additionalProperties: false
     properties:
       schemas: { $ref: '#/definitions/schemas' }
@@ -194,6 +349,8 @@ definitions:
       securitySchemes: { $ref: '#/definitions/securitySchemes' }
   
   tags:
+    title: Tags Array
+    description: TODO
     type: array
     items:
       $ref: '#/definitions/tag'
@@ -204,8 +361,9 @@ definitions:
   # ===============================
   
   contact:
-    type: object
+    title: Contact Object
     description: Contact information for the owners of the API.
+    type: object
     additionalProperties: false
     properties:
       name:
@@ -224,6 +382,8 @@ definitions:
         $ref: '#/definitions/vendorExtension'
   
   license:
+    title: License Object
+    description: TODO
     type: object
     required:
       - name
@@ -247,8 +407,9 @@ definitions:
   # ==========================
   
   server:
-    type: object
+    title: Server Object
     description: An object representing a Server.
+    type: object
     required:
       - url
       - scheme
@@ -258,12 +419,14 @@ definitions:
         $ref: '#/definitions/vendorExtension'
     properties:
       url:
+        description: TODO
         type: string
       description:
+        description: TODO
         type: string
       scheme:
-        type: string
         description: The transfer protocol.
+        type: string
         enum:
           - kafka
           - kafka-secure
@@ -280,23 +443,29 @@ definitions:
           - https
           - jms
       schemeVersion:
+        description: TODO
         type: string
       security:
+        description: TODO
         type: array
         items: { $ref: '#/definitions/SecurityRequirement' }
       variables:
+        description: TODO
         $ref: '#/definitions/serverVariables'
   
   serverVariables:
+    title: Server Variables Object
+    description: TODO
     type: object
     additionalProperties:
       $ref: '#/definitions/serverVariable'
   
   serverVariable:
-    type: object
+    title: Server Variable Object
     description: >-
       An object representing a Server Variable for server URL template
       substitution.
+    type: object
     minProperties: 1
     additionalProperties: false
     patternProperties:
@@ -313,78 +482,32 @@ definitions:
       description:
         type: string
   
-  
-  # Topics-related definitions
-  # ==========================
-  
-  topicItem:
-    type: object
-    additionalProperties: false
-    patternProperties:
-      ^x-:
-        $ref: '#/definitions/vendorExtension'
-    minProperties: 1
-    properties:
-      $ref:
-        type: string
-      params:
-        $ref: '#/definitions/topicParams'
-      publish:
-        type: array
-        items:
-          $ref: '#/definitions/message'
-        uniqueItems: true
-      subscribe:
-        type: array
-        items:
-          $ref: '#/definitions/message'
-        uniqueItems: true
-      deprecated:
-        type: boolean
-        default: false
-  
-  topicParams:
-    type: object
-    patternProperties:
-      '[a-zA-Z0-9-_]+':
-        type: object
-        properties:
-          description:
-            type: string
-        oneOf:
-          - required: ['enum']
-            properties:
-              enum:
-                type: array
-                items:
-                  type: string
-          - required: ['pattern']
-            properties:
-              pattern:
-                type: string
-  
-  
   # Components-related definitions
   # ==============================
   
   schemas:
+    title: Schemas Object
+    description: JSON objects describing schemas the API uses.
     type: object
     additionalProperties:
       $ref: '#/definitions/schema'
-    description: JSON objects describing schemas the API uses.
   
   messages:
-    type: object
-    additionalProperties:
-      $ref: '#/definitions/message'
+    title: Messages Object
     description: >-
       JSON objects describing the messages being consumed and produced by the
       API.
+    type: object
+    additionalProperties:
+      $ref: '#/definitions/message'
   
   securitySchemes:
+    title: Security Schemes Object
+    description: TODO
     type: object
     patternProperties:
       '^[a-zA-Z0-9\.\-_]+$':
+        description: TODO
         oneOf:
           - $ref: '#/definitions/Reference'
           - $ref: '#/definitions/SecurityScheme'
@@ -394,63 +517,84 @@ definitions:
   # ==================
 
   schema:
-    type: object
+    title: Schema Object
     description: A deterministic version of a JSON Schema object.
+    type: object
     patternProperties:
       ^x-:
         $ref: '#/definitions/vendorExtension'
     properties:
       $ref:
+        description: TODO
         type: string
       format:
+        description: TODO
         type: string
       title:
-        $ref: 'http://json-schema.org/draft-04/schema#/properties/title'
+        description: TODO
+        type: string
       description:
-        $ref: 'http://json-schema.org/draft-04/schema#/properties/description'
+        description: TODO
+        type: string
       default:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/default'
       multipleOf:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/multipleOf'
       maximum:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/maximum'
       exclusiveMaximum:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum'
       minimum:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/minimum'
       exclusiveMinimum:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum'
       maxLength:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/definitions/positiveInteger'
       minLength:
-        $ref: >-
-          http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
+        description: TODO
+        $ref: http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
       pattern:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/pattern'
       maxItems:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/definitions/positiveInteger'
       minItems:
-        $ref: >-
-          http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
+        description: TODO
+        $ref: http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
       uniqueItems:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/uniqueItems'
       maxProperties:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/definitions/positiveInteger'
       minProperties:
-        $ref: >-
-          http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
+        description: TODO
+        $ref: http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0
       required:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/definitions/stringArray'
       enum:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/enum'
       additionalProperties:
+        description: TODO
         anyOf:
           - $ref: '#/definitions/schema'
           - type: boolean
         default: {}
       type:
+        description: TODO
         $ref: 'http://json-schema.org/draft-04/schema#/properties/type'
       items:
+        description: TODO
         anyOf:
           - $ref: '#/definitions/schema'
           - type: array
@@ -459,80 +603,103 @@ definitions:
               $ref: '#/definitions/schema'
         default: {}
       requiredItems:
+        description: TODO
         type: array
         items:
           type: number
         minItems: 1
         uniqueItems: true
       repeatableItems:
+        description: TODO
         type: boolean
         default: false
       itemSeparator:
+        description: TODO
         type: string
       value: {}
       allOf:
+        description: TODO
         type: array
         minItems: 1
         items:
           $ref: '#/definitions/schema'
       oneOf:
+        description: TODO
         type: array
         minItems: 2
         items:
           $ref: '#/definitions/schema'
       anyOf:
+        description: TODO
         type: array
         minItems: 2
         items:
           $ref: '#/definitions/schema'
       not:
+        description: TODO
         $ref: '#/definitions/schema'
       properties:
+        description: TODO
         type: object
         additionalProperties:
           $ref: '#/definitions/schema'
         default: {}
       discriminator:
+        description: TODO
         type: string
       readOnly:
+        description: TODO
         type: boolean
         default: false
       xml:
+        description: TODO
         $ref: '#/definitions/xml'
       externalDocs:
+        description: TODO
         $ref: '#/definitions/externalDocs'
       eol:
+        description: TODO
         type: string
       example: {}
     additionalProperties: false
   
   xml:
+    title: XML Object
+    description: TODO
     type: object
     additionalProperties: false
     properties:
       name:
+        description: TODO
         type: string
       namespace:
+        description: TODO
         type: string
       prefix:
+        description: TODO
         type: string
       attribute:
+        description: TODO
         type: boolean
         default: false
       wrapped:
+        description: TODO
         type: boolean
         default: false
   
   externalDocs:
+    title: External Docs Object
+    description: Information about external documentation
     type: object
     additionalProperties: false
-    description: information about external documentation
     required:
       - url
     properties:
       description:
+        description: TODO
         type: string
       url:
+        description: TODO
         type: string
         format: uri
     patternProperties:
@@ -540,6 +707,8 @@ definitions:
         $ref: '#/definitions/vendorExtension'
   
   message:
+    title: Message Object
+    description: Describes a message that is sent and/or received.
     type: object
     additionalProperties: false
     patternProperties:
@@ -547,62 +716,74 @@ definitions:
         $ref: '#/definitions/vendorExtension'
     properties:
       $ref:
+        description: TODO
         type: string
       headers:
+        description: TODO
         $ref: '#/definitions/schema'
       payload:
+        description: TODO
         $ref: '#/definitions/schema'
       callbacks:
+        description: TODO
         type: object
         additionalProperties:
           $ref: '#/definitions/callback'
       schemes:
+        description: TODO
         type: object
-        patternProperties:
-          .*:
-            type: object
-            required:
-              - version
-            minProperties: 2
-            additionalProperties: false
-            patternProperties:
-              ^x-:
-                $ref: '#/definitions/vendorExtension'
-            properties:
-              version:
-                type: string
-              payload:
-                $ref: '#/definitions/schema'
-              headers:
+        additionalProperties:
+          type: object
+          required:
+            - version
+          minProperties: 2
+          additionalProperties: false
+          patternProperties:
+            ^x-:
+              $ref: '#/definitions/vendorExtension'
+          properties:
+            version:
+              type: string
+            payload:
+              $ref: '#/definitions/schema'
+            headers:
                 $ref: '#/definitions/schema'
       tags:
+        description: TODO
         type: array
         items:
           $ref: '#/definitions/tag'
         uniqueItems: true
       summary:
-        type: string
         description: A brief summary of the message.
-      description:
         type: string
+      description:
         description: A longer description of the message. CommonMark is allowed.
+        type: string
       externalDocs:
+        description: TODO
         $ref: '#/definitions/externalDocs'
       deprecated:
+        description: TODO
         type: boolean
         default: false
       contentType:
+        description: TODO
         type: string
       example: {}
   
   callback:
+    title: Callback Object
+    description: TODO
     type: object
     required:
       - message
     properties:
       topic:
+        description: TODO
         type: string
       message:
+        description: TODO
         oneOf:
           - $ref: '#/definitions/message'
           - type: object
@@ -616,27 +797,38 @@ definitions:
                   $ref: '#/definitions/message'
   
   vendorExtension:
-    description: Any property starting with x- is valid.
+    title: Specification Extensions
+    description: |
+      While the AsyncAPI Specification tries to accommodate most use cases, additional data can be added to extend the specification at certain points.
+
+      The extensions properties are implemented as patterned fields that are always prefixed by `"x-"`.
     additionalProperties: true
     additionalItems: true
   
   tag:
+    title: Tag Object
+    description: TODO
     type: object
     additionalProperties: false
     required:
       - name
     properties:
       name:
+        description: TODO
         type: string
       description:
+        description: TODO
         type: string
       externalDocs:
+        description: TODO
         $ref: '#/definitions/externalDocs'
     patternProperties:
       ^x-:
         $ref: '#/definitions/vendorExtension'
   
   SecurityScheme:
+    title: Security Scheme Object
+    description: TODO
     oneOf:
       - $ref: '#/definitions/userPassword'
       - $ref: '#/definitions/apiKey'
@@ -646,6 +838,8 @@ definitions:
       - $ref: '#/definitions/HTTPSecurityScheme'
   
   userPassword:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -661,6 +855,8 @@ definitions:
     additionalProperties: false
   
   apiKey:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -682,6 +878,8 @@ definitions:
     additionalProperties: false
   
   X509:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -697,6 +895,8 @@ definitions:
     additionalProperties: false
   
   symmetricEncryption:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -712,6 +912,8 @@ definitions:
     additionalProperties: false
   
   asymmetricEncryption:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -727,12 +929,16 @@ definitions:
     additionalProperties: false
   
   HTTPSecurityScheme:
+    title: TODO
+    description: TODO
     oneOf:
       - $ref: '#/definitions/NonBearerHTTPSecurityScheme'
       - $ref: '#/definitions/BearerHTTPSecurityScheme'
       - $ref: '#/definitions/APIKeyHTTPSecurityScheme'
   
   NonBearerHTTPSecurityScheme:
+    title: TODO
+    description: TODO
     not:
       type: object
       properties:
@@ -758,6 +964,8 @@ definitions:
     additionalProperties: false
   
   BearerHTTPSecurityScheme:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -780,6 +988,8 @@ definitions:
     additionalProperties: false
   
   APIKeyHTTPSecurityScheme:
+    title: TODO
+    description: TODO
     type: object
     required:
       - type
@@ -805,6 +1015,8 @@ definitions:
     additionalProperties: false
   
   SecurityRequirement:
+    title: TODO
+    description: TODO
     type: object
     additionalProperties:
       type: array
@@ -812,6 +1024,8 @@ definitions:
         type: string
 
   Reference:
+    title: TODO
+    description: TODO
     type: object
     required:
       - $ref
