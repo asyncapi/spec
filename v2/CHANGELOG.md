@@ -6,7 +6,7 @@
   * [HTTP Streaming.](#http-streaming)
   * [WebSockets APIs.](#websockets-apis)
   * [Moved security requirements to server objects.](#moved-security-requirements-to-server-objects)
-  * Topic parameters description.
+  * [Topic parameters definition.](#topic-parameters-definition)
   * Review XML functionality.
     * Content-Type on messages
   * IoT:
@@ -29,7 +29,7 @@ It is a breaking change, because a topic operation (subscribe or publish) is now
 
 Some APIs allow you to connect using multiple schemes, i.e. AMQP and MQTT. Now it's possible to document specific payload or header fields depending on the scheme and version. Kudos to [@gmr](https://github.com/gmr) for [the idea](https://github.com/asyncapi/asyncapi/issues/42).
 
-### HTTP Streaming
+### HTTP streaming
 
 This is a major new feature in AsyncAPI. We can now document Streaming APIs. It supports two different types of framing:
   * HTTP chunked transfer encoding.
@@ -46,4 +46,10 @@ Kudos to [@jkarneges](https://github.com/jkarneges) for [the idea and the docume
 ### Moved security requirements to server objects
 
 Security requirements have been moved to the Server Object. Since AsyncAPI supports specifying the scheme for every server, it makes more sense to define security requirements for each particular server definition, instead of having a single security requirement for the whole API.
+
+### Topic parameters definition
+
+Since AsyncAPI v1.0.0, topics support templating, i.e. you can define replaceable parts or _parameters_. Now it is possible to define rules for these parameters. So far, you can specify a description, and a set of allowed values or a regular expression pattern it should match.
+
+
 
