@@ -9,8 +9,7 @@
   * [Topic parameters definition.](#topic-parameters-definition)
   * [Message Content-Type.](#message-content-type)
   * [Structured string payloads.](#structured-string-payloads)
-  * Allow for payload media types to be documented.
-  * Add support for server.scheme 'jms'.
+  * [Added JMS scheme.](#added-jms-scheme)
   * Support callback message descriptions.
   * Add support for "oneOf", "anyOf", and "not" on schemas.
   * Add global property to override the default topic separator.
@@ -61,4 +60,9 @@ Kudos to [@wout3r](https://github.com/wout3r) for [the idea](https://github.com/
 
 In an effort to help document IoT APIs, it is now possible to describe structured string payloads. Many IoT APIs don't use JSON, but instead, they choose to create their own custom format to reduce the number of bytes they send through the wire.
 
+### Added JMS scheme
+
+You can now use `jms` as a scheme.
+
+Kudos to [@wout3r](https://github.com/wout3r) for [the proposal](https://github.com/asyncapi/asyncapi/issues/52)
 
