@@ -110,4 +110,4 @@ defs.forEach(key => {
   output += `${renderSection(schema.definitions[key], key)}\n`;
 });
 
-fs.writeFileSync(path.resolve(__dirname, 'TEST.md'), output);
+fs.writeFileSync(path.resolve(__dirname, '../v2/README.md'), output);
