@@ -1,3 +1,8 @@
+/**
+ * The purpose of this script is to generate the asyncapi.json
+ * from the asyncapi.yaml file.
+ */
+
 const fs = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
