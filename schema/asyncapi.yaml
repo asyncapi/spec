@@ -37,9 +37,9 @@ properties:
     $ref: '#/definitions/topicSeparator'
     description: >-
       The string or character used to separate topic parts. For example, MQTT uses `/`, AMQP uses `.`. Defaults to `.`.
-  defaultMediaType:
-    $ref: '#/definitions/defaultMediaType'
-    description: Sets the default media type for messages. Defaults to `application/json`.
+  defaultContentType:
+    $ref: '#/definitions/defaultContentType'
+    description: Sets the default content type for messages. Defaults to `application/json`.
   servers:
     $ref: '#/definitions/servers'
     description: >-
@@ -157,8 +157,8 @@ definitions:
     default: '.'
     x-avoid-section: true
 
-  defaultMediaType:
-    title: defaultMediaType
+  defaultContentType:
+    title: defaultContentType
     type: string
     default: application/json
     x-avoid-section: true

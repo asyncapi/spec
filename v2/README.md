@@ -12,7 +12,7 @@ Field Name | Type | Description
 <a name="asyncapi-info-object"></a>`info` | [Info Object](#info-object)| **REQUIRED**. Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="asyncapi-base-topic-object"></a>`baseTopic` | [Base Topic Object](#base-topic-object)| The base topic to the API.
 <a name="asyncapi-topic-separator"></a>`topicSeparator` | `topicSeparator` | The string or character used to separate topic parts. For example, MQTT uses `/`, AMQP uses `.`. Defaults to `.`.
-<a name="asyncapi-default-media-type"></a>`defaultMediaType` | `defaultMediaType` | Sets the default media type for messages. Defaults to `application/json`.
+<a name="asyncapi-default-content-type"></a>`defaultContentType` | `defaultContentType` | Sets the default content type for messages. Defaults to `application/json`.
 <a name="asyncapi-servers-array"></a>`servers` | `Servers Array` | An array of [Server Objects](#server-object), which provide connectivity information to a target server.
 <a name="asyncapi-topics-object"></a>`topics` | [Topics Object](#topics-object)| The available topics and messages for the API.
 <a name="asyncapi-stream-object"></a>`stream` | [Stream Object](#stream-object)| The list of messages a consumer can read or write from/to a streaming API.
