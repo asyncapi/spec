@@ -4,7 +4,10 @@
   "description": "AsyncAPI specification",
   "main": "index.js",
   "scripts": {
+    "docs:dev": "nodemon -w ./schema -w ./docs -e md,yaml scripts/docs.js",
+    "docs": "node scripts/docs.js",
     "dist": "node scripts/dist.js",
+    "test:dev": "nodemon -w ./schema -w ./test/docs -e yaml --exec 'mocha -b test/index.js'",
     "test": "mocha -b test/index.js"
   },
   "repository": {
@@ -33,6 +36,7 @@
     "lodash": "^4.17.4",
     "mdv": "^1.0.5",
     "mocha": "^5.0.0",
+    "nodemon": "^1.14.11",
     "z-schema": "^3.18.2"
   }
 }
