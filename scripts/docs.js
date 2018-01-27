@@ -1,3 +1,16 @@
+/**
+ * The purpose of this script is to generate human-readable
+ * documentation from the asyncapi.yaml file. This way we
+ * always keep both in sync.
+ *
+ * We make use of different templates:
+ * - README.md: This is the template for the global document. This document will contain the
+ *              auto-generated documentation.
+ * - SECTION.md: This is the template for every object or "section" we want to document.
+ * - TABLE.md: This is the template for every table of properties (Fixed Fields) and pattern
+ *             properties (Patterned Fields).
+ */
+
 const fs = require('fs');
 const path = require('path');
 const YAML = require('js-yaml');
