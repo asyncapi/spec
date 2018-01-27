@@ -5,7 +5,7 @@
   * [Scheme-specific payload and headers.](#scheme-specific-payload-and-headers)
   * [HTTP Streaming.](#http-streaming)
   * [WebSockets APIs.](#websockets-apis)
-  * Move security requirements to server objects.
+  * [Moved security requirements to server objects.](#moved-security-requirements-to-server-objects)
   * Topic parameters description.
   * Review XML functionality.
     * Content-Type on messages
@@ -42,3 +42,8 @@ Kudos to [@jkarneges](https://github.com/jkarneges) for [the idea and the docume
 This is another major new feature in AsyncAPI. We can now document event-driven APIs that don't know or implement the concept of a _topic_, i.e. WebSockets APIs.
 
 Kudos to [@jkarneges](https://github.com/jkarneges) for [the idea and the documentation provided](https://github.com/asyncapi/asyncapi/issues/47).
+
+### Moved security requirements to server objects
+
+Security requirements have been moved to the Server Object. Since AsyncAPI supports specifying the scheme for every server, it makes more sense to define security requirements for each particular server definition, instead of having a single security requirement for the whole API.
+
