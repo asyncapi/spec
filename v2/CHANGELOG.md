@@ -19,10 +19,6 @@
   - Add support for "oneOf", "anyOf", and "not" on schemas.
   - Add global property to override the default topic separator.
 
-## Missing tasks
-  - Human-readable documentation generated from the machine-readable one.
-  - Allow for complete topic name description through flexible baseTopic & topics.topic composition.
-
 ## Descriptions
 
 ### Multiple messages per topic
