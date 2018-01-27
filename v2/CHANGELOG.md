@@ -7,8 +7,7 @@
   * [WebSockets APIs.](#websockets-apis)
   * [Moved security requirements to server objects.](#moved-security-requirements-to-server-objects)
   * [Topic parameters definition.](#topic-parameters-definition)
-  * Review XML functionality.
-    * Content-Type on messages
+  * [Message Content-Type.](#message-content-type)
   * IoT:
     * String payloads (Fixed-length and variable-length fields).
   * Allow for payload media types to be documented.
@@ -51,5 +50,12 @@ Security requirements have been moved to the Server Object. Since AsyncAPI suppo
 
 Since AsyncAPI v1.0.0, topics support templating, i.e. you can define replaceable parts or _parameters_. Now it is possible to define rules for these parameters. So far, you can specify a description, and a set of allowed values or a regular expression pattern it should match.
 
+Kudos to [@riccardo1991](https://github.com/riccardo1991) for [reporting it](https://github.com/asyncapi/asyncapi/issues/51).
+
+### Message Content-Type
+
+We can now define the content type of a message. This field accepts any MIME type. Along with it, a root property `defaultContentType` has also been added, to override the default content type for messages.
+
+Kudos to [@wout3r](https://github.com/asyncapi/asyncapi/issues/54) for [the idea](https://github.com/asyncapi/asyncapi/issues/54).
 
 
