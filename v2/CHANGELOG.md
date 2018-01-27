@@ -4,7 +4,7 @@
   * [Multiple messages per topic.](#multiple-messages-per-topic)
   * [Scheme-specific payload and headers.](#scheme-specific-payload-and-headers)
   * [HTTP Streaming.](#http-streaming)
-  * Events without topics.
+  * [WebSockets APIs.](#websockets-apis)
   * Move security requirements to server objects.
   * Topic parameters description.
   * Review XML functionality.
@@ -31,8 +31,14 @@ Some APIs allow you to connect using multiple schemes, i.e. AMQP and MQTT. Now i
 
 ### HTTP Streaming
 
-This is a major new thing in AsyncAPI. We can now document Streaming APIs. It supports two different types of framing:
+This is a major new feature in AsyncAPI. We can now document Streaming APIs. It supports two different types of framing:
   * HTTP chunked transfer encoding.
   * HTTP server-sent events.
 
-Kudos to [@jkarneges](https://github.com/jkarneges) for [the idea](https://github.com/asyncapi/asyncapi/issues/47).
+Kudos to [@jkarneges](https://github.com/jkarneges) for [the idea and the documentation provided](https://github.com/asyncapi/asyncapi/issues/47).
+
+### WebSockets APIs
+
+This is another major new feature in AsyncAPI. We can now document event-driven APIs that don't know or implement the concept of a _topic_, i.e. WebSockets APIs.
+
+Kudos to [@jkarneges](https://github.com/jkarneges) for [the idea and the documentation provided](https://github.com/asyncapi/asyncapi/issues/47).
