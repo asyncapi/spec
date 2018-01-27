@@ -8,8 +8,7 @@
   * [Moved security requirements to server objects.](#moved-security-requirements-to-server-objects)
   * [Topic parameters definition.](#topic-parameters-definition)
   * [Message Content-Type.](#message-content-type)
-  * IoT:
-    * String payloads (Fixed-length and variable-length fields).
+  * [Structured string payloads.](#structured-string-payloads)
   * Allow for payload media types to be documented.
   * Add support for server.scheme 'jms'.
   * Support callback message descriptions.
@@ -56,6 +55,10 @@ Kudos to [@riccardo1991](https://github.com/riccardo1991) for [reporting it](htt
 
 We can now define the content type of a message. This field accepts any MIME type. Along with it, a root property `defaultContentType` has also been added, to override the default content type for messages.
 
-Kudos to [@wout3r](https://github.com/asyncapi/asyncapi/issues/54) for [the idea](https://github.com/asyncapi/asyncapi/issues/54).
+Kudos to [@wout3r](https://github.com/wout3r) for [the idea](https://github.com/asyncapi/asyncapi/issues/54).
+
+### Structured string payloads
+
+In an effort to help document IoT APIs, it is now possible to describe structured string payloads. Many IoT APIs don't use JSON, but instead, they choose to create their own custom format to reduce the number of bytes they send through the wire.
 
 
