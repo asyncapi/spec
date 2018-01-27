@@ -4,14 +4,28 @@ const YAML = require('js-yaml');
 const Handlebars = require('handlebars');
 const _ = require('lodash');
 
+/**
+ * Loads template for a "section".
+ */
 const sectionTemplateSource = fs.readFileSync(path.resolve(__dirname, '../docs/SECTION.md'), 'utf8');
 const sectionTemplate = Handlebars.compile(sectionTemplateSource);
+/**
+ * Loads template for a "table".
+ */
 const tableTemplateSource = fs.readFileSync(path.resolve(__dirname, '../docs/TABLE.md'), 'utf8');
 const tableTemplate = Handlebars.compile(tableTemplateSource);
 
+/**
+ * Loads the AsyncAPI spec.
+ */
 const schema = YAML.safeLoad(fs.readFileSync(path.resolve(__dirname, '../schema/asyncapi.yaml'), 'utf8'));
-const defs = Object.keys(schema.definitions);
 
+/**
+ * It resolves a single $ref.
+ * 
+ * @param  {Object} obj An object containing a $ref property pointing to an internal definition.
+ * @return {Object} The pointed out object.
+ */
 const resolveRef = (obj) => {
   const ref = obj['$ref'];
   if (ref && ref.startsWith('#/definitions')) {
@@ -20,10 +34,23 @@ const resolveRef = (obj) => {
   }
 };
 
+/**
+ * Generates an internal link (#something) from a title.
+ * 
+ * @param  {String} title A title.
+ * @return {String} An internal link.
+ */
 const createLinkFromTitle = (title) => {
   return _.kebabCase(title);
 };
 
+/**
+ * Generates a Markdown Fixed Fields table from an object definition.
+ * 
+ * @param  {Object} section    A documentation section object.
+ * @param  {String} sectionKey The key name of the documentation section.
+ * @return {String}            Markdown table.
+ */
 const generateFixedFieldsTable = (section, sectionKey) => {
   if (section.properties) {
     let props = Object.keys(section.properties);
@@ -57,6 +84,13 @@ const generateFixedFieldsTable = (section, sectionKey) => {
   }
 };
 
+/**
+ * Generates a Markdown Patterned Fields table from an object definition.
+ * 
+ * @param  {Object} section    A documentation section object.
+ * @param  {String} sectionKey The key name of the documentation section.
+ * @return {String}            Markdown table.
+ */
 const generatePatternedFieldsTable = (section, sectionKey) => {
   let props = Object.keys(section.patternProperties || {});
   
@@ -82,6 +116,12 @@ const generatePatternedFieldsTable = (section, sectionKey) => {
   }
 };
 
+/**
+ * Generates JSON examples from the YAML ones, if it doesn't exist.
+ * 
+ * @param  {Object} examples Examples object.
+ * @return {Object}          An object containing JSON and YAML examples.
+ */
 const preprocessExamples = (examples) => {
   return (examples || []).map(example => {
     example.json = example.json || JSON.stringify(YAML.safeLoad(example.yaml), null, 2);
@@ -89,6 +129,13 @@ const preprocessExamples = (examples) => {
   });
 };
 
+/**
+ * Generates Markdown for a documentation section.
+ * 
+ * @param  {Object} section    A documentation section object.
+ * @param  {String} sectionKey The key name of the documentation section.
+ * @return {String}            Markdown for the given section.
+ */
 const renderSection = (section, sectionKey) => {
   if (section['x-avoid-section']) return '';
   
@@ -105,9 +152,20 @@ const renderSection = (section, sectionKey) => {
   });
 };
 
+/**
+ * Render top-level object as a documentation section.
+ */
 let output = renderSection(schema, 'asyncapi');
+
+/**
+ * Render each definition as a documentation section.
+ */
+const defs = Object.keys(schema.definitions);
 defs.forEach(key => {
   output += `${renderSection(schema.definitions[key], key)}\n`;
 });
 
+/**
+ * Store result in the README file.
+ */
 fs.writeFileSync(path.resolve(__dirname, '../v2/README.md'), output);
