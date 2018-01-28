@@ -11,7 +11,7 @@
   * [Structured string payloads.](#structured-string-payloads)
   * [Added JMS scheme.](#added-jms-scheme)
   * [Callback messages.](#callback-messages)
-  * Add support for "oneOf", "anyOf", and "not" on schemas.
+  * [Support for "oneOf", "anyOf", and "not" on schemas.](#support-for-oneof-anyof-and-not-on-schemas)
   * Add global property to override the default topic separator.
 
 ## Descriptions
@@ -69,4 +69,13 @@ Kudos to [@wout3r](https://github.com/wout3r) for [the proposal](https://github.
 ### Callback messages
 
 This is a cool new feature that will help document RPC operations in message-driven systems. It allows to define a message that will serve as a response to another one.
+
+Kudos to [@wout3r](https://github.com/wout3r) for [the proposal](https://github.com/asyncapi/asyncapi/issues/55)
+
+### Support for "oneOf", "anyOf", and "not" on schemas
+
+It is more a bugfix than a feature. For some reason `oneOf`, `anyOf` and `not` were left out in version 1.0.0. They are now included. 
+
+Kudos to [@wout3r](https://github.com/wout3r) and [@SensibleWood](https://github.com/SensibleWood) for reporting it.
+
 
