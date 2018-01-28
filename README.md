@@ -8,7 +8,7 @@ Part of this content has been taken from the great work done by the folks at the
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [BCP 14](https://tools.ietf.org/html/bcp14) [RFC2119](https://tools.ietf.org/html/rfc2119) [RFC8174](https://tools.ietf.org/html/rfc8174) when, and only when, they appear in all capitals, as shown here.
 
-The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
 
 ## Introduction
 
@@ -183,15 +183,15 @@ This object can be extended with [Specification Extensions](#specificationExtens
 {
   "title": "AsyncAPI Sample App",
   "description": "This is a sample server.",
-  "termsOfService": "http://asyncapi.org/terms/",
+  "termsOfService": "https://asyncapi.org/terms/",
   "contact": {
     "name": "API Support",
-    "url": "http://www.asyncapi.org/support",
+    "url": "https://www.asyncapi.org/support",
     "email": "support@asyncapi.org"
   },
   "license": {
     "name": "Apache 2.0",
-    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
   },
   "version": "1.0.1"
 }
@@ -200,14 +200,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 title: AsyncAPI Sample App
 description: This is a sample server.
-termsOfService: http://asyncapi.org/terms/
+termsOfService: https://asyncapi.org/terms/
 contact:
   name: API Support
-  url: http://www.asyncapi.org/support
+  url: https://www.asyncapi.org/support
   email: support@asyncapi.org
 license:
   name: Apache 2.0
-  url: http://www.apache.org/licenses/LICENSE-2.0.html
+  url: https://www.apache.org/licenses/LICENSE-2.0.html
 version: 1.0.1
 ```
 
@@ -230,14 +230,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "name": "API Support",
-  "url": "http://www.example.com/support",
+  "url": "https://www.example.com/support",
   "email": "support@example.com"
 }
 ```
 
 ```yaml
 name: API Support
-url: http://www.example.com/support
+url: https://www.example.com/support
 email: support@example.com
 ```
 
@@ -259,13 +259,13 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "name": "Apache 2.0",
-  "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+  "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
 }
 ```
 
 ```yaml
 name: Apache 2.0
-url: http://www.apache.org/licenses/LICENSE-2.0.html
+url: https://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
 
@@ -1343,7 +1343,7 @@ In this example, a full model definition is shown.
       "name": {
         "type": "string",
         "xml": {
-          "namespace": "http://example.com/schema/sample",
+          "namespace": "https://example.com/schema/sample",
           "prefix": "sample"
         }
       }
@@ -1364,13 +1364,13 @@ Person:
     name:
       type: string
       xml:
-        namespace: http://example.com/schema/sample
+        namespace: https://example.com/schema/sample
         prefix: sample
 ```
 
 ```xml
 <Person id="123">
-    <sample:name xmlns:sample="http://example.com/schema/sample">example</sample:name>
+    <sample:name xmlns:sample="https://example.com/schema/sample">example</sample:name>
 </Person>
 ```
 
@@ -1786,6 +1786,6 @@ string | `string` | | |
 byte | `string` | `byte` | base64 encoded characters
 binary | `string` | `binary` | any sequence of octets
 boolean | `boolean` | | |
-date | `string` | `date` | As defined by `full-date` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
-dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+date | `string` | `date` | As defined by `full-date` - [RFC3339](https://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](https://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
 password | `string` | `password` | Used to hint UIs the input needs to be obscured.
