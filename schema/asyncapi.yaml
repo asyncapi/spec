@@ -33,8 +33,8 @@ properties:
     $ref: '#/definitions/baseTopic'
     description: >-
       The base topic to the API.
-  topicSeparator:
-    $ref: '#/definitions/topicSeparator'
+  defaultTopicSeparator:
+    $ref: '#/definitions/defaultTopicSeparator'
     description: >-
       The string or character used to separate topic parts. For example, MQTT uses `/`, AMQP uses `.`. Defaults to `.`.
   defaultContentType:
@@ -151,8 +151,8 @@ definitions:
           params:
             $ref: '#/definitions/topicParams'
   
-  topicSeparator:
-    title: topicSeparator
+  defaultTopicSeparator:
+    title: defaultTopicSeparator
     type: string
     default: '.'
     x-avoid-section: true
