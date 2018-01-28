@@ -12,7 +12,7 @@
   * [Added JMS scheme.](#added-jms-scheme)
   * [Callback messages.](#callback-messages)
   * [Support for "oneOf", "anyOf", and "not" on schemas.](#support-for-oneof-anyof-and-not-on-schemas)
-  * Add global property to override the default topic separator.
+  * [Override default topic separator.](#override-default-topic-separator)
 
 ## Descriptions
 
@@ -78,4 +78,6 @@ It is more a bugfix than a feature. For some reason `oneOf`, `anyOf` and `not` w
 
 Kudos to [@wout3r](https://github.com/wout3r) and [@SensibleWood](https://github.com/SensibleWood) for reporting it.
 
+### Override default topic separator
 
+It is now possible to override the default topic separator by specifying `defaultTopicSeparator`. This value will be used to concatenate the base topic (if it exists) with every topic. A common use case is to set it to `/` when documenting MQTT APIs.
