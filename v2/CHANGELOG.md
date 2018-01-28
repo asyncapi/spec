@@ -10,7 +10,7 @@
   * [Message Content-Type.](#message-content-type)
   * [Structured string payloads.](#structured-string-payloads)
   * [Added JMS scheme.](#added-jms-scheme)
-  * Support callback message descriptions.
+  * [Callback messages.](#callback-messages)
   * Add support for "oneOf", "anyOf", and "not" on schemas.
   * Add global property to override the default topic separator.
 
@@ -65,4 +65,8 @@ In an effort to help document IoT APIs, it is now possible to describe structure
 You can now use `jms` as a scheme.
 
 Kudos to [@wout3r](https://github.com/wout3r) for [the proposal](https://github.com/asyncapi/asyncapi/issues/52)
+
+### Callback messages
+
+This is a cool new feature that will help document RPC operations in message-driven systems. It allows to define a message that will serve as a response to another one.
 
