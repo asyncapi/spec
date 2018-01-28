@@ -14,7 +14,7 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 baseTopic: smartylighting/streetlights/1/0
-topicSeparator: /
+defaultTopicSeparator: /
 
 servers:
   - url: api.streetlights.smartylighting.com:{port}
