@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [Open API Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [Open API Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 1.0.0
+#### Version 1.1.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
 
@@ -223,7 +223,7 @@ Field Name | Type | Description
 <a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. MUST be in the format of a URL.
 <a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Contact Object Example:
 
@@ -252,7 +252,7 @@ Field Name | Type | Description
 <a name="licenseObjectName"></a>name | `string` | **Required.** The license name used for the API.
 <a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### License Object Example:
 
@@ -298,7 +298,8 @@ An object representing a Server.
 Field Name | Type | Description
 ---|:---:|---
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
-<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `amqp`, `amqps`, `mqtt`, `mqtts`, `ws`, `wss`, `stomp`, `stomps`.
+<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `kafka`, `kafka-secure`, `amqp`, `amqps`, `mqtt`, `secure-mqtt`, `ws`, `wss`, `stomp`, `stomps`, `jms`.
+<a name="serverObjectSchemeVersion"></a>schemeVersion | `string` | The version of the scheme. For instance: AMQP `0.9.1`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 
@@ -312,14 +313,16 @@ A single server would be described as:
 {
   "url": "development.gigantic-server.com",
   "description": "Development server",
-  "scheme": "mqtts"
+  "scheme": "kafka",
+  "schemeVersion": "1.0.0"
 }
 ```
 
 ```yaml
 url: development.gigantic-server.com
 description: Development server
-scheme: mqtts
+scheme: kafka
+schemeVersion: '1.0.0'
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -330,17 +333,20 @@ The following shows how multiple servers can be described, for example, at the A
     {
       "url": "development.gigantic-server.com",
       "description": "Development server",
-      "scheme": "mqtts"
+      "scheme": "amqp",
+      "schemeVersion": "0.9.1"
     },
     {
       "url": "staging.gigantic-server.com",
       "description": "Staging server",
-      "scheme": "mqtts"
+      "scheme": "amqp",
+      "schemeVersion": "0.9.1"
     },
     {
       "url": "api.gigantic-server.com",
       "description": "Production server",
-      "scheme": "mqtts"
+      "scheme": "amqp",
+      "schemeVersion": "0.9.1"
     }
   ]
 }
@@ -350,13 +356,16 @@ The following shows how multiple servers can be described, for example, at the A
 servers:
 - url: development.gigantic-server.com
   description: Development server
-  scheme: mqtts
+  scheme: amqp
+  schemeVersion: 0.9.1
 - url: staging.gigantic-server.com
   description: Staging server
-  scheme: mqtts
+  scheme: amqp
+  schemeVersion: 0.9.1
 - url: api.gigantic-server.com
   description: Production server
-  scheme: mqtts
+  scheme: amqp
+  schemeVersion: 0.9.1
 ```
 
 The following shows how variables can be used for a server configuration:
@@ -439,7 +448,7 @@ Field Pattern | Type | Description
 ---|:---:|---
 <a name="topicsObjectTopic"></a>^[^.]{topic} | [Topic Item Object](#topicItemObject) | A relative path to an individual topic. The field name MUST NOT begin with a dot. [Topic templating](#definitionsTopicTemplating) is allowed.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Topics Object Example
 
@@ -471,10 +480,11 @@ Describes the operations available on a single topic.
 Field Name | Type | Description
 ---|:---:|---
 <a name="topicItemObjectRef"></a>$ref | `string` | Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topicItemObject). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
-<a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) | A definition of the message a SUBSCRIBE operation will receive on this topic.
-<a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) | A definition of the message a PUBLISH operation will receive on this topic.
+<a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject)] | A list of the parameters included in the topic name, if using [topic templating](#definitionsTopicTemplating).
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Topic Item Object Example
 
@@ -511,6 +521,80 @@ subscribe:
         $ref: "#/components/schemas/signup"
 ```
 
+Using `oneOf` to specify multiple messages per operation:
+
+```json
+{
+  "subscribe": {
+    "oneOf": [
+      { "$ref": "#/components/messages/signup" },
+      { "$ref": "#/components/messages/login" }
+    ]
+  }
+}
+```
+
+```yaml
+subscribe:
+  oneOf:
+    - $ref: '#/components/messages/signup'
+    - $ref: '#/components/messages/login'
+```
+
+
+
+
+
+
+
+#### <a name="parameterObject"></a>Parameter Object
+
+Describes a parameter included in a topic name.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="parameterObjectName"></a>name | `string` | The name of the parameter.
+<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Parameter Object Example
+
+```json
+{
+  "user.{userId}.signup": {
+    "parameters": [
+      {
+        "name": "userId",
+        "description": "Id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "subscribe": {
+      "$ref": "#/components/messages/userSignedUp"
+    }
+  }
+}
+```
+
+```yaml
+user.{userId}.signup:
+  parameters:
+    - name: userId
+      description: Id of the user.
+      schema:
+        type: string
+  subscribe:
+    $ref: "#/components/messages/userSignedUp"
+```
+
+
+
 
 
 #### <a name="messageObject"></a>Message Object
@@ -528,7 +612,7 @@ Field Name | Type | Description
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Message Object Example
 
@@ -605,7 +689,7 @@ Field Name | Type | Description
 <a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this tag.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Tag Object Example
 
@@ -638,7 +722,7 @@ Field Name | Type | Description
 <a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. Value MUST be in the format of a URL.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### External Documentation Object Example
 
@@ -832,7 +916,7 @@ This object is an extended subset of the [JSON Schema Specification Wright Draft
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-wright-json-schema-00) and [JSON Schema Validation](https://tools.ietf.org/html/draft-wright-json-schema-validation-00).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
 
-##### Properties 
+##### Properties
 
 The following properties are taken directly from the JSON Schema definition and follow the same specifications:
 
@@ -853,7 +937,7 @@ The following properties are taken directly from the JSON Schema definition and 
 - required
 - enum
 
-The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification. 
+The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
 - type - Value MUST be a string. Multiple types via an array are not supported.
 - allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
@@ -880,16 +964,16 @@ Field Name | Type | Description
 <a name="schemaObjectReadOnly"></a>readOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "read only". This means that it MAY be sent as part of a response but SHOULD NOT be sent as part of the request. If property is marked as `readOnly` being `true` and is in the `required` list, the `required` will take effect on the response only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
 <a name="schemaObjectWriteOnly"></a>writeOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "write only". This means that it MAY be sent as part of a request but SHOULD NOT be sent as part of the response. If property is marked as `writeOnly` being `true` and is in the `required` list, the `required` will take effect on the request only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
 <a name="schemaObjectXml"></a>xml | [XML Object](#xmlObject) | This MAY be used only on properties schemas. It has no effect on root schemas. Adds Additional metadata to describe the XML representation format of this property.
-<a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema. 
+<a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
 <a name="schemaObjectExample"></a>example | Any | A free-form property to include an example of an instance for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ###### <a name="schemaComposition"></a>Composition and Inheritance (Polymorphism)
 
 The AsyncAPI Specification allows combining and extending model definitions using the `allOf` property of JSON Schema, in effect offering model composition.
-`allOf` takes in an array of object definitions that are validated *independently* but together compose a single object. 
+`allOf` takes in an array of object definitions that are validated *independently* but together compose a single object.
 
 While composition offers model extensibility, it does not imply a hierarchy between the models.
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
@@ -1237,7 +1321,7 @@ Field Name | Type | Description
 <a name="xmlObjectAttribute"></a>attribute | `boolean` | Declares whether the property definition translates to an attribute instead of an element. Default value is `false`.
 <a name="xmlObjectWrapped"></a>wrapped | `boolean` | MAY be used only for an array definition. Signifies whether the array is wrapped (for example, `<books><book/><book/></books>`) or unwrapped (`<book/><book/>`). Default value is `false`. The definition takes effect only when defined alongside `type` being `array` (outside the `items`).
 
-This object can be extended with [Specification Extensions](#specificationExtensions). 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### XML Object Examples
 
@@ -1590,7 +1674,7 @@ Field Name | Type | Applies To | Description
 <a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`.
 <a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
-<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey | httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
+<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey` \| `httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
 <a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
 <a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
 
