@@ -395,6 +395,23 @@
             "$ref": "#/definitions/schema"
           }
         },
+        "oneOf": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/definitions/schema"
+          }
+        },
+        "anyOf": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/definitions/schema"
+          }
+        },
+        "not": {
+          "$ref": "#/definitions/schema"
+        },
         "properties": {
           "type": "object",
           "additionalProperties": {
@@ -478,16 +495,40 @@
           "type": "string"
         },
         "publish": {
-          "$ref": "#/definitions/message"
+          "$ref": "#/definitions/operation"
         },
         "subscribe": {
-          "$ref": "#/definitions/message"
+          "$ref": "#/definitions/operation"
         },
         "deprecated": {
           "type": "boolean",
           "default": false
         }
       }
+    },
+    "operation": {
+      "oneOf": [
+        { "$ref": "#/definitions/message" },
+        {
+          "type": "object",
+          "required": [ "oneOf" ],
+          "additionalProperties": false,
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          },
+          "properties": {
+            "oneOf": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "$ref": "#/definitions/message"
+              }
+            }
+          }
+        }
+      ]
     },
     "message": {
       "type": "object",
