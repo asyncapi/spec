@@ -482,6 +482,7 @@ Field Name | Type | Description
 <a name="topicItemObjectRef"></a>$ref | `string` | Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topicItemObject). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
 <a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 <a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject)] | A list of the parameters included in the topic name, if using [topic templating](#definitionsTopicTemplating).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -538,6 +539,58 @@ subscribe:
   oneOf:
     - $ref: '#/components/messages/signup'
     - $ref: '#/components/messages/login'
+```
+
+
+
+
+
+
+
+#### <a name="parameterObject"></a>Parameter Object
+
+Describes a parameter included in a topic name.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="parameterObjectName"></a>name | `string` | The name of the parameter.
+<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Parameter Object Example
+
+```json
+{
+  "user.{userId}.signup": {
+    "parameters": [
+      {
+        "name": "userId",
+        "description": "Id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "subscribe": {
+      "$ref": "#/components/messages/userSignedUp"
+    }
+  }
+}
+```
+
+```yaml
+user.{userId}.signup:
+  parameters:
+    - name: userId
+      description: Id of the user.
+      schema:
+        type: string
+  subscribe:
+    $ref: "#/components/messages/userSignedUp"
 ```
 
 
