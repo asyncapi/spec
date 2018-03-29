@@ -4,6 +4,7 @@
   "description": "AsyncAPI specification",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon -w ./schema -w ./docs -w ./test -e js,md,yaml scripts/dev.js",
     "docs:dev": "nodemon -w ./schema -w ./docs -e md,yaml scripts/docs.js",
     "docs": "node scripts/docs.js",
     "dist": "node scripts/dist.js",
