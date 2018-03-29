@@ -18,7 +18,8 @@
     "asyncapi": {
       "type": "string",
       "enum": [
-        "1.0.0"
+        "1.0.0",
+        "1.1.0"
       ],
       "description": "The AsyncAPI specification version of this document."
     },
