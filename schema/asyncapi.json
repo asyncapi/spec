@@ -196,7 +196,8 @@
             "ws",
             "wss",
             "stomp",
-            "stomps"
+            "stomps",
+            "jms"
           ]
         },
         "schemeVersion": {
