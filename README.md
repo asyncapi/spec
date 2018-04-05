@@ -140,7 +140,8 @@ Field Name | Type | Description
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
-<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
+<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required unless [Stream Object](#streamObject) is provided.** The available topics and messages for the API.
+<a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Topics Object](#topicsObject) is provided.** The messages and configuration for the streaming API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -593,6 +594,90 @@ user.{userId}.signup:
     $ref: "#/components/messages/userSignedUp"
 ```
 
+
+
+
+
+#### <a name="streamObject"></a>Stream Object
+
+Holds the framing configuration and the read/write operations for the streaming API.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="streamObjectFraming"></a>framing | [Stream Framing Object](#streamFramingObject) | **Required.** The framing configuration for the streaming API, i.e., whether is `chunked` or `sse` and the frame delimiter.
+<a name="streamObjectRead"></a>read | [[Message Object](#messageObject)] | A list of messages a consumer can read from the API.
+<a name="streamObjectWrite"></a>write | [[Message Object](#messageObject)] | A list of messages a consumer can send to the API.
+
+Either `read` or `write` MUST be provided.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Stream Object Example
+
+```json
+{
+  "stream": {
+    "framing": {
+      "type": "chunked",
+      "delimiter": "\r\n"
+    },
+    "read": [
+      { "$ref": "#/components/messages/chatMessage" },
+      { "$ref": "#/components/messages/heartbeat" }
+    ]
+  }
+}
+```
+
+```yaml
+stream:
+  framing:
+    type: 'chunked'
+    delimiter: '\r\n'
+  read:
+    - $ref: '#/components/messages/chatMessage'
+    - $ref: '#/components/messages/heartbeat'
+```
+
+
+
+
+
+
+
+
+
+#### <a name="streamFramingObject"></a>Stream Framing Object
+
+Holds the framing configuration for the streaming API.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="streamFramingObjectType"></a>type | `string` | **Required.** The type of streaming API. Allowed values are `chunked` and `sse`.
+<a name="streamFramingObjectDelimiter"></a>delimiter | `string` | The string to use as the frame delimiter. Allowed values are `\r\n` and `\n`. Defaults to `\r\n`.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Stream Framing Object Example
+
+```json
+{
+  "framing": {
+    "type": "chunked",
+    "delimiter": "\r\n"
+  }
+}
+```
+
+```yaml
+framing:
+  type: 'chunked'
+  delimiter: '\r\n'
+```
 
 
 
