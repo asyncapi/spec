@@ -19,7 +19,8 @@
       "type": "string",
       "enum": [
         "1.0.0",
-        "1.1.0"
+        "1.1.0",
+        "1.2.0"
       ],
       "description": "The AsyncAPI specification version of this document."
     },
@@ -275,6 +276,9 @@
               ]
             }
           }
+        },
+        "parameters": {
+          "$ref": "#/definitions/parameters"
         }
       }
     },
@@ -291,6 +295,13 @@
         "$ref": "#/definitions/message"
       },
       "description": "JSON objects describing the messages being consumed and produced by the API."
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/parameter"
+      },
+      "description": "JSON objects describing re-usable topic parameters."
     },
     "schema": {
       "type": "object",
@@ -534,7 +545,10 @@
         },
         "schema": {
           "$ref": "#/definitions/schema"
-        }
+        },
+        "$ref": {
+	  "type": "string"
+	}
       }
     },
     "operation": {

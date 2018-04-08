@@ -1,4 +1,4 @@
-asyncapi: '1.1.0'
+asyncapi: '1.2.0'
 info:
   title: Streetlights API
   version: '1.0.0'
@@ -33,22 +33,25 @@ security:
 topics:
   event.{streetlightId}.lighting.measured:
     parameters:
-      - name: streetlightId
-        description: The ID of the streetlight.
-        schema:
-          type: string
+      - $ref: '#/components/parameters/streetlightId'
     publish:
       $ref: '#/components/messages/lightMeasured'
 
   action.{streetlightId}.turn.on:
+    parameters:
+      - $ref: '#/components/parameters/streetlightId'
     subscribe:
       $ref: '#/components/messages/turnOnOff'
 
   action.{streetlightId}.turn.off:
+    parameters:
+      - $ref: '#/components/parameters/streetlightId'
     subscribe:
       $ref: '#/components/messages/turnOnOff'
 
   action.{streetlightId}.dim:
+    parameters:
+      - $ref: '#/components/parameters/streetlightId'
     subscribe:
       $ref: '#/components/messages/dimLight'
 
@@ -108,3 +111,11 @@ components:
       type: apiKey
       in: user
       description: Provide your API key as the user and leave the password empty.
+
+  parameters:
+    streetlightId:
+      name: streetlightId
+      description: The ID of the streetlight.
+      schema:
+        type: string
+
