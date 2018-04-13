@@ -1,5 +1,5 @@
 {
-  "title": "AsyncAPI 1.1.0 schema.",
+  "title": "AsyncAPI 1.2.0 schema.",
   "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
@@ -302,6 +302,9 @@
               ]
             }
           }
+        },
+        "parameters": {
+          "$ref": "#/definitions/parameters"
         }
       }
     },
@@ -318,6 +321,13 @@
         "$ref": "#/definitions/message"
       },
       "description": "JSON objects describing the messages being consumed and produced by the API."
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/parameter"
+      },
+      "description": "JSON objects describing re-usable topic parameters."
     },
     "schema": {
       "type": "object",
@@ -561,7 +571,10 @@
         },
         "schema": {
           "$ref": "#/definitions/schema"
-        }
+        },
+        "$ref": {
+	  "type": "string"
+	}
       }
     },
     "operation": {

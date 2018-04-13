@@ -2,9 +2,9 @@
 
 #### Disclaimer
 
-Part of this content has been taken from the great work done by the folks at the [Open API Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [Open API Specification](https://github.com/OAI/OpenAPI-Specification).
+Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 1.1.0
+#### Version 1.2.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
 
@@ -401,7 +401,7 @@ The following shows how variables can be used for a server configuration:
 
 ```yaml
 servers:
-- url: {username}.gigantic-server.com:{port}/{basePath}
+- url: '{username}.gigantic-server.com:{port}/{basePath}'
   description: The production API server
   variables:
     username:
@@ -484,7 +484,7 @@ Field Name | Type | Description
 <a name="topicItemObjectRef"></a>$ref | `string` | Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topicItemObject). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
 <a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 <a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject)] | A list of the parameters included in the topic name, if using [topic templating](#definitionsTopicTemplating).
+<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the topic name, if using [topic templating](#definitionsTopicTemplating).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -907,6 +907,7 @@ Field Name | Type | Description
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
+<a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -987,6 +988,15 @@ my.org.User
         }
       }
     }
+  },
+  "parameters": {
+    "userId": {
+      "name": "userId",
+      "description": "Id of the user.",
+      "schema": {
+        "type": "string"
+      }
+    }
   }
 }
 ```
@@ -1033,6 +1043,12 @@ components:
             $ref: "#/components/schemas/userCreate"
           signup:
             $ref: "#/components/schemas/signup"
+  parameters:
+    userId:
+    - name: userId
+      description: Id of the user.
+      schema:
+        type: string
 ```
 
 #### <a name="schemaObject"></a>Schema Object
