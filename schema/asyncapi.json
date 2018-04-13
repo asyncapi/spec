@@ -1,12 +1,28 @@
 {
-  "title": "AsyncAPI 1.1.0 schema.",
+  "title": "AsyncAPI 1.2.0 schema.",
   "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "required": [
     "asyncapi",
-    "info",
-    "topics"
+    "info"
+  ],
+  "oneOf": [
+    {
+      "required": [
+        "topics"
+      ]
+    },
+    {
+      "required": [
+        "stream"
+      ]
+    },
+    {
+      "required": [
+        "events"
+      ]
+    }
   ],
   "additionalProperties": false,
   "patternProperties": {
@@ -42,6 +58,14 @@
     },
     "topics": {
       "$ref": "#/definitions/topics"
+    },
+    "stream": {
+      "$ref": "#/definitions/stream",
+      "description": "The list of messages a consumer can read or write from/to a streaming API."
+    },
+    "events": {
+      "$ref": "#/definitions/events",
+      "description": "The list of messages an events API sends and/or receives."
     },
     "components": {
       "$ref": "#/definitions/components"
@@ -199,7 +223,9 @@
             "wss",
             "stomp",
             "stomps",
-            "jms"
+            "jms",
+            "http",
+            "https"
           ]
         },
         "schemeVersion": {
@@ -574,6 +600,129 @@
           }
         }
       ]
+    },
+    "stream": {
+      "title": "Stream Object",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "minProperties": 1,
+      "properties": {
+        "framing": {
+          "title": "Stream Framing Object",
+          "type": "object",
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          },
+          "minProperties": 1,
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "chunked"
+                  ]
+                },
+                "delimiter": {
+                  "type": "string",
+                  "enum": [
+                    "\\r\\n",
+                    "\\n"
+                  ],
+                  "default": "\\r\\n"
+                }
+              }
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "sse"
+                  ]
+                },
+                "delimiter": {
+                  "type": "string",
+                  "enum": [
+                    "\\n\\n"
+                  ],
+                  "default": "\\n\\n"
+                }
+              }
+            }
+          ]
+        },
+        "read": {
+          "title": "Stream Read Object",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/message"
+          }
+        },
+        "write": {
+          "title": "Stream Write Object",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/message"
+          }
+        }
+      }
+    },
+    "events": {
+      "title": "Events Object",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "minProperties": 1,
+      "anyOf": [
+        {
+          "required": [
+            "receive"
+          ]
+        },
+        {
+          "required": [
+            "send"
+          ]
+        }
+      ],
+      "properties": {
+        "receive": {
+          "title": "Events Receive Object",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/message"
+          }
+        },
+        "send": {
+          "title": "Events Send Object",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/message"
+          }
+        }
+      }
     },
     "message": {
       "type": "object",
