@@ -17,8 +17,6 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-The AsyncAPI Specification is often used to describe the inter-process communication (IPC) in distributed systems built using a broker-centric architecture. In such cases, it's very easy to get confused with what the AsyncAPI files must describe. **It's RECOMMENDED to create a single file describing the whole system instead of creating a file for each [process](#definitionsProcess).** Otherwise, you will end up having lots of interdependent files.
-
 The file(s) MUST describe the operations a new [process](#definitionsProcess) can perform. For instance:
 
 ```yaml
