@@ -53,6 +53,8 @@ It means [processes](#definitionsProcess) can subscribe to `event.user.signup` t
 		- [Servers Object](#A2SServers)
 		- [Topics Object](#topicsObject)
 		- [Topic Item Object](#topicItemObject)
+		- [Stream Object](#streamObject)
+		- [Events Object](#eventsObject)
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
@@ -140,8 +142,9 @@ Field Name | Type | Description
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
-<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required unless [Stream Object](#streamObject) is provided.** The available topics and messages for the API.
-<a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Topics Object](#topicsObject) is provided.** The messages and configuration for the streaming API.
+<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required unless [Stream Object](#streamObject) or [Events Object](#eventsObject) is provided.** The available topics and messages for the API.
+<a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Topics Object](#topicsObject) or [Events Object](#eventsObject) is provided.** The messages and configuration for the streaming API.
+<a name="A2SEvents"></a>events | [Events Object](#eventsObject) | **Required unless [Topics Object](#topicsObject) or [Stream Object](#streamObject) is provided.** The messages and configuration for the events API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -678,6 +681,48 @@ framing:
   type: 'chunked'
   delimiter: '\r\n'
 ```
+
+
+
+
+
+#### <a name="eventsObject"></a>Events Object
+
+Holds the send and receive operations for an API based on events but without topics, e.g., a WebSockets API.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="eventsObjectRead"></a>receive | [[Message Object](#messageObject)] | A list of messages a consumer can receive from the API.
+<a name="eventsObjectWrite"></a>send | [[Message Object](#messageObject)] | A list of messages a consumer can send to the API.
+
+Either `receive` or `send` MUST be provided.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Events Object Example
+
+```json
+{
+  "events": {
+    "receive": [
+      { "$ref": "#/components/messages/chatMessage" },
+      { "$ref": "#/components/messages/heartbeat" }
+    ]
+  }
+}
+```
+
+```yaml
+events:
+  receive:
+    - $ref: '#/components/messages/chatMessage'
+    - $ref: '#/components/messages/heartbeat'
+```
+
+
+
 
 
 
