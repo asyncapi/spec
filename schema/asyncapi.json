@@ -1,6 +1,6 @@
 {
-  "title": "AsyncAPI 2.0.0 schema.",
-  "id": "http://asyncapi.hitchhq.com/v2/schema.json#",
+  "title": "AsyncAPI 1.2.0 schema.",
+  "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "required": [
@@ -1050,7 +1050,8 @@
                     "authorizationUrl",
                     "scopes"
                   ]
-                }
+                },
+                { "not": { "required":  ["tokenUrl"] } }
               ]
             },
             "password": {
@@ -1061,7 +1062,8 @@
                     "tokenUrl",
                     "scopes"
                   ]
-                }
+                },
+                { "not": { "required":  ["authorizationUrl"] } }
               ]
             },
             "clientCredentials": {
@@ -1072,7 +1074,8 @@
                     "tokenUrl",
                     "scopes"
                   ]
-                }
+                },
+                { "not": { "required":  ["authorizationUrl"] } }
               ]
             },
             "authorizationCode": {

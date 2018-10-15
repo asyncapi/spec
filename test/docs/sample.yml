@@ -120,6 +120,18 @@ components:
       type: oauth2
       description: Flows to support OAuth 2.0
       flows:
+        implicit:
+          authorizationUrl: 'https://authserver.example/auth'
+          scopes:
+            'streetlights:on': Ability to switch lights on
+            'streetlights:off': Ability to switch lights off
+            'streetlights:dim': Ability to dim the lights
+        password:
+          tokenUrl: 'https://authserver.example/token'
+          scopes:
+            'streetlights:on': Ability to switch lights on
+            'streetlights:off': Ability to switch lights off
+            'streetlights:dim': Ability to dim the lights
         clientCredentials:
           tokenUrl: 'https://authserver.example/token'
           scopes:
@@ -129,6 +141,7 @@ components:
         authorizationCode:
           authorizationUrl: 'https://authserver.example/auth'
           tokenUrl: 'https://authserver.example/token'
+          refreshUrl: 'https://authserver.example/refresh'
           scopes:
             'streetlights:on': Ability to switch lights on
             'streetlights:off': Ability to switch lights off
