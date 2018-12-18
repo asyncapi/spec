@@ -398,6 +398,10 @@
         "enum": {
           "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
         },
+	"deprecated": {
+          "type": "boolean",
+	  "default": false
+	},
         "additionalProperties": {
           "anyOf": [
             {
