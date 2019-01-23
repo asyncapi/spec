@@ -539,7 +539,8 @@
             "stomps",
             "http",
             "https",
-            "jms"
+            "jms",
+            "coap"
           ]
         },
         "schemeVersion": {

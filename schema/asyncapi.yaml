@@ -454,6 +454,7 @@ definitions:
           - http
           - https
           - jms
+          - coap
       schemeVersion:
         description: TODO
         type: string

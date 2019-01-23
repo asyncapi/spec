@@ -13,6 +13,7 @@
   * [Callback messages.](#callback-messages)
   * [Support for "oneOf", "anyOf", and "not" on schemas.](#support-for-oneof-anyof-and-not-on-schemas)
   * [Override default topic separator.](#override-default-topic-separator)
+  * [Added CoAP scheme.](#added-coap-scheme)
 
 ## Descriptions
 
@@ -81,3 +82,8 @@ Kudos to [@wout3r](https://github.com/wout3r) and [@SensibleWood](https://github
 ### Override default topic separator
 
 It is now possible to override the default topic separator by specifying `defaultTopicSeparator`. This value will be used to concatenate the base topic (if it exists) with every topic. A common use case is to set it to `/` when documenting MQTT APIs.
+
+### Added CoAP scheme
+
+You can now use `coap` as a scheme. Thanks [@MikeRalphson](https://github.com/MikeRalphson).
+
