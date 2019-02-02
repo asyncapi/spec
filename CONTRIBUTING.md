@@ -38,7 +38,7 @@ The following is a summary of the ideal contribution flow. Please, note that Pul
 ```
 
 ## Code of Conduct
-AsyncAPI has adopted a Code of Conduct that we expect project participants to adhere to. Please [read the full text](CODE_OF_CONDUCT.md) so that you can understand what actions will and will not be tolerated.
+AsyncAPI has adopted a Code of Conduct that we expect project participants to adhere to. Please [read the full text](./CODE_OF_CONDUCT.md) so that you can understand what actions will and will not be tolerated.
 
 ## Our Development Process
 We use Github to host code, to track issues and feature requests, as well as accept pull requests.
@@ -90,7 +90,7 @@ PR for but may need significant investigation or work.
 4. Issue that pull request!
 
 ## License
-When you submit changes, your submissions are understood to be under the same [Apache 2.0 License](LICENSE) that covers the project. Feel free to [contact the maintainers](https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg) if that's a concern.
+When you submit changes, your submissions are understood to be under the same [Apache 2.0 License](./LICENSE) that covers the project. Feel free to [contact the maintainers](https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg) if that's a concern.
 
 ## References
 This document was adapted from the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/master/CONTRIBUTING.md).
