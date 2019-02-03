@@ -50,9 +50,28 @@ Users should be encouraged to participate in the life of the project and the com
 All participants in the community are encouraged to provide support for new users within the project management infrastructure. This support is provided as a way of growing the community. Those seeking support should recognize that all support activity within the project is voluntary and is therefore provided as and when time allows. A user requiring guaranteed response times or results should therefore seek to purchase a support contract from a vendor. (Of course, that vendor should be an active member of the community.) However, for those willing to engage with the project on its own terms, and willing to help support other users, the community support channels are ideal.
 
 ## Contribution Process
-Anyone can contribute to the project, regardless of their skills, as there are many ways to contribute. For instance, a contributor might be active on the project mailing list and issue tracker, or might supply patches. The various ways of contributing are described in more detail in our roles in open source document.
+Anyone can contribute to the project, regardless of their skills, as there are many ways to contribute. For instance, a contributor might be active on the project mailing list and issue tracker, or might supply patches. The various ways of contributing are described in more detail in our [CONTRIBUTING](./CONTRIBUTING.md) document.
 
 The [Slack workspace](https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg) is the most appropriate place for a contributor to ask for help when making their first contribution.
 
 ## Decision-Making Process
 This governance model does not need a formal conflict resolution process, since the project director’s word is final. If the community chooses to question the wisdom of the actions of a maintainer, the project director can review their decisions by checking the email archives, and either uphold or reverse them.
+
+## Stepping Aside
+There may be situations when a maintainer or the project director wants to step aside from the project, either temporarily or permanently.
+
+### Project Director Steps Aside Temporarily (6 months or less)
+In such case, the project director will ask each maintainer separately if they want to, temporarily, become the project director and who would they like to see as the new project director, except them. If at least one maintainer offers their help, the current project director will choose the new one. In case no one wants to temporarily become the project director, the current one will choose another person —either already involved in the project community or not.
+
+If the project director leaves for more than 6 months, the case will be considered as "permanent leave" (see below), unless otherwise stated by the maintainers.
+
+### Project Director Steps Aside Permanently
+In such case, the project director will ask each maintainer separately if they want to, permanently, become the project director and who would they like to see as the new project director, except them. If at least one maintainer offers their help, the current project director will choose the new one. In case no one wants to permanently become the project director, the current one will choose another person —either already involved in the project community or not.
+
+Only in the case the project director steps aside abruptly and without any intention to make their last decision of electing the new project director, it's the duty of the maintainers to elect a new candidate and how the election process will happen.
+
+### Maintainer Steps Aside Temporarily (6 months or less)
+In such case, the project director will ask the maintainers how they want to proceed in taking care of the incomplete work the leaving maintainer has left, if any. If the maintainer leaves for more than 6 months, the case will be considered as "permanent leave" (see below), unless otherwise stated by the project director.
+
+### Maintainer Steps Aside Permanently
+In such case, the project director will ask the maintainers how they want to proceed in taking care of the incomplete work the leaving maintainer has left, if any. The project director will seek consensus with the maintainers about whether to propose and elect a new maintainer, however, in case the conversation gets blocked, it's proejct director's duty to decide how to continue.
