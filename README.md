@@ -78,3 +78,7 @@ Meeting ID: 165 106 914
 * [+44 203 051 2874](tel:+442030512874)
 
 Find the agenda for our past and next meetings in the [pinned issues](https://github.com/asyncapi/asyncapi/issues).
+
+## Meeting recordings
+
+Head over to the [Youtube playlist for SIG meetings](https://www.youtube.com/watch?v=S8gvf0XjO10&list=PLbi1gRlP7pijUwZJErzyYf_Rc-PWu4lXS) to watch them.
