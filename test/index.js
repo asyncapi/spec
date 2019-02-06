@@ -8,8 +8,8 @@ const RefParser = require('json-schema-ref-parser');
 
 const validator = new ZSchema();
 
-loadJsonFile(path.resolve(__dirname, '../schema/asyncapi.json')).then(schema => {
-  fs.readFile(path.resolve(__dirname, 'docs/sample.yml'), (err, yaml) => {
+loadJsonFile(path.resolve(__dirname, '../versions/next/schema.json')).then(schema => {
+  fs.readFile(path.resolve(__dirname, '../examples/streetlights.yml'), (err, yaml) => {
     yaml = yaml.toString();
     const json = YAML.safeLoad(yaml);
     RefParser.dereference(json, {
