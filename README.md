@@ -9,7 +9,7 @@
 <p align="center">
   <a href="#the-specification">Specification</a>
   |
-  <a href="https://editor.asyncapi.org" target="_blank">Playground</a>
+  <a href="http://editor.asyncapi.org" target="_blank">Playground</a>
   |
   <a href="./ROADMAP.md">Roadmap</a>
   |
