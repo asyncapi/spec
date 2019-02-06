@@ -38,7 +38,7 @@ We're working hard to launch version 2.0.0, and [this is how it looks so far](./
 ## Examples
 
 #### :bulb: Streetlights
-Demonstrate how to use AsyncAPI to define an API that to control city streetlights.
+Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
 
 > :point_right: [See more](./examples/streetlights.yml)
 
