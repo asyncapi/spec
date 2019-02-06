@@ -22,7 +22,7 @@
 
 ## The specification
 
-Read the latest stable version (1.2.0) of the specification here.
+Read the latest stable version (1.2.0) of the specification [here](./versions/1.2.0/asyncapi.md).
 
 Are you looking for previous versions? Here they are:
 
