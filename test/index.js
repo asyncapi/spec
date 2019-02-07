@@ -6,8 +6,8 @@ const loadJsonFile = require('load-json-file');
 const YAML = require('js-yaml');
 const RefParser = require('json-schema-ref-parser');
 
-loadJsonFile(path.resolve(__dirname, '../versions/next/schema.json')).then(schema => {
-  fs.readFile(path.resolve(__dirname, '../examples/streetlights.yml'), (err, yaml) => {
+loadJsonFile(path.resolve(__dirname, '../versions/1.2.0/schema.json')).then(schema => {
+  fs.readFile(path.resolve(__dirname, '../examples/1.2.0/streetlights.yml'), (err, yaml) => {
     yaml = yaml.toString();
     const json = YAML.safeLoad(yaml);
     RefParser.dereference(json, {
