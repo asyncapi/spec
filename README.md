@@ -20,6 +20,21 @@
   <a href="https://www.youtube.com/channel/UCIz9zGwDLbrYQcDKVXdOstQ">Youtube</a>
 </p>
 
+## Supported by
+<p align="center">
+  <a href="https://mulesoft.com" target="_blank">
+    <img src="./assets/mulesoft.png" alt="Mulesoft logo" height="40">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://sap.com" target="_blank">
+    <img src="./assets/sap.svg" alt="SAP logo" height="40">
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://slack.com" target="_blank">
+    <img src="./assets/slack.svg" alt="SAP logo" height="40">
+  </a>
+</p>
+
 ## The specification
 
 Read the latest stable version (1.2.0) of the specification [here](./versions/1.2.0/asyncapi.md).
