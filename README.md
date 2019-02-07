@@ -26,6 +26,10 @@
     <img src="./assets/mulesoft.png" alt="Mulesoft logo" height="40">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://salesforce.com" target="_blank">
+    <img src="./assets/salesforce.png" alt="Salesforce logo" height="40">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://sap.com" target="_blank">
     <img src="./assets/sap.svg" alt="SAP logo" height="40">
   </a>
