@@ -20,12 +20,12 @@ These files can then be used to create utilities, such as documentation, integra
 The file(s) MUST describe the operations a new [process](#definitionsProcess) can perform. For instance:
 
 ```yaml
-event.user.signup:
+user/signedup:
   subscribe:
     $ref: "#/components/messages/userSignUp"
 ```
 
-It means [processes](#definitionsProcess) can subscribe to `event.user.signup` topic. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this topic.
+It means [processes](#definitionsProcess) can subscribe to `user/signedup` topic. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this topic.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -37,7 +37,6 @@ It means [processes](#definitionsProcess) can subscribe to `event.user.signup` t
 	- [Process](#definitionsProcess)
 	- [Producer](#definitionsProducer)
 	- [Consumer](#definitionsConsumer)
-	- [Topic Templating](#definitionsTopicTemplating)
 - [Specification](#specification)
 	- [Format](#format)
 	- [File Structure](#file-structure)
@@ -47,7 +46,6 @@ It means [processes](#definitionsProcess) can subscribe to `event.user.signup` t
 		- [Info Object](#infoObject)
 		- [Contact Object](#contactObject)
 		- [License Object](#licenseObject)
-		- [Base Topic String](#baseTopicString)
 		- [Servers Object](#A2SServers)
 		- [Topics Object](#topicsObject)
 		- [Topic Item Object](#topicItemObject)
@@ -85,9 +83,6 @@ A producer is a process publishing messages to a message broker.
 
 #### <a name="definitionsConsumer"></a>Consumer
 A consumer is a process subscribed to a message broker and consumes messages from it.
-
-#### <a name="definitionsTopicTemplating"></a>Topic Templating
-Topic templating refers to the usage of curly braces ({}) to mark a section of a topic as replaceable.
 
 ## Specification
 
@@ -138,7 +133,6 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
-<a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
 <a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required unless [Stream Object](#streamObject) or [Events Object](#eventsObject) is provided.** The available topics and messages for the API.
 <a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Topics Object](#topicsObject) or [Events Object](#eventsObject) is provided.** The messages and configuration for the streaming API.
@@ -272,25 +266,6 @@ url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 
 
-#### <a name="baseTopicString"></a>Base Topic String
-
-The base topic to the API. You MAY use this field to avoid repeating the beginning of the topics.
-
-##### Base Topic String Example:
-
-```json
-{
-  "baseTopic": "hitch.accounts"
-}
-```
-
-```yaml
-baseTopic: hitch.accounts
-```
-
-
-
-
 #### <a name="serverObject"></a>Server Object
 
 An object representing a Server.
@@ -304,6 +279,7 @@ Field Name | Type | Description
 <a name="serverObjectSchemeVersion"></a>schemeVersion | `string` | The version of the scheme. For instance: AMQP `0.9.1`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
+<a name="serverObjectBaseTopic"></a>baseTopic | `string` | A string describing the base topic. MUST be in the form of a [RFC 3986 URI path](https://tools.ietf.org/html/rfc3986#section-3.3). URI templates are not allowed here. Defaults to empty string.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -316,7 +292,8 @@ A single server would be described as:
   "url": "development.gigantic-server.com",
   "description": "Development server",
   "scheme": "kafka",
-  "schemeVersion": "1.0.0"
+  "schemeVersion": "1.0.0",
+  "baseTopic": "company/events"
 }
 ```
 
@@ -325,6 +302,7 @@ url: development.gigantic-server.com
 description: Development server
 scheme: kafka
 schemeVersion: '1.0.0'
+baseTopic: company/events
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -442,13 +420,13 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 #### <a name="topicsObject"></a>Topics Object
 
 Holds the relative paths to the individual topic and their operations.
-The topic is appended to the [`Base Topic`](#baseTopicString) in order to construct the full one.
+Topics starting with a slash (`/`) MUST be treated as absolute paths and therefore skipping the [`server's base topic`](#serverObjectBaseTopic). Otherwise, the final topic MUST be resolved using the [`server's base topic`](#serverObjectBaseTopic) and the current path.
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="topicsObjectTopic"></a>^[^.]{topic} | [Topic Item Object](#topicItemObject) | A relative path to an individual topic. The field name MUST NOT begin with a dot. [Topic templating](#definitionsTopicTemplating) is allowed.
+<a name="topicsObjectTopic"></a>{topic} | [Topic Item Object](#topicItemObject) | A relative path to an individual topic. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -456,7 +434,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "accounts.1.0.event.user.signup": {
+  "user/signedup": {
     "subscribe": {
       "$ref": "#/components/messages/userSignedUp"
     }
@@ -465,7 +443,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-accounts.1.0.event.user.signup:
+user/signedup:
   subscribe:
     $ref: "#/components/messages/userSignedUp"
 ```
@@ -484,7 +462,7 @@ Field Name | Type | Description
 <a name="topicItemObjectRef"></a>$ref | `string` | Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topicItemObject). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
 <a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 <a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the topic name, if using [topic templating](#definitionsTopicTemplating).
+<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the topic name. It SHOULD be present only when using topics with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1951,7 +1929,7 @@ bearerFormat: JWT
 
 ```yaml
 type: oauth2
-flows: 
+flows:
   implicit:
     authorizationUrl: https://example.com/api/oauth/dialog
     scopes:
@@ -1966,8 +1944,8 @@ Allows configuration of the supported OAuth Flows.
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow 
-<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow 
+<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow
+<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow
 <a name="oauthFlowsClientCredentials"></a>clientCredentials| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Client Credentials flow.
 <a name="oauthFlowsAuthorizationCode"></a>authorizationCode| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Authorization Code flow.
 
@@ -2014,7 +1992,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```YAML
 type: oauth2
-flows: 
+flows:
   implicit:
     authorizationUrl: https://example.com/api/oauth/dialog
     scopes:
@@ -2025,7 +2003,7 @@ flows:
     tokenUrl: https://example.com/api/oauth/token
     scopes:
       write:pets: modify pets in your account
-      read:pets: read your pets 
+      read:pets: read your pets
 ```
 
 #### <a name="securityRequirementObject"></a>Security Requirement Object

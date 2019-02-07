@@ -1,12 +1,10 @@
 const util = require('util');
 const fs = require('fs');
 const path = require('path');
-const ZSchema = require('z-schema');
+const Ajv = require('ajv');
 const loadJsonFile = require('load-json-file');
 const YAML = require('js-yaml');
 const RefParser = require('json-schema-ref-parser');
-
-const validator = new ZSchema();
 
 loadJsonFile(path.resolve(__dirname, '../versions/next/schema.json')).then(schema => {
   fs.readFile(path.resolve(__dirname, '../examples/streetlights.yml'), (err, yaml) => {
@@ -17,11 +15,15 @@ loadJsonFile(path.resolve(__dirname, '../versions/next/schema.json')).then(schem
         circular: 'ignore'
       }
     }).then((json) => {
-      validator.validate(json, schema, (err, valid) => {
-        if (err) return console.error(err);
-        console.log(util.inspect(json, { depth: null, colors: true }));
-        console.log('Valid:', valid);
-      });
+      const ajv = new Ajv({schemaId: 'auto'});
+
+      ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+
+      const valid = ajv.validate(schema, json);
+
+      if (!valid) return console.error(ajv.errors);
+      console.log(util.inspect(json, { depth: null, colors: true }));
+      console.log('Valid:', valid);
     }).catch((err) => {
       console.error(err);
     });

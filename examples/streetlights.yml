@@ -1,4 +1,4 @@
-asyncapi: '1.2.0'
+asyncapi: '2.0.0'
 info:
   title: Streetlights API
   version: '1.0.0'
@@ -13,12 +13,12 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
-baseTopic: smartylighting.streetlights.1.0
 
 servers:
   - url: api.streetlights.smartylighting.com:{port}
     scheme: mqtt
     description: Test broker
+    baseTopic: smartylighting/streetlights/1/0
     variables:
       port:
         description: Secure connection (TLS) is available through port 8883.
@@ -36,25 +36,25 @@ security:
   - openIdConnectWellKnown: []
 
 topics:
-  event.{streetlightId}.lighting.measured:
+  event/{streetlightId}/lighting/measured:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     publish:
       $ref: '#/components/messages/lightMeasured'
 
-  action.{streetlightId}.turn.on:
+  action/{streetlightId}/turn/on:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     subscribe:
       $ref: '#/components/messages/turnOnOff'
 
-  action.{streetlightId}.turn.off:
+  action/{streetlightId}/turn/off:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     subscribe:
       $ref: '#/components/messages/turnOnOff'
 
-  action.{streetlightId}.dim:
+  action/{streetlightId}/dim:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     subscribe:
@@ -156,4 +156,3 @@ components:
       description: The ID of the streetlight.
       schema:
         type: string
-

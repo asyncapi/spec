@@ -1,7 +1,6 @@
 {
   "title": "AsyncAPI 1.2.0 schema.",
-  "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
     "asyncapi",
@@ -34,20 +33,12 @@
     "asyncapi": {
       "type": "string",
       "enum": [
-        "1.0.0",
-        "1.1.0",
-        "1.2.0"
+        "2.0.0"
       ],
       "description": "The AsyncAPI specification version of this document."
     },
     "info": {
       "$ref": "#/definitions/info"
-    },
-    "baseTopic": {
-      "type": "string",
-      "pattern": "^[^/.]",
-      "description": "The base topic to the API. Example: 'hitch'.",
-      "default": ""
     },
     "servers": {
       "type": "array",
@@ -233,6 +224,10 @@
         },
         "variables": {
           "$ref": "#/definitions/serverVariables"
+        },
+        "baseTopic": {
+          "type": "string",
+          "x-format": "uri-path"
         }
       }
     },
@@ -271,15 +266,16 @@
     "topics": {
       "type": "object",
       "description": "Relative paths to the individual topics. They must be relative to the 'baseTopic'.",
+      "propertyNames": {
+        "type": "string",
+        "format": "uri-template",
+        "minLength": 1
+      },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        },
-        "^[^.]": {
+        "": {
           "$ref": "#/definitions/topicItem"
         }
-      },
-      "additionalProperties": false
+      }
     },
     "components": {
       "type": "object",
@@ -398,10 +394,10 @@
         "enum": {
           "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
         },
-	"deprecated": {
+      	"deprecated": {
           "type": "boolean",
-	  "default": false
-	},
+      	  "default": false
+      	},
         "additionalProperties": {
           "anyOf": [
             {
@@ -1049,7 +1045,7 @@
             "implicit": {
               "allOf": [
                 { "$ref": "#/definitions/oauth2Flow" },
-                { 
+                {
                   "required": [
                     "authorizationUrl",
                     "scopes"
