@@ -35,7 +35,11 @@
   </a>
   &nbsp;&nbsp;
   <a href="https://slack.com" target="_blank">
-    <img src="./assets/slack.svg" alt="SAP logo" height="40">
+    <img src="./assets/slack.svg" alt="Slack logo" height="40">
+  </a>
+  &nbsp;
+  <a href="https://tibco.com" target="_blank">
+    <img src="./assets/tibco.png" alt="TIBCO logo" height="40">
   </a>
 </p>
 
