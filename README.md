@@ -112,7 +112,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars1.githubusercontent.com/u/6995927?v=4" width="100px;" alt="Lukasz Gornicki"/><br /><sub><b>Lukasz Gornicki</b></sub>](http://resume.github.io/?derberg)<br />[📖](https://github.com/asyncapi/asyncapi/commits?author=derberg "Documentation") [🤔](#ideas-derberg "Ideas, Planning, & Feedback") [👀](#review-derberg "Reviewed Pull Requests") |
+| [<img src="https://avatars1.githubusercontent.com/u/6995927?v=4" width="100px;" alt="Lukasz Gornicki"/><br /><sub><b>Lukasz Gornicki</b></sub>](http://resume.github.io/?derberg)<br />[📖](https://github.com/asyncapi/asyncapi/commits?author=derberg "Documentation") [🤔](# "Ideas, Planning, & Feedback") [👀](# "Reviewed Pull Requests") |
 | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
