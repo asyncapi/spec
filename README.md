@@ -105,3 +105,15 @@ Find the agenda for our past and future meetings [here](https://github.com/async
 ## Meeting recordings
 
 Head over to the [Youtube playlist for SIG meetings](https://www.youtube.com/watch?v=S8gvf0XjO10&list=PLbi1gRlP7pijUwZJErzyYf_Rc-PWu4lXS) to watch them.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars1.githubusercontent.com/u/6995927?v=4" width="100px;" alt="Lukasz Gornicki"/><br /><sub><b>Lukasz Gornicki</b></sub>](http://resume.github.io/?derberg)<br />[📖](https://github.com/asyncapi/asyncapi/commits?author=derberg "Documentation") [🤔](https://github.com/asyncapi/asyncapi/issues?utf8=%E2%9C%93&q=is%3Aissue+derberg+ "Ideas, Planning, & Feedback") [👀](https://github.com/asyncapi/asyncapi/pulls?utf8=%E2%9C%93&q=is%3Apr+derberg+ "Reviewed Pull Requests") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
