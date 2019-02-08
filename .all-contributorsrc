@@ -80,6 +80,15 @@
         "tutorial",
         "talk"
       ]
+    },
+    {
+      "login": "DulceDeLaRosa",
+      "name": "dulce",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/389154?v=4",
+      "profile": "https://github.com/DulceDeLaRosa",
+      "contributions": [
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 2
