@@ -3,4 +3,3 @@ node_js:
   - "6"
 script:
   - npm run test
-  - node ./node_modules/mdv/mdv *.md
