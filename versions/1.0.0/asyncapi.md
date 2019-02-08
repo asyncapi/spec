@@ -390,21 +390,21 @@ The following shows how variables can be used for a server configuration:
 
 ```yaml
 servers:
-- url: {username}.gigantic-server.com:{port}/{basePath}
-  description: The production API server
-  variables:
-    username:
-      # note! no enum here means it is an open value
-      default: demo
-      description: This value is assigned by the service provider, in this example `gigantic-server.com`
-    port:
-      enum:
-        - '8883'
-        - '8884'
-      default: '8883'
-    basePath:
-      # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
-      default: v2
+  - url: '{username}.gigantic-server.com:{port}/{basePath}'
+    description: The production API server
+    variables:
+      username:
+        # note! no enum here means it is an open value
+        default: demo
+        description: This value is assigned by the service provider, in this example `gigantic-server.com`
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+      basePath:
+        # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
+        default: v2
 ```
 
 
