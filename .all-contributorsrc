@@ -63,7 +63,22 @@
         "question",
         "bug",
         "blog",
-        "business"
+        "business",
+        "code",
+        "content",
+        "doc",
+        "design",
+        "financial",
+        "fundingFinding",
+        "ideas",
+        "infra",
+        "maintenance",
+        "plugin",
+        "review",
+        "tool",
+        "test",
+        "tutorial",
+        "talk"
       ]
     }
   ],
