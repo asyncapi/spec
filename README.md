@@ -1,4 +1,5 @@
 <h1 align="center">
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
   <br>
   <a href="https://asyncapi.org"><img src="./assets/logo.png" alt="AsyncAPI logo" width="200"></a>
   <br>
@@ -105,3 +106,15 @@ Find the agenda for our past and future meetings [here](https://github.com/async
 ## Meeting recordings
 
 Head over to the [Youtube playlist for SIG meetings](https://www.youtube.com/watch?v=S8gvf0XjO10&list=PLbi1gRlP7pijUwZJErzyYf_Rc-PWu4lXS) to watch them.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars0.githubusercontent.com/u/21603?v=4" width="100px;" alt="Mike Ralphson"/><br /><sub><b>Mike Ralphson</b></sub>](http://mermade.github.io)<br />[💬](#question-MikeRalphson "Answering Questions") [📖](https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson "Documentation") [💻](https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson "Code") [🤔](#ideas-MikeRalphson "Ideas, Planning, & Feedback") [🚇](#infra-MikeRalphson "Infrastructure (Hosting, Build-Tools, etc)") [👀](#review-MikeRalphson "Reviewed Pull Requests") [⚠️](https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson "Tests") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
