@@ -112,8 +112,8 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars1.githubusercontent.com/u/6995927?v=4" width="100px;" alt="Lukasz Gornicki"/><br /><sub><b>Lukasz Gornicki</b></sub>](http://resume.github.io/?derberg)<br />[📖](https://github.com/asyncapi/asyncapi/commits?author=derberg "Documentation") [🤔](https://github.com/asyncapi/asyncapi/issues?utf8=%E2%9C%93&q=is%3Aissue+derberg+ "Ideas, Planning, & Feedback") [👀](https://github.com/asyncapi/asyncapi/pulls?utf8=%E2%9C%93&q=is%3Apr+derberg+ "Reviewed Pull Requests") |
-| :---: |
+| [<img src="https://avatars1.githubusercontent.com/u/6995927?v=4" width="100px;" alt="Lukasz Gornicki"/><br /><sub><b>Lukasz Gornicki</b></sub>](http://resume.github.io/?derberg)<br />[📖](https://github.com/asyncapi/asyncapi/commits?author=derberg "Documentation") [🤔](#ideas-derberg "Ideas, Planning, & Feedback") [👀](#review-derberg "Reviewed Pull Requests") | [<img src="https://avatars0.githubusercontent.com/u/21603?v=4" width="100px;" alt="Mike Ralphson"/><br /><sub><b>Mike Ralphson</b></sub>](http://mermade.github.io)<br />[💬](#question-MikeRalphson "Answering Questions") [📖](https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson "Documentation") [💻](https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson "Code") [🤔](#ideas-MikeRalphson "Ideas, Planning, & Feedback") [🚇](#infra-MikeRalphson "Infrastructure (Hosting, Build-Tools, etc)") [👀](#review-MikeRalphson "Reviewed Pull Requests") [⚠️](https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson "Tests") |
+| :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
