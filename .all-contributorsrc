@@ -19,6 +19,23 @@
         "ideas",
         "review"
       ]
+    },
+    {
+      "login": "MikeRalphson",
+      "name": "Mike Ralphson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/21603?v=4",
+      "profile": "http://mermade.github.io",
+      "contributions": [
+        "question",
+        "doc",
+        "code",
+        "ideas",
+        "infra",
+        "review",
+        "test",
+        "tool",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7
