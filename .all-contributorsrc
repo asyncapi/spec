@@ -1,0 +1,31 @@
+{
+  "projectName": "asyncapi",
+  "projectOwner": "asyncapi",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "rmelian",
+      "name": "raisel melian",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4565267?v=4",
+      "profile": "https://github.com/rmelian",
+      "contributions": [
+        "question",
+        "bug",
+        "code",
+        "doc",
+        "ideas",
+        "maintenance",
+        "review",
+        "tool",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
