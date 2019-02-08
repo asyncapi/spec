@@ -53,7 +53,19 @@
         "tool",
         "test"
       ]
+    },
+    {
+      "login": "fmvilas",
+      "name": "Fran Méndez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/242119?v=4",
+      "profile": "http://www.fmvilas.com",
+      "contributions": [
+        "question",
+        "bug",
+        "blog",
+        "business"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 2
 }
