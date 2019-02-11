@@ -63,17 +63,17 @@ We're working hard to launch version 2.0.0, and [this is how it looks so far](./
 #### :bulb: Streetlights
 Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
 
-> :point_right: [See more](./examples/streetlights.yml)
+> :point_right: [See more](./examples/1.2.0/streetlights.yml)
 
 #### <img src="./assets/slack.png" width="15" alt="Slack icon">&nbsp;&nbsp; Slack Events API
 Partial definition of the Slack Events API. Find the official one [here](https://github.com/slackapi/slack-api-specs/blob/master/events-api/slack_events_api_async_v1.json).
 
-> :point_right: [See more](./examples/slack-rtm.yml)
+> :point_right: [See more](./examples/1.2.0/slack-rtm.yml)
 
 #### <img src="./assets/gitter.png" width="15" alt="Gitter icon">&nbsp;&nbsp; Gitter Streaming API
 Definition of the Gitter streaming API.
 
-> :point_right: [See more](./examples/gitter-streaming.yml)
+> :point_right: [See more](./examples/1.2.0/gitter-streaming.yml)
 
 #### :heavy_plus_sign: and more...
 Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
