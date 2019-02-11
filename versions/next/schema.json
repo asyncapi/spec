@@ -1,5 +1,5 @@
 {
-  "title": "AsyncAPI 1.2.0 schema.",
+  "title": "AsyncAPI 2.0.0 schema.",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
@@ -9,17 +9,12 @@
   "oneOf": [
     {
       "required": [
-        "topics"
+        "channels"
       ]
     },
     {
       "required": [
         "stream"
-      ]
-    },
-    {
-      "required": [
-        "events"
       ]
     }
   ],
@@ -47,16 +42,12 @@
       },
       "uniqueItems": true
     },
-    "topics": {
-      "$ref": "#/definitions/topics"
+    "channels": {
+      "$ref": "#/definitions/channels"
     },
     "stream": {
       "$ref": "#/definitions/stream",
       "description": "The list of messages a consumer can read or write from/to a streaming API."
-    },
-    "events": {
-      "$ref": "#/definitions/events",
-      "description": "The list of messages an events API sends and/or receives."
     },
     "components": {
       "$ref": "#/definitions/components"
@@ -225,7 +216,7 @@
         "variables": {
           "$ref": "#/definitions/serverVariables"
         },
-        "baseTopic": {
+        "baseChannel": {
           "type": "string",
           "x-format": "uri-path"
         }
@@ -263,9 +254,8 @@
         }
       }
     },
-    "topics": {
+    "channels": {
       "type": "object",
-      "description": "Relative paths to the individual topics. They must be relative to the 'baseTopic'.",
       "propertyNames": {
         "type": "string",
         "format": "uri-template",
@@ -273,7 +263,7 @@
       },
       "patternProperties": {
         "": {
-          "$ref": "#/definitions/topicItem"
+          "$ref": "#/definitions/channelItem"
         }
       }
     },
@@ -323,7 +313,7 @@
       "additionalProperties": {
         "$ref": "#/definitions/parameter"
       },
-      "description": "JSON objects describing re-usable topic parameters."
+      "description": "JSON objects describing re-usable channel parameters."
     },
     "schema": {
       "type": "object",
@@ -520,7 +510,7 @@
         }
       }
     },
-    "topicItem": {
+    "channelItem": {
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
@@ -672,49 +662,6 @@
         },
         "write": {
           "title": "Stream Write Object",
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/message"
-          }
-        }
-      }
-    },
-    "events": {
-      "title": "Events Object",
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "minProperties": 1,
-      "anyOf": [
-        {
-          "required": [
-            "receive"
-          ]
-        },
-        {
-          "required": [
-            "send"
-          ]
-        }
-      ],
-      "properties": {
-        "receive": {
-          "title": "Events Receive Object",
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/message"
-          }
-        },
-        "send": {
-          "title": "Events Send Object",
           "type": "array",
           "uniqueItems": true,
           "minItems": 1,

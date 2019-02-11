@@ -25,7 +25,7 @@ user/signedup:
     $ref: "#/components/messages/userSignUp"
 ```
 
-It means [processes](#definitionsProcess) can subscribe to `user/signedup` topic. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this topic.
+It means [processes](#definitionsProcess) can subscribe to `user/signedup` channel. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this channel.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -33,7 +33,7 @@ It means [processes](#definitionsProcess) can subscribe to `user/signedup` topic
 - [Definitions](#definitions)
 	- [Message Broker](#definitionsMessageBroker)
 	- [Message](#definitionsMessage)
-	- [Topic](#definitionstTopic)
+	- [Channel](#definitionstChannel)
 	- [Process](#definitionsProcess)
 	- [Producer](#definitionsProducer)
 	- [Consumer](#definitionsConsumer)
@@ -47,10 +47,9 @@ It means [processes](#definitionsProcess) can subscribe to `user/signedup` topic
 		- [Contact Object](#contactObject)
 		- [License Object](#licenseObject)
 		- [Servers Object](#A2SServers)
-		- [Topics Object](#topicsObject)
-		- [Topic Item Object](#topicItemObject)
+		- [Channels Object](#channelsObject)
+		- [Channel Item Object](#channelItemObject)
 		- [Stream Object](#streamObject)
-		- [Events Object](#eventsObject)
 		- [Message Object](#messageObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
@@ -72,8 +71,8 @@ A message broker is a system in charge of message exchange. It MAY provide addit
 #### <a name="definitionsMessage"></a>Message
 A message is a piece of information a process will send to a message broker. It MUST contain headers and payload.
 
-#### <a name="definitionstTopic"></a>Topic
-A topic is a routing key used by the message broker to deliver messages to the subscribed processes. Depending on the protocol used, a message MAY include the topic in its headers.
+#### <a name="definitionstChannel"></a>Channel
+A channel is a routing key used by the message broker to deliver messages to the subscribed processes. Depending on the protocol used, a message MAY include the channel in its headers.
 
 #### <a name="definitionsProcess"></a>Process
 A process is any kind of computer program connected to a message broker. It MUST be a producer, a consumer or both.
@@ -134,9 +133,8 @@ Field Name | Type | Description
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
-<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required unless [Stream Object](#streamObject) or [Events Object](#eventsObject) is provided.** The available topics and messages for the API.
-<a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Topics Object](#topicsObject) or [Events Object](#eventsObject) is provided.** The messages and configuration for the streaming API.
-<a name="A2SEvents"></a>events | [Events Object](#eventsObject) | **Required unless [Topics Object](#topicsObject) or [Stream Object](#streamObject) is provided.** The messages and configuration for the events API.
+<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required unless [Stream Object](#streamObject) is provided.** The available channels and messages for the API.
+<a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Channels Object](#channelsObject) is provided.** The messages and configuration for the streaming API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -279,7 +277,7 @@ Field Name | Type | Description
 <a name="serverObjectSchemeVersion"></a>schemeVersion | `string` | The version of the scheme. For instance: AMQP `0.9.1`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
-<a name="serverObjectBaseTopic"></a>baseTopic | `string` | A string describing the base topic. MUST be in the form of a [RFC 3986 URI path](https://tools.ietf.org/html/rfc3986#section-3.3). URI templates are not allowed here. Defaults to empty string.
+<a name="serverObjectBaseChannel"></a>baseChannel | `string` | A string describing the base channel. MUST be in the form of a [RFC 3986 URI path](https://tools.ietf.org/html/rfc3986#section-3.3). URI templates are not allowed here. Defaults to empty string.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -293,7 +291,7 @@ A single server would be described as:
   "description": "Development server",
   "scheme": "kafka",
   "schemeVersion": "1.0.0",
-  "baseTopic": "company/events"
+  "baseChannel": "company/events"
 }
 ```
 
@@ -302,7 +300,7 @@ url: development.gigantic-server.com
 description: Development server
 scheme: kafka
 schemeVersion: '1.0.0'
-baseTopic: company/events
+baseChannel: company/events
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -417,20 +415,20 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 
 
-#### <a name="topicsObject"></a>Topics Object
+#### <a name="channelsObject"></a>Channels Object
 
-Holds the relative paths to the individual topic and their operations.
-Topics starting with a slash (`/`) MUST be treated as absolute paths and therefore skipping the [`server's base topic`](#serverObjectBaseTopic). Otherwise, the final topic MUST be resolved using the [`server's base topic`](#serverObjectBaseTopic) and the current path.
+Holds the relative paths to the individual channel and their operations.
+Channels starting with a slash (`/`) MUST be treated as absolute paths and therefore skipping the [`server's base channel`](#serverObjectBaseChannel). Otherwise, the final channel MUST be resolved using the [`server's base channel`](#serverObjectBaseChannel) and the current path.
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="topicsObjectTopic"></a>{topic} | [Topic Item Object](#topicItemObject) | A relative path to an individual topic. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570).
+<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
-##### Topics Object Example
+##### Channels Object Example
 
 ```json
 {
@@ -451,22 +449,22 @@ user/signedup:
 
 
 
-#### <a name="topicItemObject"></a>Topic Item Object
+#### <a name="channelItemObject"></a>Channel Item Object
 
-Describes the operations available on a single topic.
+Describes the operations available on a single channel.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="topicItemObjectRef"></a>$ref | `string` | Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topicItemObject). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
-<a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the topic name. It SHOULD be present only when using topics with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
+<a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
+<a name="channelItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="channelItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
-##### Topic Item Object Example
+##### Channel Item Object Example
 
 ```json
 {
@@ -529,7 +527,7 @@ subscribe:
 
 #### <a name="parameterObject"></a>Parameter Object
 
-Describes a parameter included in a topic name.
+Describes a parameter included in a channel name.
 
 ##### Fixed Fields
 
@@ -662,50 +660,9 @@ framing:
 
 
 
-#### <a name="eventsObject"></a>Events Object
-
-Holds the send and receive operations for an API based on events but without topics, e.g., a WebSockets API.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="eventsObjectRead"></a>receive | [[Message Object](#messageObject)] | A list of messages a consumer can receive from the API.
-<a name="eventsObjectWrite"></a>send | [[Message Object](#messageObject)] | A list of messages a consumer can send to the API.
-
-Either `receive` or `send` MUST be provided.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Events Object Example
-
-```json
-{
-  "events": {
-    "receive": [
-      { "$ref": "#/components/messages/chatMessage" },
-      { "$ref": "#/components/messages/heartbeat" }
-    ]
-  }
-}
-```
-
-```yaml
-events:
-  receive:
-    - $ref: '#/components/messages/chatMessage'
-    - $ref: '#/components/messages/heartbeat'
-```
-
-
-
-
-
-
-
 #### <a name="messageObject"></a>Message Object
 
-Describes a message received on a given topic and operation.
+Describes a message received on a given channel and operation.
 
 ##### Fixed Fields
 
