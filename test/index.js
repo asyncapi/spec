@@ -1,3 +1,5 @@
+// Usage: npm test [-- --versions 1.2.0,next]
+
 const util = require('util');
 const fs = require('fs');
 const path = require('path');
