@@ -67,8 +67,20 @@ const runForVersion = version => new Promise((resolve, reject) => {
   });
 });
 
+// RUNNING TESTS
+
+let versions = ['1.1.0', '1.2.0', 'next'];
+
+if (process.argv.length > 2) {
+  const args = process.argv.slice(2);
+  const indexOfVersions = args.indexOf('--versions');
+  if (indexOfVersions > -1) versions = args[indexOfVersions + 1].split(',');
+}
+
+console.log(`Running tests for versions: ${versions.join(', ')}\n`.white.bold.underline);
+
 Promise.all(
-  ['1.1.0', '1.2.0', 'next'].map(runForVersion)
+  versions.map(runForVersion)
 ).then(() => {
   console.log('\nThe future looks bright ✨'.green);
 }).catch((e) => {

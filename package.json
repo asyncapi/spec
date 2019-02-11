@@ -4,7 +4,7 @@
   "description": "AsyncAPI specification",
   "scripts": {
     "mdv": "mdv versions/**/*.md",
-    "test": "node test/index.js && npm run mdv"
+    "test": "node test/index.js"
   },
   "private": true,
   "repository": {
