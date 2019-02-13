@@ -18,7 +18,7 @@ servers:
   - url: api.streetlights.smartylighting.com:{port}
     scheme: mqtt
     description: Test broker
-    baseTopic: smartylighting/streetlights/1/0
+    baseChannel: smartylighting/streetlights/1/0
     variables:
       port:
         description: Secure connection (TLS) is available through port 8883.
@@ -35,7 +35,7 @@ security:
     - streetlights:dim
   - openIdConnectWellKnown: []
 
-topics:
+channels:
   event/{streetlightId}/lighting/measured:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
