@@ -1,7 +1,7 @@
 # AsyncAPI Roadmap
 
 ## Project Mission and Summary
-AsyncAPI is a specification for defining message-driven APIs. We're on a mission to standardize message-based communication and increase interoperability of the different types of systems out there.
+AsyncAPI is a specification for defining message-driven APIs. We're on a mission to standardize message-based communication and increase interoperability of the different types of systems available.
 
 > [Read our scope document](./SCOPE.md) to learn what AsyncAPI is and what is not.
 

@@ -1,12 +1,12 @@
 # AsyncAPI Scope
 
-AsyncAPI is a specification for defining message-driven APIs. We're on a mission to standardize message-based communication and increase interoperability of the different types of systems out there.
+AsyncAPI is a specification for defining message-driven APIs. We're on a mission to standardize message-based communication and increase interoperability of the different types of systems available.
 
 ## Scope
 
 The following is a list of features the AsyncAPI specification and its official tooling should offer:
 
-- Provide enough information to connect and consume message-driven APIs. An AsyncAPI document should provide all your software needs to connect to a given API and start publishing and/or consuming messages from it.
+- Provide enough information to connect and consume message-driven APIs. An AsyncAPI document should provide everything your software needs to connect to a given API and start publishing and/or consuming messages from it.
 - Offer a framework for validating message payloads and headers.
 - Allow you to strictly define your message-driven API in a machine-readable format.
 - Provide mechanisms for mapping the information contained in an AsyncAPI document to the major messaging protocols.
