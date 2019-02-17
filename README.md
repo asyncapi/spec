@@ -18,6 +18,8 @@
   <a href="https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg">Slack</a>
   |
   <a href="https://www.youtube.com/channel/UCIz9zGwDLbrYQcDKVXdOstQ">Youtube</a>
+  |
+  <a href="https://opencollective.com/asyncapi">Donate :raised_hands:</a>
 </p>
 
 ## Supported by
@@ -41,6 +43,10 @@
   <a href="https://tibco.com" target="_blank">
     <img src="./assets/tibco.png" alt="TIBCO logo" height="40">
   </a>
+</p>
+
+<p align="center">
+  :raised_hands: <a href="https://opencollective.com/asyncapi">Become a sponsor</a> :raised_hands:
 </p>
 
 ## The specification
