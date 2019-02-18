@@ -50,7 +50,7 @@ _Requirements to be discussed with [@derberg](https://github.com/derberg) and th
 * Make sure all parser dependencies are compatible with a browser.
 
 ##### Dependencies:
-* _(none)_
+* Parser/Validator
 
 #### :arrow_right: Add support for AsyncAPI 2.0.0 in all [asyncapi/generator](https://github.com/asyncapi/generator) templates
 So far, only HTML and Markdown templates will require work.
@@ -84,8 +84,13 @@ It's no secret we'll have to do ~some~a lot of automation here. But how do we au
 
 ![](https://cdn.dribbble.com/users/377435/screenshots/1753131/redisflat_mvp.png "MVP by Kirill Shikhanov")
 
-## Technical proposal
-The way I see us succeeding is by creating a pluggable architecture and splitting the work into the following components or plugins.
+## Technical proposal for the Parser/Validator
+The way I see us succeeding is by creating a pluggable architecture and splitting the work into the following components or plugins:
+
+* High-level specification parser/validator
+* Schema parser
+* Protocol mapper
+* Specification extension parser
 
 ### Terminology
 
@@ -112,7 +117,7 @@ publish:
 
 Following the example above, the MQTT protocol mapper will use the `x-mqtt` object to serialize/deserialize a message to/from an MQTT binary message format.
 
-###### Specification extension parsers
+###### Specification extension parser
 An AsyncAPI document may contain custom information provided in the form of [specification extensions](https://github.com/asyncapi/asyncapi/blob/master/versions/1.2.0/asyncapi.md#specificationExtensions). Therefore, a specification extension parser is the piece of software that understands, interprets, and validates the extension.
 
 ###### Examples:
