@@ -672,47 +672,63 @@
       }
     },
     "message": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "$ref": {
-          "type": "string"
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          }
         },
-        "headers": {
-          "$ref": "#/definitions/schema"
-        },
-        "payload": {
-          "$ref": "#/definitions/schema"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/tag"
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
           },
-          "uniqueItems": true
-        },
-        "summary": {
-          "type": "string",
-          "description": "A brief summary of the message."
-        },
-        "description": {
-          "type": "string",
-          "description": "A longer description of the message. CommonMark is allowed."
-        },
-        "externalDocs": {
-          "$ref": "#/definitions/externalDocs"
-        },
-        "deprecated": {
-          "type": "boolean",
-          "default": false
-        },
-        "example": {}
-      }
+          "properties": {
+            "headers": {
+              "type": "object",
+              "patternProperties": {
+                "": {}
+              }
+            },
+            "payload": {
+              "type": "object",
+              "patternProperties": {
+                "": {}
+              }
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/tag"
+              },
+              "uniqueItems": true
+            },
+            "summary": {
+              "type": "string",
+              "description": "A brief summary of the message."
+            },
+            "description": {
+              "type": "string",
+              "description": "A longer description of the message. CommonMark is allowed."
+            },
+            "externalDocs": {
+              "$ref": "#/definitions/externalDocs"
+            },
+            "deprecated": {
+              "type": "boolean",
+              "default": false
+            },
+            "example": {}
+          }
+        }
+      ]
     },
     "vendorExtension": {
       "description": "Any property starting with x- is valid.",

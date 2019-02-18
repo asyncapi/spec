@@ -65,15 +65,18 @@ components:
     lightMeasured:
       summary: Inform about environmental lighting conditions for a particular streetlight.
       payload:
-        $ref: "#/components/schemas/lightMeasuredPayload"
+        'application/schema+json;version=draft-07':
+          $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
       summary: Command a particular streetlight to turn the lights on or off.
       payload:
-        $ref: "#/components/schemas/turnOnOffPayload"
+        'application/schema+json;version=draft-07':
+          $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
       summary: Command a particular streetlight to dim the lights.
       payload:
-        $ref: "#/components/schemas/dimLightPayload"
+        'application/schema+json;version=draft-07':
+          $ref: "#/components/schemas/dimLightPayload"
 
   schemas:
     lightMeasuredPayload:
