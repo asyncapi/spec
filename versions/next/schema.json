@@ -692,16 +692,10 @@
           },
           "properties": {
             "headers": {
-              "type": "object",
-              "patternProperties": {
-                "": {}
-              }
+              "$ref": "#/definitions/schemaWrapper"
             },
             "payload": {
-              "type": "object",
-              "patternProperties": {
-                "": {}
-              }
+              "$ref": "#/definitions/schemaWrapper"
             },
             "tags": {
               "type": "array",
@@ -729,6 +723,14 @@
           }
         }
       ]
+    },
+    "schemaWrapper": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "patternProperties": {
+        "": {}
+      }
     },
     "vendorExtension": {
       "description": "Any property starting with x- is valid.",

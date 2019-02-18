@@ -796,6 +796,8 @@ Field Pattern | Type | Value Type | Description
 ---|:---:|:---:|---
 <a name="schemaWrapperObjectType"></a>{type} | `string` | `any` | The field name MUST be the schema format name. When possible, it SHOULD be an [RFC 2046 MIME type](https://tools.ietf.org/html/rfc2046). The value can be of any type supported by [JSON](https://tools.ietf.org/html/rfc7159#section-3).
 
+This object MUST NOT contain more than one field.
+
 ##### Schema Wrapper Object Example
 
 ```json
