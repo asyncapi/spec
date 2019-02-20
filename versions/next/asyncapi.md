@@ -406,6 +406,7 @@ Field Name | Type | Description
 <a name="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
 <a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
 <a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
 
 At least one of the fields MUST be provided.
 
