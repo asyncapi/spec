@@ -199,7 +199,6 @@
             "amqp",
             "amqps",
             "mqtt",
-            "mqtts",
             "secure-mqtt",
             "ws",
             "wss",
