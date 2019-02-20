@@ -407,8 +407,6 @@ Field Name | Type | Description
 <a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
 <a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 
-At least one of the fields MUST be provided.
-
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
