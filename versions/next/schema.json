@@ -192,23 +192,7 @@
         },
         "scheme": {
           "type": "string",
-          "description": "The transfer protocol.",
-          "enum": [
-            "kafka",
-            "kafka-secure",
-            "amqp",
-            "amqps",
-            "mqtt",
-            "mqtts",
-            "secure-mqtt",
-            "ws",
-            "wss",
-            "stomp",
-            "stomps",
-            "jms",
-            "http",
-            "https"
-          ]
+          "description": "The transfer protocol."
         },
         "schemeVersion": {
           "type": "string"
