@@ -58,7 +58,6 @@ It means [processes](#definitionsProcess) can subscribe to `user/signedup` chann
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
     - [Security Scheme Object](#securitySchemeObject)
-    - [Security Requirement Object](#securityRequirementObject)
 	- [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
@@ -136,7 +135,6 @@ Field Name | Type | Description
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required unless [Stream Object](#streamObject) is provided.** The available channels and messages for the API.
 <a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Channels Object](#channelsObject) is provided.** The messages and configuration for the streaming API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
-<a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
@@ -278,6 +276,7 @@ Field Name | Type | Description
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 <a name="serverObjectBaseChannel"></a>baseChannel | `string` | A string describing the base channel. MUST be in the form of a [RFC 3986 URI path](https://tools.ietf.org/html/rfc3986#section-3.3). URI templates are not allowed here. Defaults to empty string.
+<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 

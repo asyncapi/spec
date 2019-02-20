@@ -15,9 +15,8 @@ servers:
         enum:
           - chatMessages
           - events
-
-security:
-  - httpBearerToken: []
+    security:
+      - httpBearerToken: []
 
 stream:
   framing:

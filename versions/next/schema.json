@@ -59,12 +59,6 @@
       },
       "uniqueItems": true
     },
-    "security": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/SecurityRequirement"
-      }
-    },
     "externalDocs": {
       "$ref": "#/definitions/externalDocs"
     }
@@ -219,6 +213,12 @@
         "baseChannel": {
           "type": "string",
           "x-format": "uri-path"
+        },
+        "security": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityRequirement"
+          }
         }
       }
     },

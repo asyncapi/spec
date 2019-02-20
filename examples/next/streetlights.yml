@@ -26,14 +26,13 @@ servers:
         enum:
           - '1883'
           - '8883'
-
-security:
-  - apiKey: []
-  - supportedOauthFlows:
-    - streetlights:on
-    - streetlights:off
-    - streetlights:dim
-  - openIdConnectWellKnown: []
+    security:
+      - apiKey: []
+      - supportedOauthFlows:
+        - streetlights:on
+        - streetlights:off
+        - streetlights:dim
+      - openIdConnectWellKnown: []
 
 channels:
   event/{streetlightId}/lighting/measured:
