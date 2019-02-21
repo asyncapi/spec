@@ -72,7 +72,7 @@ A message broker is an intermediary component that translates a [message](#defin
 #### <a name="definitionsMessage"></a>Message
 A message is the mechanism by which information is exchanged via a channel between [message brokers](#definitionsMessageBroker) and applications. A message contains a header and a payload. The header MAY be subdivided into [scheme](#definitionsScheme) defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a formats (JSON, XML, Avro, binary, etc). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
-#### <a name="definitionstChannel"></a>Channel
+#### <a name="definitionsChannel"></a>Channel
 A channel is an addressable component, made available by the [message broker](#definitionsMessageBroker), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from Channels. Message Brokers support many channel instances, allowing messages with different content to be addressed to different channels. Message Brokers MAY provide multiple channel types thus enabling different asynchronous application patterns such as topics, queues and exchanges. Depending on the message broker implementation, the channel MAY be included in the message via scheme defined headers.
 
 #### <a name="definitionsScheme"></a>Scheme
