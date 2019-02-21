@@ -10,6 +10,8 @@ servers:
     variables:
       roomId:
         description: Id of the Gitter room.
+        examples:
+          - 53307860c3599d1de448e19d
       resource:
         description: The resource to consume.
         enum:
