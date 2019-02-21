@@ -17,7 +17,7 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-The file(s) MUST describe the operations a new [application](#definitionsApplication) can perform. For instance:
+The file(s) MUST describe the operations an [application](#definitionsApplication) will perform. For instance:
 
 ```yaml
 user/signedup:
@@ -25,7 +25,7 @@ user/signedup:
     $ref: "#/components/messages/userSignUp"
 ```
 
-It means [application](#definitionsApplication) can subscribe to `user/signedup` channel. However, it does NOT mean every [application](#definitionsApplication) must subscribe to this channel.
+It means the [application](#definitionsApplication) subscribes to `user/signedup` channel. 
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -76,7 +76,7 @@ A message is the mechanism by which information is exchanged via a channel betwe
 A channel is an addressable component, made available by the [message broker](#definitionsMessageBroker), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from Channels. Message Brokers support many channel instances, allowing messages with different content to be addressed to different channels. Message Brokers MAY provide multiple channel types thus enabling different asynchronous application patterns such as topics, queues and exchanges. Depending on the message broker implementation, the channel MAY be included in the message via scheme defined headers.
 
 #### <a name="definitionsScheme"></a>Scheme
-A scheme is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel) hosted by the [message broker](#definitionsMessageBroker). Example schemes include, but are not limited to, AMQP, MQTT, WebSocket, JMS, Kafka, STOMP.  
+A scheme is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel) hosted by the [message broker](#definitionsMessageBroker). Example schemes include, but are not limited to, AMQP, MQTT, WebSocket, JMS, Kafka, STOMP.  
 
 #### <a name="definitionsApplication"></a>Application
 An application is any kind of computer program connected to a [message broker](#definitionsMessageBroker). It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [scheme](#definitionsScheme). An application MUST also use a scheme supported by the message broker in order to connect and exchange [messages](#definitionsMessage). 
