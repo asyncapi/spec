@@ -17,7 +17,7 @@ The AsyncAPI Specification is a project used to describe and document Asynchrono
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-The file(s) MUST describe the operations an [application](#definitionsApplication) will perform. For instance:
+The file(s) MUST describe the operations an [application](#definitionsApplication) will perform. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 user/signedup:
@@ -25,7 +25,7 @@ user/signedup:
     $ref: "#/components/messages/userSignUp"
 ```
 
-It means the [application](#definitionsApplication) subscribes to `user/signedup` channel. 
+Means that the [application](#definitionsApplication) is a [consumer](#definitionsConsumer) because it subscribes to `user/signedup` [channel](#definitionsChannel) and receives userSignUp [messages](#definitionsMessage). 
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
