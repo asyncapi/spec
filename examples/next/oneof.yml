@@ -13,23 +13,28 @@ channels:
       # Use oneOf here if different messages are published on test2 topic.
       oneOf:
         - payload:
-            $ref: "#/components/schemas/objectWithKey"
+            'application/schema+json;version=draft-07':
+              $ref: "#/components/schemas/objectWithKey"
         - payload:
-            $ref: "#/components/schemas/objectWithKey2"
+            'application/schema+json;version=draft-07':
+              $ref: "#/components/schemas/objectWithKey2"
 
 components:
   messages:
     testMessages:
       payload:
-        oneOf: # oneOf in payload schema
-          - $ref: "#/components/schemas/objectWithKey"
-          - $ref: "#/components/schemas/objectWithKey2"
+        'application/schema+json;version=draft-07':
+          oneOf: # oneOf in payload schema
+            - $ref: "#/components/schemas/objectWithKey"
+            - $ref: "#/components/schemas/objectWithKey2"
     testMessage1:
       payload:
-        $ref: "#/components/schemas/objectWithKey"
+        'application/schema+json;version=draft-07':
+          $ref: "#/components/schemas/objectWithKey"
     testMessage2:
       payload:
-        $ref: "#/components/schemas/objectWithKey2"
+        'application/schema+json;version=draft-07':
+          $ref: "#/components/schemas/objectWithKey2"
 
   schemas:
     objectWithKey:

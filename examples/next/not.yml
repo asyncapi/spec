@@ -12,7 +12,8 @@ components:
   messages:
     testMessages:
       payload:
-        $ref: "#/components/schemas/testSchema"
+        'application/schema+json;version=draft-07':
+          $ref: "#/components/schemas/testSchema"
 
   schemas:
     testSchema:

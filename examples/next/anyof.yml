@@ -12,9 +12,10 @@ components:
   messages:
     testMessages:
       payload:
-        anyOf: # anyOf in payload schema
-          - $ref: "#/components/schemas/objectWithKey"
-          - $ref: "#/components/schemas/objectWithKey2"
+        'application/schema+json;version=draft-07':
+          anyOf: # anyOf in payload schema
+            - $ref: "#/components/schemas/objectWithKey"
+            - $ref: "#/components/schemas/objectWithKey2"
 
   schemas:
     objectWithKey:
