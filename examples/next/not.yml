@@ -1,4 +1,5 @@
 asyncapi: '2.0.0'
+id: 'https://github.com/asyncapi/asyncapi/examples/next/not.yml'
 info:
   title: Not example
   version: '1.0.0'

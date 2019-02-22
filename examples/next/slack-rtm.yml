@@ -1,4 +1,5 @@
 asyncapi: '2.0.0'
+id: 'urn:com:slack:rtm:api'
 info:
   title: Slack Real Time Messaging API
   version: '1.0.0'

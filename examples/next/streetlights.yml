@@ -1,4 +1,5 @@
 asyncapi: '2.0.0'
+id: 'urn:com:smartylighting:streetlights:server'
 info:
   title: Streetlights API
   version: '1.0.0'

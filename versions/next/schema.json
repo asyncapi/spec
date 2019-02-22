@@ -4,6 +4,7 @@
   "type": "object",
   "required": [
     "asyncapi",
+    "id",
     "info"
   ],
   "oneOf": [
@@ -31,6 +32,11 @@
         "2.0.0"
       ],
       "description": "The AsyncAPI specification version of this document."
+    },
+    "id": {
+      "type": "string",
+      "description": "A unique id representing the application.",
+      "format": "uri-reference"
     },
     "info": {
       "$ref": "#/definitions/info"
