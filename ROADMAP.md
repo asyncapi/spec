@@ -18,13 +18,13 @@ We're working hard to reach version 2.0.0, which will come full of great new fea
 
 Before we continue heading to version 2.0.0, let's make the biggest breaking changes in the history of AsyncAPI: topic normalization and support for multiple schemas.
 
-### Next milestones
-
-:arrow_right: [[v2.0.0] Improving connectivity](https://github.com/asyncapi/asyncapi/milestone/1) (current milestone)
+:arrow_right: [[v2.0.0] Improving connectivity](https://github.com/asyncapi/asyncapi/milestone/1)
 
 This milestone tackles the issues related to connecting to a server. This is very important for SDKs and code generators.
 
-:arrow_right: [[v2.0.0] Improve user experience](https://github.com/asyncapi/asyncapi/milestone/4)
+### Next milestones
+
+:arrow_right: [[v2.0.0] Improve user experience](https://github.com/asyncapi/asyncapi/milestone/4) (current milestone)
 
 This milestone is about improving developer/user experience in, both, the specification and the tooling.
 
