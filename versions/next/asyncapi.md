@@ -675,6 +675,8 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
+<a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
+<a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
@@ -686,6 +688,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "name": "UserSignup",
+  "title": "User signup",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "tags": [
@@ -723,6 +727,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+name: UserSignup
+title: User signup
 summary: Action to sign a user up.
 description: A longer description
 tags:
@@ -751,6 +757,8 @@ Example using Google's protobuf messages:
 
 ```json
 {
+  "name": "UserSignup",
+  "title": "User signup",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "tags": [
@@ -772,6 +780,8 @@ Example using Google's protobuf messages:
 ```
 
 ```yaml
+name: UserSignup
+title: User signup
 summary: Action to sign a user up.
 description: A longer description
 tags:
