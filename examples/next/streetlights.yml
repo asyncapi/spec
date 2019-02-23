@@ -38,44 +38,47 @@ channels:
   event/{streetlightId}/lighting/measured:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
-    publish:
-      $ref: '#/components/messages/lightMeasured'
+    subscribe:
+      summary: Receive information about environmental lighting conditions of a particular streetlight.
+      # operationId: receiveLightMeasurement
+      message:
+        $ref: '#/components/messages/lightMeasured'
 
   action/{streetlightId}/turn/on:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      $ref: '#/components/messages/turnOnOff'
+    publish:
+      message:
+        $ref: '#/components/messages/turnOnOff'
 
   action/{streetlightId}/turn/off:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      $ref: '#/components/messages/turnOnOff'
+    publish:
+      message:
+        $ref: '#/components/messages/turnOnOff'
 
   action/{streetlightId}/dim:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      $ref: '#/components/messages/dimLight'
+    publish:
+      message:
+        $ref: '#/components/messages/dimLight'
 
 components:
   messages:
     lightMeasured:
       summary: Inform about environmental lighting conditions for a particular streetlight.
       payload:
-        'application/schema+json;version=draft-07':
-          $ref: "#/components/schemas/lightMeasuredPayload"
+        $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
       summary: Command a particular streetlight to turn the lights on or off.
       payload:
-        'application/schema+json;version=draft-07':
-          $ref: "#/components/schemas/turnOnOffPayload"
+        $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
       summary: Command a particular streetlight to dim the lights.
       payload:
-        'application/schema+json;version=draft-07':
-          $ref: "#/components/schemas/dimLightPayload"
+        $ref: "#/components/schemas/dimLightPayload"
 
   schemas:
     lightMeasuredPayload:

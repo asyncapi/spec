@@ -558,28 +558,59 @@
       }
     },
     "operation": {
-      "oneOf": [
-        { "$ref": "#/definitions/message" },
-        {
-          "type": "object",
-          "required": [ "oneOf" ],
-          "additionalProperties": false,
-          "patternProperties": {
-            "^x-": {
-              "$ref": "#/definitions/vendorExtension"
-            }
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tag"
           },
-          "properties": {
-            "oneOf": {
-              "type": "array",
-              "minItems": 2,
-              "items": {
-                "$ref": "#/definitions/message"
+          "uniqueItems": true
+        },
+        "externalDocs": {
+          "$ref": "#/definitions/externalDocs"
+        },
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/message"
+            },
+            {
+              "type": "object",
+              "required": [
+                "oneOf"
+              ],
+              "additionalProperties": false,
+              "patternProperties": {
+                "^x-": {
+                  "$ref": "#/definitions/vendorExtension"
+                }
+              },
+              "properties": {
+                "oneOf": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "$ref": "#/definitions/message"
+                  }
+                }
               }
             }
-          }
+          ]
         }
-      ]
+      }
     },
     "stream": {
       "title": "Stream Object",
@@ -681,12 +712,13 @@
             }
           },
           "properties": {
+            "schemaFormat": {
+              "type": "string"
+            },
             "headers": {
-              "$ref": "#/definitions/schemaWrapper"
+              "$ref": "#/definitions/schema"
             },
-            "payload": {
-              "$ref": "#/definitions/schemaWrapper"
-            },
+            "payload": {},
             "tags": {
               "type": "array",
               "items": {
@@ -713,14 +745,6 @@
           }
         }
       ]
-    },
-    "schemaWrapper": {
-      "type": "object",
-      "minProperties": 1,
-      "maxProperties": 1,
-      "patternProperties": {
-        "": {}
-      }
     },
     "vendorExtension": {
       "description": "Any property starting with x- is valid.",
