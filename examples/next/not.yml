@@ -7,14 +7,14 @@ info:
 channels:
   test:
     publish:
-      $ref: '#/components/messages/testMessages'
+      message:
+        $ref: '#/components/messages/testMessages'
 
 components:
   messages:
     testMessages:
       payload:
-        'application/schema+json;version=draft-07':
-          $ref: "#/components/schemas/testSchema"
+        $ref: "#/components/schemas/testSchema"
 
   schemas:
     testSchema:

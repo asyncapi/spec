@@ -7,35 +7,32 @@ info:
 channels:
   test:
     publish:
-      $ref: '#/components/messages/testMessages'
+      message:
+        $ref: '#/components/messages/testMessages'
 
   test2:
     subscribe:
-      # Use oneOf here if different messages are published on test2 topic.
-      oneOf:
-        - payload:
-            'application/schema+json;version=draft-07':
+      message:
+        # Use oneOf here if different messages are published on test2 topic.
+        oneOf:
+          - payload:
               $ref: "#/components/schemas/objectWithKey"
-        - payload:
-            'application/schema+json;version=draft-07':
+          - payload:
               $ref: "#/components/schemas/objectWithKey2"
 
 components:
   messages:
     testMessages:
       payload:
-        'application/schema+json;version=draft-07':
-          oneOf: # oneOf in payload schema
-            - $ref: "#/components/schemas/objectWithKey"
-            - $ref: "#/components/schemas/objectWithKey2"
+        oneOf: # oneOf in payload schema
+          - $ref: "#/components/schemas/objectWithKey"
+          - $ref: "#/components/schemas/objectWithKey2"
     testMessage1:
       payload:
-        'application/schema+json;version=draft-07':
-          $ref: "#/components/schemas/objectWithKey"
+        $ref: "#/components/schemas/objectWithKey"
     testMessage2:
       payload:
-        'application/schema+json;version=draft-07':
-          $ref: "#/components/schemas/objectWithKey2"
+        $ref: "#/components/schemas/objectWithKey2"
 
   schemas:
     objectWithKey:

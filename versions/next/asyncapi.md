@@ -50,6 +50,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 		- [Servers Object](#A2SServers)
 		- [Channels Object](#channelsObject)
 		- [Channel Item Object](#channelItemObject)
+		- [Operation Object](#operationObject)
 		- [Stream Object](#streamObject)
 		- [Message Object](#messageObject)
 		- [Schema Wrapper Object](#schemaWrapperObject)
@@ -488,8 +489,8 @@ Describes the operations available on a single channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
-<a name="channelItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="channelItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
+<a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
 <a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -500,12 +501,111 @@ This object can be extended with [Specification Extensions](#specificationExtens
 {
   "subscribe": {
     "summary": "A user signed up.",
-    "description": "A longer description of the message",
+    "message": {
+      "description": "A longer description of the message",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/user"
+          },
+          "signup": {
+            "$ref": "#/components/schemas/signup"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+```yaml
+subscribe:
+  summary: A user signed up.
+  message:
+    description: A longer description of the message
+    payload:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/user"
+        signup:
+          $ref: "#/components/schemas/signup"
+```
+
+Using `oneOf` to specify multiple messages per operation:
+
+```json
+{
+  "subscribe": {
+    "message": {
+      "oneOf": [
+        { "$ref": "#/components/messages/signup" },
+        { "$ref": "#/components/messages/login" }
+      ]
+    }
+  }
+}
+```
+
+```yaml
+subscribe:
+  message:
+    oneOf:
+      - $ref: '#/components/messages/signup'
+      - $ref: '#/components/messages/login'
+```
+
+
+
+
+
+
+
+#### <a name="operationObject"></a>Operation Object
+
+Describes a publish or a subscribe operation.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
+<a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
+<a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Object Example
+
+```json
+{
+  "summary": "Action to sign a user up.",
+  "description": "A longer description",
+  "tags": [
+    { "name": "user" },
+    { "name": "signup" },
+    { "name": "register" }
+  ],
+  "message": {
+    "headers": {
+      "type": "object",
+      "properties": {
+        "qos": {
+          "$ref": "#/components/schemas/MQTTQoSHeader"
+        },
+        "retainFlag": {
+          "$ref": "#/components/schemas/MQTTRetainHeader"
+        }
+      }
+    },
     "payload": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/components/schemas/user"
+          "$ref": "#/components/schemas/userCreate"
         },
         "signup": {
           "$ref": "#/components/schemas/signup"
@@ -517,40 +617,28 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-subscribe:
-  summary: A user signed up.
-  description: A longer description of the message
+summary: Action to sign a user up.
+description: A longer description
+tags:
+  - name: user
+  - name: signup
+  - name: register
+message:
+  headers:
+    type: object
+    properties:
+      qos:
+        $ref: "#/components/schemas/MQTTQoSHeader"
+      retainFlag:
+        $ref: "#/components/schemas/MQTTRetainHeader"
   payload:
     type: object
     properties:
       user:
-        $ref: "#/components/schemas/user"
+        $ref: "#/components/schemas/userCreate"
       signup:
         $ref: "#/components/schemas/signup"
 ```
-
-Using `oneOf` to specify multiple messages per operation:
-
-```json
-{
-  "subscribe": {
-    "oneOf": [
-      { "$ref": "#/components/messages/signup" },
-      { "$ref": "#/components/messages/login" }
-    ]
-  }
-}
-```
-
-```yaml
-subscribe:
-  oneOf:
-    - $ref: '#/components/messages/signup'
-    - $ref: '#/components/messages/login'
-```
-
-
-
 
 
 
