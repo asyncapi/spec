@@ -1,4 +1,5 @@
 asyncapi: '2.0.0'
+id: 'urn:com:gitter:streaming:api'
 info:
   title: Gitter Streaming API
   version: '1.0.0'

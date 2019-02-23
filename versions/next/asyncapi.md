@@ -135,6 +135,7 @@ It combines resource listing and API declaration together into one document.
 Field Name | Type | Description
 ---|:---:|---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
+<a name="A2SId"></a>id | [Identifier](#A2SIdString) | **Required.** Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required unless [Stream Object](#streamObject) is provided.** The available channels and messages for the API.
@@ -155,6 +156,32 @@ A `major`.`minor` shall be used to designate the AsyncAPI Specification version,
 The patch version will not be considered by tooling, making no distinction between `1.0.0` and `1.0.1`.
 
 In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
+
+#### <a name="A2SIdString"></a>Identifier
+
+This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI Reference format (either a URI or a relative-reference), according to [RFC3986, section 4.1](http://tools.ietf.org/html/rfc3986#section-4.1).
+
+###### Examples
+
+```json
+{
+  "id": "urn:com:smartylighting:streetlights:server"
+}
+```
+
+```yaml
+id: 'urn:com:smartylighting:streetlights:server'
+```
+
+```json
+{
+  "id": "https://github.com/smartylighting/streetlights-server"
+}
+```
+
+```yaml
+id: 'https://github.com/smartylighting/streetlights-server'
+```
 
 #### <a name="infoObject"></a>Info Object
 
