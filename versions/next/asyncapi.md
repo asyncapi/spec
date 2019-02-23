@@ -412,8 +412,6 @@ Field Name | Type | Description
 <a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
 
-At least one of the fields MUST be provided.
-
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
