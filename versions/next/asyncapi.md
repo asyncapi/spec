@@ -53,7 +53,6 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 		- [Operation Object](#operationObject)
 		- [Stream Object](#streamObject)
 		- [Message Object](#messageObject)
-		- [Schema Wrapper Object](#schemaWrapperObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
 		- [Components Object](#componentsObject)
@@ -786,9 +785,9 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
-<a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
-<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementers should parse the payload as a [Schema object](#schemaObject).
+<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
+<a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
