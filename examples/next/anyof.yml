@@ -1,4 +1,5 @@
 asyncapi: '2.0.0'
+id: 'https://github.com/asyncapi/asyncapi/examples/next/anyof.yml'
 info:
   title: AnyOf example
   version: '1.0.0'
@@ -6,16 +7,16 @@ info:
 channels:
   test:
     publish:
-      $ref: '#/components/messages/testMessages'
+      message:
+        $ref: '#/components/messages/testMessages'
 
 components:
   messages:
     testMessages:
       payload:
-        'application/schema+json;version=draft-07':
-          anyOf: # anyOf in payload schema
-            - $ref: "#/components/schemas/objectWithKey"
-            - $ref: "#/components/schemas/objectWithKey2"
+        anyOf: # anyOf in payload schema
+          - $ref: "#/components/schemas/objectWithKey"
+          - $ref: "#/components/schemas/objectWithKey2"
 
   schemas:
     objectWithKey:

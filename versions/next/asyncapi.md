@@ -50,9 +50,9 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 		- [Servers Object](#A2SServers)
 		- [Channels Object](#channelsObject)
 		- [Channel Item Object](#channelItemObject)
+		- [Operation Object](#operationObject)
 		- [Stream Object](#streamObject)
 		- [Message Object](#messageObject)
-		- [Schema Wrapper Object](#schemaWrapperObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
 		- [Components Object](#componentsObject)
@@ -135,6 +135,7 @@ It combines resource listing and API declaration together into one document.
 Field Name | Type | Description
 ---|:---:|---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
+<a name="A2SId"></a>id | [Identifier](#A2SIdString) | **Required.** Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required unless [Stream Object](#streamObject) is provided.** The available channels and messages for the API.
@@ -155,6 +156,32 @@ A `major`.`minor` shall be used to designate the AsyncAPI Specification version,
 The patch version will not be considered by tooling, making no distinction between `1.0.0` and `1.0.1`.
 
 In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
+
+#### <a name="A2SIdString"></a>Identifier
+
+This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI Reference format (either a URI or a relative-reference), according to [RFC3986, section 4.1](http://tools.ietf.org/html/rfc3986#section-4.1).
+
+###### Examples
+
+```json
+{
+  "id": "urn:com:smartylighting:streetlights:server"
+}
+```
+
+```yaml
+id: 'urn:com:smartylighting:streetlights:server'
+```
+
+```json
+{
+  "id": "https://github.com/smartylighting/streetlights-server"
+}
+```
+
+```yaml
+id: 'https://github.com/smartylighting/streetlights-server'
+```
 
 #### <a name="infoObject"></a>Info Object
 
@@ -412,8 +439,6 @@ Field Name | Type | Description
 <a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
 
-At least one of the fields MUST be provided.
-
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
@@ -463,8 +488,8 @@ Describes the operations available on a single channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
-<a name="channelItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="channelItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+<a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
+<a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
 <a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -475,12 +500,111 @@ This object can be extended with [Specification Extensions](#specificationExtens
 {
   "subscribe": {
     "summary": "A user signed up.",
-    "description": "A longer description of the message",
+    "message": {
+      "description": "A longer description of the message",
+      "payload": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/user"
+          },
+          "signup": {
+            "$ref": "#/components/schemas/signup"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+```yaml
+subscribe:
+  summary: A user signed up.
+  message:
+    description: A longer description of the message
+    payload:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/user"
+        signup:
+          $ref: "#/components/schemas/signup"
+```
+
+Using `oneOf` to specify multiple messages per operation:
+
+```json
+{
+  "subscribe": {
+    "message": {
+      "oneOf": [
+        { "$ref": "#/components/messages/signup" },
+        { "$ref": "#/components/messages/login" }
+      ]
+    }
+  }
+}
+```
+
+```yaml
+subscribe:
+  message:
+    oneOf:
+      - $ref: '#/components/messages/signup'
+      - $ref: '#/components/messages/login'
+```
+
+
+
+
+
+
+
+#### <a name="operationObject"></a>Operation Object
+
+Describes a publish or a subscribe operation.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
+<a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
+<a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Object Example
+
+```json
+{
+  "summary": "Action to sign a user up.",
+  "description": "A longer description",
+  "tags": [
+    { "name": "user" },
+    { "name": "signup" },
+    { "name": "register" }
+  ],
+  "message": {
+    "headers": {
+      "type": "object",
+      "properties": {
+        "qos": {
+          "$ref": "#/components/schemas/MQTTQoSHeader"
+        },
+        "retainFlag": {
+          "$ref": "#/components/schemas/MQTTRetainHeader"
+        }
+      }
+    },
     "payload": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/components/schemas/user"
+          "$ref": "#/components/schemas/userCreate"
         },
         "signup": {
           "$ref": "#/components/schemas/signup"
@@ -492,40 +616,28 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-subscribe:
-  summary: A user signed up.
-  description: A longer description of the message
+summary: Action to sign a user up.
+description: A longer description
+tags:
+  - name: user
+  - name: signup
+  - name: register
+message:
+  headers:
+    type: object
+    properties:
+      qos:
+        $ref: "#/components/schemas/MQTTQoSHeader"
+      retainFlag:
+        $ref: "#/components/schemas/MQTTRetainHeader"
   payload:
     type: object
     properties:
       user:
-        $ref: "#/components/schemas/user"
+        $ref: "#/components/schemas/userCreate"
       signup:
         $ref: "#/components/schemas/signup"
 ```
-
-Using `oneOf` to specify multiple messages per operation:
-
-```json
-{
-  "subscribe": {
-    "oneOf": [
-      { "$ref": "#/components/messages/signup" },
-      { "$ref": "#/components/messages/login" }
-    ]
-  }
-}
-```
-
-```yaml
-subscribe:
-  oneOf:
-    - $ref: '#/components/messages/signup'
-    - $ref: '#/components/messages/login'
-```
-
-
-
 
 
 
@@ -673,8 +785,9 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
-<a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
+<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
+<a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
@@ -698,28 +811,24 @@ This object can be extended with [Specification Extensions](#specificationExtens
     { "name": "register" }
   ],
   "headers": {
-    "application/schema+json;version=draft-07": {
-      "type": "object",
-      "properties": {
-        "qos": {
-          "$ref": "#/components/schemas/MQTTQoSHeader"
-        },
-        "retainFlag": {
-          "$ref": "#/components/schemas/MQTTRetainHeader"
-        }
+    "type": "object",
+    "properties": {
+      "qos": {
+        "$ref": "#/components/schemas/MQTTQoSHeader"
+      },
+      "retainFlag": {
+        "$ref": "#/components/schemas/MQTTRetainHeader"
       }
     }
   },
   "payload": {
-    "application/schema+json;version=draft-07": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/components/schemas/userCreate"
-        },
-        "signup": {
-          "$ref": "#/components/schemas/signup"
-        }
+    "type": "object",
+    "properties": {
+      "user": {
+        "$ref": "#/components/schemas/userCreate"
+      },
+      "signup": {
+        "$ref": "#/components/schemas/signup"
       }
     }
   }
@@ -736,24 +845,22 @@ tags:
   - name: signup
   - name: register
 headers:
-  application/schema+json;version=draft-07:
-    type: object
-    properties:
-      qos:
-        $ref: "#/components/schemas/MQTTQoSHeader"
-      retainFlag:
-        $ref: "#/components/schemas/MQTTRetainHeader"
+  type: object
+  properties:
+    qos:
+      $ref: "#/components/schemas/MQTTQoSHeader"
+    retainFlag:
+      $ref: "#/components/schemas/MQTTRetainHeader"
 payload:
-  application/schema+json;version=draft-07:
-    type: object
-    properties:
-      user:
-        $ref: "#/components/schemas/userCreate"
-      signup:
-        $ref: "#/components/schemas/signup"
+  type: object
+  properties:
+    user:
+      $ref: "#/components/schemas/userCreate"
+    signup:
+      $ref: "#/components/schemas/signup"
 ```
 
-Example using Google's protobuf messages:
+Example using Google's protobuf to define the payload:
 
 ```json
 {
@@ -766,15 +873,9 @@ Example using Google's protobuf messages:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "headers": {
-    "application/x-protobuf": {
-      "$ref": "path/to/user-create.proto#Headers"
-    }
-  },
+  "schemaFormat": "application/x-protobuf",
   "payload": {
-    "application/x-protobuf": {
-      "$ref": "path/to/user-create.proto#UserCreate"
-    }
+    "$ref": "path/to/user-create.proto#UserCreate"
   }
 }
 ```
@@ -788,98 +889,11 @@ tags:
   - name: user
   - name: signup
   - name: register
-headers:
-  application/x-protobuf:
-    $ref: 'path/to/user-create.proto#Headers'
+schemaFormat: application/x-protobuf
 payload:
-  application/x-protobuf:
-    $ref: 'path/to/user-create.proto#UserCreate'
+  $ref: 'path/to/user-create.proto#UserCreate'
 ```
 
-
-
-
-
-#### <a name="schemaWrapperObject"></a>Schema Wrapper Object
-
-Describes the format and value of a schema. Schemas MAY or MAY NOT follow the [Schema Object](#schemaObject) definition.
-
-##### Patterned Fields
-
-Field Pattern | Type | Value Type | Description
----|:---:|:---:|---
-<a name="schemaWrapperObjectType"></a>{type} | `string` | `any` | The field name MUST be the schema format name. When possible, it SHOULD be an [RFC 2046 MIME type](https://tools.ietf.org/html/rfc2046). The value can be of any type supported by [JSON](https://tools.ietf.org/html/rfc7159#section-3).
-
-This object MUST NOT contain more than one field.
-
-##### Schema Wrapper Object Example
-
-```json
-{
-  "application/schema+json;version=draft-07": {
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "type": "number"
-      },
-      "name": {
-        "type": "string"
-      },
-      "email": {
-        "type": "string",
-        "format": "email"
-      }
-    }
-  }
-}
-```
-
-```yaml
-'application/schema+json;version=draft-07':
-  type: object
-  additionalProperties: false
-  properties:
-    id:
-      type: number
-    name:
-      type: string
-    email:
-      type: string
-      format: email
-```
-
-Example using Google's protobuf messages:
-
-```json
-{
-  "application/x-protobuf": {
-    "$ref": "path/to/user-created.proto#UserCreated"
-  }
-}
-```
-
-```yaml
-application/x-protobuf:
-  $ref: 'path/to/user-created.proto#UserCreated'
-```
-
-Example using Google's protobuf messages (without `$ref`):
-
-```json
-{
-  "application/x-protobuf": "message UserCreated {\n  int32 id = 1;\n  string name = 2;\n  string email = 3;\n}",
-}
-```
-
-```yaml
-application/x-protobuf: >
-  message UserCreated {
-    int32 id = 1;
-    string name = 2;
-    string email = 3;
-  }
-```
 
 
 
