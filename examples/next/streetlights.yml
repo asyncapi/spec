@@ -70,6 +70,7 @@ components:
   messages:
     lightMeasured:
       summary: Inform about environmental lighting conditions for a particular streetlight.
+      contentType: application/json
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:

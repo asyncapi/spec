@@ -721,6 +721,9 @@
             "schemaFormat": {
               "type": "string"
             },
+            "contentType": {
+              "type": "string"
+            },
             "headers": {
               "$ref": "#/definitions/schema"
             },

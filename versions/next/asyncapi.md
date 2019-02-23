@@ -788,6 +788,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
+<a name="messageObjectContentType"></a>contentType | `string` | The Content-Type for encoding the message payload. The value MUST be a specific media type (e.g. `application/json`).
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
@@ -801,6 +802,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 {
   "summary": "Action to sign a user up.",
   "description": "A longer description",
+  "contentType": "application/json",
   "tags": [
     { "name": "user" },
     { "name": "signup" },
@@ -838,6 +840,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 summary: Action to sign a user up.
 description: A longer description
+contentType: application/json
 tags:
   - name: user
   - name: signup
