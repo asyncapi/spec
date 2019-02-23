@@ -588,6 +588,9 @@
         "externalDocs": {
           "$ref": "#/definitions/externalDocs"
         },
+        "operationId": {
+          "type": "string"
+        },
         "message": {
           "oneOf": [
             {

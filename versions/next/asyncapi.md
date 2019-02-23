@@ -570,6 +570,7 @@ Describes a publish or a subscribe operation.
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="operationObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
@@ -582,6 +583,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "operationId": "registerUser",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "tags": [
@@ -617,6 +619,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+operationId: registerUser
 summary: Action to sign a user up.
 description: A longer description
 tags:
