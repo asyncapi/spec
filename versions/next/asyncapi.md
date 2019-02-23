@@ -788,6 +788,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementers should parse the payload as a [Schema object](#schemaObject).
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
@@ -807,28 +808,24 @@ This object can be extended with [Specification Extensions](#specificationExtens
     { "name": "register" }
   ],
   "headers": {
-    "application/schema+json;version=draft-07": {
-      "type": "object",
-      "properties": {
-        "qos": {
-          "$ref": "#/components/schemas/MQTTQoSHeader"
-        },
-        "retainFlag": {
-          "$ref": "#/components/schemas/MQTTRetainHeader"
-        }
+    "type": "object",
+    "properties": {
+      "qos": {
+        "$ref": "#/components/schemas/MQTTQoSHeader"
+      },
+      "retainFlag": {
+        "$ref": "#/components/schemas/MQTTRetainHeader"
       }
     }
   },
   "payload": {
-    "application/schema+json;version=draft-07": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/components/schemas/userCreate"
-        },
-        "signup": {
-          "$ref": "#/components/schemas/signup"
-        }
+    "type": "object",
+    "properties": {
+      "user": {
+        "$ref": "#/components/schemas/userCreate"
+      },
+      "signup": {
+        "$ref": "#/components/schemas/signup"
       }
     }
   }
@@ -843,24 +840,22 @@ tags:
   - name: signup
   - name: register
 headers:
-  application/schema+json;version=draft-07:
-    type: object
-    properties:
-      qos:
-        $ref: "#/components/schemas/MQTTQoSHeader"
-      retainFlag:
-        $ref: "#/components/schemas/MQTTRetainHeader"
+  type: object
+  properties:
+    qos:
+      $ref: "#/components/schemas/MQTTQoSHeader"
+    retainFlag:
+      $ref: "#/components/schemas/MQTTRetainHeader"
 payload:
-  application/schema+json;version=draft-07:
-    type: object
-    properties:
-      user:
-        $ref: "#/components/schemas/userCreate"
-      signup:
-        $ref: "#/components/schemas/signup"
+  type: object
+  properties:
+    user:
+      $ref: "#/components/schemas/userCreate"
+    signup:
+      $ref: "#/components/schemas/signup"
 ```
 
-Example using Google's protobuf messages:
+Example using Google's protobuf to define the payload:
 
 ```json
 {
@@ -871,15 +866,9 @@ Example using Google's protobuf messages:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "headers": {
-    "application/x-protobuf": {
-      "$ref": "path/to/user-create.proto#Headers"
-    }
-  },
+  "schemaFormat": "application/x-protobuf",
   "payload": {
-    "application/x-protobuf": {
-      "$ref": "path/to/user-create.proto#UserCreate"
-    }
+    "$ref": "path/to/user-create.proto#UserCreate"
   }
 }
 ```
@@ -891,98 +880,11 @@ tags:
   - name: user
   - name: signup
   - name: register
-headers:
-  application/x-protobuf:
-    $ref: 'path/to/user-create.proto#Headers'
+schemaFormat: application/x-protobuf
 payload:
-  application/x-protobuf:
-    $ref: 'path/to/user-create.proto#UserCreate'
+  $ref: 'path/to/user-create.proto#UserCreate'
 ```
 
-
-
-
-
-#### <a name="schemaWrapperObject"></a>Schema Wrapper Object
-
-Describes the format and value of a schema. Schemas MAY or MAY NOT follow the [Schema Object](#schemaObject) definition.
-
-##### Patterned Fields
-
-Field Pattern | Type | Value Type | Description
----|:---:|:---:|---
-<a name="schemaWrapperObjectType"></a>{type} | `string` | `any` | The field name MUST be the schema format name. When possible, it SHOULD be an [RFC 2046 MIME type](https://tools.ietf.org/html/rfc2046). The value can be of any type supported by [JSON](https://tools.ietf.org/html/rfc7159#section-3).
-
-This object MUST NOT contain more than one field.
-
-##### Schema Wrapper Object Example
-
-```json
-{
-  "application/schema+json;version=draft-07": {
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "type": "number"
-      },
-      "name": {
-        "type": "string"
-      },
-      "email": {
-        "type": "string",
-        "format": "email"
-      }
-    }
-  }
-}
-```
-
-```yaml
-'application/schema+json;version=draft-07':
-  type: object
-  additionalProperties: false
-  properties:
-    id:
-      type: number
-    name:
-      type: string
-    email:
-      type: string
-      format: email
-```
-
-Example using Google's protobuf messages:
-
-```json
-{
-  "application/x-protobuf": {
-    "$ref": "path/to/user-created.proto#UserCreated"
-  }
-}
-```
-
-```yaml
-application/x-protobuf:
-  $ref: 'path/to/user-created.proto#UserCreated'
-```
-
-Example using Google's protobuf messages (without `$ref`):
-
-```json
-{
-  "application/x-protobuf": "message UserCreated {\n  int32 id = 1;\n  string name = 2;\n  string email = 3;\n}",
-}
-```
-
-```yaml
-application/x-protobuf: >
-  message UserCreated {
-    int32 id = 1;
-    string name = 2;
-    string email = 3;
-  }
-```
 
 
 
