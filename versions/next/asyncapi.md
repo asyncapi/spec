@@ -53,7 +53,6 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 		- [Operation Object](#operationObject)
 		- [Stream Object](#streamObject)
 		- [Message Object](#messageObject)
-		- [Schema Wrapper Object](#schemaWrapperObject)
 		- [Tag Object](#tagObject)
 		- [External Documentation Object](#externalDocumentationObject)
 		- [Components Object](#componentsObject)
@@ -593,6 +592,7 @@ Describes a publish or a subscribe operation.
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="operationObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
@@ -605,6 +605,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "operationId": "registerUser",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "tags": [
@@ -640,6 +641,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+operationId: registerUser
 summary: Action to sign a user up.
 description: A longer description
 tags:
@@ -809,8 +811,10 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
-<a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
+
+<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
+<a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
@@ -832,28 +836,24 @@ This object can be extended with [Specification Extensions](#specificationExtens
     { "name": "register" }
   ],
   "headers": {
-    "application/schema+json;version=draft-07": {
-      "type": "object",
-      "properties": {
-        "qos": {
-          "$ref": "#/components/schemas/MQTTQoSHeader"
-        },
-        "retainFlag": {
-          "$ref": "#/components/schemas/MQTTRetainHeader"
-        }
+    "type": "object",
+    "properties": {
+      "qos": {
+        "$ref": "#/components/schemas/MQTTQoSHeader"
+      },
+      "retainFlag": {
+        "$ref": "#/components/schemas/MQTTRetainHeader"
       }
     }
   },
   "payload": {
-    "application/schema+json;version=draft-07": {
-      "type": "object",
-      "properties": {
-        "user": {
-          "$ref": "#/components/schemas/userCreate"
-        },
-        "signup": {
-          "$ref": "#/components/schemas/signup"
-        }
+    "type": "object",
+    "properties": {
+      "user": {
+        "$ref": "#/components/schemas/userCreate"
+      },
+      "signup": {
+        "$ref": "#/components/schemas/signup"
       }
     }
   }
@@ -869,24 +869,22 @@ tags:
   - name: signup
   - name: register
 headers:
-  application/schema+json;version=draft-07:
-    type: object
-    properties:
-      qos:
-        $ref: "#/components/schemas/MQTTQoSHeader"
-      retainFlag:
-        $ref: "#/components/schemas/MQTTRetainHeader"
+  type: object
+  properties:
+    qos:
+      $ref: "#/components/schemas/MQTTQoSHeader"
+    retainFlag:
+      $ref: "#/components/schemas/MQTTRetainHeader"
 payload:
-  application/schema+json;version=draft-07:
-    type: object
-    properties:
-      user:
-        $ref: "#/components/schemas/userCreate"
-      signup:
-        $ref: "#/components/schemas/signup"
+  type: object
+  properties:
+    user:
+      $ref: "#/components/schemas/userCreate"
+    signup:
+      $ref: "#/components/schemas/signup"
 ```
 
-Example using Google's protobuf messages:
+Example using Google's protobuf to define the payload:
 
 ```json
 {
@@ -897,15 +895,9 @@ Example using Google's protobuf messages:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "headers": {
-    "application/x-protobuf": {
-      "$ref": "path/to/user-create.proto#Headers"
-    }
-  },
+  "schemaFormat": "application/x-protobuf",
   "payload": {
-    "application/x-protobuf": {
-      "$ref": "path/to/user-create.proto#UserCreate"
-    }
+    "$ref": "path/to/user-create.proto#UserCreate"
   }
 }
 ```
@@ -917,98 +909,11 @@ tags:
   - name: user
   - name: signup
   - name: register
-headers:
-  application/x-protobuf:
-    $ref: 'path/to/user-create.proto#Headers'
+schemaFormat: application/x-protobuf
 payload:
-  application/x-protobuf:
-    $ref: 'path/to/user-create.proto#UserCreate'
+  $ref: 'path/to/user-create.proto#UserCreate'
 ```
 
-
-
-
-
-#### <a name="schemaWrapperObject"></a>Schema Wrapper Object
-
-Describes the format and value of a schema. Schemas MAY or MAY NOT follow the [Schema Object](#schemaObject) definition.
-
-##### Patterned Fields
-
-Field Pattern | Type | Value Type | Description
----|:---:|:---:|---
-<a name="schemaWrapperObjectType"></a>{type} | `string` | `any` | The field name MUST be the schema format name. When possible, it SHOULD be an [RFC 2046 MIME type](https://tools.ietf.org/html/rfc2046). The value can be of any type supported by [JSON](https://tools.ietf.org/html/rfc7159#section-3).
-
-This object MUST NOT contain more than one field.
-
-##### Schema Wrapper Object Example
-
-```json
-{
-  "application/schema+json;version=draft-07": {
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "id": {
-        "type": "number"
-      },
-      "name": {
-        "type": "string"
-      },
-      "email": {
-        "type": "string",
-        "format": "email"
-      }
-    }
-  }
-}
-```
-
-```yaml
-'application/schema+json;version=draft-07':
-  type: object
-  additionalProperties: false
-  properties:
-    id:
-      type: number
-    name:
-      type: string
-    email:
-      type: string
-      format: email
-```
-
-Example using Google's protobuf messages:
-
-```json
-{
-  "application/x-protobuf": {
-    "$ref": "path/to/user-created.proto#UserCreated"
-  }
-}
-```
-
-```yaml
-application/x-protobuf:
-  $ref: 'path/to/user-created.proto#UserCreated'
-```
-
-Example using Google's protobuf messages (without `$ref`):
-
-```json
-{
-  "application/x-protobuf": "message UserCreated {\n  int32 id = 1;\n  string name = 2;\n  string email = 3;\n}",
-}
-```
-
-```yaml
-application/x-protobuf: >
-  message UserCreated {
-    int32 id = 1;
-    string name = 2;
-    string email = 3;
-  }
-```
 
 
 
