@@ -446,6 +446,29 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 
 
+#### <a name="defaultContentTypeString"></a>Default Content Type
+
+A string representing the default content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). This value MUST be used by schema parsers when the [contentType](#messageObjectContentType) property is omitted.
+
+In case a message can't be encoded/decoded using this value, schema parsers MUST use their default content type.
+
+##### Default Content Type Example
+
+```json
+{
+  "defaultContentType": "application/json"
+}
+```
+
+```yaml
+defaultContentType: application/json
+```
+
+
+
+
+
+
 #### <a name="channelsObject"></a>Channels Object
 
 Holds the relative paths to the individual channel and their operations.
@@ -788,7 +811,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | [Schema Wrapper Object](#schemaWrapperObject) | Definition of the message payload.
-<a name="messageObjectContentType"></a>contentType | `string` | The Content-Type for encoding the message payload. The value MUST be a specific media type (e.g. `application/json`).
+<a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.

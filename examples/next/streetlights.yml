@@ -35,6 +35,8 @@ servers:
         - streetlights:dim
       - openIdConnectWellKnown: []
 
+defaultContentType: application/json
+
 channels:
   event/{streetlightId}/lighting/measured:
     parameters:
