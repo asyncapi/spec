@@ -48,6 +48,9 @@
       },
       "uniqueItems": true
     },
+    "defaultContentType": {
+      "type": "string"
+    },
     "channels": {
       "$ref": "#/definitions/channels"
     },
@@ -722,6 +725,9 @@
           },
           "properties": {
             "schemaFormat": {
+              "type": "string"
+            },
+            "contentType": {
               "type": "string"
             },
             "headers": {

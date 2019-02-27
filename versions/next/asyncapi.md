@@ -445,6 +445,29 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 
 
+#### <a name="defaultContentTypeString"></a>Default Content Type
+
+A string representing the default content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). This value MUST be used by schema parsers when the [contentType](#messageObjectContentType) property is omitted.
+
+In case a message can't be encoded/decoded using this value, schema parsers MUST use their default content type.
+
+##### Default Content Type Example
+
+```json
+{
+  "defaultContentType": "application/json"
+}
+```
+
+```yaml
+defaultContentType: application/json
+```
+
+
+
+
+
+
 #### <a name="channelsObject"></a>Channels Object
 
 Holds the relative paths to the individual channel and their operations.
@@ -788,9 +811,11 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
+
 <a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
+<a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
@@ -808,6 +833,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "title": "User signup",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
+  "contentType": "application/json",
   "tags": [
     { "name": "user" },
     { "name": "signup" },
@@ -843,6 +869,7 @@ name: UserSignup
 title: User signup
 summary: Action to sign a user up.
 description: A longer description
+contentType: application/json
 tags:
   - name: user
   - name: signup
