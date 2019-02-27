@@ -739,6 +739,14 @@
               "type": "string",
               "description": "A brief summary of the message."
             },
+            "name": {
+              "type": "string",
+              "description": "Name of the message."
+            },
+            "title": {
+              "type": "string",
+              "description": "A human-friendly title for the message."
+            },
             "description": {
               "type": "string",
               "description": "A longer description of the message. CommonMark is allowed."

@@ -72,14 +72,20 @@ channels:
 components:
   messages:
     lightMeasured:
+      name: lightMeasured
+      title: Light measured
       summary: Inform about environmental lighting conditions for a particular streetlight.
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
+      name: turnOnOff
+      title: Turn on/off
       summary: Command a particular streetlight to turn the lights on or off.
       payload:
         $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
+      name: dimLight
+      title: Dim light
       summary: Command a particular streetlight to dim the lights.
       payload:
         $ref: "#/components/schemas/dimLightPayload"
