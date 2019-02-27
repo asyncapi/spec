@@ -41,7 +41,7 @@ channels:
       - $ref: '#/components/parameters/streetlightId'
     subscribe:
       summary: Receive information about environmental lighting conditions of a particular streetlight.
-      # operationId: receiveLightMeasurement
+      operationId: receiveLightMeasurement
       message:
         $ref: '#/components/messages/lightMeasured'
 
@@ -49,6 +49,7 @@ channels:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     publish:
+      operationId: turnOn
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -56,6 +57,7 @@ channels:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     publish:
+      operationId: turnOff
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -63,6 +65,7 @@ channels:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     publish:
+      operationId: dimLight
       message:
         $ref: '#/components/messages/dimLight'
 
