@@ -1,127 +1,119 @@
-<h1 align="center">
-  <br>
-  <a href="https://asyncapi.org"><img src="./assets/logo.png" alt="AsyncAPI logo" width="200"></a>
-  <br>
-  AsyncAPI
-  <br>
-<h4 align="center">Create machine-readable definitions of your message-driven APIs</h4>
-<h6 align="center">We're on a mission to standardize message-based communication and increase interoperability of the different systems out there.</h6>
-<p align="center">
-  <a href="#the-specification">Specification</a>
-  |
-  <a href="http://editor.asyncapi.org" target="_blank">Playground</a>
-  |
-  <a href="./ROADMAP.md">Roadmap</a>
-  |
-  <a href="./CONTRIBUTING.md">Contributing</a>
-  |
-  <a href="https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg">Slack</a>
-  |
-  <a href="https://www.youtube.com/channel/UCIz9zGwDLbrYQcDKVXdOstQ">Youtube</a>
-  |
-  <a href="https://opencollective.com/asyncapi">Donate :raised_hands:</a>
-</p>
+# AsyncAPI Specification
 
-## Supported by
-<p align="center">
-  <a href="https://mulesoft.com" target="_blank">
-    <img src="./assets/mulesoft.png" alt="Mulesoft logo" height="40">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://salesforce.com" target="_blank">
-    <img src="./assets/salesforce.png" alt="Salesforce logo" height="40">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://sap.com" target="_blank">
-    <img src="./assets/sap.svg" alt="SAP logo" height="40">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://slack.com" target="_blank">
-    <img src="./assets/slack.svg" alt="Slack logo" height="40">
-  </a>
-  &nbsp;
-  <a href="https://tibco.com" target="_blank">
-    <img src="./assets/tibco.png" alt="TIBCO logo" height="40">
-  </a>
-</p>
+#### Disclaimer
 
-<p align="center">
-  :raised_hands: <a href="https://opencollective.com/asyncapi">Become a sponsor</a> :raised_hands:
-</p>
+Part of this content has been taken from the great work done by the folks at the [Open API Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [Open API Specification](https://github.com/OAI/OpenAPI-Specification).
 
-## The specification
+#### Version 1.0.0
 
-Read the latest stable version (1.2.0) of the specification [here](./versions/1.2.0/asyncapi.md).
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
 
-Are you looking for previous versions? Here they are:
+The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
 
-* [Version 1.1.0](/versions/1.1.0/asyncapi.md) — [Machine-readable version](/versions/1.1.0/schema.json)
-* [Version 1.0.0](/versions/1.0.0/asyncapi.md) — [Machine-readable version](/versions/1.0.0/schema.json)
+## Introduction
 
-We're working hard to launch version 2.0.0, and [this is how it looks so far](./versions/next/asyncapi.md).
+The AsyncAPI Specification is a project used to describe and document Asynchronous APIs.
 
-**Feel like contributing?** Check out our [roadmap](./ROADMAP.md) and [contributing guidelines](./CONTRIBUTING.md).
+The AsyncAPI Specification defines a set of files required to describe such an API.
+These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-**Not sure how to contribute yet?** Join our [Slack](https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg) workspace and ask us anything. We're friendly people :blush:
+The AsyncAPI Specification is often used to describe the inter-process communication (IPC) in distributed systems built using a broker-centric architecture. In such cases, it's very easy to get confused with what the AsyncAPI files must describe. **It's RECOMMENDED to create a single file describing the whole system instead of creating a file for each [process](#definitionsProcess).** Otherwise, you will end up having lots of interdependent files.
 
-## Examples
+The file(s) MUST describe the operations a new [process](#definitionsProcess) can perform. For instance:
 
-#### :bulb: Streetlights
-Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
+```yaml
+event.user.signup:
+  subscribe:
+    $ref: "#/components/messages/userSignUp"
+```
 
-> :point_right: [See more](./examples/1.2.0/streetlights.yml)
+It means [processes](#definitionsProcess) can subscribe to `event.user.signup` topic. However, it does NOT mean every [process](#definitionsProcess) must subscribe to this topic.
 
-#### <img src="./assets/slack.png" width="15" alt="Slack icon">&nbsp;&nbsp; Slack Events API
-Partial definition of the Slack Events API. Find the official one [here](https://github.com/slackapi/slack-api-specs/blob/master/events-api/slack_events_api_async_v1.json).
+## Table of Contents
+<!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
 
-> :point_right: [See more](./examples/1.2.0/slack-rtm.yml)
+- [Definitions](#definitions)
+	- [Message Broker](#definitionsMessageBroker)
+	- [Message](#definitionsMessage)
+	- [Topic](#definitionstTopic)
+	- [Process](#definitionsProcess)
+	- [Producer](#definitionsProducer)
+	- [Consumer](#definitionsConsumer)
+	- [Topic Templating](#definitionsTopicTemplating)
+- [Specification](#specification)
+	- [Format](#format)
+	- [File Structure](#file-structure)
+	- [Schema](#schema)
+		- [AsyncAPI Object](#A2SObject)
+		- [AsyncAPI Version String](#A2SVersionString)
+		- [Info Object](#infoObject)
+		- [Contact Object](#contactObject)
+		- [License Object](#licenseObject)
+		- [Base Topic String](#baseTopicString)
+		- [Servers Object](#A2SServers)
+		- [Topics Object](#topicsObject)
+		- [Topic Item Object](#topicItemObject)
+		- [Message Object](#messageObject)
+		- [Tag Object](#tagObject)
+		- [External Documentation Object](#externalDocumentationObject)
+		- [Components Object](#componentsObject)
+		- [Reference Object](#referenceObject)
+		- [Schema Object](#schemaObject)
+		- [XML Object](#xmlObject)
+    - [Security Scheme Object](#securitySchemeObject)
+    - [Security Requirement Object](#securityRequirementObject)
+	- [Specification Extensions](#specificationExtensions)
 
-#### <img src="./assets/gitter.png" width="15" alt="Gitter icon">&nbsp;&nbsp; Gitter Streaming API
-Definition of the Gitter streaming API.
+<!-- /TOC -->
 
-> :point_right: [See more](./examples/1.2.0/gitter-streaming.yml)
+## Definitions
 
-#### :heavy_plus_sign: and more...
-Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
+#### <a name="definitionsMessageBroker"></a>Message Broker
+A message broker is a system in charge of message exchange. It MAY provide additional features, such as message queueing, storage or processing.
 
-## Meetings
+#### <a name="definitionsMessage"></a>Message
+A message is a piece of information a process will send to a message broker. It MUST contain headers and payload.
 
-We meet every other Tuesday at 6:00 PM CET. Check out our [calendar](https://calendar.google.com/calendar?cid=dGJyYmZxNGRlNWJjbmd0OG9rdmV2NGxzdGtAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ) to see when we're meeting next.
+#### <a name="definitionstTopic"></a>Topic
+A topic is a routing key used by the message broker to deliver messages to the subscribed processes. Depending on the protocol used, a message MAY include the topic in its headers.
 
-Join from your favorite device: https://zoom.us/j/165106914
+#### <a name="definitionsProcess"></a>Process
+A process is any kind of computer program connected to a message broker. It MUST be a producer, a consumer or both.
 
-Or dialing:
+#### <a name="definitionsProducer"></a>Producer
+A producer is a process publishing messages to a message broker.
 
-Meeting ID: 165 106 914
+#### <a name="definitionsConsumer"></a>Consumer
+A consumer is a process subscribed to a message broker and consumes messages from it.
 
-:us: United States of America
-* [+1 720 707 2699](tel:+17207072699)
-* [+1 646 558 8656](tel:+16465588656)
+#### <a name="definitionsTopicTemplating"></a>Topic Templating
+Topic templating refers to the usage of curly braces ({}) to mark a section of a topic as replaceable.
 
-:es: Spain
-* [+34 91 198 0188](tel:+34911980188)
-* [+34 84 368 5025](tel:+34843685025)
+## Specification
 
-:gb: United Kingdom
-* [+44 203 695 0088](tel:+442036950088)
-* [+44 203 051 2874](tel:+442030512874)
+### Format
 
-Find the agenda for our past and future meetings [here](https://github.com/asyncapi/asyncapi/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3Ameeting+sort%3Acreated-desc+).
+The files describing the Asynchronous API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
+YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI Specification) file.
 
-## Meeting recordings
+For example, if a field is said to have an array value, the JSON array representation will be used:
 
-Head over to the [Youtube playlist for SIG meetings](https://www.youtube.com/watch?v=S8gvf0XjO10&list=PLbi1gRlP7pijUwZJErzyYf_Rc-PWu4lXS) to watch them.
+```yaml
+{
+   "field" : [...]
+}
+```
 
-## Contributors
+While the API is described using JSON it does not impose a JSON input/output to the API itself.
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+All field names in the specification are **case sensitive**.
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-<table cellspacing="0" cellpadding="1"><tr><td><a href="http://resume.github.io/?derberg"><img src="https://avatars1.githubusercontent.com/u/6995927?v=4" width="100px;" height="100px;" alt="Lukasz Gornicki"/><br /><sub><b>Lukasz Gornicki</b></sub></a><br /><a href="https://github.com/asyncapi/asyncapi/commits?author=derberg" title="Documentation">📖</a> <a href="#ideas-derberg" title="Ideas, Planning, & Feedback">🤔</a> <a href="#review-derberg" title="Reviewed Pull Requests">👀</a></td><td><a href="http://mermade.github.io"><img src="https://avatars0.githubusercontent.com/u/21603?v=4" width="100px;" height="100px;" alt="Mike Ralphson"/><br /><sub><b>Mike Ralphson</b></sub></a><br /><a href="#question-MikeRalphson" title="Answering Questions">💬</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson" title="Documentation">📖</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson" title="Code">💻</a> <a href="#ideas-MikeRalphson" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-MikeRalphson" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#review-MikeRalphson" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=MikeRalphson" title="Tests">⚠️</a> <a href="#tool-MikeRalphson" title="Tools">🔧</a> <a href="#maintenance-MikeRalphson" title="Maintenance">🚧</a></td></tr><tr><td><a href="https://github.com/rmelian"><img src="https://avatars3.githubusercontent.com/u/4565267?v=4" width="100px;" height="100px;" alt="raisel melian"/><br /><sub><b>raisel melian</b></sub></a><br /><a href="#question-rmelian" title="Answering Questions">💬</a> <a href="https://github.com/asyncapi/asyncapi/issues?q=author%3Armelian" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=rmelian" title="Code">💻</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=rmelian" title="Documentation">📖</a> <a href="#ideas-rmelian" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-rmelian" title="Maintenance">🚧</a> <a href="#review-rmelian" title="Reviewed Pull Requests">👀</a> <a href="#tool-rmelian" title="Tools">🔧</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=rmelian" title="Tests">⚠️</a></td><td><a href="http://www.fmvilas.com"><img src="https://avatars3.githubusercontent.com/u/242119?v=4" width="100px;" height="100px;" alt="Fran Méndez"/><br /><sub><b>Fran Méndez</b></sub></a><br /><a href="#question-fmvilas" title="Answering Questions">💬</a> <a href="https://github.com/asyncapi/asyncapi/issues?q=author%3Afmvilas" title="Bug reports">🐛</a> <a href="#blog-fmvilas" title="Blogposts">📝</a> <a href="#business-fmvilas" title="Business development">💼</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=fmvilas" title="Code">💻</a> <a href="#content-fmvilas" title="Content">🖋</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=fmvilas" title="Documentation">📖</a> <a href="#design-fmvilas" title="Design">🎨</a> <a href="#financial-fmvilas" title="Financial">💵</a> <a href="#fundingFinding-fmvilas" title="Funding Finding">🔍</a> <a href="#ideas-fmvilas" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-fmvilas" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-fmvilas" title="Maintenance">🚧</a> <a href="#plugin-fmvilas" title="Plugin/utility libraries">🔌</a> <a href="#review-fmvilas" title="Reviewed Pull Requests">👀</a> <a href="#tool-fmvilas" title="Tools">🔧</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=fmvilas" title="Tests">⚠️</a> <a href="#tutorial-fmvilas" title="Tutorials">✅</a> <a href="#talk-fmvilas" title="Talks">📢</a></td></tr><tr><td><a href="https://github.com/DulceDeLaRosa"><img src="https://avatars0.githubusercontent.com/u/389154?v=4" width="100px;" height="100px;" alt="dulce"/><br /><sub><b>dulce</b></sub></a><br /><a href="#design-DulceDeLaRosa" title="Design">🎨</a></td><td><a href="https://github.com/SensibleWood"><img src="https://avatars2.githubusercontent.com/u/2420069?v=4" width="100px;" height="100px;" alt="Chris Wood"/><br /><sub><b>Chris Wood</b></sub></a><br /><a href="https://github.com/asyncapi/asyncapi/commits?author=SensibleWood" title="Code">💻</a> <a href="#ideas-SensibleWood" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=SensibleWood" title="Documentation">📖</a></td></tr></table>
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+The schema exposes two types of fields.
+Fixed fields, which have a declared name, and Patterned fields, which declare a regex pattern for the field name.
+Patterned fields can have multiple occurrences as long as each has a unique name.
 
-<<<<<<< HEAD
+In order to preserve the ability to round-trip between YAML and JSON formats, YAML version [1.2](http://www.yaml.org/spec/1.2/spec.html) is recommended along with some additional constraints:
+
 - Tags MUST be limited to those allowed by the [JSON Schema ruleset](http://www.yaml.org/spec/1.2/spec.html#id2803231)
 - Keys used in YAML maps MUST be limited to a scalar string, as defined by the YAML Failsafe schema ruleset
 
@@ -148,9 +140,7 @@ Field Name | Type | Description
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SBaseTopic"></a>baseTopic | [BaseTopic String](#baseTopicString) | The base topic to the API.
 <a name="A2SServers"></a>servers | [Server Object](#serverObject) | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
-<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required unless [Stream Object](#streamObject) or [Events Object](#eventsObject) is provided.** The available topics and messages for the API.
-<a name="A2SStream"></a>stream | [Stream Object](#streamObject) | **Required unless [Topics Object](#topicsObject) or [Events Object](#eventsObject) is provided.** The messages and configuration for the streaming API.
-<a name="A2SEvents"></a>events | [Events Object](#eventsObject) | **Required unless [Topics Object](#topicsObject) or [Stream Object](#streamObject) is provided.** The messages and configuration for the events API.
+<a name="A2STopics"></a>topics | [Topics Object](#topicsObject) | **Required.** The available topics and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2SSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -233,7 +223,7 @@ Field Name | Type | Description
 <a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. MUST be in the format of a URL.
 <a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### Contact Object Example:
 
@@ -262,7 +252,7 @@ Field Name | Type | Description
 <a name="licenseObjectName"></a>name | `string` | **Required.** The license name used for the API.
 <a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### License Object Example:
 
@@ -308,8 +298,7 @@ An object representing a Server.
 Field Name | Type | Description
 ---|:---:|---
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
-<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `kafka`, `kafka-secure`, `amqp`, `amqps`, `mqtt`, `secure-mqtt`, `ws`, `wss`, `stomp`, `stomps`, `jms`.
-<a name="serverObjectSchemeVersion"></a>schemeVersion | `string` | The version of the scheme. For instance: AMQP `0.9.1`, Kafka `1.0.0`, etc.
+<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. The value MUST be one of the following: `amqp`, `amqps`, `mqtt`, `mqtts`, `ws`, `wss`, `stomp`, `stomps`.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 
@@ -323,16 +312,14 @@ A single server would be described as:
 {
   "url": "development.gigantic-server.com",
   "description": "Development server",
-  "scheme": "kafka",
-  "schemeVersion": "1.0.0"
+  "scheme": "mqtts"
 }
 ```
 
 ```yaml
 url: development.gigantic-server.com
 description: Development server
-scheme: kafka
-schemeVersion: '1.0.0'
+scheme: mqtts
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -343,20 +330,17 @@ The following shows how multiple servers can be described, for example, at the A
     {
       "url": "development.gigantic-server.com",
       "description": "Development server",
-      "scheme": "amqp",
-      "schemeVersion": "0.9.1"
+      "scheme": "mqtts"
     },
     {
       "url": "staging.gigantic-server.com",
       "description": "Staging server",
-      "scheme": "amqp",
-      "schemeVersion": "0.9.1"
+      "scheme": "mqtts"
     },
     {
       "url": "api.gigantic-server.com",
       "description": "Production server",
-      "scheme": "amqp",
-      "schemeVersion": "0.9.1"
+      "scheme": "mqtts"
     }
   ]
 }
@@ -366,16 +350,13 @@ The following shows how multiple servers can be described, for example, at the A
 servers:
 - url: development.gigantic-server.com
   description: Development server
-  scheme: amqp
-  schemeVersion: 0.9.1
+  scheme: mqtts
 - url: staging.gigantic-server.com
   description: Staging server
-  scheme: amqp
-  schemeVersion: 0.9.1
+  scheme: mqtts
 - url: api.gigantic-server.com
   description: Production server
-  scheme: amqp
-  schemeVersion: 0.9.1
+  scheme: mqtts
 ```
 
 The following shows how variables can be used for a server configuration:
@@ -409,21 +390,21 @@ The following shows how variables can be used for a server configuration:
 
 ```yaml
 servers:
-- url: '{username}.gigantic-server.com:{port}/{basePath}'
-  description: The production API server
-  variables:
-    username:
-      # note! no enum here means it is an open value
-      default: demo
-      description: This value is assigned by the service provider, in this example `gigantic-server.com`
-    port:
-      enum:
-        - '8883'
-        - '8884'
-      default: '8883'
-    basePath:
-      # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
-      default: v2
+  - url: '{username}.gigantic-server.com:{port}/{basePath}'
+    description: The production API server
+    variables:
+      username:
+        # note! no enum here means it is an open value
+        default: demo
+        description: This value is assigned by the service provider, in this example `gigantic-server.com`
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+      basePath:
+        # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
+        default: v2
 ```
 
 
@@ -458,7 +439,7 @@ Field Pattern | Type | Description
 ---|:---:|---
 <a name="topicsObjectTopic"></a>^[^.]{topic} | [Topic Item Object](#topicItemObject) | A relative path to an individual topic. The field name MUST NOT begin with a dot. [Topic templating](#definitionsTopicTemplating) is allowed.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### Topics Object Example
 
@@ -490,11 +471,10 @@ Describes the operations available on a single topic.
 Field Name | Type | Description
 ---|:---:|---
 <a name="topicItemObjectRef"></a>$ref | `string` | Allows for an external definition of this topic item. The referenced structure MUST be in the format of a [Topic Item Object](#topicItemObject). If there are conflicts between the referenced definition and this Topic Item's definition, the behavior is *undefined*.
-<a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a SUBSCRIBE operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) &#124; Map[`"oneOf"`, [[Message Object](#messageObject)]] | A definition of the message a PUBLISH operation will receive on this topic. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
-<a name="topicItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the topic name, if using [topic templating](#definitionsTopicTemplating).
+<a name="topicItemObjectSubscribe"></a>subscribe | [Message Object](#messageObject) | A definition of the message a SUBSCRIBE operation will receive on this topic.
+<a name="topicItemObjectPublish"></a>publish | [Message Object](#messageObject) | A definition of the message a PUBLISH operation will receive on this topic.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### Topic Item Object Example
 
@@ -531,206 +511,6 @@ subscribe:
         $ref: "#/components/schemas/signup"
 ```
 
-Using `oneOf` to specify multiple messages per operation:
-
-```json
-{
-  "subscribe": {
-    "oneOf": [
-      { "$ref": "#/components/messages/signup" },
-      { "$ref": "#/components/messages/login" }
-    ]
-  }
-}
-```
-
-```yaml
-subscribe:
-  oneOf:
-    - $ref: '#/components/messages/signup'
-    - $ref: '#/components/messages/login'
-```
-
-
-
-
-
-
-
-#### <a name="parameterObject"></a>Parameter Object
-
-Describes a parameter included in a topic name.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="parameterObjectName"></a>name | `string` | The name of the parameter.
-<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Parameter Object Example
-
-```json
-{
-  "user.{userId}.signup": {
-    "parameters": [
-      {
-        "name": "userId",
-        "description": "Id of the user.",
-        "schema": {
-          "type": "string"
-        }
-      }
-    ],
-    "subscribe": {
-      "$ref": "#/components/messages/userSignedUp"
-    }
-  }
-}
-```
-
-```yaml
-user.{userId}.signup:
-  parameters:
-    - name: userId
-      description: Id of the user.
-      schema:
-        type: string
-  subscribe:
-    $ref: "#/components/messages/userSignedUp"
-```
-
-
-
-
-
-#### <a name="streamObject"></a>Stream Object
-
-Holds the framing configuration and the read/write operations for the streaming API.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="streamObjectFraming"></a>framing | [Stream Framing Object](#streamFramingObject) | **Required.** The framing configuration for the streaming API, i.e., whether is `chunked` or `sse` and the frame delimiter.
-<a name="streamObjectRead"></a>read | [[Message Object](#messageObject)] | A list of messages a consumer can read from the API.
-<a name="streamObjectWrite"></a>write | [[Message Object](#messageObject)] | A list of messages a consumer can send to the API.
-
-Either `read` or `write` MUST be provided.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Stream Object Example
-
-```json
-{
-  "stream": {
-    "framing": {
-      "type": "chunked",
-      "delimiter": "\r\n"
-    },
-    "read": [
-      { "$ref": "#/components/messages/chatMessage" },
-      { "$ref": "#/components/messages/heartbeat" }
-    ]
-  }
-}
-```
-
-```yaml
-stream:
-  framing:
-    type: 'chunked'
-    delimiter: '\r\n'
-  read:
-    - $ref: '#/components/messages/chatMessage'
-    - $ref: '#/components/messages/heartbeat'
-```
-
-
-
-
-
-
-
-
-
-#### <a name="streamFramingObject"></a>Stream Framing Object
-
-Holds the framing configuration for the streaming API.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="streamFramingObjectType"></a>type | `string` | **Required.** The type of streaming API. Allowed values are `chunked` and `sse`.
-<a name="streamFramingObjectDelimiter"></a>delimiter | `string` | The string to use as the frame delimiter. Allowed values are `\r\n` and `\n`. Defaults to `\r\n`.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Stream Framing Object Example
-
-```json
-{
-  "framing": {
-    "type": "chunked",
-    "delimiter": "\r\n"
-  }
-}
-```
-
-```yaml
-framing:
-  type: 'chunked'
-  delimiter: '\r\n'
-```
-
-
-
-
-
-#### <a name="eventsObject"></a>Events Object
-
-Holds the send and receive operations for an API based on events but without topics, e.g., a WebSockets API.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="eventsObjectRead"></a>receive | [[Message Object](#messageObject)] | A list of messages a consumer can receive from the API.
-<a name="eventsObjectWrite"></a>send | [[Message Object](#messageObject)] | A list of messages a consumer can send to the API.
-
-Either `receive` or `send` MUST be provided.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Events Object Example
-
-```json
-{
-  "events": {
-    "receive": [
-      { "$ref": "#/components/messages/chatMessage" },
-      { "$ref": "#/components/messages/heartbeat" }
-    ]
-  }
-}
-```
-
-```yaml
-events:
-  receive:
-    - $ref: '#/components/messages/chatMessage'
-    - $ref: '#/components/messages/heartbeat'
-```
-
-
-
-
-
 
 
 #### <a name="messageObject"></a>Message Object
@@ -743,13 +523,12 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | [Schema Object](#schemaObject) | Definition of the message payload.
-<a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) | Definition of the correlation ID used for message tracing or matching
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### Message Object Example
 
@@ -783,11 +562,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
         "$ref": "#/components/schemas/signup"
       }
     }
-  },
-  "correlationId": {
-    "description": "Default Correlation ID",
-    "type": "string",
-    "location": "$message.header.correlationId"
   }
 }
 ```
@@ -813,10 +587,6 @@ payload:
       $ref: "#/components/schemas/userCreate"
     signup:
       $ref: "#/components/schemas/signup"
-correlationId:
-  description: Default Correlation ID
-  type: string
-  location: $message.header.correlationId
 ```
 
 
@@ -835,7 +605,7 @@ Field Name | Type | Description
 <a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this tag.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### Tag Object Example
 
@@ -868,7 +638,7 @@ Field Name | Type | Description
 <a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. Value MUST be in the format of a URL.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### External Documentation Object Example
 
@@ -925,8 +695,6 @@ Field Name | Type | Description
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
-<a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
-<a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject)
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1007,22 +775,6 @@ my.org.User
         }
       }
     }
-  },
-  "parameters": {
-    "userId": {
-      "name": "userId",
-      "description": "Id of the user.",
-      "schema": {
-        "type": "string"
-      }
-    }
-  },
-  "correlationIds": {
-    "default": {
-      "description": "Default Correlation ID",
-      "type": "string",
-      "location": "$message.header.correlationId"
-    }
   }
 }
 ```
@@ -1069,17 +821,6 @@ components:
             $ref: "#/components/schemas/userCreate"
           signup:
             $ref: "#/components/schemas/signup"
-  parameters:
-    userId:
-    - name: userId
-      description: Id of the user.
-      schema:
-        type: string
-  correlationIds:
-    default:
-      description: Default Correlation iD
-      type: string
-      location: $message.header.correlationId
 ```
 
 #### <a name="schemaObject"></a>Schema Object
@@ -1091,7 +832,7 @@ This object is an extended subset of the [JSON Schema Specification Wright Draft
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-wright-json-schema-00) and [JSON Schema Validation](https://tools.ietf.org/html/draft-wright-json-schema-validation-00).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
 
-##### Properties
+##### Properties 
 
 The following properties are taken directly from the JSON Schema definition and follow the same specifications:
 
@@ -1112,7 +853,7 @@ The following properties are taken directly from the JSON Schema definition and 
 - required
 - enum
 
-The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
+The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification. 
 - type - Value MUST be a string. Multiple types via an array are not supported.
 - allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
@@ -1139,16 +880,16 @@ Field Name | Type | Description
 <a name="schemaObjectReadOnly"></a>readOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "read only". This means that it MAY be sent as part of a response but SHOULD NOT be sent as part of the request. If property is marked as `readOnly` being `true` and is in the `required` list, the `required` will take effect on the response only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
 <a name="schemaObjectWriteOnly"></a>writeOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "write only". This means that it MAY be sent as part of a request but SHOULD NOT be sent as part of the response. If property is marked as `writeOnly` being `true` and is in the `required` list, the `required` will take effect on the request only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
 <a name="schemaObjectXml"></a>xml | [XML Object](#xmlObject) | This MAY be used only on properties schemas. It has no effect on root schemas. Adds Additional metadata to describe the XML representation format of this property.
-<a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
+<a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema. 
 <a name="schemaObjectExample"></a>example | Any | A free-form property to include an example of an instance for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ###### <a name="schemaComposition"></a>Composition and Inheritance (Polymorphism)
 
 The AsyncAPI Specification allows combining and extending model definitions using the `allOf` property of JSON Schema, in effect offering model composition.
-`allOf` takes in an array of object definitions that are validated *independently* but together compose a single object.
+`allOf` takes in an array of object definitions that are validated *independently* but together compose a single object. 
 
 While composition offers model extensibility, it does not imply a hierarchy between the models.
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
@@ -1496,7 +1237,7 @@ Field Name | Type | Description
 <a name="xmlObjectAttribute"></a>attribute | `boolean` | Declares whether the property definition translates to an attribute instead of an element. Default value is `false`.
 <a name="xmlObjectWrapped"></a>wrapped | `boolean` | MAY be used only for an array definition. Signifies whether the array is wrapped (for example, `<books><book/><book/></books>`) or unwrapped (`<book/><book/>`). Default value is `false`. The definition takes effect only when defined alongside `type` being `array` (outside the `items`).
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions). 
 
 ##### XML Object Examples
 
@@ -1840,16 +1581,8 @@ animals:
 
 #### <a name="securitySchemeObject"></a>Security Scheme Object
 
-Defines a security scheme that can be used by the operations. Supported schemes are:
-
-* User/Password.
-* API key (either as user or as password).
-* X.509 certificate.
-* End-to-end encryption (either symmetric or asymmetric).
-* HTTP authentication.
-* HTTP API key.
-* OAuth2's common flows (Implicit, Resource Owner Protected Credentials, Client Credentials and Authorization Code) as defined in [RFC6749](https://tools.ietf.org/html/rfc6749).
-* [OpenID Connect Discovery](https://tools.ietf.org/html/draft-ietf-oauth-discovery-06).
+Defines a security scheme that can be used by the operations.
+Supported schemes are User/Password, API key (either as user or as password), X.509 certificate, end-to-end encryption (either symmetric or asymmetric), HTTP authentication and HTTP API key.
 
 ##### Fixed Fields
 Field Name | Type | Applies To | Description
@@ -1857,11 +1590,9 @@ Field Name | Type | Applies To | Description
 <a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`.
 <a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
-<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey` \| `httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
+<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey | httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
 <a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
 <a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
-<a name="securitySchemeFlows"></a>flows | [OAuth Flows Object](#oauthFlowsObject) | `oauth2` | **REQUIRED**. An object containing configuration information for the flow types supported.
-<a name="securitySchemeOpenIdConnectUrl"></a>openIdConnectUrl | `string` | `openIdConnect` | **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This MUST be in the form of a URL.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1963,101 +1694,10 @@ scheme: bearer
 bearerFormat: JWT
 ```
 
-###### Implicit OAuth2 Sample
 
-```json
-{
-  "type": "oauth2",
-  "flows": {
-    "implicit": {
-      "authorizationUrl": "https://example.com/api/oauth/dialog",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    }
-  }
-}
-```
 
-```yaml
-type: oauth2
-flows: 
-  implicit:
-    authorizationUrl: https://example.com/api/oauth/dialog
-    scopes:
-      write:pets: modify pets in your account
-      read:pets: read your pets
-```
 
-#### <a name="oauthFlowsObject"></a>OAuth Flows Object
 
-Allows configuration of the supported OAuth Flows.
-
-##### Fixed Fields
-Field Name | Type | Description
----|:---:|---
-<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow 
-<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow 
-<a name="oauthFlowsClientCredentials"></a>clientCredentials| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Client Credentials flow.
-<a name="oauthFlowsAuthorizationCode"></a>authorizationCode| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Authorization Code flow.
-
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-#### <a name="oauthFlowObject"></a>OAuth Flow Object
-
-Configuration details for a supported OAuth Flow
-
-##### Fixed Fields
-Field Name | Type | Applies To | Description
----|:---:|---|---
-<a name="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of a URL.
-<a name="oauthFlowTokenUrl"></a>tokenUrl | `string` | `oauth2` (`"password"`, `"clientCredentials"`, `"authorizationCode"`) | **REQUIRED**. The token URL to be used for this flow. This MUST be in the form of a URL.
-<a name="oauthFlowRefreshUrl"></a>refreshUrl | `string` | `oauth2` | The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL.
-<a name="oauthFlowScopes"></a>scopes | Map[`string`, `string`] | `oauth2` | **REQUIRED**. The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
-
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-##### OAuth Flow Object Examples
-
-```JSON
-{
-  "type": "oauth2",
-  "flows": {
-    "implicit": {
-      "authorizationUrl": "https://example.com/api/oauth/dialog",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
-    "authorizationCode": {
-      "authorizationUrl": "https://example.com/api/oauth/dialog",
-      "tokenUrl": "https://example.com/api/oauth/token",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    }
-  }
-}
-```
-
-```YAML
-type: oauth2
-flows: 
-  implicit:
-    authorizationUrl: https://example.com/api/oauth/dialog
-    scopes:
-      write:pets: modify pets in your account
-      read:pets: read your pets
-  authorizationCode:
-    authorizationUrl: https://example.com/api/oauth/dialog
-    tokenUrl: https://example.com/api/oauth/token
-    scopes:
-      write:pets: modify pets in your account
-      read:pets: read your pets 
-```
 
 #### <a name="securityRequirementObject"></a>Security Requirement Object
 
@@ -2070,7 +1710,7 @@ When a list of Security Requirement Objects is defined on the [AsyncAPI object](
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="securityRequirementsName"></a>{name} | [`string`] | Each name MUST correspond to a security scheme which is declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject). If the security scheme is of type `"oauth2"` or `"openIdConnect"`, then the value is a list of scope names required for the execution. For other security scheme types, the array MUST be empty.
+<a name="securityRequirementsName"></a>{name} | [`string`] | Each name MUST correspond to a security scheme which is declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject). The value MUST be an empty array.
 
 ##### Security Requirement Object Examples
 
@@ -2098,84 +1738,10 @@ user_pass: []
 api_key: []
 ```
 
-###### OAuth2 Security Requirement
 
-```json
-{
-  "petstore_auth": [
-    "write:pets",
-    "read:pets"
-  ]
-}
-```
 
-```yaml
-petstore_auth:
-- write:pets
-- read:pets
-```
 
-### <a name="correlationIdObject"></a>Correlation ID Object
 
-An object to provide a means to specify an identifier at design time that can used for message tracing and correlation when designing, for example, RPC-style interfaces.
-
-For specifying and computing the location of a Correlation ID a [runtime expression](#runtimeExpression) is used.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---|---
-description | `string` | A short description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-type | `integer` \| `string` \| `number` | 
-location | {expression} | A runtime expression that specifies the location of the correlation ID 
-
-##### Examples
-
-```json
-{
-  "description": "Default Correlation ID",
-  "type": "string",
-  "location": "$message.header.correlationId"
-}
-```
-
-```yaml
-description: Default Correlation iD
-type: string
-location: $message.header.correlationId
-```
-
-### <a name="runtimeExpression"></a>Runtime Expression
-
-A runtime expression allows values to be defined based on information that will be available within the message.
-This mechanism is used by [Correlation ID Object](#correlationIdObject).
-
-The runtime expression is defined by the following [ABNF](https://tools.ietf.org/html/rfc5234) syntax
-
-```
-      expression = ( "$message" )
-      source = ( header-reference | payload-reference )  
-      header-reference = "header." token
-      payload-reference = "payload." name
-      fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901) 
-      name = *( char )
-      char = as per RFC [7159](https://tools.ietf.org/html/rfc7159#section-7)
-      token = as per RFC [7230](https://tools.ietf.org/html/rfc7230#section-3.2.6)
-```
-
-The `name` identifier is case-sensitive, whereas `token` is not. 
-
-The table below provides examples of runtime expressions and examples of their use in a value:
-
-##### <a name="runtimeExpressionExamples"></a>Examples
-
-Source Location | Example expression  | Notes
----|:---|:---|
-Message Header Property | `$message.header.correlationId` | Headers are analogous to message properties
-Message Payload Property | `$message.payload.meta.messageId` | Correlation ID is set using a property from the `meta` section of a message
-
-Runtime expressions preserve the type of the referenced value.
-Expressions can be embedded into string values by surrounding the expression with `{}` curly braces.
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
@@ -2214,6 +1780,3 @@ boolean | `boolean` | | |
 date | `string` | `date` | As defined by `full-date` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
 dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
 password | `string` | `password` | Used to hint UIs the input needs to be obscured.
-=======
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
->>>>>>> caef6e41a3faaa444969a1149d3dce9bf387665c

@@ -1,0 +1,106 @@
+{
+  "projectName": "asyncapi",
+  "projectOwner": "asyncapi",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "derberg",
+      "name": "Lukasz Gornicki",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6995927?v=4",
+      "profile": "http://resume.github.io/?derberg",
+      "contributions": [
+        "doc",
+        "ideas",
+        "review"
+      ]
+    },
+    {
+      "login": "MikeRalphson",
+      "name": "Mike Ralphson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/21603?v=4",
+      "profile": "http://mermade.github.io",
+      "contributions": [
+        "question",
+        "doc",
+        "code",
+        "ideas",
+        "infra",
+        "review",
+        "test",
+        "tool",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "rmelian",
+      "name": "raisel melian",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4565267?v=4",
+      "profile": "https://github.com/rmelian",
+      "contributions": [
+        "question",
+        "bug",
+        "code",
+        "doc",
+        "ideas",
+        "maintenance",
+        "review",
+        "tool",
+        "test"
+      ]
+    },
+    {
+      "login": "fmvilas",
+      "name": "Fran Méndez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/242119?v=4",
+      "profile": "http://www.fmvilas.com",
+      "contributions": [
+        "question",
+        "bug",
+        "blog",
+        "business",
+        "code",
+        "content",
+        "doc",
+        "design",
+        "financial",
+        "fundingFinding",
+        "ideas",
+        "infra",
+        "maintenance",
+        "plugin",
+        "review",
+        "tool",
+        "test",
+        "tutorial",
+        "talk"
+      ]
+    },
+    {
+      "login": "DulceDeLaRosa",
+      "name": "dulce",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/389154?v=4",
+      "profile": "https://github.com/DulceDeLaRosa",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "SensibleWood",
+      "name": "Chris Wood",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2420069?v=4",
+      "profile": "https://github.com/SensibleWood",
+      "contributions": [
+        "code",
+        "ideas",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 2
+}

@@ -1,4 +1,5 @@
-asyncapi: '1.2.0'
+asyncapi: '2.0.0'
+id: 'urn:com:smartylighting:streetlights:server'
 info:
   title: Streetlights API
   version: '1.0.0'
@@ -13,12 +14,12 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
-baseTopic: smartylighting.streetlights.1.0
 
 servers:
   - url: api.streetlights.smartylighting.com:{port}
     scheme: mqtt
     description: Test broker
+    baseChannel: smartylighting/streetlights/1/0
     variables:
       port:
         description: Secure connection (TLS) is available through port 8883.
@@ -26,51 +27,68 @@ servers:
         enum:
           - '1883'
           - '8883'
+    security:
+      - apiKey: []
+      - supportedOauthFlows:
+        - streetlights:on
+        - streetlights:off
+        - streetlights:dim
+      - openIdConnectWellKnown: []
 
-security:
-  - apiKey: []
-  - supportedOauthFlows:
-    - streetlights:on
-    - streetlights:off
-    - streetlights:dim
-  - openIdConnectWellKnown: []
+defaultContentType: application/json
 
-topics:
-  event.{streetlightId}.lighting.measured:
+channels:
+  event/{streetlightId}/lighting/measured:
+    parameters:
+      - $ref: '#/components/parameters/streetlightId'
+    subscribe:
+      summary: Receive information about environmental lighting conditions of a particular streetlight.
+      operationId: receiveLightMeasurement
+      message:
+        $ref: '#/components/messages/lightMeasured'
+
+  action/{streetlightId}/turn/on:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     publish:
-      $ref: '#/components/messages/lightMeasured'
+      operationId: turnOn
+      message:
+        $ref: '#/components/messages/turnOnOff'
 
-  action.{streetlightId}.turn.on:
+  action/{streetlightId}/turn/off:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      $ref: '#/components/messages/turnOnOff'
+    publish:
+      operationId: turnOff
+      message:
+        $ref: '#/components/messages/turnOnOff'
 
-  action.{streetlightId}.turn.off:
+  action/{streetlightId}/dim:
     parameters:
       - $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      $ref: '#/components/messages/turnOnOff'
-
-  action.{streetlightId}.dim:
-    parameters:
-      - $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      $ref: '#/components/messages/dimLight'
+    publish:
+      operationId: dimLight
+      message:
+        $ref: '#/components/messages/dimLight'
 
 components:
   messages:
     lightMeasured:
+      name: lightMeasured
+      title: Light measured
       summary: Inform about environmental lighting conditions for a particular streetlight.
+      contentType: application/json
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
+      name: turnOnOff
+      title: Turn on/off
       summary: Command a particular streetlight to turn the lights on or off.
       payload:
         $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
+      name: dimLight
+      title: Dim light
       summary: Command a particular streetlight to dim the lights.
       payload:
         $ref: "#/components/schemas/dimLightPayload"
@@ -156,4 +174,3 @@ components:
       description: The ID of the streetlight.
       schema:
         type: string
-

@@ -1,26 +1,21 @@
 {
-  "title": "AsyncAPI 1.2.0 schema.",
-  "id": "http://asyncapi.hitchhq.com/v1/schema.json#",
-  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "AsyncAPI 2.0.0 schema.",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
     "asyncapi",
+    "id",
     "info"
   ],
   "oneOf": [
     {
       "required": [
-        "topics"
+        "channels"
       ]
     },
     {
       "required": [
         "stream"
-      ]
-    },
-    {
-      "required": [
-        "events"
       ]
     }
   ],
@@ -34,20 +29,17 @@
     "asyncapi": {
       "type": "string",
       "enum": [
-        "1.0.0",
-        "1.1.0",
-        "1.2.0"
+        "2.0.0"
       ],
       "description": "The AsyncAPI specification version of this document."
     },
+    "id": {
+      "type": "string",
+      "description": "A unique id representing the application.",
+      "format": "uri-reference"
+    },
     "info": {
       "$ref": "#/definitions/info"
-    },
-    "baseTopic": {
-      "type": "string",
-      "pattern": "^[^/.]",
-      "description": "The base topic to the API. Example: 'hitch'.",
-      "default": ""
     },
     "servers": {
       "type": "array",
@@ -56,16 +48,15 @@
       },
       "uniqueItems": true
     },
-    "topics": {
-      "$ref": "#/definitions/topics"
+    "defaultContentType": {
+      "type": "string"
+    },
+    "channels": {
+      "$ref": "#/definitions/channels"
     },
     "stream": {
       "$ref": "#/definitions/stream",
       "description": "The list of messages a consumer can read or write from/to a streaming API."
-    },
-    "events": {
-      "$ref": "#/definitions/events",
-      "description": "The list of messages an events API sends and/or receives."
     },
     "components": {
       "$ref": "#/definitions/components"
@@ -76,12 +67,6 @@
         "$ref": "#/definitions/tag"
       },
       "uniqueItems": true
-    },
-    "security": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/SecurityRequirement"
-      }
     },
     "externalDocs": {
       "$ref": "#/definitions/externalDocs"
@@ -210,29 +195,23 @@
         },
         "scheme": {
           "type": "string",
-          "description": "The transfer protocol.",
-          "enum": [
-            "kafka",
-            "kafka-secure",
-            "amqp",
-            "amqps",
-            "mqtt",
-            "mqtts",
-            "secure-mqtt",
-            "ws",
-            "wss",
-            "stomp",
-            "stomps",
-            "jms",
-            "http",
-            "https"
-          ]
+          "description": "The transfer protocol."
         },
         "schemeVersion": {
           "type": "string"
         },
         "variables": {
           "$ref": "#/definitions/serverVariables"
+        },
+        "baseChannel": {
+          "type": "string",
+          "x-format": "uri-path"
+        },
+        "security": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SecurityRequirement"
+          }
         }
       }
     },
@@ -265,21 +244,27 @@
         },
         "description": {
           "type": "string"
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
-    "topics": {
+    "channels": {
       "type": "object",
-      "description": "Relative paths to the individual topics. They must be relative to the 'baseTopic'.",
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        },
-        "^[^.]": {
-          "$ref": "#/definitions/topicItem"
-        }
+      "propertyNames": {
+        "type": "string",
+        "format": "uri-template",
+        "minLength": 1
       },
-      "additionalProperties": false
+      "patternProperties": {
+        "": {
+          "$ref": "#/definitions/channelItem"
+        }
+      }
     },
     "components": {
       "type": "object",
@@ -327,7 +312,7 @@
       "additionalProperties": {
         "$ref": "#/definitions/parameter"
       },
-      "description": "JSON objects describing re-usable topic parameters."
+      "description": "JSON objects describing re-usable channel parameters."
     },
     "schema": {
       "type": "object",
@@ -398,6 +383,10 @@
         "enum": {
           "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
         },
+      	"deprecated": {
+          "type": "boolean",
+      	  "default": false
+      	},
         "additionalProperties": {
           "anyOf": [
             {
@@ -520,7 +509,7 @@
         }
       }
     },
-    "topicItem": {
+    "channelItem": {
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
@@ -578,28 +567,62 @@
       }
     },
     "operation": {
-      "oneOf": [
-        { "$ref": "#/definitions/message" },
-        {
-          "type": "object",
-          "required": [ "oneOf" ],
-          "additionalProperties": false,
-          "patternProperties": {
-            "^x-": {
-              "$ref": "#/definitions/vendorExtension"
-            }
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tag"
           },
-          "properties": {
-            "oneOf": {
-              "type": "array",
-              "minItems": 2,
-              "items": {
-                "$ref": "#/definitions/message"
+          "uniqueItems": true
+        },
+        "externalDocs": {
+          "$ref": "#/definitions/externalDocs"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/message"
+            },
+            {
+              "type": "object",
+              "required": [
+                "oneOf"
+              ],
+              "additionalProperties": false,
+              "patternProperties": {
+                "^x-": {
+                  "$ref": "#/definitions/vendorExtension"
+                }
+              },
+              "properties": {
+                "oneOf": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "$ref": "#/definitions/message"
+                  }
+                }
               }
             }
-          }
+          ]
         }
-      ]
+      }
     },
     "stream": {
       "title": "Stream Object",
@@ -681,91 +704,70 @@
         }
       }
     },
-    "events": {
-      "title": "Events Object",
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "minProperties": 1,
+    "message": {
       "anyOf": [
         {
-          "required": [
-            "receive"
-          ]
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
+          }
         },
         {
-          "required": [
-            "send"
-          ]
-        }
-      ],
-      "properties": {
-        "receive": {
-          "title": "Events Receive Object",
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/message"
-          }
-        },
-        "send": {
-          "title": "Events Send Object",
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/message"
-          }
-        }
-      }
-    },
-    "message": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "properties": {
-        "$ref": {
-          "type": "string"
-        },
-        "headers": {
-          "$ref": "#/definitions/schema"
-        },
-        "payload": {
-          "$ref": "#/definitions/schema"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/tag"
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^x-": {
+              "$ref": "#/definitions/vendorExtension"
+            }
           },
-          "uniqueItems": true
-        },
-        "summary": {
-          "type": "string",
-          "description": "A brief summary of the message."
-        },
-        "description": {
-          "type": "string",
-          "description": "A longer description of the message. CommonMark is allowed."
-        },
-        "externalDocs": {
-          "$ref": "#/definitions/externalDocs"
-        },
-        "deprecated": {
-          "type": "boolean",
-          "default": false
-        },
-        "example": {}
-      }
+          "properties": {
+            "schemaFormat": {
+              "type": "string"
+            },
+            "contentType": {
+              "type": "string"
+            },
+            "headers": {
+              "$ref": "#/definitions/schema"
+            },
+            "payload": {},
+            "tags": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/tag"
+              },
+              "uniqueItems": true
+            },
+            "summary": {
+              "type": "string",
+              "description": "A brief summary of the message."
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the message."
+            },
+            "title": {
+              "type": "string",
+              "description": "A human-friendly title for the message."
+            },
+            "description": {
+              "type": "string",
+              "description": "A longer description of the message. CommonMark is allowed."
+            },
+            "externalDocs": {
+              "$ref": "#/definitions/externalDocs"
+            },
+            "deprecated": {
+              "type": "boolean",
+              "default": false
+            },
+            "example": {}
+          }
+        }
+      ]
     },
     "vendorExtension": {
       "description": "Any property starting with x- is valid.",
@@ -1045,7 +1047,7 @@
             "implicit": {
               "allOf": [
                 { "$ref": "#/definitions/oauth2Flow" },
-                { 
+                {
                   "required": [
                     "authorizationUrl",
                     "scopes"
