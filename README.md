@@ -735,6 +735,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | [Schema Object](#schemaObject) | Definition of the message payload.
+<a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) | Definition of the correlation ID used for message tracing or matching
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
@@ -774,6 +775,11 @@ This object can be extended with [Specification Extensions](#specificationExtens
         "$ref": "#/components/schemas/signup"
       }
     }
+  },
+  "correlationId": {
+    "description": "Default Correlation ID",
+    "type": "string",
+    "location": "$message.header.correlationId"
   }
 }
 ```
@@ -799,6 +805,10 @@ payload:
       $ref: "#/components/schemas/userCreate"
     signup:
       $ref: "#/components/schemas/signup"
+correlationId:
+  description: Default Correlation ID
+  type: string
+  location: $message.header.correlationId
 ```
 
 
@@ -908,6 +918,7 @@ Field Name | Type | Description
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
+<a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject)
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -997,6 +1008,13 @@ my.org.User
         "type": "string"
       }
     }
+  },
+  "correlationIds": {
+    "default": {
+      "description": "Default Correlation ID",
+      "type": "string",
+      "location": "$message.header.correlationId"
+    }
   }
 }
 ```
@@ -1049,6 +1067,11 @@ components:
       description: Id of the user.
       schema:
         type: string
+  correlationIds:
+    default:
+      description: Default Correlation iD
+      type: string
+      location: $message.header.correlationId
 ```
 
 #### <a name="schemaObject"></a>Schema Object
@@ -2083,6 +2106,68 @@ petstore_auth:
 - write:pets
 - read:pets
 ```
+
+### <a name="correlationIdObject"></a>Correlation ID Object
+
+An object to provide a means to specify an identifier at design time that can used for message tracing and correlation when designing, for example, RPC-style interfaces.
+
+For specifying and computing the location of a Correlation ID a [runtime expression](#runtimeExpression) is used.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+description | `string` | A short description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+type | `integer` \| `string` \| `number` | 
+location | {expression} | A runtime expression that specifies the location of the correlation ID 
+
+##### Examples
+
+```json
+{
+  "description": "Default Correlation ID",
+  "type": "string",
+  "location": "$message.header.correlationId"
+}
+```
+
+```yaml
+description: Default Correlation iD
+type: string
+location: $message.header.correlationId
+```
+
+### <a name="runtimeExpression"></a>Runtime Expression
+
+A runtime expression allows values to be defined based on information that will be available within the message.
+This mechanism is used by [Correlation ID Object](#correlationIdObject).
+
+The runtime expression is defined by the following [ABNF](https://tools.ietf.org/html/rfc5234) syntax
+
+```
+      expression = ( "$message" )
+      source = ( header-reference | payload-reference )  
+      header-reference = "header." token
+      payload-reference = "payload." name
+      fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901) 
+      name = *( char )
+      char = as per RFC [7159](https://tools.ietf.org/html/rfc7159#section-7)
+      token = as per RFC [7230](https://tools.ietf.org/html/rfc7230#section-3.2.6)
+```
+
+The `name` identifier is case-sensitive, whereas `token` is not. 
+
+The table below provides examples of runtime expressions and examples of their use in a value:
+
+##### <a name="runtimeExpressionExamples"></a>Examples
+
+Source Location | Example expression  | Notes
+---|:---|:---|
+Message Header Property | `$message.header.correlationId` | Headers are analogous to message properties
+Message Payload Property | `$message.payload.meta.messageId` | Correlation ID is set using a property from the `meta` section of a message
+
+Runtime expressions preserve the type of the referenced value.
+Expressions can be embedded into string values by surrounding the expression with `{}` curly braces.
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
