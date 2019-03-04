@@ -59,10 +59,15 @@ components:
   messages:
     lightMeasured:
       summary: Inform about environmental lighting conditions for a particular streetlight.
+      correlationId:
+        description: Message tracing identifier
+        location: $message.header.correlationId
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
       summary: Command a particular streetlight to turn the lights on or off.
+      correlationId:
+        $ref: "#/components/correlationIds/default"
       payload:
         $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
@@ -118,3 +123,9 @@ components:
       description: The ID of the streetlight.
       schema:
         type: string
+
+  correlationIds:
+    default:
+      description: Default correlation ID
+      type: string
+      location: '$message.payload.sentAt'

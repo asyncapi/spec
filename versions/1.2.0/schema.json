@@ -305,6 +305,17 @@
         },
         "parameters": {
           "$ref": "#/definitions/parameters"
+        },
+        "correlationIds": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9\\.\\-_]+$": {
+              "oneOf": [
+                { "$ref": "#/definitions/Reference" },
+                { "$ref": "#/definitions/CorrelationId" }
+              ]
+            }
+          }
         }
       }
     },
@@ -573,8 +584,8 @@
           "$ref": "#/definitions/schema"
         },
         "$ref": {
-	  "type": "string"
-	}
+	        "type": "string"
+	      }
       }
     },
     "operation": {
@@ -742,6 +753,12 @@
         "payload": {
           "$ref": "#/definitions/schema"
         },
+        "correlationId": {
+          "oneOf": [
+            { "$ref": "#/definitions/Reference" },
+            { "$ref": "#/definitions/CorrelationId" }
+          ]
+        },
         "tags": {
           "type": "array",
           "items": {
@@ -765,6 +782,35 @@
           "default": false
         },
         "example": {}
+      }
+    },
+    "CorrelationId": {
+      "type": "object",
+      "required": [
+        "description",
+        "location"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A brief description of the parameter. This could contain examples of use.  GitHub Flavored Markdown is allowed."
+        },
+        "type": {
+          "type": "string",
+          "description": "An optional type specification",
+          "enum": ["string", "integer", "number"]
+        },
+        "location": {
+          "type": "string",
+          "description": "A runtime expression that specifies the location of the correlation ID",
+          "pattern": "^\\$message\\.(header|payload)\\..*"
+        }
       }
     },
     "vendorExtension": {
