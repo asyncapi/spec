@@ -2256,7 +2256,7 @@ location | {expression} | **REQUIRED.** A runtime expression that specifies the 
 ```
 
 ```yaml
-description: Default Correlation iD
+description: Default Correlation ID
 type: string
 location: $message.header.correlationId
 ```
