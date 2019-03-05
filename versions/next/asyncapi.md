@@ -1193,7 +1193,7 @@ components:
         type: string
   correlationIds:
     default:
-      description: Default Correlation iD
+      description: Default Correlation ID
       type: string
       location: $message.header.correlationId
 ```
