@@ -814,7 +814,7 @@ Field Name | Type | Description
 
 <a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
-<a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
+<a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
