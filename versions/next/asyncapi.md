@@ -2269,7 +2269,7 @@ This mechanism is used by [Correlation ID Object](#correlationIdObject).
 The runtime expression is defined by the following [ABNF](https://tools.ietf.org/html/rfc5234) syntax:
 
 ```
-      expression = ( "$message" )
+      expression = ( "$message" "." source )
       source = ( header-reference | payload-reference )  
       header-reference = "header." token
       payload-reference = "payload." name
