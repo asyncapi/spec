@@ -2288,7 +2288,7 @@ The table below provides examples of runtime expressions and examples of their u
 Source Location | Example expression  | Notes
 ---|:---|:---|
 Message Header Property | `$message.header.correlationId` | Headers are analogous to message properties
-Message Payload Property | `$message.payload.meta.messageId` | Correlation ID is set using a property from the `meta` section of a message
+Message Payload Property | `$message.payload.meta.messageId` | Correlation ID is set using a property from the `meta` section of a message.
 
 Runtime expressions preserve the type of the referenced value.
 Expressions can be embedded into string values by surrounding the expression with `{}` curly braces.
