@@ -2274,7 +2274,7 @@ The runtime expression is defined by the following [ABNF](https://tools.ietf.org
       header-reference = "header." token
       payload-reference = "payload." name
       fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901) 
-      name = *( char )
+      name = 1*( char )
       char = as per RFC [7159](https://tools.ietf.org/html/rfc7159#section-7)
       token = as per RFC [7230](https://tools.ietf.org/html/rfc7230#section-3.2.6)
 ```
