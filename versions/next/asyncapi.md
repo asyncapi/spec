@@ -2235,7 +2235,7 @@ petstore_auth:
 
 An object that specifies an identifier at design time that can used for message tracing and correlation.
 
-For specifying and computing the location of a Correlation ID a [runtime expression](#runtimeExpression) is used.
+For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
 
 ##### Fixed Fields
 
