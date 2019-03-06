@@ -55,7 +55,7 @@ components:
       title: Light measured
       summary: Inform about environmental lighting conditions for a particular streetlight.
       correlationId:
-        location: "$message.header.correlationId"
+        location: "$message.header#/MQMD/CorrelationId"
       contentType: application/json
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
@@ -103,4 +103,4 @@ components:
   correlationIds:
     sentAtCorrelator:
       description: Data from message payload used as correlation ID
-      location: $message.payload.sentAt
+      location: $message.payload#/sentAt
