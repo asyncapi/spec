@@ -60,6 +60,9 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
     - [Security Scheme Object](#securitySchemeObject)
+    - [Parameter Object](#parameterObject)
+    - [Correlation ID Object](#correlationIdObject)
+
 	- [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
@@ -864,8 +867,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
   },
   "correlationId": {
     "description": "Default Correlation ID",
-    "type": "string",
-    "location": "$message.header.correlationId"
+    "location": "$message.header#/correlationId"
   }
 }
 ```
@@ -896,8 +898,7 @@ payload:
       $ref: "#/components/schemas/signup"
 correlationId:
   description: Default Correlation ID
-  type: string
-  location: $message.header.correlationId
+  location: $message.header#/correlationId
 ```
 
 Example using Google's protobuf to define the payload:
@@ -1136,8 +1137,7 @@ my.org.User
   "correlationIds": {
     "default": {
       "description": "Default Correlation ID",
-      "type": "string",
-      "location": "$message.header.correlationId"
+      "location": "$message.header#/correlationId"
     }
   }
 }
@@ -1194,8 +1194,7 @@ components:
   correlationIds:
     default:
       description: Default Correlation ID
-      type: string
-      location: $message.header.correlationId
+      location: $message.header#/correlationId
 ```
 
 #### <a name="schemaObject"></a>Schema Object
@@ -2242,23 +2241,22 @@ For specifying and computing the location of a Correlation ID, a [runtime expres
 Field Name | Type | Description
 ---|:---|---
 description | `string` | A optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-type | `integer` \| `string` \| `number` | An optional type specification.
 location | {expression} | **REQUIRED.** A runtime expression that specifies the location of the correlation ID.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Examples
 
 ```json
 {
   "description": "Default Correlation ID",
-  "type": "string",
-  "location": "$message.header.correlationId"
+  "location": "$message.header#/correlationId"
 }
 ```
 
 ```yaml
 description: Default Correlation ID
-type: string
-location: $message.header.correlationId
+location: $message.header#/correlationId
 ```
 
 ### <a name="runtimeExpression"></a>Runtime Expression
@@ -2270,16 +2268,11 @@ The runtime expression is defined by the following [ABNF](https://tools.ietf.org
 
 ```
       expression = ( "$message" "." source )
-      source = ( header-reference | payload-reference )  
-      header-reference = "header." token
-      payload-reference = "payload." name
-      fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901) 
-      name = 1*( char )
-      char = as per RFC [7159](https://tools.ietf.org/html/rfc7159#section-7)
-      token = as per RFC [7230](https://tools.ietf.org/html/rfc7230#section-3.2.6)
+      source = ( header-reference | payload-reference )
+      header-reference = "header." ["#" fragment]
+      payload-reference = "payload." ["#" fragment]
+      fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901)
 ```
-
-The `name` identifier is case-sensitive, whereas `token` is not. 
 
 The table below provides examples of runtime expressions and examples of their use in a value:
 
@@ -2287,11 +2280,10 @@ The table below provides examples of runtime expressions and examples of their u
 
 Source Location | Example expression  | Notes
 ---|:---|:---|
-Message Header Property | `$message.header.correlationId` | Headers are analogous to message properties
-Message Payload Property | `$message.payload.meta.messageId` | Correlation ID is set using a property from the `meta` section of a message.
+Message Header Property | `$message.header#/MQMD/CorrelationId` | Correlation ID is set using the `CorrelationID` value from the `MQMD` header.
+Message Payload Property | `$message.payload#/messageId` | Correlation ID is set using the `messageId` value from the message payload.
 
 Runtime expressions preserve the type of the referenced value.
-Expressions can be embedded into string values by surrounding the expression with `{}` curly braces.
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
