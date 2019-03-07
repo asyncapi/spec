@@ -1,9 +1,9 @@
 asyncapi: '2.0.0'
 id: 'urn:com:smartylighting:streetlights:server'
 info:
-  title: Correlation ID Example
+  title: Application Headers example
   version: '1.0.0'
-  description: A cut of the Streetlights API to test Correlation ID
+  description: A cut of the Streetlights API to test application header changes supporting #112
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
