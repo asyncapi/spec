@@ -55,7 +55,7 @@ components:
       title: Light measured
       summary: Inform about environmental lighting conditions for a particular streetlight.
       correlationId:
-        location: "$message.header#/MQMD/CorrelationId"
+        location: "$message.header#/MQMD/CorrelId"
       contentType: application/json
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"

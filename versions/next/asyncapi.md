@@ -2280,7 +2280,7 @@ The table below provides examples of runtime expressions and examples of their u
 
 Source Location | Example expression  | Notes
 ---|:---|:---|
-Message Header Property | `$message.header#/MQMD/CorrelationId` | Correlation ID is set using the `CorrelationID` value from the `MQMD` header.
+Message Header Property | `$message.header#/MQMD/CorrelId` | Correlation ID is set using the `CorrelId` value from the `MQMD` header.
 Message Payload Property | `$message.payload#/messageId` | Correlation ID is set using the `messageId` value from the message payload.
 
 Runtime expressions preserve the type of the referenced value.
