@@ -742,7 +742,16 @@
               "type": "string"
             },
             "headers": {
-              "$ref": "#/definitions/schema"
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9\\.\\-_]+$": {
+                  "oneOf": [
+                    { "$ref": "#/definitions/Reference" },
+                    {"$ref": "#/definitions/schema" }
+                  ]
+                }
+              }
             },
             "payload": {},
             "correlationId": {

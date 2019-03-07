@@ -618,14 +618,11 @@ This object can be extended with [Specification Extensions](#specificationExtens
   ],
   "message": {
     "headers": {
-      "type": "object",
-      "properties": {
-        "qos": {
-          "$ref": "#/components/schemas/MQTTQoSHeader"
-        },
-        "retainFlag": {
-          "$ref": "#/components/schemas/MQTTRetainHeader"
-        }
+      "qos": {
+        "$ref": "#/components/schemas/MQTTQoSHeader"
+      },
+      "retainFlag": {
+        "$ref": "#/components/schemas/MQTTRetainHeader"
       }
     },
     "payload": {
@@ -653,12 +650,10 @@ tags:
   - name: register
 message:
   headers:
-    type: object
-    properties:
-      qos:
-        $ref: "#/components/schemas/MQTTQoSHeader"
-      retainFlag:
-        $ref: "#/components/schemas/MQTTRetainHeader"
+    qos:
+      $ref: "#/components/schemas/MQTTQoSHeader"
+    retainFlag:
+      $ref: "#/components/schemas/MQTTRetainHeader"
   payload:
     type: object
     properties:
@@ -814,8 +809,7 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-
-<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
+<a name="messageObjectHeaders"></a>headers | Map[`string`, [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject)] | Definition of the application headers. It **does not** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
@@ -844,14 +838,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
     { "name": "register" }
   ],
   "headers": {
-    "type": "object",
-    "properties": {
-      "qos": {
-        "$ref": "#/components/schemas/MQTTQoSHeader"
-      },
-      "retainFlag": {
-        "$ref": "#/components/schemas/MQTTRetainHeader"
-      }
+    "correlationId": {
+      "type": "string"
+    },
+    "qos": {
+      "$ref": "#/components/schemas/MQTTQoSHeader"
+    },
+    "retainFlag": {
+      "$ref": "#/components/schemas/MQTTRetainHeader"
     }
   },
   "payload": {
@@ -883,12 +877,12 @@ tags:
   - name: signup
   - name: register
 headers:
-  type: object
-  properties:
-    qos:
-      $ref: "#/components/schemas/MQTTQoSHeader"
-    retainFlag:
-      $ref: "#/components/schemas/MQTTRetainHeader"
+  correlationId:
+    type: string
+  qos:
+    $ref: "#/components/schemas/MQTTQoSHeader"
+  retainFlag:
+    $ref: "#/components/schemas/MQTTRetainHeader"
 payload:
   type: object
   properties:
@@ -1102,14 +1096,11 @@ my.org.User
         }
       ],
       "headers": {
-        "type": "object",
-        "properties": {
-          "qos": {
-            "$ref": "#/components/schemas/MQTTQoSHeader"
-          },
-          "retainFlag": {
-            "$ref": "#/components/schemas/MQTTRetainHeader"
-          }
+        "qos": {
+          "$ref": "#/components/schemas/MQTTQoSHeader"
+        },
+        "retainFlag": {
+          "$ref": "#/components/schemas/MQTTRetainHeader"
         }
       },
       "payload": {
@@ -1172,12 +1163,10 @@ components:
         - name: user
         - name: signup
       headers:
-        type: object
-        properties:
-          qos:
-            $ref: "#/components/schemas/MQTTQoSHeader"
-          retainFlag:
-            $ref: "#/components/schemas/MQTTRetainHeader"
+        qos:
+          $ref: "#/components/schemas/MQTTQoSHeader"
+        retainFlag:
+          $ref: "#/components/schemas/MQTTRetainHeader"
       payload:
         type: object
         properties:
@@ -2232,7 +2221,7 @@ petstore_auth:
 
 ### <a name="correlationIdObject"></a>Correlation ID Object
 
-An object that specifies an identifier at design time that can used for message tracing and correlation.
+An object that specifies an identifier at design time that can used for message tracing and correlation. 
 
 For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
 

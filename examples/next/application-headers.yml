@@ -1,0 +1,82 @@
+asyncapi: '2.0.0'
+id: 'urn:com:smartylighting:streetlights:server'
+info:
+  title: Correlation ID Example
+  version: '1.0.0'
+  description: A cut of the Streetlights API to test Correlation ID
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: api.streetlights.smartylighting.com:{port}
+    scheme: mqtt
+    description: Test broker
+    baseChannel: smartylighting/streetlights/1/0
+    variables:
+      port:
+        description: Secure connection (TLS) is available through port 8883.
+        default: '1883'
+        enum:
+          - '1883'
+          - '8883'
+
+defaultContentType: application/json
+
+channels:
+  event/{streetlightId}/lighting/measured:
+    parameters:
+      - $ref: '#/components/parameters/streetlightId'
+    subscribe:
+      summary: Receive information about environmental lighting conditions of a particular streetlight.
+      operationId: receiveLightMeasurement
+      message:
+        $ref: '#/components/messages/lightMeasured'
+
+components:
+  messages:
+    lightMeasured:
+      name: lightMeasured
+      title: Light measured
+      summary: Inform about environmental lighting conditions for a particular streetlight.
+      correlationId:
+        location: "$message.header#/MQMD/CorrelId"
+      contentType: application/json
+      headers:
+        MQMD:
+          type: object
+          properties:
+            CorrelId:
+              type: string
+              minLength: 24
+              maxLength: 24
+              format: binary
+        replyTo:
+          $ref: "#/components/schemas/replyTo"
+      payload:
+        $ref: "#/components/schemas/lightMeasuredPayload"
+
+  schemas:
+    lightMeasuredPayload:
+      type: object
+      properties:
+        lumens:
+          type: integer
+          minimum: 0
+          description: Light intensity measured in lumens.
+        sentAt:
+          $ref: "#/components/schemas/sentAt"
+    sentAt:
+      type: string
+      format: date-time
+      description: Date and time when the message was sent.
+    replyTo:
+      description: Name of replyTo queue
+      type: string
+
+  parameters:
+    streetlightId:
+      name: streetlightId
+      description: The ID of the streetlight.
+      schema:
+        type: string
