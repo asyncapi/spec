@@ -743,14 +743,11 @@
             },
             "headers": {
               "type": "object",
-              "additionalProperties": false,
-              "patternProperties": {
-                "^[a-zA-Z0-9\\.\\-_]+$": {
-                  "oneOf": [
-                    { "$ref": "#/definitions/Reference" },
-                    {"$ref": "#/definitions/schema" }
-                  ]
-                }
+              "additionalProperties": {
+                "oneOf": [
+                  { "$ref": "#/definitions/Reference" },
+                  {"$ref": "#/definitions/schema" }
+                ]
               }
             },
             "payload": {},

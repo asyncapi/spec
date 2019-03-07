@@ -51,8 +51,8 @@ components:
               minLength: 24
               maxLength: 24
               format: binary
-        replyTo:
-          $ref: "#/components/schemas/replyTo"
+        applicationInstanceId:
+          $ref: "#/components/schemas/applicationInstanceId"
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
 
@@ -70,8 +70,8 @@ components:
       type: string
       format: date-time
       description: Date and time when the message was sent.
-    replyTo:
-      description: Name of replyTo queue
+    applicationInstanceId:
+      description: Unique identifier for a given instance of the publishing application
       type: string
 
   parameters:

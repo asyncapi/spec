@@ -618,11 +618,9 @@ This object can be extended with [Specification Extensions](#specificationExtens
   ],
   "message": {
     "headers": {
-      "qos": {
-        "$ref": "#/components/schemas/MQTTQoSHeader"
-      },
-      "retainFlag": {
-        "$ref": "#/components/schemas/MQTTRetainHeader"
+      "applicationInstanceId": {
+        "description": "Unique identifier for a given instance of the publishing application",
+        "type": "string"
       }
     },
     "payload": {
@@ -650,10 +648,9 @@ tags:
   - name: register
 message:
   headers:
-    qos:
-      $ref: "#/components/schemas/MQTTQoSHeader"
-    retainFlag:
-      $ref: "#/components/schemas/MQTTRetainHeader"
+    applicationInstanceId:
+      description: Unique identifier for a given instance of the publishing application
+      type: string
   payload:
     type: object
     properties:
@@ -839,13 +836,12 @@ This object can be extended with [Specification Extensions](#specificationExtens
   ],
   "headers": {
     "correlationId": {
+      "description": "Correlation ID set by application",
       "type": "string"
     },
-    "qos": {
-      "$ref": "#/components/schemas/MQTTQoSHeader"
-    },
-    "retainFlag": {
-      "$ref": "#/components/schemas/MQTTRetainHeader"
+    "applicationInstanceId": {
+      "description": "Unique identifier for a given instance of the publishing application",
+      "type": "string"
     }
   },
   "payload": {
@@ -878,11 +874,11 @@ tags:
   - name: register
 headers:
   correlationId:
+    description: Correlation ID set by application
     type: string
-  qos:
-    $ref: "#/components/schemas/MQTTQoSHeader"
-  retainFlag:
-    $ref: "#/components/schemas/MQTTRetainHeader"
+  applicationInstanceId:
+    description: Unique identifier for a given instance of the publishing application
+    type: string
 payload:
   type: object
   properties:
@@ -1096,11 +1092,9 @@ my.org.User
         }
       ],
       "headers": {
-        "qos": {
-          "$ref": "#/components/schemas/MQTTQoSHeader"
-        },
-        "retainFlag": {
-          "$ref": "#/components/schemas/MQTTRetainHeader"
+        "applicationInstanceId": {
+          "description": "Unique identifier for a given instance of the publishing application",
+          "type": "string"
         }
       },
       "payload": {
@@ -1163,10 +1157,9 @@ components:
         - name: user
         - name: signup
       headers:
-        qos:
-          $ref: "#/components/schemas/MQTTQoSHeader"
-        retainFlag:
-          $ref: "#/components/schemas/MQTTRetainHeader"
+        applicationInstanceId:
+          description: Unique identifier for a given instance of the publishing application
+          type: string
       payload:
         type: object
         properties:
