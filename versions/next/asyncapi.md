@@ -61,6 +61,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [XML Object](#xmlObject)
       - [Security Scheme Object](#securitySchemeObject)
       - [Parameter Object](#parameterObject)
+      - [Protocol Object](#protocolObject)
       - [Correlation ID Object](#correlationIdObject)
       - [Specification Extensions](#specificationExtensions)
 
@@ -516,6 +517,7 @@ Field Name | Type | Description
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
 <a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
+<a name="channelItemObjectProtocolObjects"></a>protocolObjects | Map[`string`, [Protocol Object](#protocolObjectObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -539,6 +541,12 @@ This object can be extended with [Specification Extensions](#specificationExtens
         }
       }
     }
+  },
+  "amqp-0-9-1": {
+    "channelIsQueue": true,
+    "queue": {
+      "exclusive": true
+    }
   }
 }
 ```
@@ -554,7 +562,10 @@ subscribe:
         user:
           $ref: "#/components/schemas/user"
         signup:
-          $ref: "#/components/schemas/signup"
+amqp-0-9-1:
+  channelIsQueue: true
+  queue:
+    exclusive: true
 ```
 
 Using `oneOf` to specify multiple messages per operation:
@@ -599,6 +610,7 @@ Field Name | Type | Description
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
+<a name="operationObjectProtocolObjects"></a>protocolObjects | Map[`string`, [Protocol Object](#protocolObjectObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -633,6 +645,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
         }
       }
     }
+  },
+  "amqp-0-9-1": {
+    "noAck": true,
+    "properties": {
+      "correlation_id": {
+        "type": "string"
+      }
+    }
   }
 }
 ```
@@ -657,6 +677,11 @@ message:
         $ref: "#/components/schemas/userCreate"
       signup:
         $ref: "#/components/schemas/signup"
+amqp-0-9-1:
+  noAck: true
+  properties:
+    correlation_id:
+      type: string
 ```
 
 
@@ -706,6 +731,42 @@ user.{userId}.signup:
         type: string
   subscribe:
     $ref: "#/components/messages/userSignedUp"
+```
+
+
+
+
+
+#### <a name="protocolObjectObject"></a>Protocol Object
+
+Free-form key-value object describing protocol-specific definitions for a given channel or operation.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="protocolObjectObjectProtocolName"></a>{protocol} | `Map` | Protocol-specific information. This map is free-form and MUST not be validated by parsers.
+
+##### Protocol Object Example
+
+```json
+{
+  "amqp-0-9-1": {
+    "channelIsQueue": true,
+    "queue": {
+      "randomName": true,
+      "exclusive": true
+    }
+  }
+}
+```
+
+```yaml
+amqp-0-9-1:
+  channelIsQueue: true
+  queue:
+    randomName: true
+    exclusive: true
 ```
 
 

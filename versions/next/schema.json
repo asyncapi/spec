@@ -550,6 +550,12 @@
         "deprecated": {
           "type": "boolean",
           "default": false
+        },
+        "protocolObjects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         }
       }
     },
@@ -573,8 +579,8 @@
           "$ref": "#/definitions/schema"
         },
         "$ref": {
-	  "type": "string"
-	}
+          "type": "string"
+        }
       }
     },
     "operation": {
@@ -604,6 +610,12 @@
         },
         "operationId": {
           "type": "string"
+        },
+        "protocolObjects": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         },
         "message": {
           "oneOf": [
