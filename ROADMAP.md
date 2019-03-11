@@ -22,19 +22,19 @@ Before we continue heading to version 2.0.0, let's make the biggest breaking cha
 
 This milestone tackles the issues related to connecting to a server. This is very important for SDKs and code generators.
 
-### Next milestones
-
-:arrow_right: [[v2.0.0] Improve user experience](https://github.com/asyncapi/asyncapi/milestone/4) (current milestone)
+:arrow_right: [[v2.0.0] Improve user experience](https://github.com/asyncapi/asyncapi/milestone/4) 
 
 This milestone is about improving developer/user experience in, both, the specification and the tooling.
 
-:arrow_right: [[v2.0.0] Augmentation](https://github.com/asyncapi/asyncapi/milestone/5)
+### Next milestones
 
-This milestone is about creating mechanisms for the users to augment the AsyncAPI specification. We already have specification extensions, which provide a syntactical way to extend the spec. In this milestone, we should aim for providing the right mechanisms to extend the spec in different contexts and ways.
-
-:arrow_right: [[v2.0.0] Protocol mappings](https://github.com/asyncapi/asyncapi/milestone/2)
+:arrow_right: [[v2.0.0] Protocol mappings](https://github.com/asyncapi/asyncapi/milestone/2) :white_check_mark: Current milestone
 
 This milestone is about figuring out how to map protocols to AsyncAPI documents.
+
+:arrow_right: [[v2.0.0] Augmentation](https://github.com/asyncapi/asyncapi/milestone/5) 
+
+This milestone is about creating mechanisms for the users to augment the AsyncAPI specification. We already have specification extensions, which provide a syntactical way to extend the spec. In this milestone, we should aim for providing the right mechanisms to extend the spec in different contexts and ways.
 
 :arrow_right: AsyncAPI version 2.0.0 Release Candidate launch
 

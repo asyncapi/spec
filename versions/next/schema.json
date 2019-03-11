@@ -290,6 +290,17 @@
         },
         "parameters": {
           "$ref": "#/definitions/parameters"
+        },
+        "correlationIds": {
+          "type": "object",
+          "patternProperties": {
+            "^[a-zA-Z0-9\\.\\-_]+$": {
+              "oneOf": [
+                { "$ref": "#/definitions/Reference" },
+                { "$ref": "#/definitions/correlationId" }
+              ]
+            }
+          }
         }
       }
     },
@@ -731,9 +742,21 @@
               "type": "string"
             },
             "headers": {
-              "$ref": "#/definitions/schema"
+              "type": "object",
+              "additionalProperties": {
+                "oneOf": [
+                  { "$ref": "#/definitions/Reference" },
+                  {"$ref": "#/definitions/schema" }
+                ]
+              }
             },
             "payload": {},
+            "correlationId": {
+              "oneOf": [
+                { "$ref": "#/definitions/Reference" },
+                { "$ref": "#/definitions/correlationId" }
+              ]
+            },
             "tags": {
               "type": "array",
               "items": {
@@ -768,6 +791,29 @@
           }
         }
       ]
+    },
+    "correlationId": {
+      "type": "object",
+      "required": [
+        "location"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A optional description of the correlation ID. GitHub Flavored Markdown is allowed."
+        },
+        "location": {
+          "type": "string",
+          "description": "A runtime expression that specifies the location of the correlation ID",
+          "pattern": "^\\$message\\.(header|payload)#(/\\w+)+"
+        }
+      }
     },
     "vendorExtension": {
       "description": "Any property starting with x- is valid.",

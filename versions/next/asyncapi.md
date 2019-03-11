@@ -60,6 +60,9 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 		- [Schema Object](#schemaObject)
 		- [XML Object](#xmlObject)
     - [Security Scheme Object](#securitySchemeObject)
+    - [Parameter Object](#parameterObject)
+    - [Correlation ID Object](#correlationIdObject)
+
 	- [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
@@ -615,14 +618,9 @@ This object can be extended with [Specification Extensions](#specificationExtens
   ],
   "message": {
     "headers": {
-      "type": "object",
-      "properties": {
-        "qos": {
-          "$ref": "#/components/schemas/MQTTQoSHeader"
-        },
-        "retainFlag": {
-          "$ref": "#/components/schemas/MQTTRetainHeader"
-        }
+      "applicationInstanceId": {
+        "description": "Unique identifier for a given instance of the publishing application",
+        "type": "string"
       }
     },
     "payload": {
@@ -650,12 +648,9 @@ tags:
   - name: register
 message:
   headers:
-    type: object
-    properties:
-      qos:
-        $ref: "#/components/schemas/MQTTQoSHeader"
-      retainFlag:
-        $ref: "#/components/schemas/MQTTRetainHeader"
+    applicationInstanceId:
+      description: Unique identifier for a given instance of the publishing application
+      type: string
   payload:
     type: object
     properties:
@@ -811,9 +806,9 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-
-<a name="messageObjectHeaders"></a>headers | [Schema Wrapper Object](#schemaObject) | Definition of the message headers. It MAY or MAY NOT define the protocol headers.
+<a name="messageObjectHeaders"></a>headers | Map[`string`, [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject)] | Definition of the application headers. It **does not** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
+<a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
@@ -840,14 +835,13 @@ This object can be extended with [Specification Extensions](#specificationExtens
     { "name": "register" }
   ],
   "headers": {
-    "type": "object",
-    "properties": {
-      "qos": {
-        "$ref": "#/components/schemas/MQTTQoSHeader"
-      },
-      "retainFlag": {
-        "$ref": "#/components/schemas/MQTTRetainHeader"
-      }
+    "correlationId": {
+      "description": "Correlation ID set by application",
+      "type": "string"
+    },
+    "applicationInstanceId": {
+      "description": "Unique identifier for a given instance of the publishing application",
+      "type": "string"
     }
   },
   "payload": {
@@ -860,6 +854,10 @@ This object can be extended with [Specification Extensions](#specificationExtens
         "$ref": "#/components/schemas/signup"
       }
     }
+  },
+  "correlationId": {
+    "description": "Default Correlation ID",
+    "location": "$message.header#/correlationId"
   }
 }
 ```
@@ -875,12 +873,12 @@ tags:
   - name: signup
   - name: register
 headers:
-  type: object
-  properties:
-    qos:
-      $ref: "#/components/schemas/MQTTQoSHeader"
-    retainFlag:
-      $ref: "#/components/schemas/MQTTRetainHeader"
+  correlationId:
+    description: Correlation ID set by application
+    type: string
+  applicationInstanceId:
+    description: Unique identifier for a given instance of the publishing application
+    type: string
 payload:
   type: object
   properties:
@@ -888,6 +886,9 @@ payload:
       $ref: "#/components/schemas/userCreate"
     signup:
       $ref: "#/components/schemas/signup"
+correlationId:
+  description: Default Correlation ID
+  location: $message.header#/correlationId
 ```
 
 Example using Google's protobuf to define the payload:
@@ -1032,6 +1033,7 @@ Field Name | Type | Description
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
+<a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1090,14 +1092,9 @@ my.org.User
         }
       ],
       "headers": {
-        "type": "object",
-        "properties": {
-          "qos": {
-            "$ref": "#/components/schemas/MQTTQoSHeader"
-          },
-          "retainFlag": {
-            "$ref": "#/components/schemas/MQTTRetainHeader"
-          }
+        "applicationInstanceId": {
+          "description": "Unique identifier for a given instance of the publishing application",
+          "type": "string"
         }
       },
       "payload": {
@@ -1120,6 +1117,12 @@ my.org.User
       "schema": {
         "type": "string"
       }
+    }
+  },
+  "correlationIds": {
+    "default": {
+      "description": "Default Correlation ID",
+      "location": "$message.header#/correlationId"
     }
   }
 }
@@ -1154,12 +1157,9 @@ components:
         - name: user
         - name: signup
       headers:
-        type: object
-        properties:
-          qos:
-            $ref: "#/components/schemas/MQTTQoSHeader"
-          retainFlag:
-            $ref: "#/components/schemas/MQTTRetainHeader"
+        applicationInstanceId:
+          description: Unique identifier for a given instance of the publishing application
+          type: string
       payload:
         type: object
         properties:
@@ -1173,6 +1173,10 @@ components:
       description: Id of the user.
       schema:
         type: string
+  correlationIds:
+    default:
+      description: Default Correlation ID
+      location: $message.header#/correlationId
 ```
 
 #### <a name="schemaObject"></a>Schema Object
@@ -2207,6 +2211,61 @@ petstore_auth:
 - write:pets
 - read:pets
 ```
+
+### <a name="correlationIdObject"></a>Correlation ID Object
+
+An object that specifies an identifier at design time that can used for message tracing and correlation. 
+
+For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+description | `string` | A optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+location | {expression} | **REQUIRED.** A runtime expression that specifies the location of the correlation ID.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Examples
+
+```json
+{
+  "description": "Default Correlation ID",
+  "location": "$message.header#/correlationId"
+}
+```
+
+```yaml
+description: Default Correlation ID
+location: $message.header#/correlationId
+```
+
+### <a name="runtimeExpression"></a>Runtime Expression
+
+A runtime expression allows values to be defined based on information that will be available within the message.
+This mechanism is used by [Correlation ID Object](#correlationIdObject).
+
+The runtime expression is defined by the following [ABNF](https://tools.ietf.org/html/rfc5234) syntax:
+
+```
+      expression = ( "$message" "." source )
+      source = ( header-reference | payload-reference )
+      header-reference = "header." ["#" fragment]
+      payload-reference = "payload." ["#" fragment]
+      fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901)
+```
+
+The table below provides examples of runtime expressions and examples of their use in a value:
+
+##### <a name="runtimeExpressionExamples"></a>Examples
+
+Source Location | Example expression  | Notes
+---|:---|:---|
+Message Header Property | `$message.header#/MQMD/CorrelId` | Correlation ID is set using the `CorrelId` value from the `MQMD` header.
+Message Payload Property | `$message.payload#/messageId` | Correlation ID is set using the `messageId` value from the message payload.
+
+Runtime expressions preserve the type of the referenced value.
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
