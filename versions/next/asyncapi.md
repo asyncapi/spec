@@ -61,7 +61,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [XML Object](#xmlObject)
       - [Security Scheme Object](#securitySchemeObject)
       - [Parameter Object](#parameterObject)
-      - [Protocol Object](#protocolObject)
+      - [Protocol Object](#protocolObjectObject)
       - [Correlation ID Object](#correlationIdObject)
       - [Specification Extensions](#specificationExtensions)
 
