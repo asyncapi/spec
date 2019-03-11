@@ -647,12 +647,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
     }
   },
   "amqp-0-9-1": {
-    "noAck": true,
-    "properties": {
-      "correlation_id": {
-        "type": "string"
-      }
-    }
+    "noAck": true
   }
 }
 ```
@@ -679,9 +674,6 @@ message:
         $ref: "#/components/schemas/signup"
 amqp-0-9-1:
   noAck: true
-  properties:
-    correlation_id:
-      type: string
 ```
 
 
@@ -877,6 +869,7 @@ Field Name | Type | Description
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
+<a name="messageObjectProtocolObjects"></a>protocolObjects | Map[`string`, [Protocol Object](#protocolObjectObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -918,6 +911,11 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "correlationId": {
     "description": "Default Correlation ID",
     "location": "$message.header#/correlationId"
+  },
+  "amqp-0-9-1": {
+    "properties": {
+      "delivery_mode": 2
+    }
   }
 }
 ```
@@ -949,6 +947,9 @@ payload:
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
+amqp-0-9-1:
+  properties:
+    delivery_mode: 2
 ```
 
 Example using Google's protobuf to define the payload:

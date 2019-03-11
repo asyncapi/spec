@@ -26,15 +26,12 @@ channels:
           exclusive: true
     publish:
       operationId: sendSumResult
-      correlationId:
-        location: $message.header#/correlation_id
       protocolObjects:
         amqp-0-9-1:
           ack: true
-          properties:
-            correlation_id:
-              type: string
       message:
+        correlationId:
+          location: $message.header#/correlation_id
         payload:
           type: object
           properties:
@@ -51,16 +48,14 @@ channels:
           durable: false
     subscribe:
       operationId: sum
-      correlationId:
-        location: $message.header#/correlation_id
-      protocolObjects:
-        amqp-0-9-1:
-          properties:
-            reply_to:
-              type: string
-            correlation_id:
-              type: string
       message:
+        protocolObjects:
+          amqp-0-9-1:
+            properties:
+              reply_to:
+                type: string
+        correlationId:
+          location: $message.header#/correlation_id
         payload:
           type: object
           properties:
