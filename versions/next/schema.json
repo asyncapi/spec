@@ -742,7 +742,13 @@
               "type": "string"
             },
             "headers": {
-              "$ref": "#/definitions/schema"
+              "type": "object",
+              "additionalProperties": {
+                "oneOf": [
+                  { "$ref": "#/definitions/Reference" },
+                  {"$ref": "#/definitions/schema" }
+                ]
+              }
             },
             "payload": {},
             "correlationId": {
