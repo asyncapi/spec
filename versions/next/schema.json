@@ -554,7 +554,7 @@
           "type": "boolean",
           "default": false
         },
-        "protocolObjects": {
+        "protocolInfo": {
           "type": "object",
           "additionalProperties": {
             "type": "object"
@@ -614,7 +614,7 @@
         "operationId": {
           "type": "string"
         },
-        "protocolObjects": {
+        "protocolInfo": {
           "type": "object",
           "additionalProperties": {
             "type": "object"
@@ -792,7 +792,7 @@
           "default": false
         },
         "example": {},
-        "protocolObjects": {
+        "protocolInfo": {
           "type": "object",
           "additionalProperties": {
             "type": "object"
