@@ -80,10 +80,13 @@
       ],
       "properties": {
         "$ref": {
-          "type": "string",
-          "format": "uri"
+          "$ref": "#/definitions/ReferenceObject"
         }
       }
+    },
+    "ReferenceObject": {
+      "type": "string",
+      "format": "uri"
     },
     "info": {
       "type": "object",
@@ -335,7 +338,7 @@
       },
       "properties": {
         "$ref": {
-          "type": "string"
+          "$ref": "#/definitions/ReferenceObject"
         },
         "format": {
           "type": "string"
@@ -531,7 +534,7 @@
       "minProperties": 1,
       "properties": {
         "$ref": {
-          "type": "string"
+          "$ref": "#/definitions/ReferenceObject"
         },
         "parameters": {
           "type": "array",
@@ -573,8 +576,8 @@
           "$ref": "#/definitions/schema"
         },
         "$ref": {
-	  "type": "string"
-	}
+          "$ref": "#/definitions/ReferenceObject"
+        }
       }
     },
     "operation": {
