@@ -474,7 +474,11 @@
         "externalDocs": {
           "$ref": "#/definitions/externalDocs"
         },
-        "example": {}
+        "example": {},
+        "examples": {
+          "type": "array",
+          "items": {}
+        }
       },
       "additionalProperties": false
     },
@@ -790,7 +794,12 @@
               "type": "boolean",
               "default": false
             },
-            "example": {}
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
           }
         }
       ]
