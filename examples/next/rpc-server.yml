@@ -18,7 +18,7 @@ channels:
         schema:
           type: string
           pattern: '^amq\\.gen\\-.+$'
-    protocolObjects:
+    protocolInfo:
       amqp-0-9-1:
         channelIsQueue: true
         queue:
@@ -26,7 +26,7 @@ channels:
           exclusive: true
     publish:
       operationId: sendSumResult
-      protocolObjects:
+      protocolInfo:
         amqp-0-9-1:
           ack: true
       message:
@@ -41,7 +41,7 @@ channels:
                 - 7
 
   rpc_queue:
-    protocolObjects:
+    protocolInfo:
       amqp-0-9-1:
         channelIsQueue: true
         queue:
@@ -49,7 +49,7 @@ channels:
     subscribe:
       operationId: sum
       message:
-        protocolObjects:
+        protocolInfo:
           amqp-0-9-1:
             properties:
               reply_to:
