@@ -557,6 +557,12 @@
         "deprecated": {
           "type": "boolean",
           "default": false
+        },
+        "protocolInfo": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         }
       }
     },
@@ -616,6 +622,12 @@
         },
         "operationId": {
           "type": "string"
+        },
+        "protocolInfo": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         },
         "message": {
           "oneOf": [
@@ -728,86 +740,79 @@
       }
     },
     "message": {
-      "anyOf": [
-        {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "schemaFormat": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "headers": {
           "type": "object",
-          "additionalProperties": false,
-          "patternProperties": {
-            "^x-": {
-              "$ref": "#/definitions/vendorExtension"
-            }
+          "additionalProperties": {
+            "oneOf": [
+              { "$ref": "#/definitions/Reference" },
+              {"$ref": "#/definitions/schema" }
+            ]
           }
         },
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "patternProperties": {
-            "^x-": {
-              "$ref": "#/definitions/vendorExtension"
-            }
+        "payload": {},
+        "correlationId": {
+          "oneOf": [
+            { "$ref": "#/definitions/Reference" },
+            { "$ref": "#/definitions/correlationId" }
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tag"
           },
-          "properties": {
-            "schemaFormat": {
-              "type": "string"
-            },
-            "contentType": {
-              "type": "string"
-            },
-            "headers": {
-              "type": "object",
-              "additionalProperties": {
-                "oneOf": [
-                  { "$ref": "#/definitions/Reference" },
-                  {"$ref": "#/definitions/schema" }
-                ]
-              }
-            },
-            "payload": {},
-            "correlationId": {
-              "oneOf": [
-                { "$ref": "#/definitions/Reference" },
-                { "$ref": "#/definitions/correlationId" }
-              ]
-            },
-            "tags": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/tag"
-              },
-              "uniqueItems": true
-            },
-            "summary": {
-              "type": "string",
-              "description": "A brief summary of the message."
-            },
-            "name": {
-              "type": "string",
-              "description": "Name of the message."
-            },
-            "title": {
-              "type": "string",
-              "description": "A human-friendly title for the message."
-            },
-            "description": {
-              "type": "string",
-              "description": "A longer description of the message. CommonMark is allowed."
-            },
-            "externalDocs": {
-              "$ref": "#/definitions/externalDocs"
-            },
-            "deprecated": {
-              "type": "boolean",
-              "default": false
-            },
-            "examples": {
-              "type": "array",
-              "items": {
-                "type": "object"
-              }
-            }
+          "uniqueItems": true
+        },
+        "summary": {
+          "type": "string",
+          "description": "A brief summary of the message."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the message."
+        },
+        "title": {
+          "type": "string",
+          "description": "A human-friendly title for the message."
+        },
+        "description": {
+          "type": "string",
+          "description": "A longer description of the message. CommonMark is allowed."
+        },
+        "externalDocs": {
+          "$ref": "#/definitions/externalDocs"
+        },
+        "deprecated": {
+          "type": "boolean",
+          "default": false
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "protocolInfo": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
           }
         }
-      ]
+      }
     },
     "correlationId": {
       "type": "object",
