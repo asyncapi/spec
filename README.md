@@ -40,6 +40,10 @@
     <img src="./assets/slack.svg" alt="Slack logo" height="40">
   </a>
   &nbsp;
+  <a href="https://solace.com" target="_blank">
+    <img src="./assets/solace.png" alt="Solace logo" height="40">
+  </a>
+  &nbsp;
   <a href="https://tibco.com" target="_blank">
     <img src="./assets/tibco.png" alt="TIBCO logo" height="40">
   </a>
