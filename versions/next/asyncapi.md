@@ -689,6 +689,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="parameterObjectName"></a>name | `string` | The name of the parameter.
 <a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="parameterObjectMultiLevel"></a>multiLevel | `boolean` | Whether a parameter spans across multiple levels or not. Defaults to `false`.
 <a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -870,6 +871,7 @@ Field Name | Type | Description
 <a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1299,6 +1301,7 @@ Field Name | Type | Description
 <a name="schemaObjectXml"></a>xml | [XML Object](#xmlObject) | This MAY be used only on properties schemas. It has no effect on root schemas. Adds Additional metadata to describe the XML representation format of this property.
 <a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
 <a name="schemaObjectExample"></a>example | Any | A free-form property to include an example of an instance for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
+<a name="schemaObjectExamples"></a>examples | [Any] | An array of free-form properties to include examples of instances for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
