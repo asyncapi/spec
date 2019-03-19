@@ -22,7 +22,7 @@
   <a href="https://opencollective.com/asyncapi">Donate :raised_hands:</a>
 </p>
 
-## Supported by
+## Platinum Sponsors
 <p align="center">
   <a href="https://mulesoft.com" target="_blank">
     <img src="./assets/mulesoft.png" alt="Mulesoft logo" height="40">
@@ -35,7 +35,7 @@
   <a href="https://sap.com" target="_blank">
     <img src="./assets/sap.svg" alt="SAP logo" height="40">
   </a>
-  &nbsp;&nbsp;
+  &nbsp;
   <a href="https://slack.com" target="_blank">
     <img src="./assets/slack.svg" alt="Slack logo" height="40">
   </a>
