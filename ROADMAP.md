@@ -26,13 +26,13 @@ This milestone tackles the issues related to connecting to a server. These issue
 
 This milestone is about improving developer/user experience for the specification and the tooling.
 
-### Next milestones
-
-:arrow_right: [[v2.0.0] Protocol mappings](https://github.com/asyncapi/asyncapi/milestone/2) :white_check_mark: Current milestone
+:arrow_right: [[v2.0.0] Protocol mappings](https://github.com/asyncapi/asyncapi/milestone/2)
 
 This milestone is about figuring out how to map protocols to AsyncAPI documents.
 
-:arrow_right: [[v2.0.0] Augmentation](https://github.com/asyncapi/asyncapi/milestone/5) 
+### Next milestones
+
+:arrow_right: [[v2.0.0] Augmentation](https://github.com/asyncapi/asyncapi/milestone/5) :white_check_mark: Current milestone
 
 This milestone is about creating mechanisms for the users to augment the AsyncAPI specification. We already have specification extensions, which provide a syntactical way to extend the spec. In this milestone, we should aim for providing the right mechanisms to extend the spec in different contexts and ways.
 
