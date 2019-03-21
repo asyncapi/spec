@@ -8,7 +8,7 @@ AsyncAPI is an open-source community-driven project. We're happy to receive cont
 
 ## Timeline
 
-We're working hard to reach version 2.0.0, which will come full of great new features (and bug fixes.)
+We're working hard to reach version 2.0.0, which will be full of great new features (and bug fixes.)
 
 > *If you're looking for dates, check out our [Milestones](https://github.com/asyncapi/asyncapi/milestones?direction=asc&sort=due_date) page.*
 
