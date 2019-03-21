@@ -1,7 +1,7 @@
 # AsyncAPI Roadmap
 
 ## Project Mission and Summary
-AsyncAPI is a specification for defining message-driven APIs. We're on a mission to standardize message-based communication and increase interoperability of the different systems out there.
+AsyncAPI is a specification for defining message-driven APIs. We're on a mission to standardize message-based communication and increase interoperability of different systems.
 
 ## How to Get Involved?
 AsyncAPI is an open-source community-driven project. We're happy to receive contributions from different people, no matter your skills or your area of expertise. There are many ways you can contribute to the project, not just code. There is always a need for: documentation, design, writing, evangelizing, code, issue triage, and more! We also welcome financial support and donations. Check out the [contributing guidelines](./CONTRIBUTING.md) to learn more.
