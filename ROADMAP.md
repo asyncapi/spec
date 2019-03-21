@@ -20,11 +20,11 @@ Before we continue heading to version 2.0.0, let's make the biggest breaking cha
 
 :arrow_right: [[v2.0.0] Improving connectivity](https://github.com/asyncapi/asyncapi/milestone/1)
 
-This milestone tackles the issues related to connecting to a server. This is very important for SDKs and code generators.
+This milestone tackles the issues related to connecting to a server. These issues are very important to resolve for SDKs and code generators to work properly.
 
 :arrow_right: [[v2.0.0] Improve user experience](https://github.com/asyncapi/asyncapi/milestone/4) 
 
-This milestone is about improving developer/user experience in, both, the specification and the tooling.
+This milestone is about improving developer/user experience for the specification and the tooling.
 
 ### Next milestones
 
@@ -46,4 +46,4 @@ Official launch of AsyncAPI 2.0.0! Party hard! :beers:
 
 :arrow_right: [Backlog](https://github.com/asyncapi/asyncapi/projects/4)
 
-Backlog's purpose is to temporarily group issues that may be considered in the future. Please, note that it doesn't mean they will get implemented, however, there is a big chance.
+The purpose of the backlog is to temporarily group issues that may be considered for the future. Please, note that it doesn't mean they will get implemented, however, there is a big chance.
