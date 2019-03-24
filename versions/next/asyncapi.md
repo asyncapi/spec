@@ -51,8 +51,10 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Channels Object](#channelsObject)
       - [Channel Item Object](#channelItemObject)
       - [Operation Object](#operationObject)
+      - [Operation Trait Object](#operationTraitObject)
       - [Stream Object](#streamObject)
       - [Message Object](#messageObject)
+      - [Message Trait Object](#messageTraitObject)
       - [Tag Object](#tagObject)
       - [External Documentation Object](#externalDocumentationObject)
       - [Components Object](#componentsObject)
@@ -611,6 +613,7 @@ Field Name | Type | Description
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject)] &#124; [[[Operation Trait Object](#operationTraitObject), Map]] | A list of traits to apply to the operation object. The list MUST contain either a list of [Operation Trait Objects](#operationTraitObject) or a list of tuples where the first element is an [Operation Trait Object](#operationTraitObject)] and the second is a free-form object with the values of the variables a trait MAY use. **All the variables of a trait MUST be provided.** Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -648,7 +651,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
   },
   "amqp-0-9-1": {
     "noAck": true
-  }
+  },
+  "traits": [
+    { "$ref": "#/components/traits/kafka" },
+    [
+      { "$ref": "#/components/traits/docs" },
+      { "headerId": "publish-1234" }
+    ]
+  ]
 }
 ```
 
@@ -674,6 +684,66 @@ message:
         $ref: "#/components/schemas/signup"
 amqp-0-9-1:
   noAck: true
+traits:
+  - $ref: "#/components/traits/kafka"
+  -
+    - $ref: "#/components/traits/docs"
+    - headerId: publish-1234
+```
+
+
+
+
+#### <a name="operationTraitObject"></a>Operation Trait Object
+
+Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except `message` and `traits`.
+
+If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
+
+All the string values of this object MUST support simple templating using the `{{` and `}}` delimiters.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationTraitObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationTraitObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
+<a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
+<a name="operationTraitObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Trait Object Example
+
+```json
+{
+  "protocolInfo": {
+    "amqp-0-9-1": {
+      "noAck": true
+    }
+  }
+}
+```
+
+```yaml
+protocolInfo:
+  amqp-0-9-1:
+    noAck: true
+```
+
+```json
+{
+  "externalDocs": {
+    "url": "https://mycompany.com/docs#{{headerId}}"
+  }
+}
+```
+
+```yaml
+externalDocs:
+  url: "https://mycompany.com/docs#{{headerId}}"
 ```
 
 
@@ -872,6 +942,7 @@ Field Name | Type | Description
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
+<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] &#124; [[[Message Trait Object](#messageTraitObject), Map]] | A list of traits to apply to the message object. The list MUST contain either a list of [Message Trait Objects](#messageTraitObject) or a list of tuples where the first element is a [Message Trait Object](#messageTraitObject)] and the second is a free-form object with the values of the variables a trait may use. **All the variables of a trait MUST be provided.** Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -918,7 +989,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
     "properties": {
       "delivery_mode": 2
     }
-  }
+  },
+  "traits": [
+    { "$ref": "#/components/traits/kafka" },
+    [
+      { "$ref": "#/components/traits/docs" },
+      { "docId": "message-1234" }
+    ]
+  ]
 }
 ```
 
@@ -952,6 +1030,11 @@ correlationId:
 amqp-0-9-1:
   properties:
     delivery_mode: 2
+traits:
+  - $ref: "#/components/traits/kafka"
+  -
+    - $ref: "#/components/traits/docs"
+    - docId: message-1234
 ```
 
 Example using Google's protobuf to define the payload:
@@ -987,6 +1070,70 @@ schemaFormat: application/x-protobuf
 payload:
   $ref: 'path/to/user-create.proto#UserCreate'
 ```
+
+
+
+
+
+
+
+#### <a name="messageTraitObject"></a>Message Trait Object
+
+Describes a trait that MAY be applied to a [Message Object](#messageObject). This object MAY contain any property from the [Message Object](#messageObject), except `payload` and `traits`.
+
+If you're looking to apply traits to an operation, see the [Operation Trait Object](#operationTraitObject).
+
+All the string values of this object MUST support simple templating using the `{{` and `}}` delimiters.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="messageTraitObjectHeaders"></a>headers | Map[`string`, [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject)] | Definition of the application headers. It **does not** define the protocol headers.
+<a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
+<a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
+<a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
+<a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
+<a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
+<a name="messageTraitObjectSummary"></a>summary | `string` | A short summary of what the message is about.
+<a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="messageTraitObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
+<a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
+<a name="messageTraitObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Message Trait Object Example
+
+```json
+{
+  "schemaFormat": "application/vnd.google.protobuf;version=3",
+  "contentType": "application/json"
+}
+```
+
+```yaml
+schemaFormat: 'application/vnd.google.protobuf;version=3'
+contentType: application/json
+```
+
+```json
+{
+  "externalDocs": {
+    "url": "https://mycompany.com/docs#{{headerId}}"
+  }
+}
+```
+
+```yaml
+externalDocs:
+  url: 'https://mycompany.com/docs#{{headerId}}'
+```
+
+
+
+
 
 
 
@@ -1097,6 +1244,7 @@ Field Name | Type | Description
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
+<a name="componentsTraits"></a> traits | Map[`string`, [Operation Trait Object](#operationTraitObject)] &#124; [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject) and [Message Trait Objects](#messageTraitObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1187,6 +1335,13 @@ my.org.User
       "description": "Default Correlation ID",
       "location": "$message.header#/correlationId"
     }
+  },
+  "traits": {
+    "docs": {
+      "externalDocs": {
+        "url": "https://mycompany.com/docs#{{headerId}}"
+      }
+    }
   }
 }
 ```
@@ -1240,6 +1395,10 @@ components:
     default:
       description: Default Correlation ID
       location: $message.header#/correlationId
+  traits:
+    docs:
+      externalDocs:
+        url: "https://mycompany.com/docs#{{headerId}}"
 ```
 
 #### <a name="schemaObject"></a>Schema Object

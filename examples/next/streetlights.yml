@@ -52,6 +52,8 @@ channels:
       - $ref: '#/components/parameters/streetlightId'
     publish:
       operationId: turnOn
+      traits:
+        - $ref: '#/components/traits/docs'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -174,3 +176,8 @@ components:
       description: The ID of the streetlight.
       schema:
         type: string
+
+  traits:
+    docs:
+      externalDocs:
+        url: https://company.com/docs
