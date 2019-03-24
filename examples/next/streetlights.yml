@@ -44,6 +44,10 @@ channels:
     subscribe:
       summary: Receive information about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
+      traits:
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'lighting-measured'
       message:
         $ref: '#/components/messages/lightMeasured'
 
@@ -53,7 +57,9 @@ channels:
     publish:
       operationId: turnOn
       traits:
-        - $ref: '#/components/traits/docs'
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'turn-on'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -62,6 +68,10 @@ channels:
       - $ref: '#/components/parameters/streetlightId'
     publish:
       operationId: turnOff
+      traits:
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'turn-off'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -70,6 +80,10 @@ channels:
       - $ref: '#/components/parameters/streetlightId'
     publish:
       operationId: dimLight
+      traits:
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'dim'
       message:
         $ref: '#/components/messages/dimLight'
 
@@ -80,18 +94,30 @@ components:
       title: Light measured
       summary: Inform about environmental lighting conditions for a particular streetlight.
       contentType: application/json
+      traits:
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'message-light-measured'
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
       name: turnOnOff
       title: Turn on/off
       summary: Command a particular streetlight to turn the lights on or off.
+      traits:
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'message-turn-on-off'
       payload:
         $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
       name: dimLight
       title: Dim light
       summary: Command a particular streetlight to dim the lights.
+      traits:
+        - 
+          - $ref: '#/components/traits/docs'
+          - headerId: 'message-dim-light'
       payload:
         $ref: "#/components/schemas/dimLightPayload"
 
@@ -180,4 +206,4 @@ components:
   traits:
     docs:
       externalDocs:
-        url: https://company.com/docs
+        url: https://company.com/docs#{{headerId}}
