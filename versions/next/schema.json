@@ -304,6 +304,9 @@
               ]
             }
           }
+        },
+        "traits": {
+          "$ref": "#/definitions/traits"
         }
       }
     },
@@ -604,6 +607,34 @@
         }
       },
       "properties": {
+        "traits": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "$ref": "#/definitions/Reference" },
+              { "$ref": "#/definitions/operationTrait" },
+              {
+                "type": "array",
+                "items": [
+                  {
+                    "oneOf": [
+                      {
+                        "$ref": "#/definitions/Reference"
+                      },
+                      {
+                        "$ref": "#/definitions/operationTrait"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalItems": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
         "summary": {
           "type": "string"
         },
@@ -811,6 +842,38 @@
           "additionalProperties": {
             "type": "object"
           }
+        },
+        "traits": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Reference"
+              },
+              {
+                "$ref": "#/definitions/messageTrait"
+              },
+              {
+                "type": "array",
+                "items": [
+                  {
+                    "oneOf": [
+                      {
+                        "$ref": "#/definitions/Reference"
+                      },
+                      {
+                        "$ref": "#/definitions/messageTrait"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalItems": true
+                  }
+                ]
+              }
+            ]
+          }
         }
       }
     },
@@ -862,6 +925,133 @@
       "patternProperties": {
         "^x-": {
           "$ref": "#/definitions/vendorExtension"
+        }
+      }
+    },
+    "traits": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          { "$ref": "#/definitions/operationTrait" },
+          { "$ref": "#/definitions/messageTrait" }
+        ]
+      }
+    },
+    "operationTrait": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tag"
+          },
+          "uniqueItems": true
+        },
+        "externalDocs": {
+          "$ref": "#/definitions/externalDocs"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "protocolInfo": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "messageTrait": {
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^x-": {
+          "$ref": "#/definitions/vendorExtension"
+        }
+      },
+      "properties": {
+        "schemaFormat": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Reference"
+              },
+              {
+                "$ref": "#/definitions/schema"
+              }
+            ]
+          }
+        },
+        "correlationId": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Reference"
+            },
+            {
+              "$ref": "#/definitions/correlationId"
+            }
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/tag"
+          },
+          "uniqueItems": true
+        },
+        "summary": {
+          "type": "string",
+          "description": "A brief summary of the message."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the message."
+        },
+        "title": {
+          "type": "string",
+          "description": "A human-friendly title for the message."
+        },
+        "description": {
+          "type": "string",
+          "description": "A longer description of the message. CommonMark is allowed."
+        },
+        "externalDocs": {
+          "$ref": "#/definitions/externalDocs"
+        },
+        "deprecated": {
+          "type": "boolean",
+          "default": false
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "protocolInfo": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
         }
       }
     },
