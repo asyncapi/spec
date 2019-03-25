@@ -21,8 +21,8 @@
   ],
   "additionalProperties": false,
   "patternProperties": {
-    "^x-": {
-      "$ref": "#/definitions/vendorExtension"
+    "^x-[\\w\\d\\.\\-\\_]+$": {
+      "$ref": "#/definitions/specificationExtension"
     }
   },
   "properties": {
@@ -97,8 +97,8 @@
       ],
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -148,8 +148,8 @@
         }
       },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       }
     },
@@ -171,8 +171,8 @@
         }
       },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       }
     },
@@ -185,8 +185,8 @@
       ],
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -230,8 +230,8 @@
       "minProperties": 1,
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -263,10 +263,8 @@
         "format": "uri-template",
         "minLength": 1
       },
-      "patternProperties": {
-        "": {
-          "$ref": "#/definitions/channelItem"
-        }
+      "additionalProperties": {
+        "$ref": "#/definitions/channelItem"
       }
     },
     "components": {
@@ -283,7 +281,7 @@
         "securitySchemes": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[\\w\\d\\.\\-_]+$": {
               "oneOf": [
                 { "$ref": "#/definitions/Reference" },
                 { "$ref": "#/definitions/SecurityScheme" }
@@ -297,7 +295,7 @@
         "correlationIds": {
           "type": "object",
           "patternProperties": {
-            "^[a-zA-Z0-9\\.\\-_]+$": {
+            "^[\\w\\d\\.\\-_]+$": {
               "oneOf": [
                 { "$ref": "#/definitions/Reference" },
                 { "$ref": "#/definitions/correlationId" }
@@ -335,8 +333,8 @@
       "type": "object",
       "description": "A deterministic version of a JSON Schema object.",
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -525,8 +523,8 @@
         }
       },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       }
     },
@@ -534,8 +532,8 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "minProperties": 1,
@@ -572,8 +570,8 @@
     "parameter": {
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -602,8 +600,8 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -672,8 +670,8 @@
               ],
               "additionalProperties": false,
               "patternProperties": {
-                "^x-": {
-                  "$ref": "#/definitions/vendorExtension"
+                "^x-[\\w\\d\\.\\-\\_]+$": {
+                  "$ref": "#/definitions/specificationExtension"
                 }
               },
               "properties": {
@@ -695,8 +693,8 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "minProperties": 1,
@@ -705,8 +703,8 @@
           "title": "Stream Framing Object",
           "type": "object",
           "patternProperties": {
-            "^x-": {
-              "$ref": "#/definitions/vendorExtension"
+            "^x-[\\w\\d\\.\\-\\_]+$": {
+              "$ref": "#/definitions/specificationExtension"
             }
           },
           "minProperties": 1,
@@ -774,8 +772,8 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -884,8 +882,8 @@
       ],
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -900,7 +898,7 @@
         }
       }
     },
-    "vendorExtension": {
+    "specificationExtension": {
       "description": "Any property starting with x- is valid.",
       "additionalProperties": true,
       "additionalItems": true
@@ -923,8 +921,8 @@
         }
       },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       }
     },
@@ -941,8 +939,8 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -977,8 +975,8 @@
       "type": "object",
       "additionalProperties": false,
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "properties": {
@@ -1084,7 +1082,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1113,7 +1113,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1134,7 +1136,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1155,7 +1159,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1176,7 +1182,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1219,7 +1227,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1250,7 +1260,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1284,7 +1296,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1356,8 +1370,8 @@
         }
       },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       }
     },
@@ -1381,8 +1395,8 @@
         }
       },
       "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
         }
       },
       "additionalProperties": false
@@ -1415,7 +1429,9 @@
         }
       },
       "patternProperties": {
-        "^x-": {}
+        "^x-[\\w\\d\\.\\-\\_]+$": {
+          "$ref": "#/definitions/specificationExtension"
+        }
       },
       "additionalProperties": false
     },
@@ -1428,51 +1444,6 @@
         },
         "uniqueItems": true
       }
-    },
-    "title": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/title"
-    },
-    "description": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/description"
-    },
-    "default": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
-    },
-    "multipleOf": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
-    },
-    "maximum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
-    },
-    "exclusiveMaximum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
-    },
-    "minimum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
-    },
-    "exclusiveMinimum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
-    },
-    "maxLength": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
-    },
-    "minLength": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
-    },
-    "pattern": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
-    },
-    "maxItems": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
-    },
-    "minItems": {
-      "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
-    },
-    "uniqueItems": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
-    },
-    "enum": {
-      "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
     }
   }
 }
