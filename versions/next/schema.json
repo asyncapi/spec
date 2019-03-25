@@ -5,19 +5,8 @@
   "required": [
     "asyncapi",
     "id",
-    "info"
-  ],
-  "oneOf": [
-    {
-      "required": [
-        "channels"
-      ]
-    },
-    {
-      "required": [
-        "stream"
-      ]
-    }
+    "info",
+    "channels"
   ],
   "additionalProperties": false,
   "patternProperties": {
@@ -53,10 +42,6 @@
     },
     "channels": {
       "$ref": "#/definitions/channels"
-    },
-    "stream": {
-      "$ref": "#/definitions/stream",
-      "description": "The list of messages a consumer can read or write from/to a streaming API."
     },
     "components": {
       "$ref": "#/definitions/components"
@@ -687,86 +672,6 @@
               }
             }
           ]
-        }
-      }
-    },
-    "stream": {
-      "title": "Stream Object",
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-": {
-          "$ref": "#/definitions/vendorExtension"
-        }
-      },
-      "minProperties": 1,
-      "properties": {
-        "framing": {
-          "title": "Stream Framing Object",
-          "type": "object",
-          "patternProperties": {
-            "^x-": {
-              "$ref": "#/definitions/vendorExtension"
-            }
-          },
-          "minProperties": 1,
-          "oneOf": [
-            {
-              "additionalProperties": false,
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "chunked"
-                  ]
-                },
-                "delimiter": {
-                  "type": "string",
-                  "enum": [
-                    "\\r\\n",
-                    "\\n"
-                  ],
-                  "default": "\\r\\n"
-                }
-              }
-            },
-            {
-              "additionalProperties": false,
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "sse"
-                  ]
-                },
-                "delimiter": {
-                  "type": "string",
-                  "enum": [
-                    "\\n\\n"
-                  ],
-                  "default": "\\n\\n"
-                }
-              }
-            }
-          ]
-        },
-        "read": {
-          "title": "Stream Read Object",
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/message"
-          }
-        },
-        "write": {
-          "title": "Stream Write Object",
-          "type": "array",
-          "uniqueItems": true,
-          "minItems": 1,
-          "items": {
-            "$ref": "#/definitions/message"
-          }
         }
       }
     },
