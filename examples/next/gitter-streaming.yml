@@ -5,29 +5,39 @@ info:
   version: '1.0.0'
 
 servers:
-  - url: https://stream.gitter.im/v1/rooms/{roomId}/{resource}
+  - url: https://stream.gitter.im/v1
     scheme: https
     schemeVersion: '1.1'
-    variables:
-      roomId:
-        description: Id of the Gitter room.
-        examples:
-          - 53307860c3599d1de448e19d
-      resource:
-        description: The resource to consume.
-        enum:
-          - chatMessages
-          - events
     security:
       - httpBearerToken: []
 
-stream:
-  framing:
-    type: 'chunked'
-    delimiter: '\r\n'
-  read:
-    - $ref: '#/components/messages/chatMessage'
-    - $ref: '#/components/messages/heartbeat'
+channels:
+  /rooms/{roomId}/{resource}:
+    parameters:
+      - name: roomId
+        description: Id of the Gitter room.
+        schema:
+          type: string
+          examples:
+            - 53307860c3599d1de448e19d
+      - name: resource
+        description: The resource to consume.
+        schema:
+          type: string
+          enum:
+            - chatMessages
+            - events
+    subscribe:
+      protocolInfo:
+        http:
+          response:
+            headers:
+              'Transfer-Encoding': 'chunked'
+              Trailer: '\r\n'
+      message:
+        oneOf:
+          - $ref: '#/components/messages/chatMessage'
+          - $ref: '#/components/messages/heartbeat'
 
 components:
   securitySchemes:
