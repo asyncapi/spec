@@ -30,9 +30,10 @@ channels:
     subscribe:
       protocolInfo:
         http:
-          framing:
-            type: chunked
-            delimiter: '\r\n'
+          response:
+            headers:
+              'Transfer-Encoding': 'chunked'
+              Trailer: '\r\n'
       message:
         oneOf:
           - $ref: '#/components/messages/chatMessage'
