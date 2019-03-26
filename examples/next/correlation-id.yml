@@ -10,7 +10,7 @@ info:
 
 servers:
   - url: api.streetlights.smartylighting.com:{port}
-    scheme: mqtt
+    protocol: mqtt
     description: Test broker
     baseChannel: smartylighting/streetlights/1/0
     variables:

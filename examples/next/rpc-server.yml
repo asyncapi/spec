@@ -9,7 +9,7 @@ info:
 
 servers:
   - url: rabbitmq.example.org
-    scheme: amqp
+    protocol: amqp
 
 channels:
   '{queue}':

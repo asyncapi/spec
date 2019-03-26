@@ -6,8 +6,8 @@ info:
 
 servers:
   - url: https://slack.com/api/rtm.connect
-    scheme: https
-    schemeVersion: '1.1'
+    protocol: https
+    protocolVersion: '1.1'
     security:
       - token: []
 

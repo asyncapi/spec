@@ -34,7 +34,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
   - [Message Broker](#definitionsMessageBroker)
   - [Message](#definitionsMessage)
   - [Channel](#definitionsChannel)
-  - [Scheme](#definitionsScheme)
+  - [Protocol](#definitionsProtocol)
   - [Application](#definitionsApplication)
   - [Producer](#definitionsProducer)
   - [Consumer](#definitionsConsumer)
@@ -71,25 +71,25 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 ## Definitions
 
 #### <a name="definitionsMessageBroker"></a>Message Broker
-A message broker is an intermediary component that translates a [message](#definitionsMessage) from the messaging scheme of the sender to the messaging scheme of the receiver.  The message broker mediates interactions between applications, minimizing the mutual awareness that applications should have of each other in order to be able to exchange messages, effectively providing decoupling. A message broker MUST support at least one [scheme](#definitionsScheme), thus enabling message exchanges between applications.  Importantly, the message broker is a mechanism that enables asynchronous application patterns such as publish/subscribe, fire and forget, request/reply and queuing. Additionally, the message broker MAY provide additional features such as persistence, storage/replay, authentication/authorization, scheme transformation and message integrity.
+A message broker is an intermediary component that translates a [message](#definitionsMessage) from the messaging protocol of the sender to the messaging protocol of the receiver.  The message broker mediates interactions between applications, minimizing the mutual awareness that applications should have of each other in order to be able to exchange messages, effectively providing decoupling. A message broker MUST support at least one [protocol](#definitionsProtocol), thus enabling message exchanges between applications.  Importantly, the message broker is a mechanism that enables asynchronous application patterns such as publish/subscribe, fire and forget, request/reply and queuing. Additionally, the message broker MAY provide additional features such as persistence, storage/replay, authentication/authorization, protocol transformation and message integrity.
 
 #### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [message brokers](#definitionsMessageBroker) and applications. A message MUST contain a payload and MAY also contain a header. The header MAY be subdivided into [scheme](#definitionsScheme) defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+A message is the mechanism by which information is exchanged via a channel between [message brokers](#definitionsMessageBroker) and applications. A message MUST contain a payload and MAY also contain a header. The header MAY be subdivided into [protocol](#definitionsProtocol) defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 #### <a name="definitionsChannel"></a>Channel
-A channel is an addressable component, made available by the [message broker](#definitionsMessageBroker), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from Channels. Message Brokers support many channel instances, allowing messages with different content to be addressed to different channels. Message Brokers MAY provide multiple channel types thus enabling different asynchronous application patterns such as topics, queues and exchanges. Depending on the message broker implementation, the channel MAY be included in the message via scheme defined headers.
+A channel is an addressable component, made available by the [message broker](#definitionsMessageBroker), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from Channels. Message Brokers support many channel instances, allowing messages with different content to be addressed to different channels. Message Brokers MAY provide multiple channel types thus enabling different asynchronous application patterns such as topics, queues and exchanges. Depending on the message broker implementation, the channel MAY be included in the message via protocol defined headers.
 
-#### <a name="definitionsScheme"></a>Scheme
-A scheme is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel) hosted by the [message broker](#definitionsMessageBroker). Example schemes include, but are not limited to, AMQP, MQTT, WebSocket, JMS, Kafka, STOMP.  
+#### <a name="definitionsProtocol"></a>Protocol
+A protocol is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel) hosted by the [message broker](#definitionsMessageBroker). Example protocol include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, WebSocket.  
 
 #### <a name="definitionsApplication"></a>Application
-An application is any kind of computer program connected to a [message broker](#definitionsMessageBroker). It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [scheme](#definitionsScheme). An application MUST also use a scheme supported by the message broker in order to connect and exchange [messages](#definitionsMessage). 
+An application is any kind of computer program connected to a [message broker](#definitionsMessageBroker). It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the message broker in order to connect and exchange [messages](#definitionsMessage). 
 
 #### <a name="definitionsProducer"></a>Producer
-A producer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [scheme](#definitionsScheme), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the message broker, scheme and use-case pattern. 
+A producer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [protocol](#definitionsProtocol), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the message broker, protocol and use-case pattern. 
 
 #### <a name="definitionsConsumer"></a>Consumer
-A consumer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [scheme](#definitionsScheme), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the message broker, scheme and the use-case pattern. 
+A consumer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the message broker, protocol and the use-case pattern. 
 
 ## Specification
 
@@ -306,8 +306,8 @@ An object representing a Server.
 Field Name | Type | Description
 ---|:---:|---
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
-<a name="serverObjectScheme"></a>scheme | `string` | **REQUIRED**. The scheme this URL supports for connection. Supported schemes include, but are not limited to: `kafka`, `kafka-secure`, `amqp`, `amqps`, `mqtt`, `secure-mqtt`, `ws`, `wss`, `stomp`, `stomps`, `jms`.
-<a name="serverObjectSchemeVersion"></a>schemeVersion | `string` | The version of the scheme. For instance: AMQP `0.9.1`, Kafka `1.0.0`, etc.
+<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `jms`, `kafka`, `kafka-secure`, `mqtt`, `secure-mqtt`, `stomp`, `stomps`, `ws`, `wss`.
+<a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 <a name="serverObjectBaseChannel"></a>baseChannel | `string` | A string describing the base channel. MUST be in the form of a [RFC 3986 URI path](https://tools.ietf.org/html/rfc3986#section-3.3). URI templates are not allowed here. Defaults to empty string.
@@ -323,8 +323,8 @@ A single server would be described as:
 {
   "url": "development.gigantic-server.com",
   "description": "Development server",
-  "scheme": "kafka",
-  "schemeVersion": "1.0.0",
+  "protocol": "kafka",
+  "protocolVersion": "1.0.0",
   "baseChannel": "company/events"
 }
 ```
@@ -332,8 +332,8 @@ A single server would be described as:
 ```yaml
 url: development.gigantic-server.com
 description: Development server
-scheme: kafka
-schemeVersion: '1.0.0'
+protocol: kafka
+protocolVersion: '1.0.0'
 baseChannel: company/events
 ```
 
@@ -345,20 +345,20 @@ The following shows how multiple servers can be described, for example, at the A
     {
       "url": "development.gigantic-server.com",
       "description": "Development server",
-      "scheme": "amqp",
-      "schemeVersion": "0.9.1"
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
     },
     {
       "url": "staging.gigantic-server.com",
       "description": "Staging server",
-      "scheme": "amqp",
-      "schemeVersion": "0.9.1"
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
     },
     {
       "url": "api.gigantic-server.com",
       "description": "Production server",
-      "scheme": "amqp",
-      "schemeVersion": "0.9.1"
+      "protocol": "amqp",
+      "protocolVersion": "0.9.1"
     }
   ]
 }
@@ -368,16 +368,16 @@ The following shows how multiple servers can be described, for example, at the A
 servers:
 - url: development.gigantic-server.com
   description: Development server
-  scheme: amqp
-  schemeVersion: 0.9.1
+  protocol: amqp
+  protocolVersion: 0.9.1
 - url: staging.gigantic-server.com
   description: Staging server
-  scheme: amqp
-  schemeVersion: 0.9.1
+  protocol: amqp
+  protocolVersion: 0.9.1
 - url: api.gigantic-server.com
   description: Production server
-  scheme: amqp
-  schemeVersion: 0.9.1
+  protocol: amqp
+  protocolVersion: 0.9.1
 ```
 
 The following shows how variables can be used for a server configuration:
@@ -388,6 +388,7 @@ The following shows how variables can be used for a server configuration:
     {
       "url": "{username}.gigantic-server.com:{port}/{basePath}",
       "description": "The production API server",
+      "protocol": "secure-mqtt",
       "variables": {
         "username": {
           "default": "demo",
@@ -413,6 +414,7 @@ The following shows how variables can be used for a server configuration:
 servers:
 - url: '{username}.gigantic-server.com:{port}/{basePath}'
   description: The production API server
+  protocol: secure-mqtt
   variables:
     username:
       # note! no enum here means it is an open value
