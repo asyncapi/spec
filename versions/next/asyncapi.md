@@ -757,7 +757,6 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="parameterObjectName"></a>name | `string` | The name of the parameter.
 <a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectMultiLevel"></a>multiLevel | `boolean` | Whether a parameter spans across multiple levels or not. Defaults to `false`.
 <a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -766,7 +765,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "user.{userId}.signup": {
+  "user/{userId}/signup": {
     "parameters": [
       {
         "name": "userId",
@@ -784,7 +783,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-user.{userId}.signup:
+user/{userId}/signup:
   parameters:
     - name: userId
       description: Id of the user.
