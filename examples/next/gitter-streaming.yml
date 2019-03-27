@@ -6,8 +6,8 @@ info:
 
 servers:
   - url: https://stream.gitter.im/v1
-    scheme: https
-    schemeVersion: '1.1'
+    protocol: https
+    protocolVersion: '1.1'
     security:
       - httpBearerToken: []
 

@@ -166,7 +166,7 @@
       "description": "An object representing a Server.",
       "required": [
         "url",
-        "scheme"
+        "protocol"
       ],
       "additionalProperties": false,
       "patternProperties": {
@@ -181,11 +181,11 @@
         "description": {
           "type": "string"
         },
-        "scheme": {
+        "protocol": {
           "type": "string",
           "description": "The transfer protocol."
         },
-        "schemeVersion": {
+        "protocolVersion": {
           "type": "string"
         },
         "variables": {
