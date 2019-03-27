@@ -568,11 +568,6 @@
           "type": "string",
           "description": "The name of the parameter."
         },
-        "multiLevel": {
-          "type": "boolean",
-          "description": "Whether a parameter spans across multiple levels or not.",
-          "default": false
-        },
         "schema": {
           "$ref": "#/definitions/schema"
         },
