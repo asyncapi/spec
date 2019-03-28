@@ -55,14 +55,10 @@
 
 ## The specification
 
-Read the latest stable version (1.2.0) of the specification [here](./versions/1.2.0/asyncapi.md).
-
-Are you looking for previous versions? Here they are:
-
+* [Version 2.0.0-beta](/versions/next/asyncapi.md) — [Machine-readable version](/versions/next/schema.json) 
+* [Version 1.2.0](/versions/1.2.0/asyncapi.md) — [Machine-readable version](/versions/1.2.0/schema.json) (latest stable)
 * [Version 1.1.0](/versions/1.1.0/asyncapi.md) — [Machine-readable version](/versions/1.1.0/schema.json)
 * [Version 1.0.0](/versions/1.0.0/asyncapi.md) — [Machine-readable version](/versions/1.0.0/schema.json)
-
-We're working hard to launch version 2.0.0, and [this is how it looks so far](./versions/next/asyncapi.md).
 
 **Feel like contributing?** Check out our [roadmap](./ROADMAP.md) and [contributing guidelines](./CONTRIBUTING.md).
 
