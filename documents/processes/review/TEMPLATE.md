@@ -1,8 +1,8 @@
 # AsyncAPI Review Document
 
-|Project name|Reviewers|Company|
-|------------|---------|-------|
-|{{PROJECT NAME}}|{{REVIEWER 1 NAME}}, {{REVIEWER 2 NAME}}|{{COMPANY}}|
+|Project name|Reviewers|Company|Spec version|
+|------------|---------|-------|------------|
+|{{PROJECT NAME}}|{{REVIEWER 1 NAME}}, {{REVIEWER 2 NAME}}|{{COMPANY}}|v2.0.0|
 
 ## Our goals with this project are to:
   1. {{INSERT GOAL HERE}}
@@ -24,8 +24,7 @@
 
 #### Overall, we think this challenge/difficulty is...
   * [ ] A "nice to have".
-  * [ ] A "must have" for the next minor version.
-  * [ ] A "must have" before we release this version.
+  * [ ] A blocker for us to adopt this version of the spec.
   * [ ] Something that doesn't affect the specification.
 
 <!-- End of the block -->

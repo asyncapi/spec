@@ -1,8 +1,8 @@
 # AsyncAPI Review Document
 
-|Project name|Reviewers|Company|
-|------------|---------|-------|
-|Awesome project|Jack Johnson, John Jackson|ACME|
+|Project name|Reviewers|Company|Spec version|
+|------------|---------|-------|------------|
+|Awesome project|Jack Johnson, John Jackson|ACME|v2.0.0|
 
 ## Our goals with this project are to:
   1. Document a microservices architecture built with RabbitMQ.
@@ -24,8 +24,7 @@ Improving the AMQP extension.
 
 #### Overall, we think this challenge/difficulty is...
   * [ ] A "nice to have".
-  * [ ] A "must have" for the next minor version.
-  * [ ] A "must have" before we release this version.
+  * [ ] A blocker for us to adopt this version of the spec.
   * [x] Something that doesn't affect the specification.
 
 <!-- End of the block -->
