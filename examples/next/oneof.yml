@@ -1,4 +1,4 @@
-asyncapi: '2.0.0'
+asyncapi: '2.0.0-rc1'
 id: 'https://github.com/asyncapi/asyncapi/examples/next/oneof.yml'
 info:
   title: OneOf example
