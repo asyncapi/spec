@@ -4,7 +4,7 @@ This document describes the steps you should follow when reviewing a new version
 
 ## Steps
 
-1. Please, communicate the project director that you want to start the review process.
+1. Let the project director know that you want to start the review process.
 2. Decide the project you're going to implement. It's always better if you choose a real world project related to your company or needs.
 3. Download the [review template](./TEMPLATE.md).
 4. Write down your goals and expectations.
