@@ -268,8 +268,12 @@
           "patternProperties": {
             "^[\\w\\d\\.\\-_]+$": {
               "oneOf": [
-                { "$ref": "#/definitions/Reference" },
-                { "$ref": "#/definitions/SecurityScheme" }
+                {
+                  "$ref": "#/definitions/Reference"
+                },
+                {
+                  "$ref": "#/definitions/SecurityScheme"
+                }
               ]
             }
           }
@@ -282,8 +286,12 @@
           "patternProperties": {
             "^[\\w\\d\\.\\-_]+$": {
               "oneOf": [
-                { "$ref": "#/definitions/Reference" },
-                { "$ref": "#/definitions/correlationId" }
+                {
+                  "$ref": "#/definitions/Reference"
+                },
+                {
+                  "$ref": "#/definitions/correlationId"
+                }
               ]
             }
           }
@@ -330,63 +338,83 @@
           "type": "string"
         },
         "title": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/title"
+          "type": "string"
         },
         "description": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/description"
+          "type": "string"
         },
-        "default": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/default"
-        },
+        "default": {},
         "multipleOf": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/multipleOf"
+          "type": "number",
+          "minimum": 0,
+          "exclusiveMinimum": 0
         },
         "maximum": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/maximum"
+          "type": "number"
         },
         "exclusiveMaximum": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMaximum"
+          "type": "boolean",
+          "default": false
         },
         "minimum": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/minimum"
+          "type": "number"
         },
         "exclusiveMinimum": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/exclusiveMinimum"
+          "type": "boolean",
+          "default": false
         },
         "maxLength": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+          "type": "integer",
+          "minimum": 0
         },
         "minLength": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
         },
         "pattern": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/pattern"
+          "type": "string",
+          "format": "regex"
         },
         "maxItems": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+          "type": "integer",
+          "minimum": 0
         },
         "minItems": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
         },
         "uniqueItems": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/uniqueItems"
+          "type": "boolean",
+          "default": false
         },
         "maxProperties": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveInteger"
+          "type": "integer",
+          "minimum": 0
         },
         "minProperties": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/positiveIntegerDefault0"
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
         },
         "required": {
-          "$ref": "http://json-schema.org/draft-04/schema#/definitions/stringArray"
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
         },
         "enum": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/enum"
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true
         },
-      	"deprecated": {
+        "deprecated": {
           "type": "boolean",
-      	  "default": false
-      	},
+          "default": false
+        },
         "additionalProperties": {
           "anyOf": [
             {
@@ -399,7 +427,16 @@
           "default": {}
         },
         "type": {
-          "$ref": "http://json-schema.org/draft-04/schema#/properties/type"
+          "type": "string",
+          "enum": [
+            "array",
+            "boolean",
+            "integer",
+            "null",
+            "number",
+            "object",
+            "string"
+          ]
         },
         "items": {
           "anyOf": [
@@ -589,8 +626,12 @@
           "type": "array",
           "items": {
             "oneOf": [
-              { "$ref": "#/definitions/Reference" },
-              { "$ref": "#/definitions/operationTrait" },
+              {
+                "$ref": "#/definitions/Reference"
+              },
+              {
+                "$ref": "#/definitions/operationTrait"
+              },
               {
                 "type": "array",
                 "items": [
@@ -639,32 +680,7 @@
           }
         },
         "message": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/message"
-            },
-            {
-              "type": "object",
-              "required": [
-                "oneOf"
-              ],
-              "additionalProperties": false,
-              "patternProperties": {
-                "^x-[\\w\\d\\.\\-\\_]+$": {
-                  "$ref": "#/definitions/specificationExtension"
-                }
-              },
-              "properties": {
-                "oneOf": {
-                  "type": "array",
-                  "minItems": 2,
-                  "items": {
-                    "$ref": "#/definitions/message"
-                  }
-                }
-              }
-            }
-          ]
+          "$ref": "#/definitions/message"
         }
       }
     },
@@ -677,6 +693,12 @@
         }
       },
       "properties": {
+        "oneOf": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/message"
+          }
+        },
         "schemaFormat": {
           "type": "string"
         },
@@ -687,16 +709,24 @@
           "type": "object",
           "additionalProperties": {
             "oneOf": [
-              { "$ref": "#/definitions/Reference" },
-              {"$ref": "#/definitions/schema" }
+              {
+                "$ref": "#/definitions/Reference"
+              },
+              {
+                "$ref": "#/definitions/schema"
+              }
             ]
           }
         },
         "payload": {},
         "correlationId": {
           "oneOf": [
-            { "$ref": "#/definitions/Reference" },
-            { "$ref": "#/definitions/correlationId" }
+            {
+              "$ref": "#/definitions/Reference"
+            },
+            {
+              "$ref": "#/definitions/correlationId"
+            }
           ]
         },
         "tags": {
@@ -830,8 +860,12 @@
       "type": "object",
       "additionalProperties": {
         "anyOf": [
-          { "$ref": "#/definitions/operationTrait" },
-          { "$ref": "#/definitions/messageTrait" }
+          {
+            "$ref": "#/definitions/operationTrait"
+          },
+          {
+            "$ref": "#/definitions/messageTrait"
+          }
         ]
       }
     },
@@ -955,14 +989,30 @@
     },
     "SecurityScheme": {
       "oneOf": [
-        { "$ref": "#/definitions/userPassword" },
-        { "$ref": "#/definitions/apiKey" },
-        { "$ref": "#/definitions/X509" },
-        { "$ref": "#/definitions/symmetricEncryption" },
-        { "$ref": "#/definitions/asymmetricEncryption" },
-        { "$ref": "#/definitions/HTTPSecurityScheme" },
-        { "$ref": "#/definitions/oauth2Flows" },
-        { "$ref": "#/definitions/openIdConnect" }
+        {
+          "$ref": "#/definitions/userPassword"
+        },
+        {
+          "$ref": "#/definitions/apiKey"
+        },
+        {
+          "$ref": "#/definitions/X509"
+        },
+        {
+          "$ref": "#/definitions/symmetricEncryption"
+        },
+        {
+          "$ref": "#/definitions/asymmetricEncryption"
+        },
+        {
+          "$ref": "#/definitions/HTTPSecurityScheme"
+        },
+        {
+          "$ref": "#/definitions/oauth2Flows"
+        },
+        {
+          "$ref": "#/definitions/openIdConnect"
+        }
       ]
     },
     "userPassword": {
@@ -1090,9 +1140,15 @@
     },
     "HTTPSecurityScheme": {
       "oneOf": [
-        { "$ref": "#/definitions/NonBearerHTTPSecurityScheme" },
-        { "$ref": "#/definitions/BearerHTTPSecurityScheme" },
-        { "$ref": "#/definitions/APIKeyHTTPSecurityScheme" }
+        {
+          "$ref": "#/definitions/NonBearerHTTPSecurityScheme"
+        },
+        {
+          "$ref": "#/definitions/BearerHTTPSecurityScheme"
+        },
+        {
+          "$ref": "#/definitions/APIKeyHTTPSecurityScheme"
+        }
       ]
     },
     "NonBearerHTTPSecurityScheme": {
@@ -1204,11 +1260,16 @@
     },
     "oauth2Flows": {
       "type": "object",
-      "required": [ "type", "flows" ],
+      "required": [
+        "type",
+        "flows"
+      ],
       "properties": {
         "type": {
           "type": "string",
-          "enum": [ "oauth2" ]
+          "enum": [
+            "oauth2"
+          ]
         },
         "description": {
           "type": "string"
@@ -1218,43 +1279,69 @@
           "properties": {
             "implicit": {
               "allOf": [
-                { "$ref": "#/definitions/oauth2Flow" },
+                {
+                  "$ref": "#/definitions/oauth2Flow"
+                },
                 {
                   "required": [
                     "authorizationUrl",
                     "scopes"
                   ]
                 },
-                { "not": { "required":  ["tokenUrl"] } }
+                {
+                  "not": {
+                    "required": [
+                      "tokenUrl"
+                    ]
+                  }
+                }
               ]
             },
             "password": {
               "allOf": [
-                { "$ref": "#/definitions/oauth2Flow" },
+                {
+                  "$ref": "#/definitions/oauth2Flow"
+                },
                 {
                   "required": [
                     "tokenUrl",
                     "scopes"
                   ]
                 },
-                { "not": { "required":  ["authorizationUrl"] } }
+                {
+                  "not": {
+                    "required": [
+                      "authorizationUrl"
+                    ]
+                  }
+                }
               ]
             },
             "clientCredentials": {
               "allOf": [
-                { "$ref": "#/definitions/oauth2Flow" },
+                {
+                  "$ref": "#/definitions/oauth2Flow"
+                },
                 {
                   "required": [
                     "tokenUrl",
                     "scopes"
                   ]
                 },
-                { "not": { "required":  ["authorizationUrl"] } }
+                {
+                  "not": {
+                    "required": [
+                      "authorizationUrl"
+                    ]
+                  }
+                }
               ]
             },
             "authorizationCode": {
               "allOf": [
-                { "$ref": "#/definitions/oauth2Flow" },
+                {
+                  "$ref": "#/definitions/oauth2Flow"
+                },
                 {
                   "required": [
                     "authorizationUrl",
