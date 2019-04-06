@@ -25,7 +25,7 @@
     "id": {
       "type": "string",
       "description": "A unique id representing the application.",
-      "format": "uri-reference"
+      "format": "uri"
     },
     "info": {
       "$ref": "#/definitions/info"

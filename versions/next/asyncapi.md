@@ -162,7 +162,9 @@ In subsequent versions of the AsyncAPI Specification, care will be given such th
 
 #### <a name="A2SIdString"></a>Identifier
 
-This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI Reference format (either a URI or a relative-reference), according to [RFC3986, section 4.1](http://tools.ietf.org/html/rfc3986#section-4.1).
+This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](http://tools.ietf.org/html/rfc3986).
+
+It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the application during long periods of time, even after it becomes unavailable or ceases to exist.
 
 ###### Examples
 
