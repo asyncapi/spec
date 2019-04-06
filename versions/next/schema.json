@@ -71,7 +71,7 @@
     },
     "ReferenceObject": {
       "type": "string",
-      "format": "uri"
+      "format": "uri-reference"
     },
     "info": {
       "type": "object",
@@ -333,6 +333,10 @@
       "properties": {
         "$ref": {
           "$ref": "#/definitions/ReferenceObject"
+        },
+        "nullable": {
+          "type": "boolean",
+          "default": false
         },
         "format": {
           "type": "string"
@@ -685,125 +689,145 @@
       }
     },
     "message": {
-      "type": "object",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^x-[\\w\\d\\.\\-\\_]+$": {
-          "$ref": "#/definitions/specificationExtension"
-        }
-      },
-      "properties": {
-        "oneOf": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/message"
-          }
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Reference"
         },
-        "schemaFormat": {
-          "type": "string"
-        },
-        "contentType": {
-          "type": "string"
-        },
-        "headers": {
-          "type": "object",
-          "additionalProperties": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Reference"
-              },
-              {
-                "$ref": "#/definitions/schema"
-              }
-            ]
-          }
-        },
-        "payload": {},
-        "correlationId": {
+        {
           "oneOf": [
             {
-              "$ref": "#/definitions/Reference"
+              "type": "object",
+              "required": [
+                "oneOf"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "oneOf": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/message"
+                  }
+                }
+              }
             },
             {
-              "$ref": "#/definitions/correlationId"
-            }
-          ]
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/tag"
-          },
-          "uniqueItems": true
-        },
-        "summary": {
-          "type": "string",
-          "description": "A brief summary of the message."
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of the message."
-        },
-        "title": {
-          "type": "string",
-          "description": "A human-friendly title for the message."
-        },
-        "description": {
-          "type": "string",
-          "description": "A longer description of the message. CommonMark is allowed."
-        },
-        "externalDocs": {
-          "$ref": "#/definitions/externalDocs"
-        },
-        "deprecated": {
-          "type": "boolean",
-          "default": false
-        },
-        "examples": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "protocolInfo": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
-        },
-        "traits": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Reference"
+              "type": "object",
+              "additionalProperties": false,
+              "patternProperties": {
+                "^x-[\\w\\d\\.\\-\\_]+$": {
+                  "$ref": "#/definitions/specificationExtension"
+                }
               },
-              {
-                "$ref": "#/definitions/messageTrait"
-              },
-              {
-                "type": "array",
-                "items": [
-                  {
+              "properties": {
+                "schemaFormat": {
+                  "type": "string"
+                },
+                "contentType": {
+                  "type": "string"
+                },
+                "headers": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/definitions/Reference"
+                      },
+                      {
+                        "$ref": "#/definitions/schema"
+                      }
+                    ]
+                  }
+                },
+                "payload": {},
+                "correlationId": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/definitions/Reference"
+                    },
+                    {
+                      "$ref": "#/definitions/correlationId"
+                    }
+                  ]
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/tag"
+                  },
+                  "uniqueItems": true
+                },
+                "summary": {
+                  "type": "string",
+                  "description": "A brief summary of the message."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the message."
+                },
+                "title": {
+                  "type": "string",
+                  "description": "A human-friendly title for the message."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "A longer description of the message. CommonMark is allowed."
+                },
+                "externalDocs": {
+                  "$ref": "#/definitions/externalDocs"
+                },
+                "deprecated": {
+                  "type": "boolean",
+                  "default": false
+                },
+                "examples": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                },
+                "protocolInfo": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                },
+                "traits": {
+                  "type": "array",
+                  "items": {
                     "oneOf": [
                       {
                         "$ref": "#/definitions/Reference"
                       },
                       {
                         "$ref": "#/definitions/messageTrait"
+                      },
+                      {
+                        "type": "array",
+                        "items": [
+                          {
+                            "oneOf": [
+                              {
+                                "$ref": "#/definitions/Reference"
+                              },
+                              {
+                                "$ref": "#/definitions/messageTrait"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "additionalItems": true
+                          }
+                        ]
                       }
                     ]
-                  },
-                  {
-                    "type": "object",
-                    "additionalItems": true
                   }
-                ]
+                }
               }
-            ]
-          }
+            }
+          ]
         }
-      }
+      ]
     },
     "correlationId": {
       "type": "object",
