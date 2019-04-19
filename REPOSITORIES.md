@@ -50,7 +50,7 @@ This is an experimental node version of the parser.
 
 
 [asyncapi]: https://github.com/asyncapi/asyncapi
-[asincapi-node]: https://github.com/asyncapi/asyncapi-node
+[asyncapi-node]: https://github.com/asyncapi/asyncapi-node
 [asyncapi-react]: https://github.com/asyncapi/asyncapi-react
 [asyncapi-server]: https://github.com/asyncapi/asyncapi-server
 [contributers]: https://github.com/asyncapi/asyncapi/blob/master/CONTRIBUTING.md
