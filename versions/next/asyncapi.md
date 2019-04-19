@@ -47,7 +47,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Info Object](#infoObject)
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
-      - [Servers Object](#A2SServers)
+      - [Servers Object](#serverObject)
       - [Channels Object](#channelsObject)
       - [Channel Item Object](#channelItemObject)
       - [Operation Object](#operationObject)
@@ -68,7 +68,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 
 <!-- /TOC -->
 
-## Definitions
+## <a name="definitions"/>Definitions
 
 #### <a name="definitionsMessageBroker"></a>Message Broker
 A message broker is an intermediary component that translates a [message](#definitionsMessage) from the messaging protocol of the sender to the messaging protocol of the receiver.  The message broker mediates interactions between applications, minimizing the mutual awareness that applications should have of each other in order to be able to exchange messages, effectively providing decoupling. A message broker MUST support at least one [protocol](#definitionsProtocol), thus enabling message exchanges between applications.  Importantly, the message broker is a mechanism that enables asynchronous application patterns such as publish/subscribe, fire and forget, request/reply and queuing. Additionally, the message broker MAY provide additional features such as persistence, storage/replay, authentication/authorization, protocol transformation and message integrity.
@@ -91,9 +91,9 @@ A producer is a type of application, connected to a [message broker](#definition
 #### <a name="definitionsConsumer"></a>Consumer
 A consumer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the message broker, protocol and the use-case pattern. 
 
-## Specification
+## <a name="specification"/>Specification
 
-### Format
+### <a name="format"/>Format
 
 The files describing the Asynchronous API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
 YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI Specification) file.
@@ -119,7 +119,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 - Tags MUST be limited to those allowed by the [JSON Schema ruleset](http://www.yaml.org/spec/1.2/spec.html#id2803231)
 - Keys used in YAML maps MUST be limited to a scalar string, as defined by the YAML Failsafe schema ruleset
 
-### File Structure
+### <a name="file-structure"/>File Structure
 
 The A2S representation of the API is made of a single file.
 However, parts of the definitions can be split into separate files, at the discretion of the user.
@@ -127,7 +127,7 @@ This is applicable for `$ref` fields in the specification as follows from the [J
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
-### Schema
+### <a name="schema"/>Schema
 
 #### <a name="A2SObject"></a>AsyncAPI Object
 
