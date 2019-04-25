@@ -26,7 +26,7 @@ This is a Javascript server application that uses AsyncAPI.
 
 ## [editor][editor]
 
-This is the source for the online editor hosted [here][online-editor]. It’s a Docker/node application.
+This is the source for the [online editor][online-editor]. It’s a Docker/node application.
 
 ## [extensions-catalog][extensions-catalog]
 
@@ -39,10 +39,6 @@ This is an npm module that generates files from asyncapi specification files bas
 ## [parser][parser]
 
 This is a Golang program that parses AsyncAPI specification files. It compiles to a shared library that can be bound to programs written in other languages.
-
-## [parser-generator][parser-generator]
-
-This is an npm module that parses AsyncAPI specification files.
 
 ## [parser-nodejs][parser-nodejs]
 
@@ -60,7 +56,6 @@ This is an experimental node version of the parser.
 [hugo]: https://gohugo.io/
 [online-editor]: http://editor.asyncapi.org/
 [parser]: https://github.com/asyncapi/parser
-[parser-generator]: https://github.com/asyncapi/parser-generator
 [parser-nodejs]: https://github.com/asyncapi/parser-nodejs
 [web-site]: https://www.asyncapi.com/
 [web-source]: https://github.com/asyncapi/asyncapi.github.io
