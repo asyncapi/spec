@@ -39,6 +39,7 @@ defaultContentType: application/json
 
 channels:
   event/{streetlightId}/lighting/measured:
+    description: The topic on which measured values may be produced and consumed.
     parameters:
       - $ref: '#/components/parameters/streetlightId'
     subscribe:

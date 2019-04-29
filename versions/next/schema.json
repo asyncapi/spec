@@ -575,6 +575,10 @@
             "$ref": "#/definitions/parameter"
           }
         },
+        "description": {
+          "type": "string",
+          "description": "A description of the channel."
+        },
         "publish": {
           "$ref": "#/definitions/operation"
         },
