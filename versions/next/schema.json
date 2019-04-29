@@ -577,7 +577,7 @@
         },
         "description": {
           "type": "string",
-          "description": "A description of the topic."
+          "description": "A description of the channel."
         },
         "publish": {
           "$ref": "#/definitions/operation"
