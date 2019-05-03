@@ -1355,6 +1355,7 @@ The following properties are taken directly from the JSON Schema definition and 
 - enum
 
 The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
+
 - type - Value MUST be a string. Multiple types via an array are not supported.
 - allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
