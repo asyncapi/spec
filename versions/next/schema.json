@@ -732,7 +732,7 @@
                 "headers": {
                   "type": "object",
                   "additionalProperties": {
-                    "oneOf": [
+                    "anyOf": [
                       {
                         "$ref": "#/definitions/Reference"
                       },
