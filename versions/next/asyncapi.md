@@ -47,7 +47,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Info Object](#infoObject)
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
-      - [Servers Object](#serverObject)
+      - [Servers Object](#serversObject)
       - [Channels Object](#channelsObject)
       - [Channel Item Object](#channelItemObject)
       - [Operation Object](#operationObject)
@@ -141,7 +141,7 @@ Field Name | Type | Description
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SId"></a>id | [Identifier](#A2SIdString) | **Required.** Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
-<a name="A2SServers"></a>servers | [[Server Object](#serverObject)] | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
+<a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required** The available channels and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
@@ -297,7 +297,9 @@ name: Apache 2.0
 url: http://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
+#### <a name="serversObject"></a>Servers Object
 
+The Servers Object is an array of Server Objects.
 
 #### <a name="serverObject"></a>Server Object
 
