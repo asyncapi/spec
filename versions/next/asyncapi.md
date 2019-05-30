@@ -1167,7 +1167,7 @@ Field Name | Type | Description
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
-<a name="componentsTraits"></a> traits | Map[`string`, [Operation Trait Object](#operationTraitObject)] &#124; [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject) and [Message Trait Objects](#messageTraitObject).
+<a name="componentsTraits"></a> traits | Map[`string`, [Operation Trait Object](#operationTraitObject) &#124; [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject) and [Message Trait Objects](#messageTraitObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
