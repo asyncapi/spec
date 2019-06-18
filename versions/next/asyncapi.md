@@ -637,9 +637,12 @@ This object can be extended with [Specification Extensions](#specificationExtens
   ],
   "message": {
     "headers": {
-      "applicationInstanceId": {
-        "description": "Unique identifier for a given instance of the publishing application",
-        "type": "string"
+      "type": "object",
+      "properties": {
+        "applicationInstanceId": {
+          "description": "Unique identifier for a given instance of the publishing application",
+          "type": "string"
+        }
       }
     },
     "payload": {
@@ -677,9 +680,11 @@ tags:
   - name: register
 message:
   headers:
-    applicationInstanceId:
-      description: Unique identifier for a given instance of the publishing application
-      type: string
+    type: object
+    properties:
+      applicationInstanceId:
+        description: Unique identifier for a given instance of the publishing application
+        type: string
   payload:
     type: object
     properties:
@@ -852,7 +857,7 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageObjectHeaders"></a>headers | Map[`string`, [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject)] | Definition of the application headers. It **does not** define the protocol headers.
+<a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
@@ -884,13 +889,16 @@ This object can be extended with [Specification Extensions](#specificationExtens
     { "name": "register" }
   ],
   "headers": {
-    "correlationId": {
-      "description": "Correlation ID set by application",
-      "type": "string"
-    },
-    "applicationInstanceId": {
-      "description": "Unique identifier for a given instance of the publishing application",
-      "type": "string"
+    "type": "object",
+    "properties": {
+      "correlationId": {
+        "description": "Correlation ID set by application",
+        "type": "string"
+      },
+      "applicationInstanceId": {
+        "description": "Unique identifier for a given instance of the publishing application",
+        "type": "string"
+      }
     }
   },
   "payload": {
@@ -934,12 +942,14 @@ tags:
   - name: signup
   - name: register
 headers:
-  correlationId:
-    description: Correlation ID set by application
-    type: string
-  applicationInstanceId:
-    description: Unique identifier for a given instance of the publishing application
-    type: string
+  type: object
+  properties:
+    correlationId:
+      description: Correlation ID set by application
+      type: string
+    applicationInstanceId:
+      description: Unique identifier for a given instance of the publishing application
+      type: string
 payload:
   type: object
   properties:
@@ -1012,7 +1022,7 @@ All the string values of this object MUST support simple templating using the `{
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageTraitObjectHeaders"></a>headers | Map[`string`, [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject)] | Definition of the application headers. It **does not** define the protocol headers.
+<a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
@@ -1226,9 +1236,12 @@ my.org.User
         }
       ],
       "headers": {
-        "applicationInstanceId": {
-          "description": "Unique identifier for a given instance of the publishing application",
-          "type": "string"
+        "type": "object",
+        "properties": {
+          "applicationInstanceId": {
+            "description": "Unique identifier for a given instance of the publishing application",
+            "type": "string"
+          }
         }
       },
       "payload": {
@@ -1298,9 +1311,11 @@ components:
         - name: user
         - name: signup
       headers:
-        applicationInstanceId:
-          description: Unique identifier for a given instance of the publishing application
-          type: string
+        type: object
+        properties:
+          applicationInstanceId:
+            description: Unique identifier for a given instance of the publishing application
+            type: string
       payload:
         type: object
         properties:
