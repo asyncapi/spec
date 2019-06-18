@@ -4,7 +4,6 @@
   "type": "object",
   "required": [
     "asyncapi",
-    "id",
     "info",
     "channels"
   ],
