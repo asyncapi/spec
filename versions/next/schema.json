@@ -4,7 +4,6 @@
   "type": "object",
   "required": [
     "asyncapi",
-    "id",
     "info",
     "channels"
   ],
@@ -575,6 +574,10 @@
             "$ref": "#/definitions/parameter"
           }
         },
+        "description": {
+          "type": "string",
+          "description": "A description of the channel."
+        },
         "publish": {
           "$ref": "#/definitions/operation"
         },
@@ -728,7 +731,7 @@
                 "headers": {
                   "type": "object",
                   "additionalProperties": {
-                    "oneOf": [
+                    "anyOf": [
                       {
                         "$ref": "#/definitions/Reference"
                       },

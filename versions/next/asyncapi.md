@@ -139,7 +139,7 @@ It combines resource listing and API declaration together into one document.
 Field Name | Type | Description
 ---|:---:|---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
-<a name="A2SId"></a>id | [Identifier](#A2SIdString) | **Required.** Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
+<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required** The available channels and messages for the API.
@@ -520,6 +520,7 @@ Describes the operations available on a single channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
+<a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
 <a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
@@ -531,6 +532,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "description": "This channel is used to exchange messages about users signing up",
   "subscribe": {
     "summary": "A user signed up.",
     "message": {
@@ -558,6 +560,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+description: This channel is used to exchange messages about users signing up
 subscribe:
   summary: A user signed up.
   message:
@@ -1160,7 +1163,7 @@ Field Name | Type | Description
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
-<a name="componentsTraits"></a> traits | Map[`string`, [Operation Trait Object](#operationTraitObject)] &#124; [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject) and [Message Trait Objects](#messageTraitObject).
+<a name="componentsTraits"></a> traits | Map[`string`, [Operation Trait Object](#operationTraitObject) &#124; [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject) and [Message Trait Objects](#messageTraitObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1348,6 +1351,7 @@ The following properties are taken directly from the JSON Schema definition and 
 - enum
 
 The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
+
 - type - Value MUST be a string. Multiple types via an array are not supported.
 - allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
