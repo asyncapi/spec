@@ -47,14 +47,14 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Info Object](#infoObject)
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
-      - [Servers Object](#A2SServers)
+      - [Servers Object](#serversObject)
       - [Channels Object](#channelsObject)
       - [Channel Item Object](#channelItemObject)
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
-      - [Tag Object](#tagObject)
+      - [Tags Object](#tagsObject)
       - [External Documentation Object](#externalDocumentationObject)
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
@@ -68,7 +68,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 
 <!-- /TOC -->
 
-## Definitions
+## <a name="definitions"/>Definitions
 
 #### <a name="definitionsMessageBroker"></a>Message Broker
 A message broker is an intermediary component that translates a [message](#definitionsMessage) from the messaging protocol of the sender to the messaging protocol of the receiver.  The message broker mediates interactions between applications, minimizing the mutual awareness that applications should have of each other in order to be able to exchange messages, effectively providing decoupling. A message broker MUST support at least one [protocol](#definitionsProtocol), thus enabling message exchanges between applications.  Importantly, the message broker is a mechanism that enables asynchronous application patterns such as publish/subscribe, fire and forget, request/reply and queuing. Additionally, the message broker MAY provide additional features such as persistence, storage/replay, authentication/authorization, protocol transformation and message integrity.
@@ -91,9 +91,9 @@ A producer is a type of application, connected to a [message broker](#definition
 #### <a name="definitionsConsumer"></a>Consumer
 A consumer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the message broker, protocol and the use-case pattern. 
 
-## Specification
+## <a name="specification"></a>Specification
 
-### Format
+### <a name="format"></a>Format
 
 The files describing the Asynchronous API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
 YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI Specification) file.
@@ -119,7 +119,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 - Tags MUST be limited to those allowed by the [JSON Schema ruleset](http://www.yaml.org/spec/1.2/spec.html#id2803231)
 - Keys used in YAML maps MUST be limited to a scalar string, as defined by the YAML Failsafe schema ruleset
 
-### File Structure
+### <a name="file-structure"></a>File Structure
 
 The A2S representation of the API is made of a single file.
 However, parts of the definitions can be split into separate files, at the discretion of the user.
@@ -127,7 +127,7 @@ This is applicable for `$ref` fields in the specification as follows from the [J
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
-### Schema
+### <a name="schema"></a>Schema
 
 #### <a name="A2SObject"></a>AsyncAPI Object
 
@@ -141,10 +141,10 @@ Field Name | Type | Description
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
-<a name="A2SServers"></a>servers | [[Server Object](#serverObject)] | An array of [Server Objects](#serverObject), which provide connectivity information to a target server.
+<a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required** The available channels and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
-<a name="A2STags"></a>tags | [[Tag Object](#tagObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
+<a name="A2STags"></a>tags | [Tags Object](#tagsObject) | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
 
@@ -297,11 +297,13 @@ name: Apache 2.0
 url: http://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
+#### <a name="serversObject"></a>Servers Object
 
+The Servers Object is an array of Server Objects.
 
 #### <a name="serverObject"></a>Server Object
 
-An object representing a Server.
+An object representing a Server. This is used to capture details about message brokers referenced by the API such as URIs, protocols and security configuration. Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
 
 ##### Fixed Fields
 
@@ -606,7 +608,7 @@ subscribe:
 
 #### <a name="operationObject"></a>Operation Object
 
-Describes a publish or a subscribe operation.
+Describes a publish or a subscribe operation. This provides a place to document how and why messages are sent and received. For example, an operation might describe a chat application use case where a user sends a text message to a group.
 
 ##### Fixed Fields
 
@@ -719,7 +721,7 @@ Field Name | Type | Description
 <a name="operationTraitObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="operationTraitObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
+<a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationTraitObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 
@@ -866,7 +868,7 @@ Field Name | Type | Description
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="messageObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
+<a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
@@ -1030,7 +1032,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageTraitObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="messageTraitObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
+<a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageTraitObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
@@ -1064,15 +1066,9 @@ externalDocs:
   url: 'https://mycompany.com/docs#{{headerId}}'
 ```
 
+#### <a name="tagsObject"></a>Tags Object
 
-
-
-
-
-
-
-
-
+A Tags object is a list of Tag Objects.
 
 #### <a name="tagObject"></a>Tag Object
 
