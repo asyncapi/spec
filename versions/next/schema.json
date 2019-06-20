@@ -729,17 +729,7 @@
                   "type": "string"
                 },
                 "headers": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "anyOf": [
-                      {
-                        "$ref": "#/definitions/Reference"
-                      },
-                      {
-                        "$ref": "#/definitions/schema"
-                      }
-                    ]
-                  }
+                  "$ref": "#/definitions/schema"
                 },
                 "payload": {},
                 "correlationId": {

@@ -42,16 +42,18 @@ components:
         location: "$message.header#/MQMD/CorrelId"
       contentType: application/json
       headers:
-        MQMD:
-          type: object
-          properties:
-            CorrelId:
-              type: string
-              minLength: 24
-              maxLength: 24
-              format: binary
-        applicationInstanceId:
-          $ref: "#/components/schemas/applicationInstanceId"
+        type: object
+        properties:
+          MQMD:
+            type: object
+            properties:
+              CorrelId:
+                type: string
+                minLength: 24
+                maxLength: 24
+                format: binary
+          applicationInstanceId:
+            $ref: "#/components/schemas/applicationInstanceId"
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
 
