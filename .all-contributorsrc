@@ -111,6 +111,18 @@
         "fundingFinding",
         "ideas"
       ]
+    },
+    {
+      "login": "jstoiko",
+      "name": "Jonathan Stoikovitch",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/9660342?v=4",
+      "profile": "https://ramses.tech",
+      "contributions": [
+        "fundingFinding",
+        "example",
+        "ideas",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 2
