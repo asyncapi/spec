@@ -121,6 +121,16 @@
         "ideas",
         "review"
       ]
+    },
+    {
+      "login": "antoniogarrote",
+      "name": "Antonio Garrote",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8277?v=4",
+      "profile": "http://antoniogarrote.wordpress.com",
+      "contributions": [
+        "ideas",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 2
