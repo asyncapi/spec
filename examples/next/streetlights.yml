@@ -46,9 +46,7 @@ channels:
       summary: Receive information about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'lighting-measured'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/lightMeasured'
 
@@ -58,9 +56,7 @@ channels:
     publish:
       operationId: turnOn
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'turn-on'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -70,9 +66,7 @@ channels:
     publish:
       operationId: turnOff
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'turn-off'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -82,9 +76,7 @@ channels:
     publish:
       operationId: dimLight
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'dim'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/dimLight'
 
@@ -96,9 +88,7 @@ components:
       summary: Inform about environmental lighting conditions for a particular streetlight.
       contentType: application/json
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'message-light-measured'
+        - $ref: '#/components/messageTraits/commonHeaders'
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
     turnOnOff:
@@ -106,9 +96,7 @@ components:
       title: Turn on/off
       summary: Command a particular streetlight to turn the lights on or off.
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'message-turn-on-off'
+        - $ref: '#/components/messageTraits/commonHeaders'
       payload:
         $ref: "#/components/schemas/turnOnOffPayload"
     dimLight:
@@ -116,9 +104,7 @@ components:
       title: Dim light
       summary: Command a particular streetlight to dim the lights.
       traits:
-        - 
-          - $ref: '#/components/traits/docs'
-          - headerId: 'message-dim-light'
+        - $ref: '#/components/messageTraits/commonHeaders'
       payload:
         $ref: "#/components/schemas/dimLightPayload"
 
@@ -204,7 +190,18 @@ components:
       schema:
         type: string
 
-  traits:
-    docs:
-      externalDocs:
-        url: https://company.com/docs#{{headerId}}
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          my-app-header:
+            type: integer
+            minimum: 0
+            maximum: 100
+  
+  operationTraits:
+    kafka:
+      protocolInfo:
+        kafka:
+          applicationId: my-app-id

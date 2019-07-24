@@ -295,8 +295,17 @@
             }
           }
         },
-        "traits": {
-          "$ref": "#/definitions/traits"
+        "operationTraits": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/operationTrait"
+          }
+        },
+        "messageTraits": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/messageTrait"
+          }
         }
       }
     },
@@ -873,19 +882,6 @@
         }
       }
     },
-    "traits": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "$ref": "#/definitions/operationTrait"
-          },
-          {
-            "$ref": "#/definitions/messageTrait"
-          }
-        ]
-      }
-    },
     "operationTrait": {
       "type": "object",
       "additionalProperties": false,
@@ -938,17 +934,14 @@
           "type": "string"
         },
         "headers": {
-          "type": "object",
-          "additionalProperties": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/Reference"
-              },
-              {
-                "$ref": "#/definitions/schema"
-              }
-            ]
-          }
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Reference"
+            },
+            {
+              "$ref": "#/definitions/schema"
+            }
+          ]
         },
         "correlationId": {
           "oneOf": [
