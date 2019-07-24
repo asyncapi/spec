@@ -190,10 +190,6 @@
         "variables": {
           "$ref": "#/definitions/serverVariables"
         },
-        "baseChannel": {
-          "type": "string",
-          "x-format": "uri-path"
-        },
         "security": {
           "type": "array",
           "items": {
