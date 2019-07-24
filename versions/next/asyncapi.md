@@ -972,7 +972,7 @@ traits:
     - docId: message-1234
 ```
 
-Example using Google's protobuf to define the payload:
+Example using Avro to define the payload:
 
 ```json
 {
@@ -985,9 +985,9 @@ Example using Google's protobuf to define the payload:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "schemaFormat": "application/x-protobuf",
+  "schemaFormat": "application/vnd.apache.avro+json",
   "payload": {
-    "$ref": "path/to/user-create.proto#UserCreate"
+    "$ref": "path/to/user-create.avro#/UserCreate"
   }
 }
 ```
@@ -1001,9 +1001,9 @@ tags:
   - name: user
   - name: signup
   - name: register
-schemaFormat: application/x-protobuf
+schemaFormat: application/vnd.apache.avro+json
 payload:
-  $ref: 'path/to/user-create.proto#UserCreate'
+  $ref: 'path/to/user-create.avro/#UserCreate'
 ```
 
 
@@ -1043,13 +1043,13 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "schemaFormat": "application/vnd.google.protobuf;version=3",
+  "schemaFormat": "application/vnd.apache.avro+json",
   "contentType": "application/json"
 }
 ```
 
 ```yaml
-schemaFormat: 'application/vnd.google.protobuf;version=3'
+schemaFormat: 'application/vnd.apache.avro+json'
 contentType: application/json
 ```
 
@@ -1135,10 +1135,9 @@ url: https://example.com
 A simple object to allow referencing other components in the specification, internally and externally.
 
 
-The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules.
+The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules. A JSON Reference SHALL only be used to refer to a schema that is formatted in either JSON or YAML. In the case of a YAML-formatted Schema, the JSON Reference SHALL be applied to the JSON representation of that schema. The JSON representation SHALL be made by applying the conversion described [here](#format).
 
-For this specification, reference resolution is done as defined by the JSON Reference specification
-and not by the JSON Schema specification.
+For this specification, reference resolution is done as defined by the JSON Reference specification and not by the JSON Schema specification.
 
 ##### Fixed Fields
 Field Name | Type | Description
