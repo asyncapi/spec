@@ -8,7 +8,8 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 servers:
-  - url: api.streetlights.smartylighting.com:{port}
+  production:
+    url: api.streetlights.smartylighting.com:{port}
     protocol: mqtt
     description: Test broker
     variables:

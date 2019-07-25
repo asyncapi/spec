@@ -30,11 +30,10 @@
       "$ref": "#/definitions/info"
     },
     "servers": {
-      "type": "array",
-      "items": {
+      "type": "object",
+      "additionalProperties": {
         "$ref": "#/definitions/server"
-      },
-      "uniqueItems": true
+      }
     },
     "defaultContentType": {
       "type": "string"

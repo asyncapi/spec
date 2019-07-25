@@ -299,7 +299,35 @@ url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 #### <a name="serversObject"></a>Servers Object
 
-The Servers Object is an array of Server Objects.
+The Servers Object is a map of [Server Objects](#serverObject).
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) | The definition of a server this application MAY connect to.
+
+##### Servers Object Example
+
+```json
+{
+  "production": {
+    "url": "development.gigantic-server.com",
+    "description": "Development server",
+    "protocol": "kafka",
+    "protocolVersion": "1.0.0"
+  }
+}
+```
+
+```yaml
+production:
+  url: development.gigantic-server.com
+  description: Development server
+  protocol: kafka
+  protocolVersion: '1.0.0'
+```
+
 
 #### <a name="serverObject"></a>Server Object
 
@@ -485,8 +513,6 @@ Channels are also known as "topics", "routing keys", "event types" or "paths".
 Field Pattern | Type | Description
 ---|:---:|---
 <a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [protocolInfo](#protocolInfoObject) to define them.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Channels Object Example
 

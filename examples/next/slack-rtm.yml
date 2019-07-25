@@ -5,7 +5,8 @@ info:
   version: '1.0.0'
 
 servers:
-  - url: https://slack.com/api/rtm.connect
+  production:
+    url: https://slack.com/api/rtm.connect
     protocol: https
     protocolVersion: '1.1'
     security:

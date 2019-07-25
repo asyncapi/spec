@@ -8,7 +8,8 @@ info:
   version: '1.0.0'
 
 servers:
-  - url: rabbitmq.example.org
+  production:
+    url: rabbitmq.example.org
     protocol: amqp
 
 channels:

@@ -5,7 +5,8 @@ info:
   version: '1.0.0'
 
 servers:
-  - url: https://stream.gitter.im/v1
+  production:
+    url: https://stream.gitter.im/v1
     protocol: https
     protocolVersion: '1.1'
     security:
