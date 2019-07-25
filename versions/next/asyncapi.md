@@ -618,7 +618,7 @@ Field Name | Type | Description
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
-<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject)] &#124; [[[Operation Trait Object](#operationTraitObject), Map]] | A list of traits to apply to the operation object. The list MUST contain either a list of [Operation Trait Objects](#operationTraitObject) or a list of tuples where the first element is an [Operation Trait Object](#operationTraitObject)] and the second is a free-form object with the values of the variables a trait MAY use. **All the variables of a trait MUST be provided.** Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject)] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -661,11 +661,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
     "noAck": true
   },
   "traits": [
-    { "$ref": "#/components/traits/kafka" },
-    [
-      { "$ref": "#/components/traits/docs" },
-      { "headerId": "publish-1234" }
-    ]
+    { "$ref": "#/components/operationTraits/kafka" }
   ]
 }
 ```
@@ -695,10 +691,7 @@ message:
 amqp-0-9-1:
   noAck: true
 traits:
-  - $ref: "#/components/traits/kafka"
-  -
-    - $ref: "#/components/traits/docs"
-    - headerId: publish-1234
+  - $ref: "#/components/operationTraits/kafka"
 ```
 
 
@@ -709,8 +702,6 @@ traits:
 Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except `message` and `traits`.
 
 If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
-
-All the string values of this object MUST support simple templating using the `{{` and `}}` delimiters.
 
 ##### Fixed Fields
 
@@ -741,19 +732,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
 protocolInfo:
   amqp-0-9-1:
     noAck: true
-```
-
-```json
-{
-  "externalDocs": {
-    "url": "https://mycompany.com/docs#{{headerId}}"
-  }
-}
-```
-
-```yaml
-externalDocs:
-  url: "https://mycompany.com/docs#{{headerId}}"
 ```
 
 
@@ -870,7 +848,7 @@ Field Name | Type | Description
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
-<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] &#124; [[[Message Trait Object](#messageTraitObject), Map]] | A list of traits to apply to the message object. The list MUST contain either a list of [Message Trait Objects](#messageTraitObject) or a list of tuples where the first element is a [Message Trait Object](#messageTraitObject)] and the second is a free-form object with the values of the variables a trait may use. **All the variables of a trait MUST be provided.** Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
+<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -922,11 +900,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
     }
   },
   "traits": [
-    { "$ref": "#/components/traits/kafka" },
-    [
-      { "$ref": "#/components/traits/docs" },
-      { "docId": "message-1234" }
-    ]
+    { "$ref": "#/components/messageTraits/commonHeaders" }
   ]
 }
 ```
@@ -964,10 +938,7 @@ amqp-0-9-1:
   properties:
     delivery_mode: 2
 traits:
-  - $ref: "#/components/traits/kafka"
-  -
-    - $ref: "#/components/traits/docs"
-    - docId: message-1234
+  - $ref: "#/components/messageTraits/commonHeaders"
 ```
 
 Example using Avro to define the payload:
@@ -1016,8 +987,6 @@ Describes a trait that MAY be applied to a [Message Object](#messageObject). Thi
 
 If you're looking to apply traits to an operation, see the [Operation Trait Object](#operationTraitObject).
 
-All the string values of this object MUST support simple templating using the `{{` and `}}` delimiters.
-
 ##### Fixed Fields
 
 Field Name | Type | Description
@@ -1049,19 +1018,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 schemaFormat: 'application/vnd.apache.avro+json'
 contentType: application/json
-```
-
-```json
-{
-  "externalDocs": {
-    "url": "https://mycompany.com/docs#{{headerId}}"
-  }
-}
-```
-
-```yaml
-externalDocs:
-  url: 'https://mycompany.com/docs#{{headerId}}'
 ```
 
 #### <a name="tagsObject"></a>Tags Object
@@ -1170,7 +1126,8 @@ Field Name | Type | Description
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
-<a name="componentsTraits"></a> traits | Map[`string`, [Operation Trait Object](#operationTraitObject) &#124; [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject) and [Message Trait Objects](#messageTraitObject).
+<a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
+<a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1265,10 +1222,17 @@ my.org.User
       "location": "$message.header#/correlationId"
     }
   },
-  "traits": {
-    "docs": {
-      "externalDocs": {
-        "url": "https://mycompany.com/docs#{{headerId}}"
+  "messageTraits": {
+    "commonHeaders": {
+      "headers": {
+        "type": "object",
+        "properties": {
+          "my-app-header": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          }
+        }
       }
     }
   }
@@ -1326,10 +1290,15 @@ components:
     default:
       description: Default Correlation ID
       location: $message.header#/correlationId
-  traits:
-    docs:
-      externalDocs:
-        url: "https://mycompany.com/docs#{{headerId}}"
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          my-app-header:
+            type: integer
+            minimum: 0
+            maximum: 100
 ```
 
 #### <a name="schemaObject"></a>Schema Object
