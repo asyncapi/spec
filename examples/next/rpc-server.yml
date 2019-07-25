@@ -15,7 +15,7 @@ servers:
 channels:
   '{queue}':
     parameters:
-      - name: queue
+      queue:
         schema:
           type: string
           pattern: '^amq\\.gen\\-.+$'
