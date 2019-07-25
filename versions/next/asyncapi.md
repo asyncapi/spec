@@ -314,7 +314,6 @@ Field Name | Type | Description
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
-<a name="serverObjectBaseChannel"></a>baseChannel | `string` | A string describing the base channel. MUST be in the form of a [RFC 3986 URI path](https://tools.ietf.org/html/rfc3986#section-3.3). URI templates are not allowed here. Defaults to empty string.
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -328,8 +327,7 @@ A single server would be described as:
   "url": "development.gigantic-server.com",
   "description": "Development server",
   "protocol": "kafka",
-  "protocolVersion": "1.0.0",
-  "baseChannel": "company/events"
+  "protocolVersion": "1.0.0"
 }
 ```
 
@@ -338,7 +336,6 @@ url: development.gigantic-server.com
 description: Development server
 protocol: kafka
 protocolVersion: '1.0.0'
-baseChannel: company/events
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -479,14 +476,15 @@ defaultContentType: application/json
 
 #### <a name="channelsObject"></a>Channels Object
 
-Holds the relative paths to the individual channel and their operations.
-Channels starting with a slash (`/`) MUST be treated as absolute paths and therefore skipping the [`server's base channel`](#serverObjectBaseChannel). Otherwise, the final channel MUST be resolved using the [`server's base channel`](#serverObjectBaseChannel) and the current path.
+Holds the relative paths to the individual channel and their operations. Channel paths are relative to servers.
+
+Channels are also known as "topics", "routing keys", "event types" or "paths".
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570).
+<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [protocolInfo](#protocolInfoObject) to define them.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
