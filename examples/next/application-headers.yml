@@ -8,7 +8,8 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 servers:
-  - url: api.streetlights.smartylighting.com:{port}
+  production:
+    url: api.streetlights.smartylighting.com:{port}
     protocol: mqtt
     description: Test broker
     variables:
@@ -24,7 +25,8 @@ defaultContentType: application/json
 channels:
   smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured:
     parameters:
-      - $ref: '#/components/parameters/streetlightId'
+      streetlightId:
+        $ref: '#/components/parameters/streetlightId'
     subscribe:
       summary: Receive information about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
@@ -76,7 +78,6 @@ components:
 
   parameters:
     streetlightId:
-      name: streetlightId
       description: The ID of the streetlight.
       schema:
         type: string

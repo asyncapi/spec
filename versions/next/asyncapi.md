@@ -299,7 +299,35 @@ url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 #### <a name="serversObject"></a>Servers Object
 
-The Servers Object is an array of Server Objects.
+The Servers Object is a map of [Server Objects](#serverObject).
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) | The definition of a server this application MAY connect to.
+
+##### Servers Object Example
+
+```json
+{
+  "production": {
+    "url": "development.gigantic-server.com",
+    "description": "Development server",
+    "protocol": "kafka",
+    "protocolVersion": "1.0.0"
+  }
+}
+```
+
+```yaml
+production:
+  url: development.gigantic-server.com
+  description: Development server
+  protocol: kafka
+  protocolVersion: '1.0.0'
+```
+
 
 #### <a name="serverObject"></a>Server Object
 
@@ -486,8 +514,6 @@ Field Pattern | Type | Description
 ---|:---:|---
 <a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [protocolInfo](#protocolInfoObject) to define them.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
 ##### Channels Object Example
 
 ```json
@@ -521,7 +547,7 @@ Field Name | Type | Description
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
-<a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
+<a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 <a name="channelItemObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -737,34 +763,31 @@ protocolInfo:
 
 
 
-#### <a name="parameterObject"></a>Parameter Object
+#### <a name="parametersObject"></a>Parameters Object
 
-Describes a parameter included in a channel name.
+Describes a map of parameters included in a channel name.
 
-##### Fixed Fields
+This map MUST contain all the parameters used in the parent channel name.
 
-Field Name | Type | Description
+##### Patterned Fields
+
+Field Pattern | Type | Description
 ---|:---:|---
-<a name="parameterObjectName"></a>name | `string` | The name of the parameter.
-<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel name.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Parameter Object Example
+##### Parameters Object Example
 
 ```json
 {
   "user/{userId}/signup": {
-    "parameters": [
-      {
-        "name": "userId",
+    "parameters": {
+      "userId": {
         "description": "Id of the user.",
         "schema": {
           "type": "string"
         }
       }
-    ],
+    },
     "subscribe": {
       "$ref": "#/components/messages/userSignedUp"
     }
@@ -775,7 +798,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 user/{userId}/signup:
   parameters:
-    - name: userId
+    userId:
       description: Id of the user.
       schema:
         type: string
@@ -783,6 +806,53 @@ user/{userId}/signup:
     $ref: "#/components/messages/userSignedUp"
 ```
 
+
+
+
+
+#### <a name="parameterObject"></a>Parameter Object
+
+Describes a parameter included in a channel name.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Parameter Object Example
+
+```json
+{
+  "user/{userId}/signup": {
+    "parameters": {
+      "userId": {
+        "description": "Id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "subscribe": {
+      "$ref": "#/components/messages/userSignedUp"
+    }
+  }
+}
+```
+
+```yaml
+user/{userId}/signup:
+  parameters:
+    userId:
+      description: Id of the user.
+      schema:
+        type: string
+  subscribe:
+    $ref: "#/components/messages/userSignedUp"
+```
 
 
 

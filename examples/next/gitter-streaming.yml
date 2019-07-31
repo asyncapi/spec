@@ -5,7 +5,8 @@ info:
   version: '1.0.0'
 
 servers:
-  - url: https://stream.gitter.im/v1
+  production:
+    url: https://stream.gitter.im/v1
     protocol: https
     protocolVersion: '1.1'
     security:
@@ -14,13 +15,13 @@ servers:
 channels:
   /rooms/{roomId}/{resource}:
     parameters:
-      - name: roomId
+      roomId:
         description: Id of the Gitter room.
         schema:
           type: string
           examples:
             - 53307860c3599d1de448e19d
-      - name: resource
+      resource:
         description: The resource to consume.
         schema:
           type: string

@@ -16,7 +16,8 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 servers:
-  - url: api.streetlights.smartylighting.com:{port}
+  production:
+    url: api.streetlights.smartylighting.com:{port}
     protocol: mqtt
     description: Test broker
     variables:
@@ -40,7 +41,8 @@ channels:
   smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured:
     description: The topic on which measured values may be produced and consumed.
     parameters:
-      - $ref: '#/components/parameters/streetlightId'
+      streetlightId:
+        $ref: '#/components/parameters/streetlightId'
     subscribe:
       summary: Receive information about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
@@ -51,7 +53,8 @@ channels:
 
   smartylighting/streetlights/1/0/action/{streetlightId}/turn/on:
     parameters:
-      - $ref: '#/components/parameters/streetlightId'
+      streetlightId:
+        $ref: '#/components/parameters/streetlightId'
     publish:
       operationId: turnOn
       traits:
@@ -61,7 +64,8 @@ channels:
 
   smartylighting/streetlights/1/0/action/{streetlightId}/turn/off:
     parameters:
-      - $ref: '#/components/parameters/streetlightId'
+      streetlightId:
+        $ref: '#/components/parameters/streetlightId'
     publish:
       operationId: turnOff
       traits:
@@ -71,7 +75,8 @@ channels:
 
   smartylighting/streetlights/1/0/action/{streetlightId}/dim:
     parameters:
-      - $ref: '#/components/parameters/streetlightId'
+      streetlightId:
+        $ref: '#/components/parameters/streetlightId'
     publish:
       operationId: dimLight
       traits:
@@ -184,7 +189,6 @@ components:
 
   parameters:
     streetlightId:
-      name: streetlightId
       description: The ID of the streetlight.
       schema:
         type: string
