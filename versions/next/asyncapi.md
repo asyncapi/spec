@@ -61,8 +61,11 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Schema Object](#schemaObject)
       - [XML Object](#xmlObject)
       - [Security Scheme Object](#securitySchemeObject)
+      - [Parameters Object](#parametersObject)
       - [Parameter Object](#parameterObject)
-      - [Protocol Info Object](#protocolInfoObject)
+      - [Channel Bindings Object](#channelBindingsObject)
+      - [Operation Bindings Object](#operationBindingsObject)
+      - [Message Bindings Object](#messageBindingsObject)
       - [Correlation ID Object](#correlationIdObject)
       - [Specification Extensions](#specificationExtensions)
 
@@ -484,9 +487,7 @@ Channels are also known as "topics", "routing keys", "event types" or "paths".
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [protocolInfo](#protocolInfoObject) to define them.
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
+<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
 
 ##### Channels Object Example
 
@@ -522,7 +523,7 @@ Field Name | Type | Description
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
 <a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
-<a name="channelItemObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+<a name="channelItemObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -617,7 +618,7 @@ Field Name | Type | Description
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
-<a name="operationObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+<a name="operationObjectBindings"></a>bindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject)] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 
@@ -712,7 +713,7 @@ Field Name | Type | Description
 <a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
-<a name="operationTraitObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+<a name="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -720,7 +721,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "protocolInfo": {
+  "bindings": {
     "amqp-0-9-1": {
       "noAck": true
     }
@@ -729,7 +730,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-protocolInfo:
+bindings:
   amqp-0-9-1:
     noAck: true
 ```
@@ -787,21 +788,31 @@ user/{userId}/signup:
 
 
 
-#### <a name="protocolInfoObject"></a>Protocol Info Object
+#### <a name="channelBindingsObject"></a>Channel Bindings Object
 
-Free-form key-value object describing protocol-specific definitions for channels, operations, and messages.
+Map describing protocol-specific definitions for channels.
 
-##### Patterned Fields
+##### Fixed Fields
 
-Field Pattern | Type | Description
+Field Name | Type | Description
 ---|:---:|---
-<a name="protocolInfoObjectProtocolName"></a>{protocol} | `Map` | Protocol-specific information. This map is free-form and MUST not be validated by parsers.
+<a name="channelBindingsObjectHTTP"></a>`http` | [HTTP Channel Binding](./bindings/http.md#channel) | Protocol-specific information for an HTTP channel.
+<a name="channelBindingsObjectWebSockets"></a>`ws` | [WebSockets Channel Binding](./bindings/ws.md#channel) | Protocol-specific information for a WebSockets channel.
+<a name="channelBindingsObjectKafka"></a>`kafka` | [Kafka Channel Binding](./bindings/kafka.md#channel) | Protocol-specific information for a Kafka channel.
+<a name="channelBindingsObjectAMQP"></a>`amqp` | [AMQP Channel Binding](./bindings/amqp.md#channel) | Protocol-specific information for an AMQP 0-9-1 channel.
+<a name="channelBindingsObjectAMQP1"></a>`amqp-1.0` | [AMQP 1.0 Channel Binding](./bindings/amqp-1.0.md#channel) | Protocol-specific information for an AMQP 1.0 channel.
+<a name="channelBindingsObjectMQTT"></a>`mqtt` | [MQTT Channel Binding](./bindings/mqtt.md#channel) | Protocol-specific information for an MQTT channel.
+<a name="channelBindingsObjectNATS"></a>`nats` | [NATS Channel Binding](./bindings/nats.md#channel) | Protocol-specific information for a NATS channel.
+<a name="channelBindingsObjectJMS"></a>`jms` | [JMS Channel Binding](./bindings/jms.md#channel) | Protocol-specific information for a JMS channel.
+<a name="channelBindingsObjectSNS"></a>`sns` | [SNS Channel Binding](./bindings/sns.md#channel) | Protocol-specific information for an SNS channel.
+<a name="channelBindingsObjectSQS"></a>`sqs` | [SQS Channel Binding](./bindings/sqs.md#channel) | Protocol-specific information for an SQS channel.
+<a name="channelBindingsObjectSTOMP"></a>`stomp` | [STOMP Channel Binding](./bindings/stomp.md#channel) | Protocol-specific information for a STOMP channel.
 
-##### Protocol Info Object Example
+##### Channel Bindings Object Example
 
 ```json
 {
-  "amqp-0-9-1": {
+  "amqp": {
     "channelIsQueue": true,
     "queue": {
       "randomName": true,
@@ -812,11 +823,96 @@ Field Pattern | Type | Description
 ```
 
 ```yaml
-amqp-0-9-1:
+amqp:
   channelIsQueue: true
   queue:
     randomName: true
     exclusive: true
+```
+
+
+
+
+#### <a name="operationBindingsObject"></a>Operation Bindings Object
+
+Map describing protocol-specific definitions for operations.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationBindingsObjectHTTP"></a>`http` | [HTTP Operation Binding](./bindings/http.md#operation) | Protocol-specific information for an HTTP operation.
+<a name="operationBindingsObjectWebSockets"></a>`ws` | [WebSockets Operation Binding](./bindings/ws.md#operation) | Protocol-specific information for a WebSockets operation.
+<a name="operationBindingsObjectKafka"></a>`kafka` | [Kafka Operation Binding](./bindings/kafka.md#operation) | Protocol-specific information for a Kafka operation.
+<a name="operationBindingsObjectAMQP"></a>`amqp` | [AMQP Operation Binding](./bindings/amqp.md#operation) | Protocol-specific information for an AMQP 0-9-1 operation.
+<a name="operationBindingsObjectAMQP1"></a>`amqp-1.0` | [AMQP 1.0 Operation Binding](./bindings/amqp-1.0.md#operation) | Protocol-specific information for an AMQP 1.0 operation.
+<a name="operationBindingsObjectMQTT"></a>`mqtt` | [MQTT Operation Binding](./bindings/mqtt.md#operation) | Protocol-specific information for an MQTT operation.
+<a name="operationBindingsObjectNATS"></a>`nats` | [NATS Operation Binding](./bindings/nats.md#operation) | Protocol-specific information for a NATS operation.
+<a name="operationBindingsObjectJMS"></a>`jms` | [JMS Operation Binding](./bindings/jms.md#operation) | Protocol-specific information for a JMS operation.
+<a name="operationBindingsObjectSNS"></a>`sns` | [SNS Operation Binding](./bindings/sns.md#operation) | Protocol-specific information for an SNS operation.
+<a name="operationBindingsObjectSQS"></a>`sqs` | [SQS Operation Binding](./bindings/sqs.md#operation) | Protocol-specific information for an SQS operation.
+<a name="operationBindingsObjectSTOMP"></a>`stomp` | [STOMP Operation Binding](./bindings/stomp.md#operation) | Protocol-specific information for a STOMP operation.
+
+##### Operation Bindings Object Example
+
+```json
+{
+  "kafka": {
+    "partition": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    }
+  }
+}
+```
+
+```yaml
+kafka:
+  partition:
+    type: integer
+    minimum: 0
+    maximum: 3
+```
+
+
+
+
+
+
+#### <a name="messageBindingsObject"></a>Message Bindings Object
+
+Map describing protocol-specific definitions for messages.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="messageBindingsObjectHTTP"></a>`http` | [HTTP Message Binding](./bindings/http.md#message) | Protocol-specific information for an HTTP message, i.e., a request or a response.
+<a name="messageBindingsObjectWebSockets"></a>`ws` | [WebSockets Message Binding](./bindings/ws.md#message) | Protocol-specific information for a WebSockets message.
+<a name="messageBindingsObjectKafka"></a>`kafka` | [Kafka Message Binding](./bindings/kafka.md#message) | Protocol-specific information for a Kafka message.
+<a name="messageBindingsObjectAMQP"></a>`amqp` | [AMQP Message Binding](./bindings/amqp.md#message) | Protocol-specific information for an AMQP 0-9-1 message.
+<a name="messageBindingsObjectAMQP1"></a>`amqp-1.0` | [AMQP 1.0 Message Binding](./bindings/amqp-1.0.md#message) | Protocol-specific information for an AMQP 1.0 message.
+<a name="messageBindingsObjectMQTT"></a>`mqtt` | [MQTT Message Binding](./bindings/mqtt.md#message) | Protocol-specific information for an MQTT message.
+<a name="messageBindingsObjectNATS"></a>`nats` | [NATS Message Binding](./bindings/nats.md#message) | Protocol-specific information for a NATS message.
+<a name="messageBindingsObjectJMS"></a>`jms` | [JMS Message Binding](./bindings/jms.md#message) | Protocol-specific information for a JMS message.
+<a name="messageBindingsObjectSNS"></a>`sns` | [SNS Message Binding](./bindings/sns.md#message) | Protocol-specific information for an SNS message.
+<a name="messageBindingsObjectSQS"></a>`sqs` | [SQS Message Binding](./bindings/sqs.md#message) | Protocol-specific information for an SQS message.
+<a name="messageBindingsObjectSTOMP"></a>`stomp` | [STOMP Message Binding](./bindings/stomp.md#message) | Protocol-specific information for a STOMP message.
+
+##### Message Bindings Object Example
+
+```json
+{
+  "kafka": {
+    "key": "myKey"
+  }
+}
+```
+
+```yaml
+kafka:
+  key: myKey
 ```
 
 
@@ -846,7 +942,7 @@ Field Name | Type | Description
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
-<a name="messageObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
@@ -894,10 +990,12 @@ This object can be extended with [Specification Extensions](#specificationExtens
     "description": "Default Correlation ID",
     "location": "$message.header#/correlationId"
   },
-  "amqp-0-9-1": {
-    "properties": {
-      "delivery_mode": 2
-    }
+  "bindings": {
+    "amqp-0-9-1": {
+      "properties": {
+        "delivery_mode": 2
+      }
+    },
   },
   "traits": [
     { "$ref": "#/components/messageTraits/commonHeaders" }
@@ -934,9 +1032,10 @@ payload:
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
-amqp-0-9-1:
-  properties:
-    delivery_mode: 2
+bindings:
+  amqp-0-9-1:
+    properties:
+      delivery_mode: 2
 traits:
   - $ref: "#/components/messageTraits/commonHeaders"
 ```
@@ -1001,7 +1100,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
-<a name="messageTraitObjectProtocolInfo"></a>protocolInfo | Map[`string`, [Protocol Info Object](#protocolInfoObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a name="messageTraitObjectBindings"></a>bindings | Map[`string`, [Message Bindings Object](#messageBindingsObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1128,6 +1227,9 @@ Field Name | Type | Description
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
 <a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
+<a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
+<a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
+<a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
