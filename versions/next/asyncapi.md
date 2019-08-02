@@ -908,7 +908,7 @@ Field Name | Type | Description
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -921,6 +921,18 @@ Field Name | Type | Description
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### <a name="messageObjectSchemaFormatTable"></a>Schema formats table
+
+The following table contains a set of values that every AsyncAPI implementation MUST support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | This is the equivalent of the [AsyncAPI Schema Object](#schemaObject) and it's the default when a `schemaFormat` is not provided.
+[JSON Schema Draft 07](http://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+[JSON Schema Draft 04](http://json-schema.org/specification-links.html#draft-4) | `application/schema+json;version=draft-04`, `application/schema+yaml;version=draft-04` | 
+[Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
+
 
 ##### Message Object Example
 
@@ -964,11 +976,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
     "description": "Default Correlation ID",
     "location": "$message.header#/correlationId"
   },
-  "amqp-0-9-1": {
-    "properties": {
-      "delivery_mode": 2
-    }
-  },
   "traits": [
     { "$ref": "#/components/messageTraits/commonHeaders" }
   ]
@@ -1004,9 +1011,6 @@ payload:
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
-amqp-0-9-1:
-  properties:
-    delivery_mode: 2
 traits:
   - $ref: "#/components/messageTraits/commonHeaders"
 ```
@@ -1024,9 +1028,9 @@ Example using Avro to define the payload:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "schemaFormat": "application/vnd.apache.avro+json",
+  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "payload": {
-    "$ref": "path/to/user-create.avro#/UserCreate"
+    "$ref": "path/to/user-create.avsc#/UserCreate"
   }
 }
 ```
@@ -1040,9 +1044,9 @@ tags:
   - name: user
   - name: signup
   - name: register
-schemaFormat: application/vnd.apache.avro+json
+schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 payload:
-  $ref: 'path/to/user-create.avro/#UserCreate'
+  $ref: 'path/to/user-create.avsc/#UserCreate'
 ```
 
 
@@ -1080,13 +1084,13 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "schemaFormat": "application/vnd.apache.avro+json",
+  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "contentType": "application/json"
 }
 ```
 
 ```yaml
-schemaFormat: 'application/vnd.apache.avro+json'
+schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
 contentType: application/json
 ```
 
