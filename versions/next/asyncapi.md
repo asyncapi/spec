@@ -820,6 +820,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -833,7 +834,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
         "description": "Id of the user.",
         "schema": {
           "type": "string"
-        }
+        },
+        "location": "$message.payload#/user/id"
       }
     },
     "subscribe": {
@@ -850,6 +852,7 @@ user/{userId}/signup:
       description: Id of the user.
       schema:
         type: string
+      location: $message.payload#/user/id
   subscribe:
     $ref: "#/components/messages/userSignedUp"
 ```
@@ -2416,8 +2419,8 @@ For specifying and computing the location of a Correlation ID, a [runtime expres
 
 Field Name | Type | Description
 ---|:---|---
-description | `string` | A optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-location | {expression} | **REQUIRED.** A runtime expression that specifies the location of the correlation ID.
+description | `string` | An optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the correlation ID.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 

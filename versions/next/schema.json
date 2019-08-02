@@ -613,6 +613,11 @@
         "schema": {
           "$ref": "#/definitions/schema"
         },
+        "location": {
+          "type": "string",
+          "description": "A runtime expression that specifies the location of the parameter value",
+          "pattern": "^\\$message\\.(header|payload)\\#(\\/(([^\\/~])|(~[01]))*)*"
+        },
         "$ref": {
           "$ref": "#/definitions/ReferenceObject"
         }
@@ -839,7 +844,7 @@
         "location": {
           "type": "string",
           "description": "A runtime expression that specifies the location of the correlation ID",
-          "pattern": "^\\$message\\.(header|payload)#(/\\w+)+"
+          "pattern": "^\\$message\\.(header|payload)\\#(\\/(([^\\/~])|(~[01]))*)*"
         }
       }
     },
