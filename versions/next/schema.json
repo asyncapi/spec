@@ -721,7 +721,19 @@
               },
               "properties": {
                 "schemaFormat": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "application/vnd.oai.openapi;version=3.0.0",
+                    "application/vnd.oai.openapi+json;version=3.0.0",
+                    "application/vnd.oai.openapi+yaml;version=3.0.0",
+                    "application/schema+json;version=draft-07",
+                    "application/schema+yaml;version=draft-07",
+                    "application/schema+json;version=draft-04",
+                    "application/schema+yaml;version=draft-04",
+                    "application/vnd.apache.avro;version=1.9.0",
+                    "application/vnd.apache.avro+json;version=1.9.0",
+                    "application/vnd.apache.avro+yaml;version=1.9.0"
+                  ]
                 },
                 "contentType": {
                   "type": "string"
