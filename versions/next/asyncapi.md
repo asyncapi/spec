@@ -1090,7 +1090,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
+schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 contentType: application/json
 ```
 
