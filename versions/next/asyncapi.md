@@ -12,7 +12,7 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 ## Introduction
 
-The AsyncAPI Specification is a project used to describe and document Asynchronous APIs.
+The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any messaging protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, etc).
 
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
@@ -95,7 +95,7 @@ A consumer is a type of application, connected to a [message broker](#definition
 
 ### <a name="format"></a>Format
 
-The files describing the Asynchronous API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
+The files describing the message-driven API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
 YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI Specification) file.
 
 For example, if a field is said to have an array value, the JSON array representation will be used:
