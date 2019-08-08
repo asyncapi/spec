@@ -1407,17 +1407,21 @@ The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema
 - maxProperties
 - minProperties
 - enum
-- propertyNames
-- contains
 - const
 - examples
 - if / then / else
-- additionalItems
 - readOnly
 - writeOnly
 
 The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
 
+- properties - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
+- patternProperties - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
+- additionalProperties - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
+- additionalItems - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
+- items - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
+- propertyNames - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
+- contains - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - anyOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
