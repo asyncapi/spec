@@ -59,7 +59,6 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
-      - [XML Object](#xmlObject)
       - [Security Scheme Object](#securitySchemeObject)
       - [Parameter Object](#parameterObject)
       - [Protocol Info Object](#protocolInfoObject)
@@ -931,9 +930,9 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | This is the equivalent of the [AsyncAPI Schema Object](#schemaObject) and it's the default when a `schemaFormat` is not provided.
+[AsyncAPI 2.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.0.0`, `application/vnd.aai.asyncapi+json;version=2.0.0`, `application/vnd.aai.asyncapi+yaml;version=2.0.0` | This is the default when a `schemaFormat` is not provided.
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
 [JSON Schema Draft 07](http://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
-[JSON Schema Draft 04](http://json-schema.org/specification-links.html#draft-4) | `application/schema+json;version=draft-04`, `application/schema+yaml;version=draft-04` | 
 [Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
 
 
@@ -1382,16 +1381,18 @@ components:
 
 The Schema Object allows the definition of input and output data types.
 These types can be objects, but also primitives and arrays.
-This object is an extended subset of the [JSON Schema Specification Wright Draft 00](http://json-schema.org/).
+This object is an superset of the [JSON Schema Specification Draft 07](http://json-schema.org/).
 
-Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-wright-json-schema-00) and [JSON Schema Validation](https://tools.ietf.org/html/draft-wright-json-schema-validation-00).
+Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
 
 ##### Properties
 
-The following properties are taken directly from the JSON Schema definition and follow the same specifications:
+The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema Core and Validation vocabularies. As such any keyword available for those vocabularies is by definition available in AsyncAPI, and will work the exact same way, including but not limited to:
 
 - title
+- type
+- required
 - multipleOf
 - maximum
 - exclusiveMaximum
@@ -1405,40 +1406,35 @@ The following properties are taken directly from the JSON Schema definition and 
 - uniqueItems
 - maxProperties
 - minProperties
-- required
 - enum
+- propertyNames
+- contains
+- const
+- examples
+- if / then / else
+- additionalItems
+- readOnly
+- writeOnly
 
 The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
 
-- type - Value MUST be a string. Multiple types via an array are not supported.
 - allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - anyOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - not - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- items - Value MUST be an object and not an array. Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema. `items` MUST be present if the `type` is `array`.
-- properties - Property definitions MUST be a [Schema Object](#schemaObject) and not a standard JSON Schema (inline or referenced).
-- additionalProperties - Value can be boolean or object. Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline.
 
-Additional properties defined by the JSON Schema specification that are not mentioned here are strictly unsupported.
-
-Other than the JSON Schema subset fields, the following fields MAY be used for further schema documentation:
+In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="schemaObjectNullable"></a>nullable | `boolean` | Allows sending a `null` value for the defined schema. Default value is `false`.
 <a name="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
-<a name="schemaObjectReadOnly"></a>readOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "read only". This means that it MAY be sent as part of a response but SHOULD NOT be sent as part of the request. If property is marked as `readOnly` being `true` and is in the `required` list, the `required` will take effect on the response only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
-<a name="schemaObjectWriteOnly"></a>writeOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "write only". This means that it MAY be sent as part of a request but SHOULD NOT be sent as part of the response. If property is marked as `writeOnly` being `true` and is in the `required` list, the `required` will take effect on the request only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
-<a name="schemaObjectXml"></a>xml | [XML Object](#xmlObject) | This MAY be used only on properties schemas. It has no effect on root schemas. Adds Additional metadata to describe the XML representation format of this property.
 <a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
-<a name="schemaObjectExample"></a>example | Any | A free-form property to include an example of an instance for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
-<a name="schemaObjectExamples"></a>examples | [Any] | An array of free-form properties to include examples of instances for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1456,11 +1452,6 @@ There are are two ways to define the value of a discriminator for an inheriting 
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
 As such, inline schema definitions, which do not have a given id, *cannot* be used in polymorphism.
-
-###### XML Modeling
-
-The [xml](#schemaObjectXml) property allows extra definitions when translating the JSON definition to XML.
-The [XML Object](#xmlObject) contains additional information about the available options.
 
 ##### Schema Object Examples
 
@@ -1777,360 +1768,6 @@ schemas:
       required:
       - packSize
 ```
-
-#### <a name="xmlObject"></a>XML Object
-
-A metadata object that allows for more fine-tuned XML model definitions.
-
-When using arrays, XML element names are *not* inferred (for singular/plural forms) and the `name` property SHOULD be used to add that information.
-See examples for expected behavior.
-
-##### Fixed Fields
-Field Name | Type | Description
----|:---:|---
-<a name="xmlObjectName"></a>name | `string` | Replaces the name of the element/attribute used for the described schema property. When defined within `items`, it will affect the name of the individual XML elements within the list. When defined alongside `type` being `array` (outside the `items`), it will affect the wrapping element and only if `wrapped` is `true`. If `wrapped` is `false`, it will be ignored.
-<a name="xmlObjectNamespace"></a>namespace | `string` | The URL of the namespace definition. Value SHOULD be in the form of a URL.
-<a name="xmlObjectPrefix"></a>prefix | `string` | The prefix to be used for the [name](#xmlObjectName).
-<a name="xmlObjectAttribute"></a>attribute | `boolean` | Declares whether the property definition translates to an attribute instead of an element. Default value is `false`.
-<a name="xmlObjectWrapped"></a>wrapped | `boolean` | MAY be used only for an array definition. Signifies whether the array is wrapped (for example, `<books><book/><book/></books>`) or unwrapped (`<book/><book/>`). Default value is `false`. The definition takes effect only when defined alongside `type` being `array` (outside the `items`).
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### XML Object Examples
-
-The examples of the XML object definitions are included inside a property definition of a [Schema Object](#schemaObject) with a sample of the XML representation of it.
-
-###### No XML Element
-
-Basic string property:
-
-```json
-{
-    "animals": {
-        "type": "string"
-    }
-}
-```
-
-```yaml
-animals:
-  type: string
-```
-
-```xml
-<animals>...</animals>
-```
-
-Basic string array property ([`wrapped`](#xmlObjectWrapped) is `false` by default):
-
-```json
-{
-    "animals": {
-        "type": "array",
-        "items": {
-            "type": "string"
-        }
-    }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-```
-
-```xml
-<animals>...</animals>
-<animals>...</animals>
-<animals>...</animals>
-```
-
-###### XML Name Replacement
-
-```json
-{
-  "animals": {
-    "type": "string",
-    "xml": {
-      "name": "animal"
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: string
-  xml:
-    name: animal
-```
-
-```xml
-<animal>...</animal>
-```
-
-
-###### XML Attribute, Prefix and Namespace
-
-In this example, a full model definition is shown.
-
-```json
-{
-  "Person": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "integer",
-        "format": "int32",
-        "xml": {
-          "attribute": true
-        }
-      },
-      "name": {
-        "type": "string",
-        "xml": {
-          "namespace": "http://example.com/schema/sample",
-          "prefix": "sample"
-        }
-      }
-    }
-  }
-}
-```
-
-```yaml
-Person:
-  type: object
-  properties:
-    id:
-      type: integer
-      format: int32
-      xml:
-        attribute: true
-    name:
-      type: string
-      xml:
-        namespace: http://example.com/schema/sample
-        prefix: sample
-```
-
-```xml
-<Person id="123">
-    <sample:name xmlns:sample="http://example.com/schema/sample">example</sample:name>
-</Person>
-```
-
-###### XML Arrays
-
-Changing the element names:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-```
-
-```xml
-<animal>value</animal>
-<animal>value</animal>
-```
-
-The external `name` property has no effect on the XML:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    },
-    "xml": {
-      "name": "aliens"
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-  xml:
-    name: aliens
-```
-
-```xml
-<animal>value</animal>
-<animal>value</animal>
-```
-
-Even when the array is wrapped, if no name is explicitly defined, the same name will be used both internally and externally:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string"
-    },
-    "xml": {
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-  xml:
-    wrapped: true
-```
-
-```xml
-<animals>
-  <animals>value</animals>
-  <animals>value</animals>
-</animals>
-```
-
-To overcome the above example, the following definition can be used:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    },
-    "xml": {
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-  xml:
-    wrapped: true
-```
-
-```xml
-<animals>
-  <animal>value</animal>
-  <animal>value</animal>
-</animals>
-```
-
-Affecting both internal and external names:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    },
-    "xml": {
-      "name": "aliens",
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-  xml:
-    name: aliens
-    wrapped: true
-```
-
-```xml
-<aliens>
-  <animal>value</animal>
-  <animal>value</animal>
-</aliens>
-```
-
-If we change the external element but not the internal ones:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string"
-    },
-    "xml": {
-      "name": "aliens",
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-  xml:
-    name: aliens
-    wrapped: true
-```
-
-```xml
-<aliens>
-  <aliens>value</aliens>
-  <aliens>value</aliens>
-</aliens>
-```
-
 
 
 
