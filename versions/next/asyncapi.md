@@ -1381,14 +1381,14 @@ components:
 
 The Schema Object allows the definition of input and output data types.
 These types can be objects, but also primitives and arrays.
-This object is an superset of the [JSON Schema Specification Draft 07](http://json-schema.org/).
+This object is a superset of the [JSON Schema Specification Draft 07](http://json-schema.org/).
 
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
 
 ##### Properties
 
-The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema Core and Validation vocabularies. As such any keyword available for those vocabularies is by definition available in AsyncAPI, and will work the exact same way, including but not limited to:
+The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema Core and Validation vocabularies. As such, any keyword available for those vocabularies is by definition available in AsyncAPI, and will work the exact same way, including but not limited to:
 
 - title
 - type
@@ -1412,20 +1412,20 @@ The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema
 - if / then / else
 - readOnly
 - writeOnly
+- properties
+- patternProperties
+- additionalProperties
+- additionalItems
+- items
+- propertyNames
+- contains
+- allOf
+- oneOf
+- anyOf
+- not
 
 The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
 
-- properties - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- patternProperties - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- additionalProperties - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- additionalItems - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- items - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- propertyNames - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- contains - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- anyOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- not - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
