@@ -2003,7 +2003,7 @@ flows:
 Lists the required security schemes to execute this operation.
 The name used for each property MUST correspond to a security scheme declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject).
 
-When a list of Security Requirement Objects is defined on the [AsyncAPI object](#A2SObject), only one of Security Requirement Objects in the list needs to be satisfied to authorize the connection or operation.
+When a list of Security Requirement Objects is defined on a [Server object](#serverObject), only one of the Security Requirement Objects in the list needs to be satisfied to authorize the connection.
 
 ##### Patterned Fields
 
