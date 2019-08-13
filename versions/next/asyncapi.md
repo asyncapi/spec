@@ -12,7 +12,7 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 ## Introduction
 
-The AsyncAPI Specification is a project used to describe and document Asynchronous APIs.
+The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any messaging protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, etc).
 
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
@@ -59,7 +59,6 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
-      - [XML Object](#xmlObject)
       - [Security Scheme Object](#securitySchemeObject)
       - [Parameters Object](#parametersObject)
       - [Parameter Object](#parameterObject)
@@ -98,7 +97,7 @@ A consumer is a type of application, connected to a [message broker](#definition
 
 ### <a name="format"></a>Format
 
-The files describing the Asynchronous API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
+The files describing the message-driven API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
 YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI Specification) file.
 
 For example, if a field is said to have an array value, the JSON array representation will be used:
@@ -126,7 +125,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 
 The A2S representation of the API is made of a single file.
 However, parts of the definitions can be split into separate files, at the discretion of the user.
-This is applicable for `$ref` fields in the specification as follows from the [JSON Schema](http://json-schema.org) definitions.
+This is applicable for `$ref` fields in the specification as follows from the [JSON Schema](https://json-schema.org/understanding-json-schema/structuring.html) definitions.
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
@@ -302,7 +301,35 @@ url: http://www.apache.org/licenses/LICENSE-2.0.html
 
 #### <a name="serversObject"></a>Servers Object
 
-The Servers Object is an array of Server Objects.
+The Servers Object is a map of [Server Objects](#serverObject).
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) | The definition of a server this application MAY connect to.
+
+##### Servers Object Example
+
+```json
+{
+  "production": {
+    "url": "development.gigantic-server.com",
+    "description": "Development server",
+    "protocol": "kafka",
+    "protocolVersion": "1.0.0"
+  }
+}
+```
+
+```yaml
+production:
+  url: development.gigantic-server.com
+  description: Development server
+  protocol: kafka
+  protocolVersion: '1.0.0'
+```
+
 
 #### <a name="serverObject"></a>Server Object
 
@@ -522,7 +549,7 @@ Field Name | Type | Description
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation.
-<a name="channelItemObjectParameters"></a>parameters | [[Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject)] | A list of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
+<a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 <a name="channelItemObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -738,34 +765,31 @@ bindings:
 
 
 
-#### <a name="parameterObject"></a>Parameter Object
+#### <a name="parametersObject"></a>Parameters Object
 
-Describes a parameter included in a channel name.
+Describes a map of parameters included in a channel name.
 
-##### Fixed Fields
+This map MUST contain all the parameters used in the parent channel name.
 
-Field Name | Type | Description
+##### Patterned Fields
+
+Field Pattern | Type | Description
 ---|:---:|---
-<a name="parameterObjectName"></a>name | `string` | The name of the parameter.
-<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel name.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### Parameter Object Example
+##### Parameters Object Example
 
 ```json
 {
   "user/{userId}/signup": {
-    "parameters": [
-      {
-        "name": "userId",
+    "parameters": {
+      "userId": {
         "description": "Id of the user.",
         "schema": {
           "type": "string"
         }
       }
-    ],
+    },
     "subscribe": {
       "$ref": "#/components/messages/userSignedUp"
     }
@@ -776,7 +800,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 user/{userId}/signup:
   parameters:
-    - name: userId
+    userId:
       description: Id of the user.
       schema:
         type: string
@@ -784,6 +808,56 @@ user/{userId}/signup:
     $ref: "#/components/messages/userSignedUp"
 ```
 
+
+
+
+
+#### <a name="parameterObject"></a>Parameter Object
+
+Describes a parameter included in a channel name.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) | Definition of the parameter.
+location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Parameter Object Example
+
+```json
+{
+  "user/{userId}/signup": {
+    "parameters": {
+      "userId": {
+        "description": "Id of the user.",
+        "schema": {
+          "type": "string"
+        },
+        "location": "$message.payload#/user/id"
+      }
+    },
+    "subscribe": {
+      "$ref": "#/components/messages/userSignedUp"
+    }
+  }
+}
+```
+
+```yaml
+user/{userId}/signup:
+  parameters:
+    userId:
+      description: Id of the user.
+      schema:
+        type: string
+      location: $message.payload#/user/id
+  subscribe:
+    $ref: "#/components/messages/userSignedUp"
+```
 
 
 
@@ -934,7 +1008,7 @@ Field Name | Type | Description
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -947,6 +1021,18 @@ Field Name | Type | Description
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### <a name="messageObjectSchemaFormatTable"></a>Schema formats table
+
+The following table contains a set of values that every implementation MUST support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[AsyncAPI 2.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.0.0`, `application/vnd.aai.asyncapi+json;version=2.0.0`, `application/vnd.aai.asyncapi+yaml;version=2.0.0` | This is the default when a `schemaFormat` is not provided.
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
+[JSON Schema Draft 07](http://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+[Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
+
 
 ##### Message Object Example
 
@@ -990,13 +1076,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
     "description": "Default Correlation ID",
     "location": "$message.header#/correlationId"
   },
-  "bindings": {
-    "amqp-0-9-1": {
-      "properties": {
-        "delivery_mode": 2
-      }
-    },
-  },
   "traits": [
     { "$ref": "#/components/messageTraits/commonHeaders" }
   ]
@@ -1032,10 +1111,6 @@ payload:
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
-bindings:
-  amqp-0-9-1:
-    properties:
-      delivery_mode: 2
 traits:
   - $ref: "#/components/messageTraits/commonHeaders"
 ```
@@ -1053,9 +1128,9 @@ Example using Avro to define the payload:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "schemaFormat": "application/vnd.apache.avro+json",
+  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "payload": {
-    "$ref": "path/to/user-create.avro#/UserCreate"
+    "$ref": "path/to/user-create.avsc#/UserCreate"
   }
 }
 ```
@@ -1069,9 +1144,9 @@ tags:
   - name: user
   - name: signup
   - name: register
-schemaFormat: application/vnd.apache.avro+json
+schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 payload:
-  $ref: 'path/to/user-create.avro/#UserCreate'
+  $ref: 'path/to/user-create.avsc/#UserCreate'
 ```
 
 
@@ -1109,13 +1184,13 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "schemaFormat": "application/vnd.apache.avro+json",
+  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "contentType": "application/json"
 }
 ```
 
 ```yaml
-schemaFormat: 'application/vnd.apache.avro+json'
+schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 contentType: application/json
 ```
 
@@ -1407,16 +1482,18 @@ components:
 
 The Schema Object allows the definition of input and output data types.
 These types can be objects, but also primitives and arrays.
-This object is an extended subset of the [JSON Schema Specification Wright Draft 00](http://json-schema.org/).
+This object is a superset of the [JSON Schema Specification Draft 07](http://json-schema.org/).
 
-Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-wright-json-schema-00) and [JSON Schema Validation](https://tools.ietf.org/html/draft-wright-json-schema-validation-00).
+Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
 
 ##### Properties
 
-The following properties are taken directly from the JSON Schema definition and follow the same specifications:
+The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema Core and Validation vocabularies. As such, any keyword available for those vocabularies is by definition available in AsyncAPI, and will work the exact same way, including but not limited to:
 
 - title
+- type
+- required
 - multipleOf
 - maximum
 - exclusiveMaximum
@@ -1430,40 +1507,39 @@ The following properties are taken directly from the JSON Schema definition and 
 - uniqueItems
 - maxProperties
 - minProperties
-- required
 - enum
+- const
+- examples
+- if / then / else
+- readOnly
+- writeOnly
+- properties
+- patternProperties
+- additionalProperties
+- additionalItems
+- items
+- propertyNames
+- contains
+- allOf
+- oneOf
+- anyOf
+- not
 
 The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
 
-- type - Value MUST be a string. Multiple types via an array are not supported.
-- allOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- oneOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- anyOf - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- not - Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
-- items - Value MUST be an object and not an array. Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema. `items` MUST be present if the `type` is `array`.
-- properties - Property definitions MUST be a [Schema Object](#schemaObject) and not a standard JSON Schema (inline or referenced).
-- additionalProperties - Value can be boolean or object. Inline or referenced schema MUST be of a [Schema Object](#schemaObject) and not a standard JSON Schema.
 - description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline.
 
-Additional properties defined by the JSON Schema specification that are not mentioned here are strictly unsupported.
-
-Other than the JSON Schema subset fields, the following fields MAY be used for further schema documentation:
+In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="schemaObjectNullable"></a>nullable | `boolean` | Allows sending a `null` value for the defined schema. Default value is `false`.
 <a name="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
-<a name="schemaObjectReadOnly"></a>readOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "read only". This means that it MAY be sent as part of a response but SHOULD NOT be sent as part of the request. If property is marked as `readOnly` being `true` and is in the `required` list, the `required` will take effect on the response only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
-<a name="schemaObjectWriteOnly"></a>writeOnly | `boolean` | Relevant only for Schema `"properties"` definitions. Declares the property as "write only". This means that it MAY be sent as part of a request but SHOULD NOT be sent as part of the response. If property is marked as `writeOnly` being `true` and is in the `required` list, the `required` will take effect on the request only. A property MUST NOT be marked as both `readOnly` and `writeOnly` being `true`. Default value is `false`.
-<a name="schemaObjectXml"></a>xml | [XML Object](#xmlObject) | This MAY be used only on properties schemas. It has no effect on root schemas. Adds Additional metadata to describe the XML representation format of this property.
 <a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
-<a name="schemaObjectExample"></a>example | Any | A free-form property to include an example of an instance for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
-<a name="schemaObjectExamples"></a>examples | [Any] | An array of free-form properties to include examples of instances for this schema. To represent examples that cannot naturally represented in JSON or YAML, a string value can be used to contain the example with escaping where necessary.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1481,11 +1557,6 @@ There are are two ways to define the value of a discriminator for an inheriting 
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
 As such, inline schema definitions, which do not have a given id, *cannot* be used in polymorphism.
-
-###### XML Modeling
-
-The [xml](#schemaObjectXml) property allows extra definitions when translating the JSON definition to XML.
-The [XML Object](#xmlObject) contains additional information about the available options.
 
 ##### Schema Object Examples
 
@@ -1803,360 +1874,6 @@ schemas:
       - packSize
 ```
 
-#### <a name="xmlObject"></a>XML Object
-
-A metadata object that allows for more fine-tuned XML model definitions.
-
-When using arrays, XML element names are *not* inferred (for singular/plural forms) and the `name` property SHOULD be used to add that information.
-See examples for expected behavior.
-
-##### Fixed Fields
-Field Name | Type | Description
----|:---:|---
-<a name="xmlObjectName"></a>name | `string` | Replaces the name of the element/attribute used for the described schema property. When defined within `items`, it will affect the name of the individual XML elements within the list. When defined alongside `type` being `array` (outside the `items`), it will affect the wrapping element and only if `wrapped` is `true`. If `wrapped` is `false`, it will be ignored.
-<a name="xmlObjectNamespace"></a>namespace | `string` | The URL of the namespace definition. Value SHOULD be in the form of a URL.
-<a name="xmlObjectPrefix"></a>prefix | `string` | The prefix to be used for the [name](#xmlObjectName).
-<a name="xmlObjectAttribute"></a>attribute | `boolean` | Declares whether the property definition translates to an attribute instead of an element. Default value is `false`.
-<a name="xmlObjectWrapped"></a>wrapped | `boolean` | MAY be used only for an array definition. Signifies whether the array is wrapped (for example, `<books><book/><book/></books>`) or unwrapped (`<book/><book/>`). Default value is `false`. The definition takes effect only when defined alongside `type` being `array` (outside the `items`).
-
-This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### XML Object Examples
-
-The examples of the XML object definitions are included inside a property definition of a [Schema Object](#schemaObject) with a sample of the XML representation of it.
-
-###### No XML Element
-
-Basic string property:
-
-```json
-{
-    "animals": {
-        "type": "string"
-    }
-}
-```
-
-```yaml
-animals:
-  type: string
-```
-
-```xml
-<animals>...</animals>
-```
-
-Basic string array property ([`wrapped`](#xmlObjectWrapped) is `false` by default):
-
-```json
-{
-    "animals": {
-        "type": "array",
-        "items": {
-            "type": "string"
-        }
-    }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-```
-
-```xml
-<animals>...</animals>
-<animals>...</animals>
-<animals>...</animals>
-```
-
-###### XML Name Replacement
-
-```json
-{
-  "animals": {
-    "type": "string",
-    "xml": {
-      "name": "animal"
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: string
-  xml:
-    name: animal
-```
-
-```xml
-<animal>...</animal>
-```
-
-
-###### XML Attribute, Prefix and Namespace
-
-In this example, a full model definition is shown.
-
-```json
-{
-  "Person": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "integer",
-        "format": "int32",
-        "xml": {
-          "attribute": true
-        }
-      },
-      "name": {
-        "type": "string",
-        "xml": {
-          "namespace": "http://example.com/schema/sample",
-          "prefix": "sample"
-        }
-      }
-    }
-  }
-}
-```
-
-```yaml
-Person:
-  type: object
-  properties:
-    id:
-      type: integer
-      format: int32
-      xml:
-        attribute: true
-    name:
-      type: string
-      xml:
-        namespace: http://example.com/schema/sample
-        prefix: sample
-```
-
-```xml
-<Person id="123">
-    <sample:name xmlns:sample="http://example.com/schema/sample">example</sample:name>
-</Person>
-```
-
-###### XML Arrays
-
-Changing the element names:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-```
-
-```xml
-<animal>value</animal>
-<animal>value</animal>
-```
-
-The external `name` property has no effect on the XML:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    },
-    "xml": {
-      "name": "aliens"
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-  xml:
-    name: aliens
-```
-
-```xml
-<animal>value</animal>
-<animal>value</animal>
-```
-
-Even when the array is wrapped, if no name is explicitly defined, the same name will be used both internally and externally:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string"
-    },
-    "xml": {
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-  xml:
-    wrapped: true
-```
-
-```xml
-<animals>
-  <animals>value</animals>
-  <animals>value</animals>
-</animals>
-```
-
-To overcome the above example, the following definition can be used:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    },
-    "xml": {
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-  xml:
-    wrapped: true
-```
-
-```xml
-<animals>
-  <animal>value</animal>
-  <animal>value</animal>
-</animals>
-```
-
-Affecting both internal and external names:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string",
-      "xml": {
-        "name": "animal"
-      }
-    },
-    "xml": {
-      "name": "aliens",
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-    xml:
-      name: animal
-  xml:
-    name: aliens
-    wrapped: true
-```
-
-```xml
-<aliens>
-  <animal>value</animal>
-  <animal>value</animal>
-</aliens>
-```
-
-If we change the external element but not the internal ones:
-
-```json
-{
-  "animals": {
-    "type": "array",
-    "items": {
-      "type": "string"
-    },
-    "xml": {
-      "name": "aliens",
-      "wrapped": true
-    }
-  }
-}
-```
-
-```yaml
-animals:
-  type: array
-  items:
-    type: string
-  xml:
-    name: aliens
-    wrapped: true
-```
-
-```xml
-<aliens>
-  <aliens>value</aliens>
-  <aliens>value</aliens>
-</aliens>
-```
-
-
 
 
 
@@ -2177,7 +1894,7 @@ Defines a security scheme that can be used by the operations. Supported schemes 
 ##### Fixed Fields
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
-<a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`.
+<a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`, `oauth2`, and `openIdConnect`.
 <a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
 <a name="securitySchemeObjectIn"></a>in | `string` | `apiKey` \| `httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
@@ -2387,7 +2104,7 @@ flows:
 Lists the required security schemes to execute this operation.
 The name used for each property MUST correspond to a security scheme declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject).
 
-When a list of Security Requirement Objects is defined on the [AsyncAPI object](#A2SObject), only one of Security Requirement Objects in the list needs to be satisfied to authorize the connection or operation.
+When a list of Security Requirement Objects is defined on a [Server object](#serverObject), only one of the Security Requirement Objects in the list needs to be satisfied to authorize the connection.
 
 ##### Patterned Fields
 
@@ -2448,8 +2165,8 @@ For specifying and computing the location of a Correlation ID, a [runtime expres
 
 Field Name | Type | Description
 ---|:---|---
-description | `string` | A optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-location | {expression} | **REQUIRED.** A runtime expression that specifies the location of the correlation ID.
+description | `string` | An optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the correlation ID.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
