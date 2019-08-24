@@ -62,6 +62,7 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
       - [Security Scheme Object](#securitySchemeObject)
       - [Parameters Object](#parametersObject)
       - [Parameter Object](#parameterObject)
+      - [Server Bindings Object](#serverBindingsObject)
       - [Channel Bindings Object](#channelBindingsObject)
       - [Operation Bindings Object](#operationBindingsObject)
       - [Message Bindings Object](#messageBindingsObject)
