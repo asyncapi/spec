@@ -205,6 +205,6 @@ components:
   
   operationTraits:
     kafka:
-      protocolInfo:
+      bindings:
         kafka:
-          applicationId: my-app-id
+          clientId: my-app-id

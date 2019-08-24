@@ -345,6 +345,7 @@ Field Name | Type | Description
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -862,92 +863,74 @@ user/{userId}/signup:
 
 
 
-#### <a name="channelBindingsObject"></a>Channel Bindings Object
+#### <a name="serverBindingsObject"></a>Server Bindings Object
 
-Map describing protocol-specific definitions for channels.
+Map describing protocol-specific definitions for a server.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelBindingsObjectHTTP"></a>`http` | [HTTP Channel Binding](./bindings/http.md#channel) | Protocol-specific information for an HTTP channel.
-<a name="channelBindingsObjectWebSockets"></a>`ws` | [WebSockets Channel Binding](./bindings/ws.md#channel) | Protocol-specific information for a WebSockets channel.
-<a name="channelBindingsObjectKafka"></a>`kafka` | [Kafka Channel Binding](./bindings/kafka.md#channel) | Protocol-specific information for a Kafka channel.
-<a name="channelBindingsObjectAMQP"></a>`amqp` | [AMQP Channel Binding](./bindings/amqp.md#channel) | Protocol-specific information for an AMQP 0-9-1 channel.
-<a name="channelBindingsObjectAMQP1"></a>`amqp-1.0` | [AMQP 1.0 Channel Binding](./bindings/amqp-1.0.md#channel) | Protocol-specific information for an AMQP 1.0 channel.
-<a name="channelBindingsObjectMQTT"></a>`mqtt` | [MQTT Channel Binding](./bindings/mqtt.md#channel) | Protocol-specific information for an MQTT channel.
-<a name="channelBindingsObjectNATS"></a>`nats` | [NATS Channel Binding](./bindings/nats.md#channel) | Protocol-specific information for a NATS channel.
-<a name="channelBindingsObjectJMS"></a>`jms` | [JMS Channel Binding](./bindings/jms.md#channel) | Protocol-specific information for a JMS channel.
-<a name="channelBindingsObjectSNS"></a>`sns` | [SNS Channel Binding](./bindings/sns.md#channel) | Protocol-specific information for an SNS channel.
-<a name="channelBindingsObjectSQS"></a>`sqs` | [SQS Channel Binding](./bindings/sqs.md#channel) | Protocol-specific information for an SQS channel.
-<a name="channelBindingsObjectSTOMP"></a>`stomp` | [STOMP Channel Binding](./bindings/stomp.md#channel) | Protocol-specific information for a STOMP channel.
+<a name="serverBindingsObjectHTTP"></a>`http` | [HTTP Server Binding](https://github.com/asyncapi/bindings/blob/master/http#server) | Protocol-specific information for an HTTP server.
+<a name="serverBindingsObjectWebSockets"></a>`ws` | [WebSockets Server Binding](https://github.com/asyncapi/bindings/blob/master/ws#server) | Protocol-specific information for a WebSockets server.
+<a name="serverBindingsObjectKafka"></a>`kafka` | [Kafka Server Binding](https://github.com/asyncapi/bindings/blob/master/kafka#server) | Protocol-specific information for a Kafka server.
+<a name="serverBindingsObjectAMQP"></a>`amqp` | [AMQP Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp#server) | Protocol-specific information for an AMQP 0-9-1 server.
+<a name="serverBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp1#server) | Protocol-specific information for an AMQP 1.0 server.
+<a name="serverBindingsObjectMQTT"></a>`mqtt` | [MQTT Server Binding](https://github.com/asyncapi/bindings/blob/master/mqtt#server) | Protocol-specific information for an MQTT server.
+<a name="serverBindingsObjectNATS"></a>`nats` | [NATS Server Binding](https://github.com/asyncapi/bindings/blob/master/nats#server) | Protocol-specific information for a NATS server.
+<a name="serverBindingsObjectJMS"></a>`jms` | [JMS Server Binding](https://github.com/asyncapi/bindings/blob/master/jms#server) | Protocol-specific information for a JMS server.
+<a name="serverBindingsObjectSNS"></a>`sns` | [SNS Server Binding](https://github.com/asyncapi/bindings/blob/master/sns#server) | Protocol-specific information for an SNS server.
+<a name="serverBindingsObjectSQS"></a>`sqs` | [SQS Server Binding](https://github.com/asyncapi/bindings/blob/master/sqs#server) | Protocol-specific information for an SQS server.
+<a name="serverBindingsObjectSTOMP"></a>`stomp` | [STOMP Server Binding](https://github.com/asyncapi/bindings/blob/master/stomp#server) | Protocol-specific information for a STOMP server.
+<a name="serverBindingsObjectRedis"></a>`redis` | [Redis Server Binding](https://github.com/asyncapi/bindings/blob/master/redis#server) | Protocol-specific information for a Redis server.
 
-##### Channel Bindings Object Example
 
-```json
-{
-  "amqp": {
-    "channelIsQueue": true,
-    "queue": {
-      "randomName": true,
-      "exclusive": true
-    }
-  }
-}
-```
 
-```yaml
-amqp:
-  channelIsQueue: true
-  queue:
-    randomName: true
-    exclusive: true
-```
+
+#### <a name="channelBindingsObject"></a>Channel Bindings Object
+
+Map describing protocol-specific definitions for a channel.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="channelBindingsObjectHTTP"></a>`http` | [HTTP Channel Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#channel) | Protocol-specific information for an HTTP channel.
+<a name="channelBindingsObjectWebSockets"></a>`ws` | [WebSockets Channel Binding](https://github.com/asyncapi/bindings/blob/master/ws/README.md#channel) | Protocol-specific information for a WebSockets channel.
+<a name="channelBindingsObjectKafka"></a>`kafka` | [Kafka Channel Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#channel) | Protocol-specific information for a Kafka channel.
+<a name="channelBindingsObjectAMQP"></a>`amqp` | [AMQP Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#channel) | Protocol-specific information for an AMQP 0-9-1 channel.
+<a name="channelBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#channel) | Protocol-specific information for an AMQP 1.0 channel.
+<a name="channelBindingsObjectMQTT"></a>`mqtt` | [MQTT Channel Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#channel) | Protocol-specific information for an MQTT channel.
+<a name="channelBindingsObjectNATS"></a>`nats` | [NATS Channel Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#channel) | Protocol-specific information for a NATS channel.
+<a name="channelBindingsObjectJMS"></a>`jms` | [JMS Channel Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#channel) | Protocol-specific information for a JMS channel.
+<a name="channelBindingsObjectSNS"></a>`sns` | [SNS Channel Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#channel) | Protocol-specific information for an SNS channel.
+<a name="channelBindingsObjectSQS"></a>`sqs` | [SQS Channel Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#channel) | Protocol-specific information for an SQS channel.
+<a name="channelBindingsObjectSTOMP"></a>`stomp` | [STOMP Channel Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#channel) | Protocol-specific information for a STOMP channel.
+<a name="channelBindingsObjectRedis"></a>`redis` | [Redis Channel Binding](https://github.com/asyncapi/bindings/blob/master/redis#channel) | Protocol-specific information for a Redis channel.
 
 
 
 
 #### <a name="operationBindingsObject"></a>Operation Bindings Object
 
-Map describing protocol-specific definitions for operations.
+Map describing protocol-specific definitions for an operation.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationBindingsObjectHTTP"></a>`http` | [HTTP Operation Binding](./bindings/http.md#operation) | Protocol-specific information for an HTTP operation.
-<a name="operationBindingsObjectWebSockets"></a>`ws` | [WebSockets Operation Binding](./bindings/ws.md#operation) | Protocol-specific information for a WebSockets operation.
-<a name="operationBindingsObjectKafka"></a>`kafka` | [Kafka Operation Binding](./bindings/kafka.md#operation) | Protocol-specific information for a Kafka operation.
-<a name="operationBindingsObjectAMQP"></a>`amqp` | [AMQP Operation Binding](./bindings/amqp.md#operation) | Protocol-specific information for an AMQP 0-9-1 operation.
-<a name="operationBindingsObjectAMQP1"></a>`amqp-1.0` | [AMQP 1.0 Operation Binding](./bindings/amqp-1.0.md#operation) | Protocol-specific information for an AMQP 1.0 operation.
-<a name="operationBindingsObjectMQTT"></a>`mqtt` | [MQTT Operation Binding](./bindings/mqtt.md#operation) | Protocol-specific information for an MQTT operation.
-<a name="operationBindingsObjectNATS"></a>`nats` | [NATS Operation Binding](./bindings/nats.md#operation) | Protocol-specific information for a NATS operation.
-<a name="operationBindingsObjectJMS"></a>`jms` | [JMS Operation Binding](./bindings/jms.md#operation) | Protocol-specific information for a JMS operation.
-<a name="operationBindingsObjectSNS"></a>`sns` | [SNS Operation Binding](./bindings/sns.md#operation) | Protocol-specific information for an SNS operation.
-<a name="operationBindingsObjectSQS"></a>`sqs` | [SQS Operation Binding](./bindings/sqs.md#operation) | Protocol-specific information for an SQS operation.
-<a name="operationBindingsObjectSTOMP"></a>`stomp` | [STOMP Operation Binding](./bindings/stomp.md#operation) | Protocol-specific information for a STOMP operation.
-
-##### Operation Bindings Object Example
-
-```json
-{
-  "kafka": {
-    "partition": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 3
-    }
-  }
-}
-```
-
-```yaml
-kafka:
-  partition:
-    type: integer
-    minimum: 0
-    maximum: 3
-```
+<a name="operationBindingsObjectHTTP"></a>`http` | [HTTP Operation Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#operation) | Protocol-specific information for an HTTP operation.
+<a name="operationBindingsObjectWebSockets"></a>`ws` | [WebSockets Operation Binding](https://github.com/asyncapi/bindings/blob/master/ws/README.md#operation) | Protocol-specific information for a WebSockets operation.
+<a name="operationBindingsObjectKafka"></a>`kafka` | [Kafka Operation Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#operation) | Protocol-specific information for a Kafka operation.
+<a name="operationBindingsObjectAMQP"></a>`amqp` | [AMQP Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#operation) | Protocol-specific information for an AMQP 0-9-1 operation.
+<a name="operationBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#operation) | Protocol-specific information for an AMQP 1.0 operation.
+<a name="operationBindingsObjectMQTT"></a>`mqtt` | [MQTT Operation Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#operation) | Protocol-specific information for an MQTT operation.
+<a name="operationBindingsObjectNATS"></a>`nats` | [NATS Operation Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#operation) | Protocol-specific information for a NATS operation.
+<a name="operationBindingsObjectJMS"></a>`jms` | [JMS Operation Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#operation) | Protocol-specific information for a JMS operation.
+<a name="operationBindingsObjectSNS"></a>`sns` | [SNS Operation Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#operation) | Protocol-specific information for an SNS operation.
+<a name="operationBindingsObjectSQS"></a>`sqs` | [SQS Operation Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#operation) | Protocol-specific information for an SQS operation.
+<a name="operationBindingsObjectSTOMP"></a>`stomp` | [STOMP Operation Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#operation) | Protocol-specific information for a STOMP operation.
+<a name="operationBindingsObjectRedis"></a>`redis` | [Redis Operation Binding](https://github.com/asyncapi/bindings/blob/master/redis#operation) | Protocol-specific information for a Redis operation.
 
 
 
@@ -956,38 +939,24 @@ kafka:
 
 #### <a name="messageBindingsObject"></a>Message Bindings Object
 
-Map describing protocol-specific definitions for messages.
+Map describing protocol-specific definitions for a message.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageBindingsObjectHTTP"></a>`http` | [HTTP Message Binding](./bindings/http.md#message) | Protocol-specific information for an HTTP message, i.e., a request or a response.
-<a name="messageBindingsObjectWebSockets"></a>`ws` | [WebSockets Message Binding](./bindings/ws.md#message) | Protocol-specific information for a WebSockets message.
-<a name="messageBindingsObjectKafka"></a>`kafka` | [Kafka Message Binding](./bindings/kafka.md#message) | Protocol-specific information for a Kafka message.
-<a name="messageBindingsObjectAMQP"></a>`amqp` | [AMQP Message Binding](./bindings/amqp.md#message) | Protocol-specific information for an AMQP 0-9-1 message.
-<a name="messageBindingsObjectAMQP1"></a>`amqp-1.0` | [AMQP 1.0 Message Binding](./bindings/amqp-1.0.md#message) | Protocol-specific information for an AMQP 1.0 message.
-<a name="messageBindingsObjectMQTT"></a>`mqtt` | [MQTT Message Binding](./bindings/mqtt.md#message) | Protocol-specific information for an MQTT message.
-<a name="messageBindingsObjectNATS"></a>`nats` | [NATS Message Binding](./bindings/nats.md#message) | Protocol-specific information for a NATS message.
-<a name="messageBindingsObjectJMS"></a>`jms` | [JMS Message Binding](./bindings/jms.md#message) | Protocol-specific information for a JMS message.
-<a name="messageBindingsObjectSNS"></a>`sns` | [SNS Message Binding](./bindings/sns.md#message) | Protocol-specific information for an SNS message.
-<a name="messageBindingsObjectSQS"></a>`sqs` | [SQS Message Binding](./bindings/sqs.md#message) | Protocol-specific information for an SQS message.
-<a name="messageBindingsObjectSTOMP"></a>`stomp` | [STOMP Message Binding](./bindings/stomp.md#message) | Protocol-specific information for a STOMP message.
-
-##### Message Bindings Object Example
-
-```json
-{
-  "kafka": {
-    "key": "myKey"
-  }
-}
-```
-
-```yaml
-kafka:
-  key: myKey
-```
+<a name="messageBindingsObjectHTTP"></a>`http` | [HTTP Message Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#message) | Protocol-specific information for an HTTP message, i.e., a request or a response.
+<a name="messageBindingsObjectWebSockets"></a>`ws` | [WebSockets Message Binding](https://github.com/asyncapi/bindings/blob/master/ws/README.md#message) | Protocol-specific information for a WebSockets message.
+<a name="messageBindingsObjectKafka"></a>`kafka` | [Kafka Message Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#message) | Protocol-specific information for a Kafka message.
+<a name="messageBindingsObjectAMQP"></a>`amqp` | [AMQP Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#message) | Protocol-specific information for an AMQP 0-9-1 message.
+<a name="messageBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#message) | Protocol-specific information for an AMQP 1.0 message.
+<a name="messageBindingsObjectMQTT"></a>`mqtt` | [MQTT Message Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#message) | Protocol-specific information for an MQTT message.
+<a name="messageBindingsObjectNATS"></a>`nats` | [NATS Message Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#message) | Protocol-specific information for a NATS message.
+<a name="messageBindingsObjectJMS"></a>`jms` | [JMS Message Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#message) | Protocol-specific information for a JMS message.
+<a name="messageBindingsObjectSNS"></a>`sns` | [SNS Message Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#message) | Protocol-specific information for an SNS message.
+<a name="messageBindingsObjectSQS"></a>`sqs` | [SQS Message Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#message) | Protocol-specific information for an SQS message.
+<a name="messageBindingsObjectSTOMP"></a>`stomp` | [STOMP Message Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#message) | Protocol-specific information for a STOMP message.
+<a name="messageBindingsObjectRedis"></a>`redis` | [Redis Message Binding](https://github.com/asyncapi/bindings/blob/master/redis#message) | Protocol-specific information for a Redis message.
 
 
 
@@ -1302,9 +1271,10 @@ Field Name | Type | Description
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
 <a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
-<a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
-<a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
-<a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
+<a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Binding Object](#serverBindingsObject)]  | An object to hold reusable [Server Binding Objects](#serverBindingsObject).
+<a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Binding Object](#channelBindingsObject)]  | An object to hold reusable [Channel Binding Objects](#channelBindingsObject).
+<a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Binding Object](#operationBindingsObject)]  | An object to hold reusable [Operation Binding Objects](#operationBindingsObject).
+<a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Binding Object](#messageBindingsObject)]  | An object to hold reusable [Message Binding Objects](#messageBindingsObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
