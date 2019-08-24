@@ -578,10 +578,12 @@ This object can be extended with [Specification Extensions](#specificationExtens
       }
     }
   },
-  "amqp-0-9-1": {
-    "channelIsQueue": true,
-    "queue": {
-      "exclusive": true
+  "bindings": {
+    "amqp": {
+      "is": "queue",
+      "queue": {
+        "exclusive": true
+      }
     }
   }
 }
@@ -599,8 +601,8 @@ subscribe:
         user:
           $ref: "#/components/schemas/user"
         signup:
-amqp-0-9-1:
-  channelIsQueue: true
+amqp:
+  is: queue
   queue:
     exclusive: true
 ```
@@ -687,8 +689,10 @@ This object can be extended with [Specification Extensions](#specificationExtens
       }
     }
   },
-  "amqp-0-9-1": {
-    "noAck": true
+  "bindings": {
+    "amqp": {
+      "ack": false
+    },
   },
   "traits": [
     { "$ref": "#/components/operationTraits/kafka" }
@@ -718,8 +722,9 @@ message:
         $ref: "#/components/schemas/userCreate"
       signup:
         $ref: "#/components/schemas/signup"
-amqp-0-9-1:
-  noAck: true
+bindings:
+  amqp:
+    ack: false
 traits:
   - $ref: "#/components/operationTraits/kafka"
 ```
@@ -751,8 +756,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "bindings": {
-    "amqp-0-9-1": {
-      "noAck": true
+    "amqp": {
+      "ack": false
     }
   }
 }
@@ -760,8 +765,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```yaml
 bindings:
-  amqp-0-9-1:
-    noAck: true
+  amqp:
+    ack: false
 ```
 
 
