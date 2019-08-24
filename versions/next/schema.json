@@ -731,6 +731,7 @@
         "amqp": {},
         "amqp1": {},
         "mqtt": {},
+        "mqtt5": {},
         "kafka": {},
         "nats": {},
         "jms": {},
