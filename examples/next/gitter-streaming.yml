@@ -29,12 +29,9 @@ channels:
             - chatMessages
             - events
     subscribe:
-      protocolInfo:
+      bindings:
         http:
-          response:
-            headers:
-              'Transfer-Encoding': 'chunked'
-              Trailer: '\r\n'
+          type: response
       message:
         oneOf:
           - $ref: '#/components/messages/chatMessage'
@@ -145,6 +142,9 @@ components:
           gv:
             type: string
             description: Stands for "Gravatar version" and is used for cache busting.
+      bindings:
+        http:
+          $ref: '#/components/messageBindings/streamingHeaders'
 
     heartbeat:
       schemaFormat: 'application/schema+yaml;version=draft-07'
@@ -152,3 +152,13 @@ components:
       payload:
         type: string
         enum: ["\r\n"]
+      bindings:
+        http:
+          $ref: '#/components/messageBindings/streamingHeaders'
+  
+  messageBindings:
+    streamingHeaders:
+      http:
+        headers:
+          'Transfer-Encoding': 'chunked'
+          Trailer: '\r\n'

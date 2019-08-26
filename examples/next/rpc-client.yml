@@ -19,17 +19,16 @@ channels:
         schema:
           type: string
           pattern: '^amq\\.gen\\-.+$'
-    protocolInfo:
-      amqp-0-9-1:
-        channelIsQueue: true
+    bindings:
+      amqp:
+        is: queue
         queue:
-          randomName: true
           exclusive: true
     subscribe:
       operationId: receiveSumResult
-      protocolInfo:
-        amqp-0-9-1:
-          noAck: true
+      bindings:
+        amqp:
+          ack: false
       message:
         correlationId:
           location: $message.header#/correlation_id
@@ -42,22 +41,21 @@ channels:
                 - 7
 
   rpc_queue:
-    protocolInfo:
-      amqp-0-9-1:
-        channelIsQueue: true
+    bindings:
+      amqp:
+        is: queue
         queue:
           durable: false
     publish:
       operationId: requestSum
-      protocolInfo:
-        amqp-0-9-1:
+      bindings:
+        amqp:
           ack: true
       message:
-        protocolInfo:
-          amqp-0-9-1:
-            properties:
-              reply_to:
-                type: string
+        bindings:
+          amqp:
+            replyTo:
+              type: string
         correlationId:
           location: $message.header#/correlation_id
         payload:

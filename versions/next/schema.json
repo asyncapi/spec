@@ -194,6 +194,9 @@
           "items": {
             "$ref": "#/definitions/SecurityRequirement"
           }
+        },
+        "bindings": {
+          "$ref": "#/definitions/bindingsObject"
         }
       }
     },
@@ -300,6 +303,30 @@
           "type": "object",
           "additionalProperties": {
             "$ref": "#/definitions/messageTrait"
+          }
+        },
+        "serverBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/bindingsObject"
+          }
+        },
+        "channelBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/bindingsObject"
+          }
+        },
+        "operationBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/bindingsObject"
+          }
+        },
+        "messageBindings": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/bindingsObject"
           }
         }
       }
@@ -469,11 +496,8 @@
           "type": "boolean",
           "default": false
         },
-        "protocolInfo": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
+        "bindings": {
+          "$ref": "#/definitions/bindingsObject"
         }
       }
     },
@@ -562,11 +586,8 @@
         "operationId": {
           "type": "string"
         },
-        "protocolInfo": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
+        "bindings": {
+          "$ref": "#/definitions/bindingsObject"
         },
         "message": {
           "$ref": "#/definitions/message"
@@ -660,11 +681,8 @@
                     "type": "object"
                   }
                 },
-                "protocolInfo": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "object"
-                  }
+                "bindings": {
+                  "$ref": "#/definitions/bindingsObject"
                 },
                 "traits": {
                   "type": "array",
@@ -703,6 +721,25 @@
           ]
         }
       ]
+    },
+    "bindingsObject": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "http": {},
+        "ws": {},
+        "amqp": {},
+        "amqp1": {},
+        "mqtt": {},
+        "mqtt5": {},
+        "kafka": {},
+        "nats": {},
+        "jms": {},
+        "sns": {},
+        "sqs": {},
+        "stomp": {},
+        "redis": {}
+      }
     },
     "correlationId": {
       "type": "object",
@@ -783,11 +820,8 @@
         "operationId": {
           "type": "string"
         },
-        "protocolInfo": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
+        "bindings": {
+          "$ref": "#/definitions/bindingsObject"
         }
       }
     },
@@ -862,11 +896,8 @@
             "type": "object"
           }
         },
-        "protocolInfo": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "object"
-          }
+        "bindings": {
+          "$ref": "#/definitions/bindingsObject"
         }
       }
     },
