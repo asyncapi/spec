@@ -1,5 +1,5 @@
 {
-  "title": "AsyncAPI 2.0.0-rc1 schema.",
+  "title": "AsyncAPI 2.0.0-rc2 schema.",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "required": [
@@ -17,7 +17,7 @@
     "asyncapi": {
       "type": "string",
       "enum": [
-        "2.0.0-rc1"
+        "2.0.0-rc2"
       ],
       "description": "The AsyncAPI specification version of this document."
     },
