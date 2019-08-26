@@ -1,4 +1,4 @@
-asyncapi: '2.0.0-rc1'
+asyncapi: '2.0.0-rc2'
 info:
   title: OneOf example
   version: '1.0.0'
