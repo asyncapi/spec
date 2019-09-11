@@ -52,7 +52,7 @@
 
 ## The specification
 
-* [Version 2.0.0](/versions/next/asyncapi.md) — [Machine-readable version](/versions/2.0.0/schema.json) (latest stable) 
+* [Version 2.0.0](/versions/2.0.0/asyncapi.md) — [Machine-readable version](/versions/2.0.0/schema.json) (latest stable) 
 * [Version 1.2.0](/versions/1.2.0/asyncapi.md) — [Machine-readable version](/versions/1.2.0/schema.json)
 * [Version 1.1.0](/versions/1.1.0/asyncapi.md) — [Machine-readable version](/versions/1.1.0/schema.json)
 * [Version 1.0.0](/versions/1.0.0/asyncapi.md) — [Machine-readable version](/versions/1.0.0/schema.json)
