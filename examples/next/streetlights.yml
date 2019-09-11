@@ -1,5 +1,4 @@
 asyncapi: '2.0.0-rc2'
-id: 'urn:com:smartylighting:streetlights:server'
 info:
   title: Streetlights API
   version: '1.0.0'
@@ -17,7 +16,7 @@ info:
 
 servers:
   production:
-    url: api.streetlights.smartylighting.com:{port}
+    url: test.mosquitto.org:{port}
     protocol: mqtt
     description: Test broker
     variables:
@@ -43,8 +42,8 @@ channels:
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      summary: Receive information about environmental lighting conditions of a particular streetlight.
+    publish:
+      summary: Inform about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
       traits:
         - $ref: '#/components/operationTraits/kafka'
@@ -55,7 +54,7 @@ channels:
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-    publish:
+    subscribe:
       operationId: turnOn
       traits:
         - $ref: '#/components/operationTraits/kafka'
@@ -66,7 +65,7 @@ channels:
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-    publish:
+    subscribe:
       operationId: turnOff
       traits:
         - $ref: '#/components/operationTraits/kafka'
@@ -77,7 +76,7 @@ channels:
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-    publish:
+    subscribe:
       operationId: dimLight
       traits:
         - $ref: '#/components/operationTraits/kafka'
@@ -89,7 +88,7 @@ components:
     lightMeasured:
       name: lightMeasured
       title: Light measured
-      summary: Inform about environmental lighting conditions for a particular streetlight.
+      summary: Inform about environmental lighting conditions of a particular streetlight.
       contentType: application/json
       traits:
         - $ref: '#/components/messageTraits/commonHeaders'

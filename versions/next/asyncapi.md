@@ -12,12 +12,12 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 ## Introduction
 
-The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any messaging protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, etc).
+The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, etc).
 
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-The file(s) MUST describe the operations an [application](#definitionsApplication) will perform. For instance, consider the following AsyncAPI definition snippet:
+The file(s) MUST describe the operations an [application](#definitionsApplication) accepts. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 user/signedup:
@@ -25,19 +25,20 @@ user/signedup:
     $ref: "#/components/messages/userSignUp"
 ```
 
-Means that the [application](#definitionsApplication) is a [consumer](#definitionsConsumer) because it subscribes to `user/signedup` [channel](#definitionsChannel) and receives userSignUp [messages](#definitionsMessage). 
+It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage).
+
+**The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol and/or the topology.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
 
 - [Definitions](#definitions)
-  - [Message Broker](#definitionsMessageBroker)
-  - [Message](#definitionsMessage)
-  - [Channel](#definitionsChannel)
-  - [Protocol](#definitionsProtocol)
   - [Application](#definitionsApplication)
   - [Producer](#definitionsProducer)
   - [Consumer](#definitionsConsumer)
+  - [Message](#definitionsMessage)
+  - [Channel](#definitionsChannel)
+  - [Protocol](#definitionsProtocol)
 - [Specification](#specification)
 	- [Format](#format)
 	- [File Structure](#file-structure)
@@ -73,26 +74,23 @@ Means that the [application](#definitionsApplication) is a [consumer](#definitio
 
 ## <a name="definitions"/>Definitions
 
-#### <a name="definitionsMessageBroker"></a>Message Broker
-A message broker is an intermediary component that translates a [message](#definitionsMessage) from the messaging protocol of the sender to the messaging protocol of the receiver.  The message broker mediates interactions between applications, minimizing the mutual awareness that applications should have of each other in order to be able to exchange messages, effectively providing decoupling. A message broker MUST support at least one [protocol](#definitionsProtocol), thus enabling message exchanges between applications.  Importantly, the message broker is a mechanism that enables asynchronous application patterns such as publish/subscribe, fire and forget, request/reply and queuing. Additionally, the message broker MAY provide additional features such as persistence, storage/replay, authentication/authorization, protocol transformation and message integrity.
-
-#### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [message brokers](#definitionsMessageBroker) and applications. A message MUST contain a payload and MAY also contain a header. The header MAY be subdivided into [protocol](#definitionsProtocol) defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
-
-#### <a name="definitionsChannel"></a>Channel
-A channel is an addressable component, made available by the [message broker](#definitionsMessageBroker), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from Channels. Message Brokers support many channel instances, allowing messages with different content to be addressed to different channels. Message Brokers MAY provide multiple channel types thus enabling different asynchronous application patterns such as topics, queues and exchanges. Depending on the message broker implementation, the channel MAY be included in the message via protocol defined headers.
-
-#### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel) hosted by the [message broker](#definitionsMessageBroker). Example protocol include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, WebSocket.  
-
 #### <a name="definitionsApplication"></a>Application
-An application is any kind of computer program connected to a [message broker](#definitionsMessageBroker). It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the message broker in order to connect and exchange [messages](#definitionsMessage). 
+An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the server in order to connect and exchange [messages](#definitionsMessage).
 
 #### <a name="definitionsProducer"></a>Producer
-A producer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [protocol](#definitionsProtocol), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the message broker, protocol and use-case pattern. 
+A producer is a type of application, connected to a server, that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the server, protocol, and use-case pattern. 
 
 #### <a name="definitionsConsumer"></a>Consumer
-A consumer is a type of application, connected to a [message broker](#definitionsMessageBroker) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the message broker, protocol and the use-case pattern. 
+A consumer is a type of application, connected to a server via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the server, protocol, and the use-case pattern. 
+
+#### <a name="definitionsMessage"></a>Message
+A message is the mechanism by which information is exchanged via a channel between servers and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+
+#### <a name="definitionsChannel"></a>Channel
+A channel is an addressable component, made available by the server, for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. Servers MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the server implementation, the channel MAY be included in the message via protocol-defined headers.
+
+#### <a name="definitionsProtocol"></a>Protocol
+A protocol is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocol include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, WebSocket.  
 
 ## <a name="specification"></a>Specification
 
@@ -334,7 +332,7 @@ production:
 
 #### <a name="serverObject"></a>Server Object
 
-An object representing a Server. This is used to capture details about message brokers referenced by the API such as URIs, protocols and security configuration. Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
+An object representing a message broker, a server or any other kind of computer program capable of sending and/or receiving data. This object is used to capture details such as URIs, protocols and security configuration. Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
 
 ##### Fixed Fields
 

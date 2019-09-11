@@ -24,7 +24,7 @@ channels:
         is: queue
         queue:
           exclusive: true
-    subscribe:
+    publish:
       operationId: receiveSumResult
       bindings:
         amqp:
@@ -46,7 +46,7 @@ channels:
         is: queue
         queue:
           durable: false
-    publish:
+    subscribe:
       operationId: requestSum
       bindings:
         amqp:

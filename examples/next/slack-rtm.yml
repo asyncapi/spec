@@ -63,7 +63,7 @@ channels:
           - $ref: '#/components/messages/manualPresenceChange'
           - $ref: '#/components/messages/memberJoinedChannel'
           - $ref: '#/components/messages/message'
-    publish:
+    subscribe:
       message:
         $ref: '#/components/messages/outgoingMessage'
 
