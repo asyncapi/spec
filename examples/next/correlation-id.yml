@@ -9,7 +9,7 @@ info:
 
 servers:
   production:
-    url: api.streetlights.smartylighting.com:{port}
+    url: test.mosquitto.org:{port}
     protocol: mqtt
     description: Test broker
     variables:
@@ -35,7 +35,7 @@ channels:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
     publish:
-      summary: Inform about environmental lighting conditions for a particular streetlight.
+      summary: Inform about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
       message:
         $ref: '#/components/messages/lightMeasured'
@@ -54,7 +54,7 @@ components:
     lightMeasured:
       name: lightMeasured
       title: Light measured
-      summary: Inform about environmental lighting conditions for a particular streetlight.
+      summary: Inform about environmental lighting conditions of a particular streetlight.
       correlationId:
         location: "$message.header#/MQMD/CorrelId"
       contentType: application/json
