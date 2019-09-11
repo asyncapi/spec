@@ -1,4 +1,4 @@
-asyncapi: '2.0.0-rc2'
+asyncapi: '2.0.0'
 id: 'urn:com:slack:rtm:api'
 info:
   title: Slack Real Time Messaging API
@@ -14,6 +14,9 @@ servers:
 
 channels:
   /:
+    publish:
+      message:
+        $ref: '#/components/messages/outgoingMessage'
     subscribe:
       message:
         oneOf:
@@ -63,9 +66,6 @@ channels:
           - $ref: '#/components/messages/manualPresenceChange'
           - $ref: '#/components/messages/memberJoinedChannel'
           - $ref: '#/components/messages/message'
-    subscribe:
-      message:
-        $ref: '#/components/messages/outgoingMessage'
 
 components:
   securitySchemes:
