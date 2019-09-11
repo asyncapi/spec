@@ -1,8 +1,8 @@
-asyncapi: '2.0.0-rc2'
+asyncapi: '2.0.0'
 info:
-  title: Correlation ID Example
+  title: Application Headers example
   version: '1.0.0'
-  description: A cut of the Streetlights API to test Correlation ID
+  description: A cut of the Streetlights API to test application header changes supporting #112
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
@@ -19,13 +19,6 @@ servers:
         enum:
           - '1883'
           - '8883'
-    security:
-      - apiKey: []
-      - supportedOauthFlows:
-        - streetlights:on
-        - streetlights:off
-        - streetlights:dim
-      - openIdConnectWellKnown: []
 
 defaultContentType: application/json
 
@@ -40,15 +33,6 @@ channels:
       message:
         $ref: '#/components/messages/lightMeasured'
 
-  smartylighting/streetlights/1/0/action/{streetlightId}/dim:
-    parameters:
-      streetlightId:
-        $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      operationId: dimLight
-      message:
-        $ref: '#/components/messages/dimLight'
-
 components:
   messages:
     lightMeasured:
@@ -58,16 +42,21 @@ components:
       correlationId:
         location: "$message.header#/MQMD/CorrelId"
       contentType: application/json
+      headers:
+        type: object
+        properties:
+          MQMD:
+            type: object
+            properties:
+              CorrelId:
+                type: string
+                minLength: 24
+                maxLength: 24
+                format: binary
+          applicationInstanceId:
+            $ref: "#/components/schemas/applicationInstanceId"
       payload:
         $ref: "#/components/schemas/lightMeasuredPayload"
-    dimLight:
-      name: dimLight
-      title: Dim light
-      summary: Command a particular streetlight to dim the lights.
-      correlationId:
-        $ref: "#/components/correlationIds/sentAtCorrelator"
-      payload:
-        $ref: "#/components/schemas/dimLightPayload"
 
   schemas:
     lightMeasuredPayload:
@@ -79,28 +68,16 @@ components:
           description: Light intensity measured in lumens.
         sentAt:
           $ref: "#/components/schemas/sentAt"
-    dimLightPayload:
-      type: object
-      properties:
-        percentage:
-          type: integer
-          description: Percentage to which the light should be dimmed to.
-          minimum: 0
-          maximum: 100
-        sentAt:
-          $ref: "#/components/schemas/sentAt"
     sentAt:
       type: string
       format: date-time
       description: Date and time when the message was sent.
+    applicationInstanceId:
+      description: Unique identifier for a given instance of the publishing application
+      type: string
 
   parameters:
     streetlightId:
       description: The ID of the streetlight.
       schema:
         type: string
-
-  correlationIds:
-    sentAtCorrelator:
-      description: Data from message payload used as correlation ID
-      location: $message.payload#/sentAt

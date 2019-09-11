@@ -1,4 +1,4 @@
-// Usage: npm test [-- --versions 1.2.0,next]
+// Usage: npm test [-- --versions 1.2.0,2.0.0]
 
 const util = require('util');
 const fs = require('fs');
@@ -71,7 +71,7 @@ const runForVersion = version => new Promise((resolve, reject) => {
 
 // RUNNING TESTS
 
-let versions = ['1.1.0', '1.2.0', 'next'];
+let versions = ['1.1.0', '1.2.0', '2.0.0'];
 
 if (process.argv.length > 2) {
   const args = process.argv.slice(2);

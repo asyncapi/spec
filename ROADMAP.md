@@ -30,8 +30,6 @@ This milestone is about improving developer/user experience for the specificatio
 
 This milestone is about figuring out how to map protocols to AsyncAPI documents.
 
-### Next milestones
-
 :arrow_right: [[v2.0.0] Augmentation](https://github.com/asyncapi/asyncapi/milestone/5) :white_check_mark: Current milestone
 
 This milestone is about creating mechanisms for the users to augment the AsyncAPI specification. We already have specification extensions, which provide a syntactical way to extend the spec. In this milestone, we should aim for providing the right mechanisms to extend the spec in different contexts and ways.
@@ -43,6 +41,8 @@ There's a new AsyncAPI version and now it's time for the tooling vendors to fini
 :arrow_right: :tada::tada::tada: AsyncAPI version 2.0.0 launch
 
 Official launch of AsyncAPI 2.0.0! Party hard! :beers:
+
+### Next milestones
 
 :arrow_right: [Backlog](https://github.com/asyncapi/asyncapi/projects/4)
 

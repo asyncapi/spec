@@ -1,10 +1,7 @@
 <h1 align="center">
   <br>
-  <a href="https://asyncapi.org"><img src="./assets/logo.png" alt="AsyncAPI logo" width="200"></a>
-  <br>
-  AsyncAPI
-  <br>
-<h4 align="center">Create machine-readable definitions of your message-driven APIs</h4>
+  <a href="https://asyncapi.org"><img src="./assets/logo.png" alt="AsyncAPI logo" height="80"></a>
+<h4 align="center">Building the future of event-driven architectures</h4>
 <h6 align="center">We're on a mission to standardize message-based communication and increase interoperability of the different systems out there.</h6>
 <p align="center">
   <a href="#the-specification">Specification</a>
@@ -55,8 +52,8 @@
 
 ## The specification
 
-* [Version 2.0.0-beta](/versions/next/asyncapi.md) — [Machine-readable version](/versions/next/schema.json) 
-* [Version 1.2.0](/versions/1.2.0/asyncapi.md) — [Machine-readable version](/versions/1.2.0/schema.json) (latest stable)
+* [Version 2.0.0](/versions/next/asyncapi.md) — [Machine-readable version](/versions/2.0.0/schema.json) (latest stable) 
+* [Version 1.2.0](/versions/1.2.0/asyncapi.md) — [Machine-readable version](/versions/1.2.0/schema.json)
 * [Version 1.1.0](/versions/1.1.0/asyncapi.md) — [Machine-readable version](/versions/1.1.0/schema.json)
 * [Version 1.0.0](/versions/1.0.0/asyncapi.md) — [Machine-readable version](/versions/1.0.0/schema.json)
 
