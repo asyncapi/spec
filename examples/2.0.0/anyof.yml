@@ -23,6 +23,7 @@ components:
       properties:
         key:
           type: string
+          additionalProperties: false
     objectWithKey2:
       type: object
       properties:
