@@ -647,7 +647,7 @@ Field Name | Type | Description
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
-<a name="operationObjectBindings"></a>bindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+<a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject)] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 
@@ -1152,7 +1152,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
-<a name="messageTraitObjectBindings"></a>bindings | Map[`string`, [Message Bindings Object](#messageBindingsObject)] | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) | A free-form map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
