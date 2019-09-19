@@ -366,7 +366,15 @@
           },
           "properties": {
             "additionalProperties": {
-              "$ref": "#/definitions/schema"
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/schema"
+                },
+                {
+                  "type": "boolean"
+                }
+              ],
+              "default": {}
             },
             "items": {
               "anyOf": [
