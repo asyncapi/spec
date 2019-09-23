@@ -372,51 +372,54 @@ The following shows how multiple servers can be described, for example, at the A
 
 ```json
 {
-  "servers": [
-    {
+  "servers": {
+    "development": {
       "url": "development.gigantic-server.com",
       "description": "Development server",
       "protocol": "amqp",
       "protocolVersion": "0.9.1"
     },
-    {
+    "staging": {
       "url": "staging.gigantic-server.com",
       "description": "Staging server",
       "protocol": "amqp",
       "protocolVersion": "0.9.1"
     },
-    {
+    "production": {
       "url": "api.gigantic-server.com",
       "description": "Production server",
       "protocol": "amqp",
       "protocolVersion": "0.9.1"
     }
-  ]
+  }
 }
 ```
 
 ```yaml
 servers:
-- url: development.gigantic-server.com
-  description: Development server
-  protocol: amqp
-  protocolVersion: 0.9.1
-- url: staging.gigantic-server.com
-  description: Staging server
-  protocol: amqp
-  protocolVersion: 0.9.1
-- url: api.gigantic-server.com
-  description: Production server
-  protocol: amqp
-  protocolVersion: 0.9.1
+  development:
+    url: development.gigantic-server.com
+    description: Development server
+    protocol: amqp
+    protocolVersion: 0.9.1
+  staging:
+    url: staging.gigantic-server.com
+    description: Staging server
+    protocol: amqp
+    protocolVersion: 0.9.1
+  production:
+    url: api.gigantic-server.com
+    description: Production server
+    protocol: amqp
+    protocolVersion: 0.9.1
 ```
 
 The following shows how variables can be used for a server configuration:
 
 ```json
 {
-  "servers": [
-    {
+  "servers": {
+    "production": {
       "url": "{username}.gigantic-server.com:{port}/{basePath}",
       "description": "The production API server",
       "protocol": "secure-mqtt",
@@ -431,34 +434,29 @@ The following shows how variables can be used for a server configuration:
             "8884"
           ],
           "default": "8883"
-        },
-        "basePath": {
-          "default": "v2"
         }
       }
     }
-  ]
+  }
 }
 ```
 
 ```yaml
 servers:
-- url: '{username}.gigantic-server.com:{port}/{basePath}'
-  description: The production API server
-  protocol: secure-mqtt
-  variables:
-    username:
-      # note! no enum here means it is an open value
-      default: demo
-      description: This value is assigned by the service provider, in this example `gigantic-server.com`
-    port:
-      enum:
-        - '8883'
-        - '8884'
-      default: '8883'
-    basePath:
-      # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
-      default: v2
+  production:
+    url: '{username}.gigantic-server.com:{port}/{basePath}'
+    description: The production API server
+    protocol: secure-mqtt
+    variables:
+      username:
+        # note! no enum here means it is an open value
+        default: demo
+        description: This value is assigned by the service provider, in this example `gigantic-server.com`
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
 ```
 
 
