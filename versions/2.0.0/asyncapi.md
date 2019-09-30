@@ -597,10 +597,11 @@ subscribe:
         user:
           $ref: "#/components/schemas/user"
         signup:
-amqp:
-  is: queue
-  queue:
-    exclusive: true
+bindings:
+  amqp:
+    is: queue
+    queue:
+      exclusive: true
 ```
 
 Using `oneOf` to specify multiple messages per operation:
