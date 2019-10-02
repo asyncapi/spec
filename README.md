@@ -12,7 +12,7 @@
   |
   <a href="./CONTRIBUTING.md">Contributing</a>
   |
-  <a href="https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg">Slack</a>
+  <a href="https://www.asyncapi.com/slack-invite">Slack</a>
   |
   <a href="https://www.youtube.com/channel/UCIz9zGwDLbrYQcDKVXdOstQ">Youtube</a>
   |
@@ -59,7 +59,7 @@
 
 **Feel like contributing?** Check out our [roadmap](./ROADMAP.md) and [contributing guidelines](./CONTRIBUTING.md).
 
-**Not sure how to contribute yet?** Join our [Slack](https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg) workspace and ask us anything. We're friendly people :blush:
+**Not sure how to contribute yet?** Join our [Slack](https://www.asyncapi.com/slack-invite) workspace and ask us anything. We're friendly people :blush:
 
 ## Examples
 

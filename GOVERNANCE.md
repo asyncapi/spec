@@ -52,7 +52,7 @@ All participants in the community are encouraged to provide support for new user
 ## Contribution Process
 Anyone can contribute to the project, regardless of their skills, as there are many ways to contribute. For instance, a contributor might be active on the project mailing list and issue tracker, or might supply patches. The various ways of contributing are described in more detail in our [CONTRIBUTING](./CONTRIBUTING.md) document.
 
-The [Slack workspace](https://join.slack.com/t/asyncapi/shared_invite/enQtNDY3MzI0NjU5OTQyLWU4ZGU2MTg1MDIyZDFjMTI2YjkxYTdlMzc1NjgzYTAxZDM1YTg1NDhhMTE2NDliMjlhZjYxNzk0ZTE5ZGU1ZTg) is the most appropriate place for a contributor to ask for help when making their first contribution.
+The [Slack workspace](https://www.asyncapi.com/slack-invite) is the most appropriate place for a contributor to ask for help when making their first contribution.
 
 ## Decision-Making Process
 This governance model does not need a formal conflict resolution process, since the project director’s word is final. If the community chooses to question the wisdom of the actions of a maintainer, the project director can review their decisions by checking the email archives, and either uphold or reverse them.
