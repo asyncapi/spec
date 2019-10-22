@@ -1533,6 +1533,7 @@ As such, the `discriminator` field MUST be a required field.
 There are are two ways to define the value of a discriminator for an inheriting instance.
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
+
 As such, inline schema definitions, which do not have a given id, *cannot* be used in polymorphism.
 
 ##### Schema Object Examples
