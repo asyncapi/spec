@@ -888,6 +888,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectSTOMP"></a>`stomp` | [STOMP Server Binding](https://github.com/asyncapi/bindings/blob/master/stomp#server) | Protocol-specific information for a STOMP server.
 <a name="serverBindingsObjectRedis"></a>`redis` | [Redis Server Binding](https://github.com/asyncapi/bindings/blob/master/redis#server) | Protocol-specific information for a Redis server.
 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -913,6 +914,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectSTOMP"></a>`stomp` | [STOMP Channel Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#channel) | Protocol-specific information for a STOMP channel.
 <a name="channelBindingsObjectRedis"></a>`redis` | [Redis Channel Binding](https://github.com/asyncapi/bindings/blob/master/redis#channel) | Protocol-specific information for a Redis channel.
 
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -938,7 +940,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectSTOMP"></a>`stomp` | [STOMP Operation Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#operation) | Protocol-specific information for a STOMP operation.
 <a name="operationBindingsObjectRedis"></a>`redis` | [Redis Operation Binding](https://github.com/asyncapi/bindings/blob/master/redis#operation) | Protocol-specific information for a Redis operation.
 
-
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -965,7 +967,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectSTOMP"></a>`stomp` | [STOMP Message Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#message) | Protocol-specific information for a STOMP message.
 <a name="messageBindingsObjectRedis"></a>`redis` | [Redis Message Binding](https://github.com/asyncapi/bindings/blob/master/redis#message) | Protocol-specific information for a Redis message.
 
-
+This object can be extended with [Specification Extensions](#specificationExtensions).
 
 
 
