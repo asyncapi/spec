@@ -1005,8 +1005,13 @@ The following table contains a set of values that every implementation MUST supp
 Name | Allowed values | Notes
 ---|:---:|---
 [AsyncAPI 2.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.0.0`, `application/vnd.aai.asyncapi+json;version=2.0.0`, `application/vnd.aai.asyncapi+yaml;version=2.0.0` | This is the default when a `schemaFormat` is not provided.
-[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
 [JSON Schema Draft 07](http://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+
+The following table contains a set of values that every implementation is RECOMMENDED to support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
 [Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
 
 
