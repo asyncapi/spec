@@ -7,6 +7,9 @@ exemptLabels:
   - pinned
   - security
   - keep-open
+  - investigate further
+  - under consideration
+  - Make AsyncAPI a welcoming community
 # Label to use when marking an issue as stale
 staleLabel: stale
 # Comment to post when marking an issue as stale. Set to `false` to disable
