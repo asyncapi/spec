@@ -21,6 +21,10 @@
 
 ## Platinum Sponsors
 <p align="center">
+  <a href="https://iqvia.com" target="_blank">
+    <img src="./assets/iqvia.png" alt="IQVIA logo" height="40">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://mulesoft.com" target="_blank">
     <img src="./assets/mulesoft.png" alt="Mulesoft logo" height="40">
   </a>
