@@ -1531,6 +1531,7 @@ To support polymorphism, AsyncAPI Specification adds the support of the `discrim
 When used, the `discriminator` will be the name of the property used to decide which schema definition is used to validate the structure of the model.
 As such, the `discriminator` field MUST be a required field.
 There are are two ways to define the value of a discriminator for an inheriting instance.
+
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
 
@@ -1803,6 +1804,28 @@ schemas:
           ]
         }
       ]
+    },
+    "StickInsect": {
+      "description": "A representation of an Australian walking stick. Note that `StickBug` will be used as the discriminator value.",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/Pet"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "petType": {
+              "const": "StickBug"
+            },
+            "color": {
+              "type": "string",
+            }
+          },
+          "required": [
+            "color"
+          ]
+        }
+      ]
     }
   }
 }
@@ -1821,7 +1844,9 @@ schemas:
     required:
     - name
     - petType
-  Cat:  ## "Cat" will be used as the discriminator value
+  ## applies to instances with `petType: "Cat"`
+  ## because that is the schema name
+  Cat:
     description: A representation of a cat
     allOf:
     - $ref: '#/components/schemas/Pet'
@@ -1837,7 +1862,9 @@ schemas:
           - aggressive
       required:
       - huntingSkill
-  Dog:  ## "Dog" will be used as the discriminator value
+  ## applies to instances with `petType: "Dog"`
+  ## because that is the schema name
+  Dog:
     description: A representation of a dog
     allOf:
     - $ref: '#/components/schemas/Pet'
@@ -1850,6 +1877,21 @@ schemas:
           minimum: 0
       required:
       - packSize
+  ## applies to instances with `petType: "StickBug"`
+  ## because that is the required value of the discriminator field,
+  ## overriding the schema name
+  StickInsect:
+    description: A representation of an Australian walking stick
+    allOf:
+    - $ref: '#/components/schemas/Pet'
+    - type: object
+      properties:
+        petType:
+          const: StickBug
+        color:
+          type: string
+      required:
+      - color
 ```
 
 
