@@ -1,0 +1,46 @@
+asyncapi: 2.0.0
+id: 'https://github.com/asyncapi/asyncapi/blob/master/examples/2.0.0/aws-sns-publish.yml'
+info:
+  title: Simple AWS SNS Publish specification
+  description: |
+    Publishes a hello-world message to a particular queue
+  version: '0.1.0'
+servers:
+  test:
+    # This URL doesn't really describe a test server, but it does describe the
+    # top-level URL used to post a message to a given AWS region
+    url: https://sns.us-east-1.amazonaws.com/
+    description: Test environment for message publishing
+    protocol: sns
+    protocolVersion: "2010-03-31" #Can we reuse the "version" from down below?
+    bindings:
+      # Details on topicARNs: https://docs.aws.amazon.com/sns/latest/dg/sns-tutorial-create-topic.html
+      # This is a prefix, not a complete topicARN, but the prefix identifies
+      # the "server" environment (which is really just the account where this topic lives)
+      topicArnPrefix: "arn:aws:sns:us-east-1:123456789012:"
+channels:
+  helloWorld:
+    description: Topic used for hello world messages
+    bindings:
+      sns:
+        # This should be appended to the servers' topicARNPrefix to get the complete topicARN
+        # Can we do this automatically using JSON-Schema trickery somehow?
+        topicArnTopicName: "helloWorld"
+    publish:
+      message:
+        # The payload is equivalent to the AWS "Message" field
+        # Publish documentation: https://docs.aws.amazon.com/sns/latest/api/API_Publish.html
+        payload:
+          type: string
+          pattern: '^hello .+$'
+      bindings:
+        sns:
+          Action: Publish
+          # This is a concatenation of topicArnPrefix + topicArnTopicName from servers/channels above
+          TopicArn: "arn:aws:sns:us-east-1:123456789012:helloWorld"
+          # Details here: https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html
+          MessageAttributes:
+            # This is up to the application - any key/value mapping allowed here
+            messageType: HELLO_WORLD
+          # This is a default for all SNS messages
+          Version: "2010-03-31"
