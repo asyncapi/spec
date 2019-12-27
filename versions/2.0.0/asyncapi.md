@@ -27,7 +27,7 @@ user/signedup:
 
 It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage).
 
-**The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol and/or the topology.
+**The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -91,6 +91,9 @@ A channel is an addressable component, made available by the server, for the org
 
 #### <a name="definitionsProtocol"></a>Protocol
 A protocol is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocol include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, WebSocket.  
+
+#### <a name="definitionsBindings"></a>Bindings
+An AsyncAPI binding (or "protocol binding") is a mechanism to define protocol-specific information that's necessary to utilize the API. Therefore, infrastructure details, deployment information, and everything that's not related to how to communicate with the API MUST be left apart.
 
 ## <a name="specification"></a>Specification
 
