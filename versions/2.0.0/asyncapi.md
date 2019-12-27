@@ -93,7 +93,7 @@ A channel is an addressable component, made available by the server, for the org
 A protocol is the mechanism (wireline protocol OR API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocol include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, WebSocket.  
 
 #### <a name="definitionsBindings"></a>Bindings
-An AsyncAPI binding (or "protocol binding") is a mechanism to define protocol-specific information that's necessary to utilize the API. Therefore, infrastructure details, deployment information, and everything that's not related to how to communicate with the API MUST be left apart.
+An AsyncAPI binding (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, infrastructure details, deployment information, and everything that's not related to the protocol MUST be left apart.
 
 ## <a name="specification"></a>Specification
 
