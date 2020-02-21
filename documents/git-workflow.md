@@ -14,7 +14,7 @@ The unified AsyncAPI contribution workflow that bases on forks allows both the m
 
 ## Configure your fork
 
-The document refers to the original repository as the upstream repository and to the forked repository as the origin repository. We assume you already have a fork of the upstream and you `git clone` it laready.
+The document refers to the original repository as the upstream repository and to the forked repository as the origin repository. We assume you already have a fork of the upstream and you `git clone` it already.
 
 ### Working on a Fork on local
 
