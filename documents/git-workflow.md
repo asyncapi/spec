@@ -10,7 +10,7 @@ Each contributor and maintainer in AsyncAPI must follow this workflow:
 ## Prepare the fork
 
 A fork is a copy of the repository from which you raise pull requests to propose changes to the original repository.
-The unified AsyncAPI contribution workflow that bases on forks allows both the members of the Kyma organization and the external contributors to contribute code and content through the same process. This keeps the main repositories branches clean as contributors create branches only on the forked repositories.
+The unified AsyncAPI contribution workflow that bases on forks allows both the members of the AsyncAPI organization and the external contributors to contribute code and content through the same process. This keeps the main repositories branches clean as contributors create branches only on the forked repositories.
 
 ## Configure your fork
 
