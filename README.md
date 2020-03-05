@@ -143,6 +143,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/jonaslagoni"><img src="https://avatars1.githubusercontent.com/u/13396189?v=4" width="100px;" alt=""/><br /><sub><b>Jonas Lagoni</b></sub></a><br /><a href="https://github.com/asyncapi/asyncapi/issues?q=author%3Ajonaslagoni" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=jonaslagoni" title="Code">💻</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=jonaslagoni" title="Documentation">📖</a> <a href="#ideas-jonaslagoni" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-jonaslagoni" title="Answering Questions">💬</a></td>
+    <td align="center"><a href="http://evamorcillo.com/"><img src="https://avatars3.githubusercontent.com/u/13051398?v=4" width="100px;" alt=""/><br /><sub><b>Eva</b></sub></a><br /><a href="#ideas-evamorcillo" title="Ideas, Planning, & Feedback">🤔</a> <a href="#business-evamorcillo" title="Business development">💼</a> <a href="#eventOrganizing-evamorcillo" title="Event Organizing">📋</a></td>
   </tr>
 </table>
 

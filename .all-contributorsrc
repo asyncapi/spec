@@ -156,6 +156,17 @@
         "ideas",
         "question"
       ]
+    },
+    {
+      "login": "evamorcillo",
+      "name": "Eva",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13051398?v=4",
+      "profile": "http://evamorcillo.com/",
+      "contributions": [
+        "ideas",
+        "business",
+        "eventOrganizing"
+      ]
     }
   ],
   "contributorsPerLine": 2,
