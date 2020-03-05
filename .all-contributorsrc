@@ -143,7 +143,21 @@
         "ideas",
         "review"
       ]
+    },
+    {
+      "login": "jonaslagoni",
+      "name": "Jonas Lagoni",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/13396189?v=4",
+      "profile": "https://github.com/jonaslagoni",
+      "contributions": [
+        "bug",
+        "code",
+        "doc",
+        "ideas",
+        "question"
+      ]
     }
   ],
-  "contributorsPerLine": 2
+  "contributorsPerLine": 2,
+  "skipCi": true
 }
