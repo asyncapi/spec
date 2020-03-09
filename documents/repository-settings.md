@@ -8,6 +8,8 @@ Under the repository name, choose the **Settings** tab. The **Options** view ope
     - Wikis
     - Projects
 
+Make sure **Sponsorships** option is selected and `open_collective: asyncapi` is provided.
+
 2. Go to the **Merge button** section and clear these options:
     - Allow merge commits
     - Allow rebase merging
