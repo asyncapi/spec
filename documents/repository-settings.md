@@ -34,7 +34,7 @@ Create `.github/workflows` directory and the following configurations:
       stale:
         runs-on: ubuntu-latest
         steps:
-        - uses: actions/stale@v1.0.0
+        - uses: actions/stale@v1.1.0
           with:
             repo-token: ${{ secrets.GITHUB_TOKEN }}
             stale-issue-message: |
