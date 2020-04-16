@@ -746,7 +746,8 @@
         "sns": {},
         "sqs": {},
         "stomp": {},
-        "redis": {}
+        "redis": {},
+        "mercure": {}
       }
     },
     "correlationId": {
