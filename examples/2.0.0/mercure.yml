@@ -3,8 +3,6 @@ info:
   title: Mercure Hub Example
   version: '1.0.0'
   description: This example demonstrates how to define a Mercure hub.
-  externalDocs:
-    url: https://mercure.rocks
 
 # While not mandatory, it's a best practice to use formats with hypermedia capabilities such as JSON-LD, Atom or HTML with the Mercure protocol
 defaultContentType: application/ld+json
