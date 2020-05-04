@@ -167,6 +167,17 @@
         "business",
         "eventOrganizing"
       ]
+    },
+    {
+      "login": "WaleedAshraf",
+      "name": "Waleed Ashraf",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/8335457?v=4",
+      "profile": "https://waleedashraf.me/",
+      "contributions": [
+        "talk",
+        "tool",
+        "eventOrganizing"
+      ]
     }
   ],
   "contributorsPerLine": 2,
