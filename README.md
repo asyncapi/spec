@@ -146,7 +146,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://waleedashraf.me/"><img src="https://avatars0.githubusercontent.com/u/8335457?v=4" width="100px;" alt=""/><br /><sub><b>Waleed Ashraf</b></sub></a><br /><a href="#talk-WaleedAshraf" title="Talks">📢</a> <a href="#tool-WaleedAshraf" title="Tools">🔧</a> <a href="#eventOrganizing-WaleedAshraf" title="Event Organizing">📋</a></td>
     <td align="center"><a href="https://github.com/jerzyn"><img src="https://avatars0.githubusercontent.com/u/1447151?v=4" width="100px;" alt=""/><br /><sub><b>Andrzej Jarzyna</b></sub></a><br /><a href="#talk-jerzyn" title="Talks">📢</a> <a href="#eventOrganizing-jerzyn" title="Event Organizing">📋</a></td>
-    <td align="center"><a href="https://linkedin.com/in/emmelyn"><img src="https://avatars1.githubusercontent.com/u/4294106?v=4" width="100px;" alt=""/><br /><sub><b>Emmelyn Wang</b></sub></a><br /><a href="#blog-lifewingmate" title="Blogposts">📝</a> <a href="#eventOrganizing-lifewingmate" title="Event Organizing">📋</a> <a href="#ideas-lifewingmate" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://linkedin.com/in/emmelyn"><img src="https://avatars1.githubusercontent.com/u/4294106?v=4" width="100px;" alt=""/><br /><sub><b>Emmelyn Wang</b></sub></a><br /><a href="#blog-lifewingmate" title="Blogposts">📝</a> <a href="#eventOrganizing-lifewingmate" title="Event Organizing">📋</a> <a href="#ideas-lifewingmate" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=lifewingmate" title="Documentation">📖</a></td>
   </tr>
 </table>
 
