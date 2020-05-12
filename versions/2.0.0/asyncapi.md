@@ -650,7 +650,7 @@ Field Name | Type | Description
 <a name="operationObjectTags"></a>tags | [[Tag Object](#tagObject)] | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
-<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject)] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) | A definition of the message that will be published or received on this channel. `oneOf` is allowed here to specify multiple messages, however, **a message MUST be valid only against one of the referenced message objects.**
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1003,7 +1003,7 @@ Field Name | Type | Description
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
-<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
+<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
