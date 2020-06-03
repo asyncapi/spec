@@ -220,7 +220,8 @@
       "contributions": [
         "blog",
         "talk",
-        "review"
+        "review",
+        "bug"
       ]
     }
   ],
