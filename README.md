@@ -146,7 +146,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://linkedin.com/in/emmelyn"><img src="https://avatars1.githubusercontent.com/u/4294106?v=4" width="100px;" alt=""/><br /><sub><b>Emmelyn Wang</b></sub></a><br /><a href="#blog-lifewingmate" title="Blogposts">📝</a> <a href="#eventOrganizing-lifewingmate" title="Event Organizing">📋</a> <a href="#ideas-lifewingmate" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/asyncapi/asyncapi/commits?author=lifewingmate" title="Documentation">📖</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://marcd.dev"><img src="https://avatars0.githubusercontent.com/u/1815312?v=4" width="100px;" alt=""/><br /><sub><b>Marc DiPasquale</b></sub></a><br /><a href="#blog-Mrc0113" title="Blogposts">📝</a> <a href="#talk-Mrc0113" title="Talks">📢</a> <a href="https://github.com/asyncapi/asyncapi/pulls?q=is%3Apr+reviewed-by%3AMrc0113" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/asyncapi/asyncapi/issues?q=author%3AMrc0113" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://marcd.dev"><img src="https://avatars0.githubusercontent.com/u/1815312?v=4" width="100px;" alt=""/><br /><sub><b>Marc DiPasquale</b></sub></a><br /><a href="#blog-Mrc0113" title="Blogposts">📝</a> <a href="#talk-Mrc0113" title="Talks">📢</a> <a href="https://github.com/asyncapi/asyncapi/pulls?q=is%3Apr+reviewed-by%3AMrc0113" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/asyncapi/asyncapi/issues?q=author%3AMrc0113" title="Bug reports">🐛</a> <a href="#ideas-Mrc0113" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
