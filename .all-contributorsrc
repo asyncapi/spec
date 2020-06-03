@@ -7,7 +7,6 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": true,
   "skipCi": true,
   "contributorsPerLine": 3,
   "contributors": [
@@ -209,7 +208,22 @@
         "blog",
         "eventOrganizing",
         "ideas",
-        "doc"
+        "doc",
+        "talk"
+      ]
+    },
+    {
+      "login": "Mrc0113",
+      "name": "Marc DiPasquale",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1815312?v=4",
+      "profile": "https://marcd.dev",
+      "contributions": [
+        "blog",
+        "talk",
+        "review",
+        "bug",
+        "ideas",
+        "video"
       ]
     }
   ],
