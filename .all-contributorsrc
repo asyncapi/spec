@@ -211,6 +211,15 @@
         "ideas",
         "doc"
       ]
+    },
+    {
+      "login": "Mrc0113",
+      "name": "Marc DiPasquale",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1815312?v=4",
+      "profile": "https://marcd.dev",
+      "contributions": [
+        "blog"
+      ]
     }
   ],
   "commitConvention": "none"
