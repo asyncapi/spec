@@ -7,7 +7,6 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": true,
   "skipCi": true,
   "contributorsPerLine": 3,
   "contributors": [
