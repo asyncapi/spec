@@ -640,7 +640,13 @@
                   "type": "string"
                 },
                 "headers": {
-                  "$ref": "#/definitions/schema"
+                  "allOf": [
+                    { "$ref": "#/definitions/schema" },
+                    { "properties": {
+                      "type": { "enum": [ "object" ] }
+                    }
+                  }
+                  ]
                 },
                 "payload": {},
                 "correlationId": {
