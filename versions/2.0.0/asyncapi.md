@@ -1168,7 +1168,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageTraitObjectExamples"></a>examples | [`any`] | An array with examples of valid message objects. Whatever "any" is, it has to match the type defined on payload. 
+<a name="messageTraitObjectExamples"></a>examples | [`any`] | An array with examples of valid message objects. Whatever "any" is, it MUST match the type defined on the payload. 
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
