@@ -1003,7 +1003,7 @@ Field Name | Type | Description
 <a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageObjectExamples"></a>examples | [`any`] | An array with examples of valid message objects. Whatever "any" is, it has to match the type defined on payload. 
+<a name="messageObjectExamples"></a>examples | [`any`] | An array with examples of valid message objects. Whatever "any" is, it MUST match the type defined on the payload. 
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
