@@ -12,31 +12,27 @@ require('colors');
 const validate = async (content, schema) => {
   let json = YAML.safeLoad(content);
 
-  try {
-    json = await RefParser.dereference(json, {
-      dereference: {
-        circular: 'ignore'
-      }
-    });
-
-    const ajv = new Ajv({ schemaId: 'auto' });
-    ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
-
-    const valid = ajv.validate(schema, json);
-
-    if (!valid) {
-      return {
-        valid: false,
-        errors: ajv.errors,
-      };
+  json = await RefParser.dereference(json, {
+    dereference: {
+      circular: 'ignore'
     }
+  });
 
+  const ajv = new Ajv({ schemaId: 'auto' });
+  ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+
+  const valid = ajv.validate(schema, json);
+
+  if (!valid) {
     return {
-      valid: true,
+      valid: false,
+      errors: ajv.errors,
     };
-  } catch (e) {
-    throw e;
   }
+
+  return {
+    valid: true,
+  };
 };
 
 const runForVersion = version => new Promise((resolve, reject) => {
