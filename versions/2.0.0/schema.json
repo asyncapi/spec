@@ -689,7 +689,9 @@
                 },
                 "examples": {
                   "type": "array",
-                  "items": {}
+                  "items": {
+                    "type": "object"
+                  }
                 },
                 "bindings": {
                   "$ref": "#/definitions/bindingsObject"
@@ -903,7 +905,9 @@
         },
         "examples": {
           "type": "array",
-          "items": {}
+          "items": {
+            "type": "object"
+          }
         },
         "bindings": {
           "$ref": "#/definitions/bindingsObject"
