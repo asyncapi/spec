@@ -2230,8 +2230,8 @@ The runtime expression is defined by the following [ABNF](https://tools.ietf.org
 ```
       expression = ( "$message" "." source )
       source = ( header-reference | payload-reference )
-      header-reference = "header." ["#" fragment]
-      payload-reference = "payload." ["#" fragment]
+      header-reference = "header" ["#" fragment]
+      payload-reference = "payload" ["#" fragment]
       fragment = a JSON Pointer [RFC 6901](https://tools.ietf.org/html/rfc6901)
 ```
 
