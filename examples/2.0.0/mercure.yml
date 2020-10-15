@@ -1,0 +1,49 @@
+asyncapi: '2.0.0'
+info:
+  title: Mercure Hub Example
+  version: '1.0.0'
+  description: This example demonstrates how to define a Mercure hub.
+
+# While not mandatory, it's a best practice to use formats with hypermedia capabilities such as JSON-LD, Atom or HTML with the Mercure protocol
+defaultContentType: application/ld+json
+
+servers:
+  production:
+    url: https://demo.mercure.rocks/.well-known/mercure
+    protocol: mercure
+
+channels:
+  'https://example.com/books/{id}':
+    description: Every time a resource of type `http://schema.org/Book` is created or modified, a JSON-LD representation of the new version of this resource must be pushed in this Mercure topic.
+    parameters:
+      id:
+        schema:
+          type: integer
+    subscribe:
+      message:
+        $ref: '#/components/messages/book'      
+    publish:
+      message:
+        $ref: '#/components/messages/book'
+
+components:
+  messages:
+    book:
+      summary: The content of a book resource.
+      externalDocs:
+        url: https://schema.org/Book
+      payload:
+        type: object
+        properties:
+          '@id':
+            type: string
+            format: iri-reference
+          '@type':
+            type: string
+            format: iri-reference
+          name:
+            type: string
+          isbn:
+            type: string
+          abstract:
+            type: string

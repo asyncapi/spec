@@ -209,7 +209,6 @@
     "serverVariable": {
       "type": "object",
       "description": "An object representing a Server Variable for server URL template substitution.",
-      "minProperties": 1,
       "additionalProperties": false,
       "patternProperties": {
         "^x-[\\w\\d\\.\\-\\_]+$": {
@@ -479,7 +478,6 @@
           "$ref": "#/definitions/specificationExtension"
         }
       },
-      "minProperties": 1,
       "properties": {
         "$ref": {
           "$ref": "#/definitions/ReferenceObject"
@@ -640,7 +638,13 @@
                   "type": "string"
                 },
                 "headers": {
-                  "$ref": "#/definitions/schema"
+                  "allOf": [
+                    { "$ref": "#/definitions/schema" },
+                    { "properties": {
+                      "type": { "const": "object" }
+                    }
+                  }
+                  ]
                 },
                 "payload": {},
                 "correlationId": {
@@ -746,7 +750,8 @@
         "sns": {},
         "sqs": {},
         "stomp": {},
-        "redis": {}
+        "redis": {},
+        "mercure": {}
       }
     },
     "correlationId": {
@@ -1274,8 +1279,7 @@
               ]
             }
           },
-          "additionalProperties": false,
-          "minProperties": 1
+          "additionalProperties": false
         }
       },
       "patternProperties": {
