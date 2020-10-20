@@ -690,7 +690,14 @@
                 "examples": {
                   "type": "array",
                   "items": {
-                    "type": "object"
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "headers": {
+                        "type": "object"
+                      },
+                      "payload": {}
+                    }
                   }
                 },
                 "bindings": {
