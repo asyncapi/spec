@@ -993,6 +993,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject).
+<a name="messageObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify an message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
@@ -1034,6 +1035,7 @@ Name | Allowed values | Notes
   "title": "User signup",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
+  "messageId": "UserSignup",
   "contentType": "application/json",
   "tags": [
     { "name": "user" },
@@ -1095,6 +1097,7 @@ name: UserSignup
 title: User signup
 summary: Action to sign a user up.
 description: A longer description
+messageId: UserSignup
 contentType: application/json
 tags:
   - name: user
@@ -1140,6 +1143,7 @@ Example using Avro to define the payload:
   "title": "User signup",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
+  "messageId": "UserSignup",
   "tags": [
     { "name": "user" },
     { "name": "signup" },
@@ -1157,6 +1161,7 @@ name: UserSignup
 title: User signup
 summary: Action to sign a user up.
 description: A longer description
+messageId: UserSignup
 tags:
   - name: user
   - name: signup
@@ -1183,6 +1188,7 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
+<a name="messageTraitObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify an message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.

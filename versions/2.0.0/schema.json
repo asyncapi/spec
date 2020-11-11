@@ -647,6 +647,9 @@
                   ]
                 },
                 "payload": {},
+                "messageId": {
+                  "type": "string"
+                },
                 "correlationId": {
                   "oneOf": [
                     {
@@ -869,6 +872,9 @@
               "$ref": "#/definitions/schema"
             }
           ]
+        },
+        "messageId": {
+          "type": "string"
         },
         "correlationId": {
           "oneOf": [
