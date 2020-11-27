@@ -34,7 +34,7 @@ jobs:
             gcp_key: ${{ secrets.GCP_KEY_SENTIMENT }} 
         - uses: someimportantcompany/github-actions-slack-message@v1
             # this step runs only if sentiment is a negative number
-          if: steps.sentiments.outputs.sentiment < 0
+          if: steps.sentiments.outputs.sentiment < -0.6
           with:
             webhook-url: ${{ secrets.SLACK_SENTIMENTS }}
             text: Here ${{steps.sentiments.outputs.source}} you can find a potential negative text that requires your attention as the sentiment analysis score is ${{steps.sentiments.outputs.sentiment}}
