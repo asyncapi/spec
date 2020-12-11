@@ -13,14 +13,14 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: |
           This issue has been automatically marked as stale because it has not had recent activity :sleeping:
-          It will be closed in 30 days if no further activity occurs. To unstale this issue, add a comment with detailed explanation. 
+          It will be closed in 60 days if no further activity occurs. To unstale this issue, add a comment with detailed explanation. 
           Thank you for your contributions :heart:
         stale-pr-message: |
           This pull request has been automatically marked as stale because it has not had recent activity :sleeping:
-          It will be closed in 30 days if no further activity occurs. To unstale this pull request, add a comment with detailed explanation. 
+          It will be closed in 60 days if no further activity occurs. To unstale this pull request, add a comment with detailed explanation. 
           Thank you for your contributions :heart:
         days-before-stale: 60
-        days-before-close: 30
+        days-before-close: 60
         stale-issue-label: stale
         stale-pr-label: stale
         exempt-issue-label: keep-open
