@@ -4,7 +4,11 @@
   "description": "AsyncAPI specification",
   "scripts": {
     "mdv": "mdv versions/**/*.md",
-    "test": "node test/index.js"
+    "test": "npm run mdv && node test/index.js",
+    "generate:assets": "echo 'No assets to generate yet'",
+    "bump:version": "echo 'No automated version bump as we do not release this package yet'",
+    "lint": "echo 'No linter integrated yet'",
+    "release": "echo 'This package is not for releasing but testing only'"
   },
   "private": true,
   "repository": {
