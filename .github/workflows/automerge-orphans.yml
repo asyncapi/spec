@@ -1,0 +1,63 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+name: 'Notify on failing automerge'
+
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  identify-orphans:
+    name: Find orphans and notify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get list of orphans
+        uses: actions/github-script@v3
+        id: orphans
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const query = `query($owner:String!, $name:String!) {
+              repository(owner:$owner, name:$name){
+                pullRequests(first: 100){
+                  nodes{
+                    title
+                    url
+                    author {
+                      resourcePath
+                    }
+                    state
+                  }
+                }
+              }
+            }`;
+            const variables = {
+              owner: context.repo.owner,
+              name: context.repo.repo
+            };
+            const { repository: { pullRequests: { nodes } } } = await github.graphql(query, variables);
+
+            let orphans = nodes.filter((pr)=> pr.state === 'OPEN' && (pr.author.resourcePath === '/asyncapi-bot' || pr.author.resourcePath === '/apps/dependabot'))
+
+            if (orphans.length) {
+              core.setOutput('found', 'true');
+              //Yes, this is very naive approach to assume there is just one PR causing issues, there can be a case that more PRs are affected the same day
+              //The thing is that handling multiple PRs will increase a complexity in this PR that in my opinion we should avoid
+              //The other PRs will be reported the next day the action runs, or person that checks first url will notice the other ones
+              core.setOutput('url', orphans[0].url);
+              core.setOutput('title', orphans[0].title);
+            }
+      - if: steps.orphans.outputs.found == 'true'
+        name: Convert markdown to slack markdown
+        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        id: issuemarkdown
+        with:
+          text: "-> [${{steps.orphans.outputs.title}}](${{steps.orphans.outputs.url}})"
+      - if: steps.orphans.outputs.found == 'true'
+        name: Send info about orphan to slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+          SLACK_TITLE: 🚨 Not merged PR that should be automerged 🚨
+          SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
+          MSG_MINIMAL: true
