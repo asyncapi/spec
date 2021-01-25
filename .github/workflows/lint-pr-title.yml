@@ -12,7 +12,7 @@ jobs:
     lint:
       runs-on: ubuntu-latest
       steps:
-      - uses: derberg/action-semantic-pull-request@7ca500125d5f63bc8f1472472e421a68038ccd78
+      - uses: amannn/action-semantic-pull-request@v3.2.5
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
