@@ -1,4 +1,4 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/
+#This action is centrally managed in https://github.com/asyncapi/.github/ 
 #Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 name: Lint PR title
 
@@ -12,10 +12,10 @@ jobs:
     lint:
       runs-on: ubuntu-latest
       steps:
-      - uses: amannn/action-semantic-pull-request@v3.2.3
+      - uses: derberg/action-semantic-pull-request@7ca500125d5f63bc8f1472472e421a68038ccd78
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          subjectPattern: ^(?![a-z]).+$
+          subjectPattern: ^(?![A-Z]).+$
           subjectPatternError: |
             The subject "{subject}" found in the pull request title "{title}" should start with a lowercase character.
