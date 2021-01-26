@@ -1,0 +1,41 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+#It does magic only if there is package.json file in the root of the project
+name: PR testing - if Node project
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  test:
+    if: github.event.pull_request.draft == false
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Check if Node.js project and has package.json
+        id: packagejson
+        run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
+        shell: bash
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Install dependencies
+        run: npm install --loglevel verbose
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Test
+        run: npm test
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Run linter
+        run: npm run lint
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Run release assets generation to make sure PR does not break it
+        run: npm run generate:assets
