@@ -399,14 +399,14 @@
             },
             "oneOf": {
               "type": "array",
-              "minItems": 2,
+              "minItems": 1,
               "items": {
                 "$ref": "#/definitions/schema"
               }
             },
             "anyOf": {
               "type": "array",
-              "minItems": 2,
+              "minItems": 1,
               "items": {
                 "$ref": "#/definitions/schema"
               }
