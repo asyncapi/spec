@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "AsyncAPI specification",
   "scripts": {
-    "mdv": "mdv versions/**/*.md",
+    "mdv": "mdv \"versions/**/*.md\"",
     "test": "npm run mdv && node test/index.js",
     "generate:assets": "echo 'No assets to generate yet'",
     "bump:version": "echo 'No automated version bump as we do not release this package yet'",
@@ -36,6 +36,6 @@
     "fs-walk": "0.0.2",
     "js-yaml": "^3.13.1",
     "json-schema-ref-parser": "^3.1.2",
-    "mdv": "^1.1.0"
+    "mdv": "^1.3.1"
   }
 }
