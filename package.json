@@ -36,6 +36,6 @@
     "fs-walk": "0.0.2",
     "js-yaml": "^3.13.1",
     "json-schema-ref-parser": "^3.1.2",
-    "mdv": "https://github.com/derberg/mdv#support-windows"
+    "mdv": "^1.3.1"
   }
 }
