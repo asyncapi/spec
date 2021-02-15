@@ -45,10 +45,14 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 	- [Schema](#schema)
       - [AsyncAPI Object](#A2SObject)
       - [AsyncAPI Version String](#A2SVersionString)
+      - [Identifier](#A2SIdString)
       - [Info Object](#infoObject)
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
       - [Servers Object](#serversObject)
+      - [Server Object](#serverObject)  
+      - [Server Variable Object](#serverVariableObject)
+      - [Default Content Type](#defaultContentTypeString)  
       - [Channels Object](#channelsObject)
       - [Channel Item Object](#channelItemObject)
       - [Operation Object](#operationObject)
@@ -61,9 +65,11 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
       - [Security Scheme Object](#securitySchemeObject)
+      - [Security Requirement Object](#security-requirement-object)
+      - [OAuth Flows Object](#oauth-flows-object)  
+      - [Server Bindings Object](#serverBindingsObject)
       - [Parameters Object](#parametersObject)
       - [Parameter Object](#parameterObject)
-      - [Server Bindings Object](#serverBindingsObject)
       - [Channel Bindings Object](#channelBindingsObject)
       - [Operation Bindings Object](#operationBindingsObject)
       - [Message Bindings Object](#messageBindingsObject)
@@ -1319,10 +1325,10 @@ Field Name | Type | Description
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
 <a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
-<a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Binding Object](#serverBindingsObject)]  | An object to hold reusable [Server Binding Objects](#serverBindingsObject).
-<a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Binding Object](#channelBindingsObject)]  | An object to hold reusable [Channel Binding Objects](#channelBindingsObject).
-<a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Binding Object](#operationBindingsObject)]  | An object to hold reusable [Operation Binding Objects](#operationBindingsObject).
-<a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Binding Object](#messageBindingsObject)]  | An object to hold reusable [Message Binding Objects](#messageBindingsObject).
+<a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Bindings Object](#serverBindingsObject)]  | An object to hold reusable [Server Bindings Objects](#serverBindingsObject).
+<a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
+<a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
+<a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
