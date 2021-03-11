@@ -7,7 +7,8 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": true,
+  "skipCi": true,
+  "contributorsPerLine": 3,
   "contributors": [
     {
       "login": "derberg",
@@ -17,7 +18,13 @@
       "contributions": [
         "doc",
         "ideas",
-        "review"
+        "review",
+        "code",
+        "question",
+        "eventOrganizing",
+        "content",
+        "blog",
+        "tool"
       ]
     },
     {
@@ -34,7 +41,8 @@
         "review",
         "test",
         "tool",
-        "maintenance"
+        "maintenance",
+        "eventOrganizing"
       ]
     },
     {
@@ -78,7 +86,8 @@
         "tool",
         "test",
         "tutorial",
-        "talk"
+        "talk",
+        "eventOrganizing"
       ]
     },
     {
@@ -154,7 +163,8 @@
         "code",
         "doc",
         "ideas",
-        "question"
+        "question",
+        "eventOrganizing"
       ]
     },
     {
@@ -167,8 +177,55 @@
         "business",
         "eventOrganizing"
       ]
+    },
+    {
+      "login": "WaleedAshraf",
+      "name": "Waleed Ashraf",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/8335457?v=4",
+      "profile": "https://waleedashraf.me/",
+      "contributions": [
+        "talk",
+        "tool",
+        "eventOrganizing"
+      ]
+    },
+    {
+      "login": "jerzyn",
+      "name": "Andrzej Jarzyna",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1447151?v=4",
+      "profile": "https://github.com/jerzyn",
+      "contributions": [
+        "talk",
+        "eventOrganizing"
+      ]
+    },
+    {
+      "login": "lifewingmate",
+      "name": "Emmelyn Wang",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4294106?v=4",
+      "profile": "https://linkedin.com/in/emmelyn",
+      "contributions": [
+        "blog",
+        "eventOrganizing",
+        "ideas",
+        "doc",
+        "talk"
+      ]
+    },
+    {
+      "login": "Mrc0113",
+      "name": "Marc DiPasquale",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1815312?v=4",
+      "profile": "https://marcd.dev",
+      "contributions": [
+        "blog",
+        "talk",
+        "review",
+        "bug",
+        "ideas",
+        "video"
+      ]
     }
   ],
-  "contributorsPerLine": 2,
-  "skipCi": true
+  "commitConvention": "none"
 }

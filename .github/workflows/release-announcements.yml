@@ -1,0 +1,76 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+name: 'Announce releases in different channels'
+
+on: 
+  release:
+    types: 
+      - published
+
+jobs:
+
+  slack:
+    name: Slack - notify on every release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert markdown to slack markdown for issue
+        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        id: markdown
+        with:
+            text: "[${{github.event.release.tag_name}}](${{github.event.release.html_url}}) \n ${{ github.event.release.body }}"
+      - name: Send info about release to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_WEBHOOK: ${{ secrets.SLACK_RELEASES }}
+            SLACK_TITLE: Release ${{github.event.release.tag_name}} for ${{github.repository}} is out in the wild 😱💪🍾🎂
+            SLACK_MESSAGE: ${{steps.markdown.outputs.text}}
+            MSG_MINIMAL: true
+
+  twitter:
+    name: Twitter - notify on minor and major releases
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Get version of last and previous release
+        uses: actions/github-script@v3
+        id: versions
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const query = `query($owner:String!, $name:String!) {
+              repository(owner:$owner, name:$name){
+                releases(first: 2, orderBy: {field: CREATED_AT, direction: DESC}) {
+                  nodes {
+                    name
+                  }
+                }
+              }
+            }`;
+            const variables = {
+              owner: context.repo.owner,
+              name: context.repo.repo
+            };
+            const { repository: { releases: { nodes } } } = await github.graphql(query, variables);
+            core.setOutput('lastver', nodes[0].name);
+            // In case of first release in the package, there is no such thing as previous error, so we set info about previous version only once we have it
+            // We should tweet about the release no matter of the type as it is initial release
+            if (nodes.length != 1) core.setOutput('previousver', nodes[1].name);
+      - name: Identify release type
+        id: releasetype
+        # if previousver is not provided then this steps just logs information about missing version, no errors
+        run: echo "::set-output name=type::$(npx -q -p semver-diff-cli semver-diff ${{steps.versions.outputs.previousver}} ${{steps.versions.outputs.lastver}})"
+      - name: Get name of the person that is behind the newly released version
+        id: author
+        run: echo "::set-output name=name::$(git log -1 --pretty=format:'%an')"
+      - name: Publish information about the release to Twitter # tweet only if detected version change is not a patch
+        # tweet goes out even if the type is not major or minor but "You need provide version number to compare."
+        # it is ok, it just means we did not identify previous version as we are tweeting out information about the release for the first time
+        if: steps.releasetype.outputs.type != 'null' && steps.releasetype.outputs.type != 'patch' # null means that versions are the same
+        uses: m1ner79/Github-Twittction@v1.0.1
+        with:
+          twitter_status: "Release ${{github.event.release.tag_name}} for ${{github.repository}} is out in the wild 😱💪🍾🎂\n\nThank you for the contribution ${{ steps.author.outputs.name }} ${{github.event.release.html_url}}"
+          twitter_consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }} 
+          twitter_consumer_secret: ${{ secrets.TWITTER_CONSUMER_SECRET }} 
+          twitter_access_token_key: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }} 
+          twitter_access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}

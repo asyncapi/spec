@@ -1,0 +1,49 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+name: Notify slack
+
+on:
+
+  issues:
+    types: [opened, reopened]
+
+  pull_request_target:
+    types: [opened, reopened, ready_for_review]
+
+jobs:
+
+    issue:
+      if: github.event_name == 'issues' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+      name: On every new issue
+      runs-on: ubuntu-latest
+      steps:
+        - name: Convert markdown to slack markdown for issue
+          uses: LoveToKnow/slackify-markdown-action@v1.0.0
+          id: issuemarkdown
+          with:
+            text: "[${{github.event.issue.title}}](${{github.event.issue.html_url}}) \n ${{github.event.issue.body}}"
+        - name: Send info about issue
+          uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+            SLACK_TITLE: 🐛 New Issue 🐛
+            SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
+            MSG_MINIMAL: true
+
+    pull_request:
+      if: github.event_name == 'pull_request_target' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+      name: On every new pull request
+      runs-on: ubuntu-latest
+      steps:
+        - name: Convert markdown to slack markdown for pull request
+          uses: LoveToKnow/slackify-markdown-action@v1.0.0
+          id: prmarkdown
+          with:
+            text: "[${{github.event.pull_request.title}}](${{github.event.pull_request.html_url}}) \n ${{github.event.pull_request.body}}"
+        - name: Send info about pull request
+          uses: rtCamp/action-slack-notify@v2
+          env:
+            SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+            SLACK_TITLE: 💪 New Pull Request 💪
+            SLACK_MESSAGE: ${{steps.prmarkdown.outputs.text}}
+            MSG_MINIMAL: true

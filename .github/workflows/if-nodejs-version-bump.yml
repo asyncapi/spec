@@ -1,0 +1,45 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+#It does magic only if there is package.json file in the root of the project
+name: Version bump - if Node.js project
+
+on: 
+  release:
+    types: 
+      - published
+
+jobs:
+  version_bump:
+    name: Generate assets and bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: Check if Node.js project and has package.json
+        id: packagejson
+        run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Install dependencies
+        run: npm install
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Assets generation
+        run: npm run generate:assets
+      - if: steps.packagejson.outputs.exists == 'true'  
+        name: Bump version in package.json
+        # There is no need to substract "v" from the tag as version script handles it
+        # When adding "bump:version" script in package.json, make sure no tags are added by default (--no-git-tag-version) as they are already added by release workflow
+        # When adding "bump:version" script in package.json, make sure --allow-same-version is set in case someone forgot and updated package.json manually and we want to avoide this action to fail and raise confusion
+        run: VERSION=${{github.event.release.tag_name}} npm run bump:version
+      - if: steps.packagejson.outputs.exists == 'true'
+        name: Create Pull Request with updated asset files including package.json
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          commit-message: 'chore(release): ${{github.event.release.tag_name}}'
+          committer: asyncapi-bot <info@asyncapi.io>
+          author: asyncapi-bot <info@asyncapi.io>
+          title: 'chore(release): ${{github.event.release.tag_name}}'
+          body: 'Version bump in package.json for release [${{github.event.release.tag_name}}](${{github.event.release.html_url}})'
+          branch: version-bump/${{github.event.release.tag_name}} 
