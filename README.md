@@ -6,9 +6,9 @@
 <p align="center">
   <a href="#the-specification">Specification</a>
   |
-  <a href="http://editor.asyncapi.org" target="_blank">Playground</a>
+  <a href="http://playground.asyncapi.io" target="_blank">Playground</a>
   |
-  <a href="https://www.asyncapi.com/roadmap">Roadmap</a>
+  <a href="https://www.asyncapi.com/roadmap" target="_blank">Roadmap</a>
   |
   <a href="./CONTRIBUTING.md">Contributing</a>
   |
