@@ -8,7 +8,7 @@
   |
   <a href="http://editor.asyncapi.org" target="_blank">Playground</a>
   |
-  <a href="./ROADMAP.md">Roadmap</a>
+  <a href="https://www.asyncapi.com/roadmap">Roadmap</a>
   |
   <a href="./CONTRIBUTING.md">Contributing</a>
   |
@@ -61,7 +61,7 @@
 * [Version 1.1.0](/versions/1.1.0/asyncapi.md) — [Machine-readable version](/versions/1.1.0/schema.json)
 * [Version 1.0.0](/versions/1.0.0/asyncapi.md) — [Machine-readable version](/versions/1.0.0/schema.json)
 
-**Feel like contributing?** Check out our [roadmap](./ROADMAP.md) and [contributing guidelines](./CONTRIBUTING.md).
+**Feel like contributing?** Check out our [roadmap](https://www.asyncapi.com/roadmap) and [contributing guidelines](./CONTRIBUTING.md).
 
 **Not sure how to contribute yet?** Join our [Slack](https://www.asyncapi.com/slack-invite) workspace and ask us anything. We're friendly people :blush:
 
