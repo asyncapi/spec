@@ -36,7 +36,7 @@
 </p>
 
 <p align="center">
-  Platinum sponsors :raised_hands: <a href="https://opencollective.com/asyncapi">Become a sponsor</a> :raised_hands:
+  :raised_hands: Platinum sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
 </p>
 
 ## The specification
