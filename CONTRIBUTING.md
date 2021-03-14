@@ -190,7 +190,7 @@ feature without explicit opt-in when possible.
 An RFC at the *accepted* stage is a completed solution. According to a spec
 Committer it is ready to be merged as-is into the spec document. The RFC is
 ready to be deployed in AsyncAPI libraries. An *accepted* RFC must be
-implemented in AsyncAPI.js.
+implemented in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js).
 
 *Entrance criteria:*
 
