@@ -1,0 +1,17 @@
+name: Lint
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install linter
+        run: npm install -g mdv
+      - name: Run linter
+        run: mdv
+      
