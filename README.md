@@ -4,7 +4,7 @@
 <h4 align="center">Building the future of event-driven architectures</h4>
 <h6 align="center">We're on a mission to standardize message-based communication and increase interoperability of the different systems out there.</h6>
 <p align="center">
-  <a href="#the-specification">Specification</a>
+  <a href="#read-the-specification">Specification</a>
   |
   <a href="https://playground.asyncapi.io/" target="_blank">Playground</a>
   |
