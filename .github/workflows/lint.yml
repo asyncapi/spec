@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Install linter
-        run: npm install -g mdv
       - name: Run linter
-        run: mdv
+        run: npx mdv *.md
       
