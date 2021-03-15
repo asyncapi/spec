@@ -11,5 +11,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Run linter
-        run: npx mdv asyncapi.md
+        run: npx mdv spec/*.md
       
