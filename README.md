@@ -4,7 +4,7 @@
 <h4 align="center">Building the future of event-driven architectures</h4>
 <h6 align="center">We're on a mission to standardize message-based communication and increase interoperability of the different systems out there.</h6>
 <p align="center">
-  <a href="#the-specification">Specification</a>
+  <a href="#read-the-specification">Specification</a>
   |
   <a href="https://playground.asyncapi.io/" target="_blank">Playground</a>
   |
@@ -54,12 +54,16 @@
   :raised_hands: <a href="https://opencollective.com/asyncapi">Become a sponsor</a> :raised_hands:
 </p>
 
-## The specification
+## Read the specification
 
-* [Version 2.0.0](/versions/2.0.0/asyncapi.md) — [Machine-readable version](/versions/2.0.0/schema.json) (latest stable) 
-* [Version 1.2.0](/versions/1.2.0/asyncapi.md) — [Machine-readable version](/versions/1.2.0/schema.json)
-* [Version 1.1.0](/versions/1.1.0/asyncapi.md) — [Machine-readable version](/versions/1.1.0/schema.json)
-* [Version 1.0.0](/versions/1.0.0/asyncapi.md) — [Machine-readable version](/versions/1.0.0/schema.json)
+The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
+
+* [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md) (latest)
+* [Version 1.2.0](https://github.com/asyncapi/spec/blob/1.2.0/README.md) (deprecated)
+* [Version 1.1.0](https://github.com/asyncapi/spec/blob/1.1.0/README.md) (deprecated)
+* [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
+
+**Looking for the JSON Schema files?** Check out our [asyncapi-node](https://www.github.com/asyncapi/asyncapi-node) repo.
 
 **Feel like contributing?** Check out our [roadmap](https://www.asyncapi.com/roadmap) and [contributing guidelines](./CONTRIBUTING.md).
 
