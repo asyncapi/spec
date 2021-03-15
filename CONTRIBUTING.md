@@ -10,7 +10,7 @@ examples are encouraged and are often merged by a spec Committer with
 little process.
 
 However, contributions that _do_ meaningfully change the interpretation of the
-spec must follow an RFC (Request For Comments) process led by a *champion*
+spec must follow an RFC (Request For Comments) process led by a *[champion](#champion-definition)*
 through a series of *stages* intended to improve *visibility*, allow for
 *discussion* to reach the best solution, and arrive at *consensus*. This process
 becomes even more important as AsyncAPI's community broadens.
@@ -226,6 +226,17 @@ become *rejected* if they fail to attract a new *champion*.
 Once *rejected*, an RFC will typically not be reconsidered. Reconsideration is
 possible if a *champion* believes the original reason for rejection no longer
 applies due to new circumstances or new evidence.
+
+## Champion definition
+
+A champion is anyone who leads the work on an RFC. It doesn't
+mean it has to be the only person working on it though. They
+are a "person of reference" for a given RFC implementation and
+may or may not know about JS, relying on the help of other
+community members to implement the RFC on the
+[JS Parser](https://www.github.com/asyncapi/parser-js).
+
+
 
 
 ## References
