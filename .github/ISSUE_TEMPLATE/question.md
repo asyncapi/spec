@@ -1,3 +1,11 @@
+---
+name: Question
+about: A question about the spec or processes 
+title: ""
+labels: '❔ Question'
+assignees: ''
+---
+
 <!--
 
 !!! IMPORTANT !!!

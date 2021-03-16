@@ -1,3 +1,11 @@
+---
+name: 💭 Strawman (RFC 0)
+about: See CONTRIBUTING.md
+title: ""
+labels: '💭 Strawman (RFC 0)'
+assignees: ''
+---
+
 <!--
 
 !!! IMPORTANT !!!
