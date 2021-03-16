@@ -78,7 +78,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 
 <!-- /TOC -->
 
-## <a name="definitions"/>Definitions
+## <a name="definitions"></a>Definitions
 
 #### <a name="definitionsApplication"></a>Application
 An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the server in order to connect and exchange [messages](#definitionsMessage).
