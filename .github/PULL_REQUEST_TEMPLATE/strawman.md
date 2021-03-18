@@ -1,8 +1,8 @@
 ---
-name: 💡 Proposal (RFC 1)
+name: 💭 Strawman (RFC 0)
 about: See CONTRIBUTING.md
 title: ""
-labels: '💡 Proposal (RFC 1)'
+labels: '💭 Strawman (RFC 0)'
 assignees: ''
 ---
 
