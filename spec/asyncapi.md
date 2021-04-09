@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 2.0.1
+#### Version 2.0.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
 
@@ -25,7 +25,7 @@ user/signedup:
     $ref: "#/components/messages/userSignUp"
 ```
 
-It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) sent by the application.
+It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
@@ -84,10 +84,10 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the server in order to connect and exchange [messages](#definitionsMessage). 
 
 #### <a name="definitionsProducer"></a>Producer
-A producer is a type of application, connected to a server, that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the server, protocol, and use-case pattern. The AsyncAPI document for a producer that sends messages to a given channel MUST use the [subscribe](#channelItemObjectSubscribe) operation on that channel to denote this fact.
+A producer is a type of application, connected to a server, that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the server, protocol, and use-case pattern.
 
 #### <a name="definitionsConsumer"></a>Consumer
-A consumer is a type of application, connected to a server via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the server, protocol, and the use-case pattern. The AsyncAPI document for a consumer that receives messages from a given channel MUST use the [publish](#channelItemObjectPublish) operation on that channel to denote this fact.
+A consumer is a type of application, connected to a server via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the server, protocol, and the use-case pattern.
 
 #### <a name="definitionsMessage"></a>Message
 A message is the mechanism by which information is exchanged via a channel between servers and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
@@ -645,9 +645,9 @@ subscribe:
 
 #### <a name="operationObject"></a>Operation Object
 
-Describes a publish or a subscribe operation. This provides a place to document how and why messages are sent and received. For example, an operation might describe a chat application use case where a user sends a text message to a group.
+Describes a publish or a subscribe operation. This provides a place to document how and why messages are sent and received.
 
-A publish operation describes messages that are received by the application, whereas a subscribe operation describes messages that are sent by the application.
+For example, an operation might describe a chat application use case where a user sends a text message to a group. A publish operation describes messages that are received by the chat application, whereas a subscribe operation describes messages that are sent by the chat application.
 
 ##### Fixed Fields
 
