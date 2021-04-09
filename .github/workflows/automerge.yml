@@ -4,7 +4,7 @@
 name: Automerge release bump PR
 
 on:
-  pull_request:
+  pull_request_target:
     types:
       - labeled
       - unlabeled
@@ -17,10 +17,6 @@ on:
   pull_request_review:
     types:
       - submitted
-  check_suite: 
-    types:
-      - completed
-  status: {}
   
 jobs:
 
@@ -29,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
-        uses: hmarr/auto-approve-action@v2.0.0
+        uses: hmarr/auto-approve-action@v2
         if: github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -39,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
-        uses: pascalgn/automerge-action@v0.7.5
+        uses: pascalgn/automerge-action@v0.13.0
         if: github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
