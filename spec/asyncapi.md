@@ -1961,6 +1961,7 @@ Defines a security scheme that can be used by the operations. Supported schemes 
 * HTTP API key.
 * OAuth2's common flows (Implicit, Resource Owner Protected Credentials, Client Credentials and Authorization Code) as defined in [RFC6749](https://tools.ietf.org/html/rfc6749).
 * [OpenID Connect Discovery](https://tools.ietf.org/html/draft-ietf-oauth-discovery-06).
+* SASL (Simple Authentication and Security Layer) as defined in [RFC4422](https://tools.ietf.org/html/rfc4422).
 
 ##### Fixed Fields
 Field Name | Type | Applies To | Description
@@ -2099,6 +2100,18 @@ flows:
     scopes:
       write:pets: modify pets in your account
       read:pets: read your pets
+```
+
+###### SASL Sample
+
+```json
+{
+  "type": "scramSha512"
+}
+```
+
+```yaml
+type: scramSha512
 ```
 
 #### <a name="oauthFlowsObject"></a>OAuth Flows Object
