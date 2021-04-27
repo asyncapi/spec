@@ -355,6 +355,7 @@ Field Name | Type | Description
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
+<a name="serverObjectLabels"></a>labels | [`string`] | An optional unordered list of strings that can be used to label servers by some criteria. [Channels](#channelItemObject) can be assigned to servers using these labels.
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
 
@@ -389,19 +390,22 @@ The following shows how multiple servers can be described, for example, at the A
       "url": "development.gigantic-server.com",
       "description": "Development server",
       "protocol": "amqp",
-      "protocolVersion": "0.9.1"
+      "protocolVersion": "0.9.1",
+      "labels": ["gigantic", "amqp", "development"]
     },
     "staging": {
       "url": "staging.gigantic-server.com",
       "description": "Staging server",
       "protocol": "amqp",
-      "protocolVersion": "0.9.1"
+      "protocolVersion": "0.9.1",
+      "labels": ["gigantic", "amqp", "staging"]
     },
     "production": {
       "url": "api.gigantic-server.com",
       "description": "Production server",
       "protocol": "amqp",
-      "protocolVersion": "0.9.1"
+      "protocolVersion": "0.9.1",
+      "labels": ["gigantic", "amqp", "production"]
     }
   }
 }
@@ -414,16 +418,28 @@ servers:
     description: Development server
     protocol: amqp
     protocolVersion: 0.9.1
+    labels:
+      - gigantic
+      - amqp
+      - development
   staging:
     url: staging.gigantic-server.com
     description: Staging server
     protocol: amqp
     protocolVersion: 0.9.1
+    labels:
+      - gigantic
+      - amqp
+      - staging
   production:
     url: api.gigantic-server.com
     description: Production server
     protocol: amqp
     protocolVersion: 0.9.1
+    labels:
+      - gigantic
+      - amqp
+      - production
 ```
 
 The following shows how variables can be used for a server configuration:
@@ -557,6 +573,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="channelItemObjectServerLabels"></a>serverLabels | [`string`] | An optional unordered list of labels that can be used to select the servers on which the channel exists. The selected servers are all those whose [labels](#serverObjectLabels) list includes all labels listed for the channel. If absent then the channel must exist on all servers.
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
@@ -639,6 +656,26 @@ subscribe:
       - $ref: '#/components/messages/login'
 ```
 
+Using `serverLabels` to assign the channel to all servers with label `gigantic`:
+
+```json
+{
+  "serverLabels": ["gigantic"],
+  "subscribe": {
+    "message": {
+      "$ref": "#/components/messages/event"
+    }
+  }
+}
+```
+
+```yaml
+serverLabels:
+  - gigantic
+subscribe:
+  message:
+    $ref: '#/components/messages/event'
+```
 
 
 
