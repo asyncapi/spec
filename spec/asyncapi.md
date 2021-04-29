@@ -141,7 +141,15 @@ By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or
 
 ### <a name="traitInheritance"></a>Trait Inheritance
 
+When traits ([Operation Trait Object](#operationTraitObject) and [Message Trait Object](#messageTraitObject)) are defined, they MUST be merged into the target object according to the following rules:
 
+* Traits are merged with a recursive merge algorithm:
+  * Objects are merged recursively
+  * All other types (including arrays) are overwritten
+* The target object that the trait is applied is the most specific and therefore is never overwritten, only extended.
+* The order of the trait objects defines its specificity. Subsequent trait objects in the trait array are more specific.
+* The resulting merge order is the following, with the most specific object to the right:
+  * `merge(trait1, trait2, trait3, ..., targetObject)`
 
 ### <a name="schema"></a>Schema
 
