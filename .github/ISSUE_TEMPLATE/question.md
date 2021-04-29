@@ -1,8 +1,8 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Question
+about: A question about the spec or processes 
 title: ""
-labels: '🐞 Bug'
+labels: '❔ Question'
 assignees: ''
 ---
 
@@ -21,25 +21,3 @@ Before creating your issue:
 * **Feature request?** First read [asyncapi/spec/blob/master/CONTRIBUTING.md](https://www.github.com/asyncapi/spec/blob/master/CONTRIBUTING.md) and prefer creating a Pull Request!
 
 -->
-
-### Describe the bug
-A clear and concise description of what the bug is.
-
-### To Reproduce
-Steps to reproduce the behavior:
-1. Create a document with '...'
-2. Try to change to '....'
-3. Try to validate the document doing '....'
-4. See error
-
-### Expected behavior
-A clear and concise description of what you expected to happen.
-
-### Sample document
-If applicable, add an AsyncAPI document illustrating the problem.
-
-### Screenshots
-If applicable, add screenshots to help explain your problem.
-
-### Additional context
-Add any other context about the problem here.
