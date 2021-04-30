@@ -146,7 +146,7 @@ When traits ([Operation Trait Object](#operationTraitObject) and [Message Trait 
 * Traits are merged with a recursive merge algorithm, similar to [JSON Merge Patch](https://tools.ietf.org/html/rfc7386):
   * Objects are merged recursively
   * All other types (including arrays) are overwritten, with the following exceptions
-    * If the value of the source object is `undefined` it is not merged
+    * If the value of the source object is `undefined` it is ignored
     * If the value of the source object is `null`, the target object property gets removed or set to `null`
 * The target object that the trait is applied is the most specific and therefore is never overwritten, only extended.
 * The order of the trait objects defines its specificity. Subsequent trait objects in the trait array are more specific.
