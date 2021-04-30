@@ -143,13 +143,13 @@ By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or
 
 When traits ([Operation Trait Object](#operationTraitObject) and [Message Trait Object](#messageTraitObject)) are defined, they MUST be merged into the target object according to the following rules:
 
-* Traits are merged with a recursive merge algorithm, similar to [JSON Merge Patch](https://tools.ietf.org/html/rfc7386):
-  * Objects are merged recursively
-  * All other types (including arrays) are overwritten, with the following exceptions
-    * If the value of the source object is `undefined` it is ignored
-    * If the value of the source object is `null`, the target object property gets removed or set to `null`
-* The target object that the trait is applied is the most specific and therefore is never overwritten, only extended.
-* The order of the trait objects defines its specificity. Subsequent trait objects in the trait array are more specific.
+* Traits are merged with a recursive merge algorithm, as defined in the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) RFC.
+* To summarize the main merge rules:
+  * Objects are merged recursively (if the source and the target property are both objects).
+  * If the value of the source object property is `null`, the target object property gets removed.
+  * In all other cases (including arrays and `undefined`) the source object property overwrites the target object property.
+* The target object that the trait is applied to is the most specific and is therefore never overwritten, only extended.
+* The order of the traits defines their specificity. Subsequent traits in the trait array are more specific.
 * The resulting merge order is the following, with the most specific object to the right:
   * `trait1`, `trait2`, `trait3`, ..., `target object`
 
