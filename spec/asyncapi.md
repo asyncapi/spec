@@ -318,7 +318,7 @@ The Servers Object is a map of [Server Objects](#serverObject).
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) | The definition of a server this application MAY connect to.
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) &#124; [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
 
 ##### Servers Object Example
 
@@ -339,6 +339,21 @@ production:
   description: Development server
   protocol: kafka
   protocolVersion: '1.0.0'
+```
+
+Or using Reference Objects:
+
+```json
+{
+  "production": {
+    "$ref": "#/components/servers/production"
+  }
+}
+```
+
+```yaml
+production:
+  $ref: "#/components/servers/production"
 ```
 
 
@@ -1322,6 +1337,7 @@ All objects defined within the components object will have no effect on the API 
 
 Field Name | Type | Description
 ---|:---|---
+<a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
