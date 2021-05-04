@@ -655,7 +655,40 @@ subscribe:
       - $ref: '#/components/messages/login'
 ```
 
+Using eplicit references to the servers on which the channel is available:
 
+```json
+{
+  "description": "This app publishes WebUICommand messages to this AMQP queue which it had received via WebSockets on another channel",
+  "servers": [
+    { "$ref": "#/components/servers/rabbitmqBrokerInProd" },
+    { "$ref": "#/components/servers/rabbitmqBrokerInStaging" },
+  ]
+  "subscribe": {
+    "message": {
+      "$ref": "#/components/messages/WebUICommand"
+    }
+  },
+  "bindings": {
+    "amqp": {
+      "is": "queue"
+    }
+  }
+}
+```
+
+```yaml
+description: This app publishes WebUICommand messages to this AMQP queue which it had received via WebSockets on another channel
+servers:
+  - $ref: "#/components/servers/rabbitmqBrokerInProd"
+  - $ref: "#/components/servers/rabbitmqBrokerInStaging"
+subscribe:
+  message:
+    $ref: "#/components/messages/WebUICommand"
+bindings:
+  amqp:
+    is: queue
+```
 
 
 
