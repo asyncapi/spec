@@ -37,7 +37,7 @@ externalDocs:
 # Details on how to connect to the application
 #
 servers:
-  swamp:
+  public:
     url: wss://api.gemini.com
     protocol: wss
 
