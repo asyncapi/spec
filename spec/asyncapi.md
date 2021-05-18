@@ -656,7 +656,7 @@ subscribe:
 ```
 
 
-Using eplicit references to the servers on which the channel is available:
+Using explicit references to the servers on which the channel is available:
 
 ```json
 {
