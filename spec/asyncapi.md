@@ -318,7 +318,7 @@ The Servers Object is a map of [Server Objects](#serverObject).
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) | The definition of a server this application MAY connect to.
 
 ##### Servers Object Example
 
@@ -339,21 +339,6 @@ production:
   description: Development server
   protocol: kafka
   protocolVersion: '1.0.0'
-```
-
-Or using Reference Objects:
-
-```json
-{
-  "production": {
-    "$ref": "#/components/servers/production"
-  }
-}
-```
-
-```yaml
-production:
-  $ref: "#/components/servers/production"
 ```
 
 
@@ -572,7 +557,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelItemObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An optional unordered list of [Reference Objects](#referenceObject) pointing to [Server Objects](#serverObject), such as those declared in [Servers](#componentsServers) under the [Components Object](#componentsObject), on which this channel is available. If `servers` is absent or empty then the channel must be available on all servers defined in the top-level [Servers Object](#serversObject).
+<a name="channelItemObjectServers"></a>servers | [[Server Object](#serverObject)] | The servers on which this channel is available, specified as an optional unordered list of [JSON References](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) to [Server Objects](#serverObject) defined in the [Servers Object](#serversObject). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
@@ -660,10 +645,10 @@ Using explicit references to the servers on which the channel is available:
 
 ```json
 {
-  "description": "This application publishes WebUICommand messages to this AMQP queue which it had received via WebSockets on another channel",
+  "description": "This application publishes to this AMQP queue WebUICommand messages which it had received via WebSockets on another channel",
   "servers": [
-    { "$ref": "#/components/servers/rabbitmqBrokerInProd" },
-    { "$ref": "#/components/servers/rabbitmqBrokerInStaging" },
+    { "$ref": "#/servers/rabbitmqBrokerInProd" },
+    { "$ref": "#/servers/rabbitmqBrokerInStaging" },
   ],
   "subscribe": {
     "message": {
@@ -679,10 +664,10 @@ Using explicit references to the servers on which the channel is available:
 ```
 
 ```yaml
-description: This application publishes WebUICommand messages to this AMQP queue which it had received via WebSockets on another channel
+description: This application publishes to this AMQP queue WebUICommand messages which it had received via WebSockets on another channel
 servers:
-  - $ref: "#/components/servers/rabbitmqBrokerInProd"
-  - $ref: "#/components/servers/rabbitmqBrokerInStaging"
+  - $ref: "#/servers/rabbitmqBrokerInProd"
+  - $ref: "#/servers/rabbitmqBrokerInStaging"
 subscribe:
   message:
     $ref: "#/components/messages/WebUICommand"
@@ -1372,7 +1357,6 @@ All objects defined within the components object will have no effect on the API 
 
 Field Name | Type | Description
 ---|:---|---
-<a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
