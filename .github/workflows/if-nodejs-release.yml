@@ -7,6 +7,10 @@ on:
   push:
     branches:
       - master
+      # below lines are not enough to have release supported for these branches
+      # make sure configuration of `semantic-release` package mentiones these branches
+      - next
+      - '**-release'
 
 jobs:
 
