@@ -1,11 +1,15 @@
 #
 #
 #
-#This example showcases usage of AsyncAPI for the purpose of describing a WebSocket API. It is based on a real public service maintained by company called Gemini that provides cryptocurency trading products. It uses AsyncAPI bindings.
-
-#This AsyncAPI document describes their v1 of the API. The v2 is also available and changes in the way that it provides a multimessage channel, where you subscribe for messages by sending a subscription message instead of using query parameters. For example with multimessage channel check out this article https://www.asyncapi.com/blog/websocket-part2 about another real public API called Kraken
+# This example showcases usage of AsyncAPI for the purpose of describing a WebSocket API. It is based on a real public service maintained by company called Gemini that provides cryptocurency trading products. It uses AsyncAPI bindings.
 #
+# This AsyncAPI document describes their v1 of the API. The v2 is also available and changes in the way that it provides a multimessage channel, where you subscribe for messages by sending a subscription message instead of using query parameters. For example with multimessage channel check out this article https://www.asyncapi.com/blog/websocket-part2 about another real public API called Kraken
 #
+# All available learning materials about AsyncAPI and WebSocket are:
+# - WebSocket, Shrek, and AsyncAPI - An Opinionated Intro article: https://www.asyncapi.com/blog/websocket-part1
+# - Creating AsyncAPI for WebSocket API - Step by Step article: https://www.asyncapi.com/blog/websocket-part2
+# - From API-First to Code Generation - A WebSocket Use Case article: https://www.asyncapi.com/blog/websocket-part3
+# - Live stream about topics mentioned in part 1 and 2 articles: https://www.youtube.com/watch?v=8tFBcf31e_c
 #
 
 asyncapi: 2.0.0
