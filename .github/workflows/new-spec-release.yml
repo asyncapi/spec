@@ -1,0 +1,47 @@
+name: New Spec Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  Make-PR:
+    name: Make PR on website repository with latest spec release
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - name: Checkout Current repository
+        uses: actions/checkout@v2
+        with:
+          path: spec
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Checkout Another repository
+        uses: actions/checkout@v2
+        with:
+          repository: asyncapi/website
+          path: website
+          token: ${{ env.GITHUB_TOKEN }}
+      - name: Config git
+        run: |
+          git config --global user.name asyncapi-bot
+          git config --global user.email info@asyncapi.io
+      - name: Make branch in Another repository & Copy files from Current Repo to Another
+        run: |
+          cd ./website
+          git checkout -b spec-release-${{github.event.release.tag_name}}
+          cp ../spec/spec/* ./pages/docs/specifications/
+          git add .
+          git commit -m "spec: ${{github.event.release.tag_name}} release"
+      - name: Push changes to another repo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ env.GITHUB_TOKEN }}
+          repository: asyncapi/website
+          branch: spec-release-${{github.event.release.tag_name}}
+          directory: ./website
+      - name: Create PR
+        run: |
+          cd ./website
+          gh pr create --title "spec: ${{github.event.release.tag_name}} release" --body "New Spec Released" --head "${{github.event.release.tag_name}}"
