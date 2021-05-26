@@ -1,4 +1,4 @@
-name: New Spec Release
+name: Update spec document because of new spec release
 
 on:
   release:
@@ -28,20 +28,15 @@ jobs:
           git config --global user.name asyncapi-bot
           git config --global user.email info@asyncapi.io
       - name: Make branch in Another repository & Copy files from Current Repo to Another
+        working-directory: ./website
         run: |
-          cd ./website
           git checkout -b spec-release-${{github.event.release.tag_name}}
-          cp ../spec/spec/* ./pages/docs/specifications/
+          mkdir ./pages/docs/specifications/spec-${{github.event.release.tag_name}}
+          cp ../spec/spec/* ./pages/docs/specifications/spec-${{github.event.release.tag_name}}
           git add .
-          git commit -m "spec: ${{github.event.release.tag_name}} release"
-      - name: Push changes to another repo
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ env.GITHUB_TOKEN }}
-          repository: asyncapi/website
-          branch: spec-release-${{github.event.release.tag_name}}
-          directory: ./website
+          git commit -m "docs(spec): ${{github.event.release.tag_name}} release"
+          git push https://${{ env.GITHUB_TOKEN }}@github.com/asyncapi/website
       - name: Create PR
+        working-directory: ./website
         run: |
-          cd ./website
-          gh pr create --title "spec: ${{github.event.release.tag_name}} release" --body "New Spec Released" --head "${{github.event.release.tag_name}}"
+          gh pr create --title "doc(spec): ${{github.event.release.tag_name}} release" --body "New version of the specification is available and this PR introduces update to specification document on the website" --head "spec-release-${{github.event.release.tag_name}}"
