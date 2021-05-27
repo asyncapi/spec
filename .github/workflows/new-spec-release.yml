@@ -33,6 +33,15 @@ jobs:
           git checkout -b spec-release-${{github.event.release.tag_name}}
           mkdir ./pages/docs/specifications/spec-${{github.event.release.tag_name}}
           cp ../spec/spec/* ./pages/docs/specifications/spec-${{github.event.release.tag_name}}
+      - name: Copy spec to "latest" directory in case of release
+        if: ${{github.event.release.prerelease == false}}
+        working-directory: ./website
+        run: |
+          rm ./pages/docs/specifications/latest/*
+          cp ../spec/spec/* ./pages/docs/specifications/latest/
+      - name: Commit and push
+        working-directory: ./website
+        run: |
           git add .
           git commit -m "docs(spec): ${{github.event.release.tag_name}} release"
           git push https://${{ env.GITHUB_TOKEN }}@github.com/asyncapi/website
