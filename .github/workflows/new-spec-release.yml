@@ -27,18 +27,70 @@ jobs:
         run: |
           git config --global user.name asyncapi-bot
           git config --global user.email info@asyncapi.io
-      - name: Make branch in Another repository & Copy files from Current Repo to Another
+      - name: Create branch
         working-directory: ./website
         run: |
           git checkout -b spec-release-${{github.event.release.tag_name}}
-          mkdir ./pages/docs/specifications/spec-${{github.event.release.tag_name}}
-          cp ../spec/spec/* ./pages/docs/specifications/spec-${{github.event.release.tag_name}}
-      - name: Copy spec to "latest" directory in case of release
+      - name: Check for previous spec file and remove it
+        uses: actions/github-script@v3
         if: ${{github.event.release.prerelease == false}}
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const specFiles = fs.readdirSync("./website/pages/docs/specifications");
+
+            const nextRelease = `v${{github.event.release.tag_name}}`;
+
+            let matchedFileName;
+
+            for (const filename of specFiles) {
+              if (filename.startsWith(nextRelease)) {
+                matchedFileName = filename;
+              }
+            }
+
+            if (matchedFileName) {
+              fs.unlinkSync(`./website/pages/docs/specifications/${matchedFileName}`);
+            } else {
+              console.log("No file found");
+              return;
+            }
+      - name: Copy Spec file from Current Repo to Another
         working-directory: ./website
         run: |
-          rm ./pages/docs/specifications/latest/*
-          cp ../spec/spec/* ./pages/docs/specifications/latest/
+          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/v${{github.event.release.tag_name}}.md
+      - name: Change the redirect file to point to latest spec
+        uses: actions/github-script@v3
+        if: ${{github.event.release.prerelease == false}}
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const startingLine = "# SPEC-REDIRECTION:START\n";
+            const endingLine = "# SPEC-REDIRECTION:END";
+
+            const releseVersion = `v${{github.event.release.tag_name}}`;
+            const redirectLine = `/docs/specifications/latest /docs/specifications/${releseVersion} 302!\n`;
+
+            const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
+
+            const startingIndex = redirectFile.indexOf(startingLine);
+            const endingIndex = redirectFile.indexOf(endingLine);
+
+            if (startingIndex === -1 || endingIndex === -1) {
+              console.log("NOT FOUND");
+              return;
+            }
+
+            const firstHalf = redirectFile.slice(0, startingIndex + startingLine.length);
+            const secondHalf = redirectFile.slice(endingIndex);
+
+            const newRedirect = `${firstHalf}${redirectLine}${secondHalf}`;
+
+            fs.writeFileSync("./website/public/_redirects", newRedirect);
       - name: Commit and push
         working-directory: ./website
         run: |
