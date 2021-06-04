@@ -41,26 +41,17 @@ jobs:
 
             const specFiles = fs.readdirSync("./website/pages/docs/specifications");
 
-            const nextRelease = `v${{github.event.release.tag_name}}`;
-
-            let matchedFileName;
+            const nextRelease = `${{github.event.release.tag_name}}`;
 
             for (const filename of specFiles) {
               if (filename.startsWith(nextRelease)) {
-                matchedFileName = filename;
+                fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
               }
-            }
-
-            if (matchedFileName) {
-              fs.unlinkSync(`./website/pages/docs/specifications/${matchedFileName}`);
-            } else {
-              console.log("No file found");
-              return;
             }
       - name: Copy Spec file from Current Repo to Another
         working-directory: ./website
         run: |
-          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/v${{github.event.release.tag_name}}.md
+          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{github.event.release.tag_name}}.md
       - name: Change the redirect file to point to latest spec
         uses: actions/github-script@v3
         if: ${{github.event.release.prerelease == false}}
@@ -72,7 +63,7 @@ jobs:
             const startingLine = "# SPEC-REDIRECTION:START\n";
             const endingLine = "# SPEC-REDIRECTION:END";
 
-            const releseVersion = `v${{github.event.release.tag_name}}`;
+            const releseVersion = `${{github.event.release.tag_name}}`;
             const redirectLine = `/docs/specifications/latest /docs/specifications/${releseVersion} 302!\n`;
 
             const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
