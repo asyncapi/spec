@@ -1,5 +1,5 @@
 {
-  "projectName": "asyncapi",
+  "projectName": "spec",
   "projectOwner": "asyncapi",
   "repoType": "github",
   "repoHost": "https://github.com",
@@ -224,6 +224,15 @@
         "bug",
         "ideas",
         "video"
+      ]
+    },
+    {
+      "login": "GeraldLoeffler",
+      "name": "Gerald Loeffler",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1985716?v=4",
+      "profile": "http://www.gerald-loeffler.net/",
+      "contributions": [
+        "doc"
       ]
     }
   ],
