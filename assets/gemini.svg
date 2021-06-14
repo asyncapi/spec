@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X7 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="7.53333in" height="7.53333in" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 7567 7567"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:none}
+    .fil1 {fill:black}
+    .fil2 {fill:#00DCFA;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" y="33" width="7533" height="7533"/>
+  <rect class="fil0" x="33" width="7533" height="7533"/>
+  <circle class="fil1" cx="3800" cy="3767" r="3114"/>
+  <g id="gemini_symbol_rgb.eps">
+   <path class="fil2" d="M3676 2209c242,-153 539,-215 822,-173 261,37 509,163 693,351 214,215 341,512 353,814l0 87c-12,304 -140,603 -356,818 -201,204 -475,332 -760,356 -23,279 -146,547 -342,746 -182,188 -427,315 -686,354 -261,41 -535,-4 -767,-131 -255,-136 -458,-366 -561,-636 -51,-127 -76,-264 -82,-400l0 -79c10,-288 123,-571 319,-783 203,-226 494,-369 796,-395 30,-377 249,-731 571,-929zm-88 358c-143,155 -237,357 -259,567 662,0 1325,1 1987,0 -11,-83 -29,-165 -60,-243 -95,-254 -300,-465 -550,-568 -164,-70 -347,-93 -524,-68 -226,31 -439,145 -594,312zm-266 788c1,296 0,593 1,889 296,0 592,0 888,0 0,-296 0,-593 0,-889 -296,0 -592,0 -889,0zm1110 0c0,295 0,589 0,884 222,-25 435,-127 593,-285 162,-159 265,-374 291,-599 -295,0 -590,0 -884,0zm-1951 319c-146,155 -239,358 -263,570 295,0 589,0 884,0 0,-294 0,-588 -1,-882 -235,26 -459,138 -620,312zm-263 793c29,265 170,514 380,677 197,154 453,230 702,207 205,-18 404,-102 560,-237 191,-162 317,-398 345,-647 -662,0 -1325,0 -1987,0z"/>
+  </g>
+ </g>
+</svg>
