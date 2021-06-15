@@ -1509,8 +1509,7 @@ components:
 #### <a name="schemaObject"></a>Schema Object
 
 The Schema Object allows the definition of input and output data types.
-These types can be objects, but also primitives and arrays.
-This object is a superset of the [JSON Schema Specification Draft 07](http://json-schema.org/).
+These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](http://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
 
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
@@ -1716,6 +1715,30 @@ required:
 example:
   name: Puma
   id: 1
+```
+
+###### Model with Boolean Schemas
+
+```json
+{
+  "type": "object",
+  "required": [
+    "anySchema"
+  ],
+  "properties": {
+    "anySchema": true,
+    "cannotBeDefined": false
+  }
+}
+```
+
+```yaml
+type: object
+required:
+- anySchema
+properties:
+  anySchema: true
+  cannotBeDefined: false
 ```
 
 ###### Models with Composition
