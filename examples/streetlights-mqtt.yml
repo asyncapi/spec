@@ -1,6 +1,6 @@
-asyncapi: '2.0.0'
+asyncapi: '2.1.0'
 info:
-  title: Streetlights API
+  title: Streetlights MQTT API
   version: '1.0.0'
   description: |
     The Smartylighting Streetlights API allows you to remotely manage the city lights.
@@ -46,7 +46,7 @@ channels:
       summary: Inform about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
       traits:
-        - $ref: '#/components/operationTraits/kafka'
+        - $ref: '#/components/operationTraits/mqtt'
       message:
         $ref: '#/components/messages/lightMeasured'
 
@@ -57,7 +57,7 @@ channels:
     subscribe:
       operationId: turnOn
       traits:
-        - $ref: '#/components/operationTraits/kafka'
+        - $ref: '#/components/operationTraits/mqtt'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -68,7 +68,7 @@ channels:
     subscribe:
       operationId: turnOff
       traits:
-        - $ref: '#/components/operationTraits/kafka'
+        - $ref: '#/components/operationTraits/mqtt'
       message:
         $ref: '#/components/messages/turnOnOff'
 
@@ -79,7 +79,7 @@ channels:
     subscribe:
       operationId: dimLight
       traits:
-        - $ref: '#/components/operationTraits/kafka'
+        - $ref: '#/components/operationTraits/mqtt'
       message:
         $ref: '#/components/messages/dimLight'
 
@@ -201,9 +201,9 @@ components:
             type: integer
             minimum: 0
             maximum: 100
-  
+
   operationTraits:
-    kafka:
+    mqtt:
       bindings:
-        kafka:
-          clientId: my-app-id
+        mqtt:
+          qos: 1
