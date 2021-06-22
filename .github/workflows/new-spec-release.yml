@@ -1,0 +1,145 @@
+name: Update spec document because of new spec release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  Make-PR:
+    name: Make PR on website repository with latest spec release
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - name: Checkout Current repository
+        uses: actions/checkout@v2
+        with:
+          path: spec
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Checkout Another repository
+        uses: actions/checkout@v2
+        with:
+          repository: asyncapi/website
+          path: website
+          token: ${{ env.GITHUB_TOKEN }}
+      - name: Config git
+        run: |
+          git config --global user.name asyncapi-bot
+          git config --global user.email info@asyncapi.io
+      - name: Create branch
+        working-directory: ./website
+        run: |
+          git checkout -b spec-release-${{github.event.release.tag_name}}
+      - name: Check for previous spec file and remove it
+        uses: actions/github-script@v3
+        if: ${{github.event.release.prerelease == false}}
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const specFiles = fs.readdirSync("./website/pages/docs/specifications");
+
+            const nextRelease = `${{github.event.release.tag_name}}`;
+
+            for (const filename of specFiles) {
+              if (filename.startsWith(nextRelease)) {
+                fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
+              }
+            }
+      - name: Copy Spec file from Current Repo to Another
+        working-directory: ./website
+        run: |
+          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{github.event.release.tag_name}}.md
+      - name: Remove `# AsyncAPI Specification` line
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const headingLine = "# AsyncAPI Specification\n";
+
+            const specFile = fs.readFileSync(`./website/pages/docs/specifications/${{github.event.release.tag_name}}.md`);
+
+            const startingIndex = specFile.indexOf(headingLine);
+
+            if (startingIndex === -1) {
+              console.log("Heading not found");
+              return;
+            }
+            const specWithoutHeading = specFile.slice(startingIndex + headingLine.length);
+            fs.writeFileSync(`./website/pages/docs/specifications/${{github.event.release.tag_name}}.md`, specWithoutHeading);
+      - name: Change the redirect file to point to latest spec
+        uses: actions/github-script@v3
+        if: ${{github.event.release.prerelease == false}}
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const startingLine = "# LATEST-SPEC-REDIRECTION:START\n";
+            const endingLine = "# LATEST-SPEC-REDIRECTION:END";
+
+            const releaseVersion = `${{github.event.release.tag_name}}`;
+            const redirectLine = `/docs/specifications/latest /docs/specifications/${releaseVersion} 302!\n`;
+
+            const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
+
+            const startingIndex = redirectFile.indexOf(startingLine);
+            const endingIndex = redirectFile.indexOf(endingLine);
+
+            if (startingIndex === -1 || endingIndex === -1) {
+              console.log("NOT FOUND");
+              return;
+            }
+
+            const firstHalf = redirectFile.slice(0, startingIndex + startingLine.length);
+            const secondHalf = redirectFile.slice(endingIndex);
+
+            const newRedirect = `${firstHalf}${redirectLine}${secondHalf}`;
+
+            fs.writeFileSync("./website/public/_redirects", newRedirect);
+      - name: Change the redirect file to point to specs
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const startingLine = "# SPEC-REDIRECTION:START\n";
+
+            const releaseVersion = `${{github.event.release.tag_name}}`;
+
+            if(!releaseVersion.startsWith('v')) return;
+
+            const releaseVersionWithoutV = releaseVersion.slice(1);
+
+            const redirectLine = `/docs/specifications/${releaseVersionWithoutV} /docs/specifications/${releaseVersion} 302!\n`;
+
+            const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
+
+            const startingIndex = redirectFile.indexOf(startingLine);
+
+            if (startingIndex === -1) {
+              console.log("NOT FOUND");
+              return;
+            }
+
+            const firstHalf = redirectFile.slice(0, startingIndex + startingLine.length);
+            const secondHalf = redirectFile.slice(startingIndex + startingLine.length);
+
+            const newRedirect = `${firstHalf}${redirectLine}${secondHalf}`;
+
+            fs.writeFileSync("./website/public/_redirects", newRedirect);
+      - name: Commit and push
+        working-directory: ./website
+        run: |
+          git add .
+          git commit -m "docs(spec): ${{github.event.release.tag_name}} release"
+          git push https://${{ env.GITHUB_TOKEN }}@github.com/asyncapi/website
+      - name: Create PR
+        working-directory: ./website
+        run: |
+          gh pr create --title "doc(spec): ${{github.event.release.tag_name}} release" --body "New version of the specification is available and this PR introduces update to specification document on the website" --head "spec-release-${{github.event.release.tag_name}}"
