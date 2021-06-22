@@ -1414,7 +1414,6 @@ my.org.User
   },
   "parameters": {
     "userId": {
-      "name": "userId",
       "description": "Id of the user.",
       "schema": {
         "type": "string"
@@ -1487,7 +1486,6 @@ components:
             $ref: "#/components/schemas/signup"
   parameters:
     userId:
-    - name: userId
       description: Id of the user.
       schema:
         type: string
