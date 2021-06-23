@@ -76,7 +76,6 @@ Definition of the Gemini Websocket API.
 > :point_right: [See more](./examples/websocket-gemini.yml)
 
 #### :heavy_plus_sign: and more...
-
 Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
 
 ## Contributors
