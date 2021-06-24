@@ -282,6 +282,21 @@
         "talk",
         "ideas"
       ]
+    },
+    {
+      "login": "lbroudoux",
+      "name": "Laurent Broudoux",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1538635?v=4",
+      "profile": "http://medium.com/@lbroudoux",
+      "contributions": [
+        "code",
+        "doc",
+        "blog",
+        "talk",
+        "example",
+        "ideas",
+        "review"
+      ]
     }
   ],
   "commitConvention": "none"
