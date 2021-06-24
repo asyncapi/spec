@@ -29,7 +29,14 @@ jobs:
           node-version: 14
       - if: steps.packagejson.outputs.exists == 'true'
         name: Install dependencies
+        id: first-installation
         run: npm install --loglevel verbose
+        continue-on-error: true
+      - if: steps.first-installation.outputs.status == 'failure' && steps.packagejson.outputs.exists == 'true'
+        name: Clear NPM cache and install deps again
+        run: | 
+          npm cache clean --force
+          npm install --loglevel verbose
       - if: steps.packagejson.outputs.exists == 'true'
         name: Test
         run: npm test
