@@ -112,7 +112,7 @@ components:
         $ref: '#/components/schemas/market'
       examples:
         - name: updateMessage
-          summary: Example of an update message hat contains a change in price information.
+          summary: Example of an update message that contains a change in price information.
           payload:
             type: update
             eventId: 36902233362
