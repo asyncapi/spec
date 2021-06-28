@@ -2,7 +2,7 @@
 
 |Project name|Reviewers|Company|Spec version|
 |------------|---------|-------|------------|
-|Awesome project|Jack Johnson, John Jackson|ACME|v2.0.0|
+|Awesome project|Jack Johnson, John Jackson|ACME|v2.1.0|
 
 ## Our goals with this project are to:
   1. Document a microservices architecture built with RabbitMQ.
