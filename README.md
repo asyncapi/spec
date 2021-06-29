@@ -43,7 +43,8 @@
 
 The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
 
-* [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md) (latest)
+* [Version 2.1.0](https://github.com/asyncapi/spec/blob/v2.1.0/spec/asyncapi.md) (latest)
+* [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md)
 * [Version 1.2.0](https://github.com/asyncapi/spec/blob/1.2.0/README.md) (deprecated)
 * [Version 1.1.0](https://github.com/asyncapi/spec/blob/1.1.0/README.md) (deprecated)
 * [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
@@ -58,17 +59,22 @@ The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncap
 #### :bulb: Streetlights
 Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
 
-> :point_right: [See more](./examples/2.0.0/streetlights.yml)
+> :point_right: [See more](./examples/streetlights.yml)
 
 #### <img src="./assets/slack.png" width="15" alt="Slack icon">&nbsp;&nbsp; Slack Events API
 Partial definition of the Slack Events API. Find the official one [here](https://github.com/slackapi/slack-api-specs/blob/master/events-api/slack_events_api_async_v1.json).
 
-> :point_right: [See more](./examples/2.0.0/slack-rtm.yml)
+> :point_right: [See more](./examples/slack-rtm.yml)
 
 #### <img src="./assets/gitter.png" width="15" alt="Gitter icon">&nbsp;&nbsp; Gitter Streaming API
 Definition of the Gitter streaming API.
 
-> :point_right: [See more](./examples/2.0.0/gitter-streaming.yml)
+> :point_right: [See more](./examples/gitter-streaming.yml)
+
+#### <img src="./assets/gemini.svg" width="15" alt="Gemini icon">&nbsp;&nbsp; Gemini WebSocket API
+Definition of the Gemini Websocket API.
+
+> :point_right: [See more](./examples/websocket-gemini.yml)
 
 #### :heavy_plus_sign: and more...
 Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
