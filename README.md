@@ -113,6 +113,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://vladimirgorej.com/"><img src="https://avatars.githubusercontent.com/u/193286?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Vladimir Gorej</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=char0n" title="Documentation">📖</a></td>
     <td align="center"><a href="http://www.lornajane.net/"><img src="https://avatars.githubusercontent.com/u/172607?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Lorna Jane Mitchell</b></sub></a><br /><a href="#talk-lornajane" title="Talks">📢</a> <a href="#ideas-lornajane" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="http://medium.com/@lbroudoux"><img src="https://avatars.githubusercontent.com/u/1538635?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laurent Broudoux</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=lbroudoux" title="Code">💻</a> <a href="https://github.com/asyncapi/spec/commits?author=lbroudoux" title="Documentation">📖</a> <a href="#blog-lbroudoux" title="Blogposts">📝</a> <a href="#talk-lbroudoux" title="Talks">📢</a> <a href="#example-lbroudoux" title="Examples">💡</a> <a href="#ideas-lbroudoux" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/asyncapi/spec/pulls?q=is%3Apr+reviewed-by%3Albroudoux" title="Reviewed Pull Requests">👀</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->

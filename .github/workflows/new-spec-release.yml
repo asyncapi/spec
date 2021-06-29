@@ -52,25 +52,6 @@ jobs:
         working-directory: ./website
         run: |
           cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{github.event.release.tag_name}}.md
-      - name: Remove `# AsyncAPI Specification` line
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ env.GITHUB_TOKEN }}
-          script: |
-            const fs = require("fs");
-
-            const headingLine = "# AsyncAPI Specification\n";
-
-            const specFile = fs.readFileSync(`./website/pages/docs/specifications/${{github.event.release.tag_name}}.md`);
-
-            const startingIndex = specFile.indexOf(headingLine);
-
-            if (startingIndex === -1) {
-              console.log("Heading not found");
-              return;
-            }
-            const specWithoutHeading = specFile.slice(startingIndex + headingLine.length);
-            fs.writeFileSync(`./website/pages/docs/specifications/${{github.event.release.tag_name}}.md`, specWithoutHeading);
       - name: Remove Table of Contents from Spec
         uses: actions/github-script@v3
         with:
@@ -165,4 +146,4 @@ jobs:
       - name: Create PR
         working-directory: ./website
         run: |
-          gh pr create --title "doc(spec): ${{github.event.release.tag_name}} release" --body "New version of the specification is available and this PR introduces update to specification document on the website" --head "spec-release-${{github.event.release.tag_name}}"
+          gh pr create --title "docs(spec): ${{github.event.release.tag_name}} release" --body "New version of the specification is available and this PR introduces update to specification document on the website" --head "spec-release-${{github.event.release.tag_name}}"
