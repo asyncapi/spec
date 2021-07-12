@@ -10,7 +10,7 @@ on:
 
 jobs:
   version_bump:
-    name: Generate assets and bump
+    name: Bump version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,9 +26,6 @@ jobs:
       - if: steps.packagejson.outputs.exists == 'true'
         name: Install dependencies
         run: npm install
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Assets generation
-        run: npm run generate:assets
       - if: steps.packagejson.outputs.exists == 'true'  
         name: Bump version in package.json
         # There is no need to substract "v" from the tag as version script handles it
