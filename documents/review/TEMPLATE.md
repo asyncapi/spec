@@ -2,7 +2,7 @@
 
 |Project name|Reviewers|Company|Spec version|
 |------------|---------|-------|------------|
-|{{PROJECT NAME}}|{{REVIEWER 1 NAME}}, {{REVIEWER 2 NAME}}|{{COMPANY}}|v2.0.0|
+|{{PROJECT NAME}}|{{REVIEWER 1 NAME}}, {{REVIEWER 2 NAME}}|{{COMPANY}}|v2.1.0|
 
 ## Our goals with this project are to:
   1. {{INSERT GOAL HERE}}

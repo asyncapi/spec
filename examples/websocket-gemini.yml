@@ -12,7 +12,7 @@
 # - Live stream about topics mentioned in part 1 and 2 articles: https://www.youtube.com/watch?v=8tFBcf31e_c
 #
 
-asyncapi: 2.0.0
+asyncapi: '2.1.0'
 
 #
 # Overal information for users of the application
@@ -111,7 +111,9 @@ components:
       payload:
         $ref: '#/components/schemas/market'
       examples:
-        - payload:
+        - name: updateMessage
+          summary: Example of an update message that contains a change in price information.
+          payload:
             type: update
             eventId: 36902233362
             timestamp: 1619769673
@@ -124,7 +126,9 @@ components:
                 remaining: '0.002'
                 delta: '0.002'
                 reason: place
-        - payload:
+        - name: heartbeatMessage
+          summary: Example of additional heartbeat message when you enable them. 
+          payload:
             type: heartbeat
             socket_sequence: 1656
   schemas:
