@@ -703,7 +703,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "bindings": {
     "amqp": {
       "ack": false
-    },
+    }
   },
   "traits": [
     { "$ref": "#/components/operationTraits/kafka" }
@@ -1897,7 +1897,7 @@ schemas:
               "const": "StickBug"
             },
             "color": {
-              "type": "string",
+              "type": "string"
             }
           },
           "required": [
@@ -2093,7 +2093,7 @@ in: header
 {
   "type": "http",
   "scheme": "bearer",
-  "bearerFormat": "JWT",
+  "bearerFormat": "JWT"
 }
 ```
 
