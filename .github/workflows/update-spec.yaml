@@ -38,7 +38,7 @@ jobs:
       - name: Create branch
         working-directory: ./website
         run: |
-          git checkout -b update-spec
+          git checkout -b update-spec-${{ steps.latest_version.outputs.latest_tag }}
       - name: Check for previous spec file and remove it
         uses: actions/github-script@v3
         with:
@@ -91,4 +91,4 @@ jobs:
       - name: Create PR
         working-directory: ./website
         run: |
-          gh pr create --title "docs(spec): update latest specification" --body "Updated specification is available and this PR introduces update to specification document on the website" --head "update-specification"
+          gh pr create --title "docs(spec): update latest specification" --body "Updated specification is available and this PR introduces update to specification document on the website" --head "update-spec-${{ steps.latest_version.outputs.latest_tag }}"
