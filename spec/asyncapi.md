@@ -1358,90 +1358,92 @@ my.org.User
 ##### Components Object Example
 
 ```json
-"components": {
-  "schemas": {
-    "Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "Tag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    }
-  },
-  "messages": {
-    "userSignUp": {
-      "summary": "Action to sign a user up.",
-      "description": "Multiline description of what this action does.\nHere you have another line.\n",
-      "tags": [
-        {
-          "name": "user"
-        },
-        {
-          "name": "signup"
-        }
-      ],
-      "headers": {
+{
+  "components": {
+    "schemas": {
+      "Category": {
         "type": "object",
         "properties": {
-          "applicationInstanceId": {
-            "description": "Unique identifier for a given instance of the publishing application",
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
             "type": "string"
           }
         }
       },
-      "payload": {
+      "Tag": {
         "type": "object",
         "properties": {
-          "user": {
-            "$ref": "#/components/schemas/userCreate"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "signup": {
-            "$ref": "#/components/schemas/signup"
+          "name": {
+            "type": "string"
           }
         }
       }
-    }
-  },
-  "parameters": {
-    "userId": {
-      "description": "Id of the user.",
-      "schema": {
-        "type": "string"
+    },
+    "messages": {
+      "userSignUp": {
+        "summary": "Action to sign a user up.",
+        "description": "Multiline description of what this action does.\nHere you have another line.\n",
+        "tags": [
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          }
+        ],
+        "headers": {
+          "type": "object",
+          "properties": {
+            "applicationInstanceId": {
+              "description": "Unique identifier for a given instance of the publishing application",
+              "type": "string"
+            }
+          }
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "$ref": "#/components/schemas/userCreate"
+            },
+            "signup": {
+              "$ref": "#/components/schemas/signup"
+            }
+          }
+        }
       }
-    }
-  },
-  "correlationIds": {
-    "default": {
-      "description": "Default Correlation ID",
-      "location": "$message.header#/correlationId"
-    }
-  },
-  "messageTraits": {
-    "commonHeaders": {
-      "headers": {
-        "type": "object",
-        "properties": {
-          "my-app-header": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 100
+    },
+    "parameters": {
+      "userId": {
+        "description": "Id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "correlationIds": {
+      "default": {
+        "description": "Default Correlation ID",
+        "location": "$message.header#/correlationId"
+      }
+    },
+    "messageTraits": {
+      "commonHeaders": {
+        "headers": {
+          "type": "object",
+          "properties": {
+            "my-app-header": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
           }
         }
       }
