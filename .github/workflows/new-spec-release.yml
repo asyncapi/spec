@@ -1,4 +1,4 @@
-name: Update spec document because of new spec release
+name: Push new spec to the website because of new spec release
 
 on:
   release:

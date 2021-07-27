@@ -1,0 +1,94 @@
+name: Update latest specification document in the website
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'spec/asyncapi.md'
+
+jobs:
+  Make-PR:
+    name: Make PR on website repository with updated latest spec
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    steps:
+      - name: Checkout Current repository
+        uses: actions/checkout@v2
+        with:
+          path: spec
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Checkout Another repository
+        uses: actions/checkout@v2
+        with:
+          repository: asyncapi/website
+          path: website
+          token: ${{ env.GITHUB_TOKEN }}
+      - name: Config git
+        run: |
+          git config --global user.name asyncapi-bot
+          git config --global user.email info@asyncapi.io
+      - name: Get latest release
+        id: latest_version
+        uses: abatilo/release-info-action@v1.3.0
+        with:
+          owner: asyncapi
+          repo: spec
+      - name: Create branch
+        working-directory: ./website
+        run: |
+          git checkout -b update-spec
+      - name: Check for previous spec file and remove it
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const specFiles = fs.readdirSync("./website/pages/docs/specifications");
+
+            const latestRelease = `${{ steps.latest_version.outputs.latest_tag }}`;
+
+            for (const filename of specFiles) {
+              if (filename.startsWith(latestRelease)) {
+                fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
+              }
+            }
+      - name: Copy Spec file from Current Repo to Another
+        working-directory: ./website
+        run: |
+          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md
+      - name: Remove Table of Contents from Spec
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const startingLine = "## Table of Contents\n";
+            const endingLine = "<!-- /TOC -->\n";
+
+            const specFile = fs.readFileSync(`./website/pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md`);
+
+            const startingIndex = specFile.indexOf(startingLine);
+            const endingIndex = specFile.indexOf(endingLine);
+
+            if (startingIndex === -1 || endingIndex === -1) {
+              console.log("TOC not found");
+              return;
+            }
+            const firstHalf = specFile.slice(0, startingIndex);
+            const secondHalf = specFile.slice(endingIndex + endingLine.length);
+            const specWithoutToc = `${firstHalf}${secondHalf}`;
+            fs.writeFileSync(`./website/pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md`, specWithoutToc);
+      - name: Commit and push
+        working-directory: ./website
+        run: |
+          git add .
+          git commit -m "docs(spec): update latest specification"
+          git push https://${{ env.GITHUB_TOKEN }}@github.com/asyncapi/website
+      - name: Create PR
+        working-directory: ./website
+        run: |
+          gh pr create --title "docs(spec): update latest specification" --body "Updated specification is available and this PR introduces update to specification document on the website" --head "update-specification"
