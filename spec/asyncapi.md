@@ -446,6 +446,9 @@ The following shows how variables can be used for a server configuration:
             "8884"
           ],
           "default": "8883"
+        },
+        "basePath": {
+          "default": "v2"
         }
       }
     }
@@ -469,6 +472,9 @@ servers:
           - '8883'
           - '8884'
         default: '8883'
+      basePath:
+        # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
+        default: v2
 ```
 
 
