@@ -39,22 +39,6 @@ jobs:
         working-directory: ./website
         run: |
           git checkout -b update-spec-${{ steps.latest_version.outputs.latest_tag }}
-      - name: Check for previous spec file and remove it
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ env.GITHUB_TOKEN }}
-          script: |
-            const fs = require("fs");
-
-            const specFiles = fs.readdirSync("./website/pages/docs/specifications");
-
-            const latestRelease = `${{ steps.latest_version.outputs.latest_tag }}`;
-
-            for (const filename of specFiles) {
-              if (filename.startsWith(latestRelease)) {
-                fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
-              }
-            }
       - name: Copy Spec file from Current Repo to Another
         working-directory: ./website
         run: |
@@ -63,25 +47,10 @@ jobs:
         uses: actions/github-script@v3
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
+          # require needs relative path to the script (relative to the current working directory)
           script: |
-            const fs = require("fs");
-
-            const startingLine = "## Table of Contents\n";
-            const endingLine = "<!-- /TOC -->\n";
-
-            const specFile = fs.readFileSync(`./website/pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md`);
-
-            const startingIndex = specFile.indexOf(startingLine);
-            const endingIndex = specFile.indexOf(endingLine);
-
-            if (startingIndex === -1 || endingIndex === -1) {
-              console.log("TOC not found");
-              return;
-            }
-            const firstHalf = specFile.slice(0, startingIndex);
-            const secondHalf = specFile.slice(endingIndex + endingLine.length);
-            const specWithoutToc = `${firstHalf}${secondHalf}`;
-            fs.writeFileSync(`./website/pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md`, specWithoutToc);
+            const script = require('./spec/.github/scripts/remove-toc.js');
+            script(${{ steps.latest_version.outputs.latest_tag }});
       - name: Commit and push
         working-directory: ./website
         run: |
