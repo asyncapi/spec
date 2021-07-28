@@ -49,7 +49,7 @@ jobs:
           # require needs relative path to the script (relative to the current working directory)
           script: |
             const script = require('./spec/.github/scripts/remove-toc.js');
-            script(${{ steps.latest_version.outputs.latest_tag }});
+            script(`${{ steps.latest_version.outputs.latest_tag }}`);
       - name: Commit and push
         working-directory: ./website
         run: |
