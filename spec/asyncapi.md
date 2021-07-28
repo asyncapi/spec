@@ -12,10 +12,10 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 ## Introduction
 
-The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, Mercure, etc).
+The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, Mercure, etc.).
 
 The AsyncAPI Specification defines a set of files required to describe such an API.
-These files can then be used to create utilities, such as documentation, integration and/or testing tools.
+These files can then be used to create utilities, such as documentation, integration, and testing tools.
 
 The file(s) MUST describe the operations an [application](#definitionsApplication) accepts. For instance, consider the following AsyncAPI definition snippet:
 
@@ -27,7 +27,7 @@ user/signedup:
 
 It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
 
-**The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
+**The AsyncAPI specification does not assume any kind of software topology, architecture, or pattern.** Therefore, a server MAY be a message broker, a web server, or any other kind of computer program capable of sending or receiving data. However, AsyncAPI offers a mechanism called "bindings" to help with more specific information about the protocol.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
@@ -83,22 +83,22 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 ## <a name="definitions"></a>Definitions
 
 #### <a name="definitionsApplication"></a>Application
-An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the server in order to connect and exchange [messages](#definitionsMessage). 
+An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the server to connect and exchange [messages](#definitionsMessage). 
 
 #### <a name="definitionsProducer"></a>Producer
-A producer is a type of application, connected to a server, that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the server, protocol, and use-case pattern.
+A producer is a type of application connected to a server that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the server, protocol, and use-case pattern.
 
 #### <a name="definitionsConsumer"></a>Consumer
 A consumer is a type of application, connected to a server via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the server, protocol, and the use-case pattern.
 
 #### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between servers and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+A message is a mechanism by which information is exchanged via a channel between servers and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application, which can act as supporting metadata. The payload contains the data defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 #### <a name="definitionsChannel"></a>Channel
-A channel is an addressable component, made available by the server, for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. Servers MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the server implementation, the channel MAY be included in the message via protocol-defined headers.
+A channel is an addressable component made available by the server for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. Servers MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the server implementation, the channel MAY be included in the message via protocol-defined headers.
 
 #### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, Mercure, WebSocket.  
+A protocol is a mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, Mercure, WebSocket.  
 
 #### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
@@ -118,7 +118,7 @@ For example, if a field is said to have an array value, the JSON array represent
 }
 ```
 
-While the API is described using JSON it does not impose a JSON input/output to the API itself.
+While the API is described using JSON, it does not impose a JSON input/output to the API itself.
 
 All field names in the specification are **case sensitive**.
 
@@ -134,7 +134,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 ### <a name="file-structure"></a>File Structure
 
 The A2S representation of the API is made of a single file.
-However, parts of the definitions can be split into separate files, at the discretion of the user.
+However, parts of the definitions can be split into separate files at the discretion of the user.
 This is applicable for `$ref` fields in the specification as follows from the [JSON Schema](https://json-schema.org/understanding-json-schema/structuring.html) definitions.
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
@@ -144,7 +144,7 @@ By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or
 #### <a name="A2SObject"></a>AsyncAPI Object
 
 This is the root document object for the API specification.
-It combines resource listing and API declaration together into one document.
+It combines resource listing and API declaration into one document.
 
 ##### Fixed Fields
 
@@ -165,17 +165,17 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 #### <a name="A2SVersionString"></a>AsyncAPI Version String
 
-The version string signifies the version of the AsyncAPI Specification that the document complies to.
+The version string signifies the version of the AsyncAPI Specification that the document complies with.
 The format for this string _must_ be `major`.`minor`.`patch`.  The `patch` _may_ be suffixed by a hyphen and extra alphanumeric characters.
 
-A `major`.`minor` shall be used to designate the AsyncAPI Specification version, and will be considered compatible with the AsyncAPI Specification specified by that `major`.`minor` version.
+A `major`.`minor` shall be used to designate the AsyncAPI Specification version and be considered compatible with the AsyncAPI Specification specified by that `major`.`minor` version.
 The patch version will not be considered by tooling, making no distinction between `1.0.0` and `1.0.1`.
 
 In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
 
 #### <a name="A2SIdString"></a>Identifier
 
-This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](http://tools.ietf.org/html/rfc3986).
+This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document defines. It must conform to the URI format, according to [RFC3986](http://tools.ietf.org/html/rfc3986).
 
 It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the application during long periods of time, even after it becomes unavailable or ceases to exist.
 
@@ -355,7 +355,7 @@ Field Name | Type | Description
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
-<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects needs to be satisfied to authorize a connection or operation.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -495,7 +495,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 A string representing the default content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). This value MUST be used by schema parsers when the [contentType](#messageObjectContentType) property is omitted.
 
-In case a message can't be encoded/decoded using this value, schema parsers MUST use their default content type.
+If a message can't be encoded/decoded using this value, schema parsers MUST use their default content type.
 
 ##### Default Content Type Example
 
@@ -649,7 +649,7 @@ subscribe:
 
 Describes a publish or a subscribe operation. This provides a place to document how and why messages are sent and received.
 
-For example, an operation might describe a chat application use case where a user sends a text message to a group. A publish operation describes messages that are received by the chat application, whereas a subscribe operation describes messages that are sent by the chat application.
+For example, an operation might describe a chat application use case where a user sends a text message to a group. A publish operation describes messages received by the chat application, whereas a subscribe operation describes messages sent by the chat application.
 
 ##### Fixed Fields
 
@@ -840,7 +840,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the parameter.
-location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
+location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter. Instead, the `schema` property MUST be used.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1297,9 +1297,9 @@ url: https://example.com
 A simple object to allow referencing other components in the specification, internally and externally.
 
 
-The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules. A JSON Reference SHALL only be used to refer to a schema that is formatted in either JSON or YAML. In the case of a YAML-formatted Schema, the JSON Reference SHALL be applied to the JSON representation of that schema. The JSON representation SHALL be made by applying the conversion described [here](#format).
+The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior, and rules. A JSON Reference SHALL only be used to refer to a schema that is formatted in either JSON or YAML. In the case of a YAML-formatted Schema, the JSON Reference SHALL be applied to the JSON representation of that schema. The JSON representation SHALL be made by applying the conversion described [here](#format).
 
-For this specification, reference resolution is done as defined by the JSON Reference specification and not by the JSON Schema specification.
+For this specification, reference resolution is defined by the JSON Reference specification and not by the JSON Schema specification.
 
 ##### Fixed Fields
 Field Name | Type | Description
@@ -1557,11 +1557,11 @@ The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema
 - anyOf
 - not
 
-The following properties are taken from the JSON Schema definition but their definitions were adjusted to the AsyncAPI Specification.
+The following properties are taken from the JSON Schema definition, but their definitions were adjusted to the AsyncAPI Specification.
 
 - description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
-- default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
+- default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, if `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline.
 
@@ -1585,7 +1585,7 @@ While composition offers model extensibility, it does not imply a hierarchy betw
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
 When used, the `discriminator` will be the name of the property used to decide which schema definition is used to validate the structure of the model.
 As such, the `discriminator` field MUST be a required field.
-There are are two ways to define the value of a discriminator for an inheriting instance.
+There are two ways to define the value of a discriminator for an inheriting instance.
 
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
@@ -1979,15 +1979,15 @@ schemas:
 
 #### <a name="securitySchemeObject"></a>Security Scheme Object
 
-Defines a security scheme that can be used by the operations. Supported schemes are:
+Defines a security scheme that the operations can use. Supported schemes are:
 
 * User/Password.
-* API key (either as user or as password).
+* API key (either as a user or password).
 * X.509 certificate.
 * End-to-end encryption (either symmetric or asymmetric).
 * HTTP authentication.
 * HTTP API key.
-* OAuth2's common flows (Implicit, Resource Owner Protected Credentials, Client Credentials and Authorization Code) as defined in [RFC6749](https://tools.ietf.org/html/rfc6749).
+* OAuth2's common flows (Implicit, Resource Owner Protected Credentials, Client Credentials, and Authorization Code) as defined in [RFC6749](https://tools.ietf.org/html/rfc6749).
 * [OpenID Connect Discovery](https://tools.ietf.org/html/draft-ietf-oauth-discovery-06).
 * SASL (Simple Authentication and Security Layer) as defined in [RFC4422](https://tools.ietf.org/html/rfc4422).
 
@@ -2269,7 +2269,7 @@ petstore_auth:
 
 ### <a name="correlationIdObject"></a>Correlation ID Object
 
-An object that specifies an identifier at design time that can used for message tracing and correlation. 
+An object that specifies an identifier at design time that can be used for message tracing and correlation. 
 
 For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
 
@@ -2326,7 +2326,7 @@ Runtime expressions preserve the type of the referenced value.
 
 While the AsyncAPI Specification tries to accommodate most use cases, additional data can be added to extend the specification at certain points.
 
-The extensions properties are implemented as patterned fields that are always prefixed by `"x-"`.
+The extension properties are implemented as patterned fields that are prefixed by `"x-"`.
 
 Field Pattern | Type | Description
 ---|:---:|---
@@ -2338,8 +2338,8 @@ The extensions may or may not be supported by the available tooling, but those m
 
 Primitives have an optional modifier property: `format`.
 The AsyncAPI specification uses several known formats to more finely define the data type being used.
-However, the `format` property is an open `string`-valued property, and can have any value to support documentation needs.
-Formats such as `"email"`, `"uuid"`, etc., can be used even though they are not defined by this specification.
+However, the `format` property is an open `string`-valued property and can have any value to support documentation needs.
+Formats such as `"email"`, `"uuid"`, etc., can be used even though this specification does not define them.
 Types that are not accompanied by a `format` property follow their definition from the JSON Schema.
 Tools that do not recognize a specific `format` MAY default back to the `type` alone, as if the `format` was not specified.
 
