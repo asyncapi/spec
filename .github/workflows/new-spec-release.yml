@@ -53,13 +53,11 @@ jobs:
         run: |
           cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{github.event.release.tag_name}}.md
       - name: Remove Table of Contents from Spec
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
-            const path = require('path');
-            const scriptPath = path.resolve(process.cwd(), './spec/.github/scripts/remove-toc');
-            const script = require(scriptPath);
+            const script = require('./spec/.github/scripts/remove-toc');
             script(`${{github.event.release.tag_name}}`);
       - name: Change the redirect file to point to latest spec
         uses: actions/github-script@v3

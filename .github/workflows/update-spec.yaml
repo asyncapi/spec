@@ -43,13 +43,11 @@ jobs:
         run: |
           cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md
       - name: Remove Table of Contents from Spec
-        uses: actions/github-script@v3
+        uses: actions/github-script@v4
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
-            const path = require('path');
-            const scriptPath = path.resolve(process.cwd(), './spec/.github/scripts/remove-toc');
-            const script = require(scriptPath);
+            const script = require('./spec/.github/scripts/remove-toc');
             script(`${{ steps.latest_version.outputs.latest_tag }}`);
       - name: Commit and push
         working-directory: ./website
