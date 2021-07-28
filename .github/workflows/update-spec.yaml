@@ -46,9 +46,10 @@ jobs:
         uses: actions/github-script@v3
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
-          # require needs relative path to the script (relative to the current working directory)
           script: |
-            const script = require('./spec/.github/scripts/remove-toc.js');
+            const path = require('path');
+            const scriptPath = path.resolve(process.cwd(), './spec/.github/scripts/remove-toc');
+            const script = require(scriptPath);
             script(`${{ steps.latest_version.outputs.latest_tag }}`);
       - name: Commit and push
         working-directory: ./website
