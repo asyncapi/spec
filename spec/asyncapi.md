@@ -437,15 +437,20 @@ The following shows how variables can be used for a server configuration:
       "protocol": "secure-mqtt",
       "variables": {
         "username": {
-          "default": "demo",
-          "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+          "description": "This value is assigned by the service provider, in this example `gigantic-server.com`",
+          "schema": {
+            "type": "string",
+            "default": "demo"
+          }
         },
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
-          "default": "8883"
+          "schema": {
+            "enum": [
+              "8883",
+              "8884"
+            ],
+            "default": "8883"
+          }
         }
       }
     }
@@ -461,14 +466,16 @@ servers:
     protocol: secure-mqtt
     variables:
       username:
-        # note! no enum here means it is an open value
-        default: demo
         description: This value is assigned by the service provider, in this example `gigantic-server.com`
+        schema:
+          type: string
+          default: demo
       port:
-        enum:
-          - '8883'
-          - '8884'
-        default: '8883'
+        schema:
+          enum:
+            - '8883'
+            - '8884'
+          default: '8883'
 ```
 
 
@@ -480,10 +487,8 @@ An object representing a Server Variable for server URL template substitution.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
-<a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
 <a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
+<a name="serverVariableObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the server variable.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
