@@ -1,4 +1,4 @@
-name: Update spec document because of new spec release
+name: Push new spec to the website because of new spec release
 
 on:
   release:
@@ -56,25 +56,10 @@ jobs:
         uses: actions/github-script@v3
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
+          # require needs relative path to the script (relative to the current working directory)
           script: |
-            const fs = require("fs");
-
-            const startingLine = "## Table of Contents\n";
-            const endingLine = "<!-- /TOC -->\n";
-
-            const specFile = fs.readFileSync(`./website/pages/docs/specifications/${{github.event.release.tag_name}}.md`);
-
-            const startingIndex = specFile.indexOf(startingLine);
-            const endingIndex = specFile.indexOf(endingLine);
-
-            if (startingIndex === -1 || endingIndex === -1) {
-              console.log("TOC not found");
-              return;
-            }
-            const firstHalf = specFile.slice(0, startingIndex);
-            const secondHalf = specFile.slice(endingIndex + endingLine.length);
-            const specWithoutToc = `${firstHalf}${secondHalf}`;
-            fs.writeFileSync(`./website/pages/docs/specifications/${{github.event.release.tag_name}}.md`, specWithoutToc);
+            const script = require('./spec/.github/scripts/remove-toc.js');
+            script(${{github.event.release.tag_name}});
       - name: Change the redirect file to point to latest spec
         uses: actions/github-script@v3
         if: ${{github.event.release.prerelease == false}}
