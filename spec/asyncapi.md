@@ -6,9 +6,9 @@ Part of this content has been taken from the great work done by the folks at the
 
 #### Version 2.1.0
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](http://www.ietf.org/rfc/rfc2119.txt).
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
-The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html).
+The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
 
 ## Introduction
 
@@ -126,9 +126,9 @@ The schema exposes two types of fields.
 Fixed fields, which have a declared name, and Patterned fields, which declare a regex pattern for the field name.
 Patterned fields can have multiple occurrences as long as each has a unique name.
 
-In order to preserve the ability to round-trip between YAML and JSON formats, YAML version [1.2](http://www.yaml.org/spec/1.2/spec.html) is recommended along with some additional constraints:
+In order to preserve the ability to round-trip between YAML and JSON formats, YAML version [1.2](https://www.yaml.org/spec/1.2/spec.html) is recommended along with some additional constraints:
 
-- Tags MUST be limited to those allowed by the [JSON Schema ruleset](http://www.yaml.org/spec/1.2/spec.html#id2803231)
+- Tags MUST be limited to those allowed by the [JSON Schema ruleset](https://www.yaml.org/spec/1.2/spec.html#id2803231)
 - Keys used in YAML maps MUST be limited to a scalar string, as defined by the YAML Failsafe schema ruleset
 
 ### <a name="file-structure"></a>File Structure
@@ -212,7 +212,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="infoObjectTitle"></a>title | `string` | **Required.** The title of the application.
 <a name="infoObjectVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
-<a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
@@ -225,15 +225,15 @@ This object can be extended with [Specification Extensions](#specificationExtens
 {
   "title": "AsyncAPI Sample App",
   "description": "This is a sample server.",
-  "termsOfService": "http://asyncapi.org/terms/",
+  "termsOfService": "https://asyncapi.org/terms/",
   "contact": {
     "name": "API Support",
-    "url": "http://www.asyncapi.org/support",
+    "url": "https://www.asyncapi.org/support",
     "email": "support@asyncapi.org"
   },
   "license": {
     "name": "Apache 2.0",
-    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
   },
   "version": "1.0.1"
 }
@@ -242,14 +242,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 title: AsyncAPI Sample App
 description: This is a sample server.
-termsOfService: http://asyncapi.org/terms/
+termsOfService: https://asyncapi.org/terms/
 contact:
   name: API Support
-  url: http://www.asyncapi.org/support
+  url: https://www.asyncapi.org/support
   email: support@asyncapi.org
 license:
   name: Apache 2.0
-  url: http://www.apache.org/licenses/LICENSE-2.0.html
+  url: https://www.apache.org/licenses/LICENSE-2.0.html
 version: 1.0.1
 ```
 
@@ -272,14 +272,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "name": "API Support",
-  "url": "http://www.example.com/support",
+  "url": "https://www.example.com/support",
   "email": "support@example.com"
 }
 ```
 
 ```yaml
 name: API Support
-url: http://www.example.com/support
+url: https://www.example.com/support
 email: support@example.com
 ```
 
@@ -301,13 +301,13 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "name": "Apache 2.0",
-  "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+  "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
 }
 ```
 
 ```yaml
 name: Apache 2.0
-url: http://www.apache.org/licenses/LICENSE-2.0.html
+url: https://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
 #### <a name="serversObject"></a>Servers Object
@@ -353,7 +353,7 @@ Field Name | Type | Description
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
 <a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `mqtt`, `secure-mqtt`, `stomp`, `stomps`, `ws`, `wss`, `mercure`.
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
-<a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects needs to be satisfied to authorize a connection or operation.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
@@ -446,6 +446,9 @@ The following shows how variables can be used for a server configuration:
             "8884"
           ],
           "default": "8883"
+        },
+        "basePath": {
+          "default": "v2"
         }
       }
     }
@@ -469,6 +472,9 @@ servers:
           - '8883'
           - '8884'
         default: '8883'
+      basePath:
+        # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
+        default: v2
 ```
 
 
@@ -482,7 +488,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
 <a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
-<a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -556,7 +562,7 @@ Describes the operations available on a single channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
-<a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
@@ -657,7 +663,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
@@ -703,7 +709,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "bindings": {
     "amqp": {
       "ack": false
-    },
+    }
   },
   "traits": [
     { "$ref": "#/components/operationTraits/kafka" }
@@ -755,7 +761,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationTraitObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
@@ -838,7 +844,7 @@ Describes a parameter included in a channel name.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the parameter.
 location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter. Instead, the `schema` property MUST be used.
 
@@ -1012,7 +1018,7 @@ Field Name | Type | Description
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
-<a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
@@ -1028,7 +1034,7 @@ The following table contains a set of values that every implementation MUST supp
 Name | Allowed values | Notes
 ---|:---:|---
 [AsyncAPI 2.1.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.1.0`, `application/vnd.aai.asyncapi+json;version=2.1.0`, `application/vnd.aai.asyncapi+yaml;version=2.1.0` | This is the default when a `schemaFormat` is not provided.
-[JSON Schema Draft 07](http://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
 
@@ -1206,7 +1212,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageTraitObjectSummary"></a>summary | `string` | A short summary of what the message is about.
-<a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
@@ -1240,7 +1246,7 @@ Allows adding meta data to a single tag.
 Field Name | Type | Description
 ---|:---:|---
 <a name="tagObjectName"></a>name | `string` | **Required.** The name of the tag.
-<a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this tag.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1273,7 +1279,7 @@ Allows referencing an external resource for extended documentation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. Value MUST be in the format of a URL.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1358,90 +1364,92 @@ my.org.User
 ##### Components Object Example
 
 ```json
-"components": {
-  "schemas": {
-    "Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "Tag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    }
-  },
-  "messages": {
-    "userSignUp": {
-      "summary": "Action to sign a user up.",
-      "description": "Multiline description of what this action does.\nHere you have another line.\n",
-      "tags": [
-        {
-          "name": "user"
-        },
-        {
-          "name": "signup"
-        }
-      ],
-      "headers": {
+{
+  "components": {
+    "schemas": {
+      "Category": {
         "type": "object",
         "properties": {
-          "applicationInstanceId": {
-            "description": "Unique identifier for a given instance of the publishing application",
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
             "type": "string"
           }
         }
       },
-      "payload": {
+      "Tag": {
         "type": "object",
         "properties": {
-          "user": {
-            "$ref": "#/components/schemas/userCreate"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "signup": {
-            "$ref": "#/components/schemas/signup"
+          "name": {
+            "type": "string"
           }
         }
       }
-    }
-  },
-  "parameters": {
-    "userId": {
-      "description": "Id of the user.",
-      "schema": {
-        "type": "string"
+    },
+    "messages": {
+      "userSignUp": {
+        "summary": "Action to sign a user up.",
+        "description": "Multiline description of what this action does.\nHere you have another line.\n",
+        "tags": [
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          }
+        ],
+        "headers": {
+          "type": "object",
+          "properties": {
+            "applicationInstanceId": {
+              "description": "Unique identifier for a given instance of the publishing application",
+              "type": "string"
+            }
+          }
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "$ref": "#/components/schemas/userCreate"
+            },
+            "signup": {
+              "$ref": "#/components/schemas/signup"
+            }
+          }
+        }
       }
-    }
-  },
-  "correlationIds": {
-    "default": {
-      "description": "Default Correlation ID",
-      "location": "$message.header#/correlationId"
-    }
-  },
-  "messageTraits": {
-    "commonHeaders": {
-      "headers": {
-        "type": "object",
-        "properties": {
-          "my-app-header": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 100
+    },
+    "parameters": {
+      "userId": {
+        "description": "Id of the user.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "correlationIds": {
+      "default": {
+        "description": "Default Correlation ID",
+        "location": "$message.header#/correlationId"
+      }
+    },
+    "messageTraits": {
+      "commonHeaders": {
+        "headers": {
+          "type": "object",
+          "properties": {
+            "my-app-header": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
           }
         }
       }
@@ -1514,7 +1522,7 @@ components:
 #### <a name="schemaObject"></a>Schema Object
 
 The Schema Object allows the definition of input and output data types.
-These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](http://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
+These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](https://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
 
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
@@ -1559,7 +1567,7 @@ The AsyncAPI Schema Object is a JSON Schema vocabulary which extends JSON Schema
 
 The following properties are taken from the JSON Schema definition, but their definitions were adjusted to the AsyncAPI Specification.
 
-- description - [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+- description - [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, if `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
@@ -1897,7 +1905,7 @@ schemas:
               "const": "StickBug"
             },
             "color": {
-              "type": "string",
+              "type": "string"
             }
           },
           "required": [
@@ -1995,7 +2003,7 @@ Defines a security scheme that the operations can use. Supported schemes are:
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
 <a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`, `"oauth2"`, `"openIdConnect"`, `"plain"`, `"scramSha256"`, `"scramSha512"`, and `"gssapi"`.
-<a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](http://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
 <a name="securitySchemeObjectIn"></a>in | `string` | `apiKey` \| `httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
 <a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
@@ -2093,7 +2101,7 @@ in: header
 {
   "type": "http",
   "scheme": "bearer",
-  "bearerFormat": "JWT",
+  "bearerFormat": "JWT"
 }
 ```
 
@@ -2277,7 +2285,7 @@ For specifying and computing the location of a Correlation ID, a [runtime expres
 
 Field Name | Type | Description
 ---|:---|---
-description | `string` | An optional description of the identifier. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+description | `string` | An optional description of the identifier. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the correlation ID.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -2356,6 +2364,6 @@ string | `string` | | |
 byte | `string` | `byte` | base64 encoded characters
 binary | `string` | `binary` | any sequence of octets
 boolean | `boolean` | | |
-date | `string` | `date` | As defined by `full-date` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
-dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](http://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+date | `string` | `date` | As defined by `full-date` - [RFC3339](https://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](https://xml2rfc.ietf.org/public/rfc/html/rfc3339.html#anchor14)
 password | `string` | `password` | Used to hint UIs the input needs to be obscured.
