@@ -724,8 +724,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
    "petstore_auth": [
     "write:pets",
     "read:pets"
-   ]
-}
+    ]
+  },
   "tags": [
     { "name": "user" },
     { "name": "signup" },
