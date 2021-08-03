@@ -720,6 +720,12 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "operationId": "registerUser",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
+  "security": {
+   "petstore_auth": [
+    "write:pets",
+    "read:pets"
+   ]
+}
   "tags": [
     { "name": "user" },
     { "name": "signup" },
@@ -762,6 +768,10 @@ This object can be extended with [Specification Extensions](#specificationExtens
 operationId: registerUser
 summary: Action to sign a user up.
 description: A longer description
+security:
+  - petstore_auth:
+        - write:pets
+        - read:pets
 tags:
   - name: user
   - name: signup
