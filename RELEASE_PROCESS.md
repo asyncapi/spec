@@ -1,4 +1,4 @@
-# Release Process For AsyncAPI Specification
+# Release Process of the AsyncAPI Specification
 
 This document is ment to explain the release process of the AsyncAPI specification. Goal of this document is to describe all details of the process so that any member of the community can jump in and help coordinating.
 
@@ -18,13 +18,28 @@ AsyncAPI releases happen on a regular basis in the following months:
 
 Regular releases concern only major and minor releases. We do not decide upfront if next release is major or minor. This is a decision that depends on the proposals for changes in the specification and how much they affect specification and tooling in a given release cycle.
 
-Path releases are automatically released and published.
+Patch releases are automatically released and published.
 
 ## Release phases
 
 ### Kick off
 
-TODO: explain how to create release branches, how to name them and where they should be, in what repositories. Also explain that release notes draft PR must be started.
+We start by creating release branches and placeholder for release notes in the AsyncAPI Blog.
+
+#### Release branch
+
+At the beginning of the release cycle, we need to have a new release branch created in some repositories. The reason is that [contribution guide](https://github.com/asyncapi/spec/blob/master/CONTRIBUTING.md) for the specification requires changes in different projects to get a proposal accepted. The following repositories are involved:
+- [spec](https://github.com/asyncapi/spec) where contributor works with the specification file,
+- [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) where contributor pushes changes to JSON Schema of the spec,
+- [parser-js](https://github.com/asyncapi/parser-js) where contributor makes necessary changes in the JavaScript Parser.
+
+Release branch must have a year and a month of the release as prefix: {YEAR_OF_RELEASE}-{MONTH_OF_RELEASE}-release. For example release created in September 2021 has a release branch called `2021-09-release`.
+
+<img src="./assets/release_process/create_branch.png" alt="This image shows part of the GitHub UI that shows how you can create new branch using default branch as base." height="300">
+
+#### Release notes
+
+
 
 ### Review and merge 
 
