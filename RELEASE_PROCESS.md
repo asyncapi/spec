@@ -16,7 +16,7 @@ AsyncAPI releases happen regularly in the following months:
 - June
 - September
 
-Regular releases concern only major and minor releases. We do not decide upfront if the next release is major or minor. This decision depends on the proposals for changes in the specification and how much they affect specification and tooling in a given release cycle.
+Regular releases concern only major and minor releases. We do not decide up front if the next release is major or minor. This decision depends on the proposals for changes in the specification and how much they affect specification and tooling in a given release cycle.
 
 Patch releases are automatically released and published.
 
@@ -28,7 +28,7 @@ We start by creating release branches and a placeholder for release notes in the
 
 #### Release branch
 
-At the beginning of the release cycle, we need to have a new release branch created in some repositories. The reason is that [contribution guide](https://github.com/asyncapi/spec/blob/master/CONTRIBUTING.md) for the specification requires changes in different projects to get a proposal accepted. The following repositories are involved:
+At the beginning of the release cycle, we need to have a new release branch created in some repositories. The reason is that [contribution guide](CONTRIBUTING.md) for the specification requires changes in different projects to accept a proposal. The following repositories are involved:
 - [spec](https://github.com/asyncapi/spec) where contributor works with the specification file,
 - [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) where contributor pushes changes to JSON Schema of the spec,
 - [parser-js](https://github.com/asyncapi/parser-js) where contributor makes necessary changes in the JavaScript Parser.
@@ -39,7 +39,7 @@ Release branch must have a year and a month of the release as prefix: {YEAR_OF_R
 
 #### Release notes
 
-Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A simple changelog is not enough as it is not user-friendly. Every release must have release notes.
+Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A regular changelog is not enough as it is not user-friendly. Every release must have release notes.
 
 A draft pull request with release notes must be opened at the same time release branches are created. Work on release notes should be done on a feature-by-feature basis and not at the end of the release cycle. Cooperate with contributors. They should be able to provide input and also be allowed to work as release notes article co-authors.
 
@@ -51,11 +51,55 @@ The draft pull request must be opened against the [Website](https://github.com/a
 
 ### Review and merge 
 
-TODO: proposal phases, who reviews/accepts/merges, what are prerequisites for the merge, what happens after the merge. Remember about updating release notes on issue by issue case to not have it at the end of the release cycle. What about tooling updates? release candidates? After first merge we should already have draft PR to master opened in all required repos
+There are no step-by-step instructions to follow but a set of rules.
+
+### Review
+
+- Anybody is invited to perform a review of proposals. The [contribution guide](CONTRIBUTING.md) describes all requirements proposal needs to fulfill to reach `Stage 3: Accepted`,
+- Pull request must be:
+  - labeled as an accepted proposal,
+  - created against the feature branch,
+  - created in all repositories specified in contribution guide,
+- At least one user listed in [CODEOWNERS](CODEOWNERS) must approve the pull request in all related repositories.
+
+### Prerequisites for first feature merge
+
+- `spec` - Make sure all the official examples located in the repository use the new version of the specification,
+- `spec-json-schemas` - Make sure changes are introduced in the new JSON Schema file, and they are exposed [here](https://github.com/asyncapi/spec-json-schemas/blob/master/index.js),
+- `parser-js` - Make sure the list of supported AsyncAPI schema MIME types is extended with the new version [here](https://github.com/asyncapi/parser-js/blob/master/lib/asyncapiSchemaFormatParser.js#L43.)
+
+### Merge
+
+- Merge can be done only by repository [CODEOWNERS](CODEOWNERS),
+- Every pull request must have a `feat: ` prefix that, after the merge, produces a release candidate with a minor version update. The major version must have `!feat: ` prefix,
+- Pull request in the `parser-js` can be merged only if it uses the release candidate of `@asyncapi/specs` package produced after merge of a pull request in `spec-json-schemas`,
+- First, changes are merged into the `spec` repository, then `spec-json-schemas` and then in `parser-js`.
+
+### Next steps
+
+- Update previously created draft of release notes with information about the new feature. Collaborate closely with feature contributors,
+- Notify maintainers of the following repositories that the first feature is merged and that release will be produced and therefore they need to start preparing for it:
+  - [JavaScript Converter](https://github.com/asyncapi/converter-js/)
+  - [Playground](https://github.com/asyncapi/playground/)
+  - [React component](https://github.com/asyncapi/asyncapi-react/)
+  - [Markdown template](https://github.com/asyncapi/markdown-template)
+
+### Steps only after first feature merge
+
+- Open draft pull requests in all repositories required by the contribution guide. They should point from the release branch in the upstream to the master branch in the upstream,
+- Update documentation in [website](https://github.com/asyncapi/website) to promote latest version of the specification. You can do it in the same pull request with release notes. No need to care for the specification markdown file on the Website. It updates automatically during work on release candidates and also after the final release.
+
+#### Communication
+
+Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel. Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
 ### Ship it!
 
-TODO: what needs to be done in json schema repo, what in parser repo. How to trigger release, when merge release notes, who to inform, social networks, communication, beer or wine!
+The release is scheduled for a given month, not a specific day. You do not have to wait until the last day of the month with the release. We release often, so it can be released in June if the change will not make it in April. Most important is the quality and not quantity of the features. The quality feature means it is properly delivered in as many tools as possible with very good documentation and examples.
 
+- Release means merge of pull requests created from a release branch against the master branch. First, changes are merged into the `spec` repository, then `spec-json-schemas` and at the end in `parser-js`. Like in the case of the merge of release candidates, a pull request in `parser-js` can be merged only if it uses the final release of the new `@asyncapi/specs` package.
+- Make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages
+- Merge release notes and once they are published, link them under the GitHub release for the specification, like [here](https://github.com/asyncapi/spec/releases/tag/v2.1.0).
+- Make sure proper communication is sent from all the official AsyncAPI social accounts and on Slack
 
-
+Now relax as the next release is right behind the corner :smiley:
