@@ -1,22 +1,22 @@
 # Release Process of the AsyncAPI Specification
 
-This document is ment to explain the release process of the AsyncAPI specification. Goal of this document is to describe all details of the process so that any member of the community can jump in and help coordinating.
+This document is meant to explain the release process of the AsyncAPI specification. This document aims to describe all details of the process so that any member of the community can jump in and help coordinate.
 
 ## Release coordinator
 
-AsyncAPI specification release involves not only spec release but also the release of AsyncAPI-maintained tools, therefore it requires a single person called `release coordinator` that makes sure the release goes well through out all phases.
+AsyncAPI specification release involves not only spec release but also the release of AsyncAPI-maintained tools. Therefore it requires a single person called `release coordinator` to ensure the release goes well throughout all phases.
 
-Release coordinator doesn't have to do all the work alone. Release coordinator needs to find the right people to do the work that is needed for a given phase and needs to engage as many people as needed.
+The release coordinator doesn't have to do all the work alone. The release coordinator needs to find the right people to do the work required for a given phase and engage as many people as needed.
 
 ## Release cadence
 
-AsyncAPI releases happen on a regular basis in the following months:
+AsyncAPI releases happen regularly in the following months:
 - January
 - April
 - June
 - September
 
-Regular releases concern only major and minor releases. We do not decide upfront if next release is major or minor. This is a decision that depends on the proposals for changes in the specification and how much they affect specification and tooling in a given release cycle.
+Regular releases concern only major and minor releases. We do not decide upfront if the next release is major or minor. This decision depends on the proposals for changes in the specification and how much they affect specification and tooling in a given release cycle.
 
 Patch releases are automatically released and published.
 
@@ -24,7 +24,7 @@ Patch releases are automatically released and published.
 
 ### Kick off
 
-We start by creating release branches and placeholder for release notes in the AsyncAPI Blog.
+We start by creating release branches and a placeholder for release notes in the AsyncAPI Blog.
 
 #### Release branch
 
@@ -33,13 +33,21 @@ At the beginning of the release cycle, we need to have a new release branch crea
 - [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) where contributor pushes changes to JSON Schema of the spec,
 - [parser-js](https://github.com/asyncapi/parser-js) where contributor makes necessary changes in the JavaScript Parser.
 
-Release branch must have a year and a month of the release as prefix: {YEAR_OF_RELEASE}-{MONTH_OF_RELEASE}-release. For example release created in September 2021 has a release branch called `2021-09-release`.
+Release branch must have a year and a month of the release as prefix: {YEAR_OF_RELEASE}-{MONTH_OF_RELEASE}-release. For example, a release created in September 2021 has a `2021-09-release` release branch.
 
-<img src="./assets/release_process/create_branch.png" alt="This image shows part of the GitHub UI that shows how you can create new branch using default branch as base." height="300">
+<img src="./assets/release_process/create_branch.png" alt="This image shows part of the GitHub UI that shows how you can create a new branch using default branch as a base." height="300">
 
 #### Release notes
 
+Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A simple changelog is not enough as it is not user-friendly. Every release must have release notes.
 
+A draft pull request with release notes must be opened at the same time release branches are created. Work on release notes should be done on a feature-by-feature basis and not at the end of the release cycle. Cooperate with contributors. They should be able to provide input and also be allowed to work as release notes article co-authors.
+
+In other words, once a feature is introduced in the release branch, make sure it is properly described in release notes.
+
+The draft pull request must be opened against the [Website](https://github.com/asyncapi/website/) repository. Make sure the option `Allow edits and access to secrets by maintainers` is selected to enable support from maintainers.
+
+<img src="./assets/release_process/draft_pr.png" alt="This image shows example pull request created in GitHub with release notes for AsyncAPI specification" height="300">
 
 ### Review and merge 
 
