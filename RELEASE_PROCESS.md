@@ -71,7 +71,7 @@ There are no step-by-step instructions to follow but a set of rules.
 #### Merge
 
 - Merge can be done only by repository [CODEOWNERS](CODEOWNERS),
-- Every pull request must have a `feat: ` prefix that, after the merge, produces a release candidate with a minor version update. The major version must have `!feat: ` prefix,
+- Every pull request must have a `feat: ` prefix that, after the merge, produces a release candidate with a minor version update. The major version must have `feat!: ` prefix,
 - Pull request in the `parser-js` can be merged only if it uses the release candidate of `@asyncapi/specs` package produced after merge of a pull request in `spec-json-schemas`,
 - First, changes are merged into the `spec` repository, then `spec-json-schemas` and then in `parser-js`.
 
