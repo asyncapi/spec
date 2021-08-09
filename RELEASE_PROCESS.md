@@ -53,22 +53,22 @@ The draft pull request must be opened against the [Website](https://github.com/a
 
 There are no step-by-step instructions to follow but a set of rules.
 
-### Review
+#### Review
 
-- Anybody is invited to perform a review of proposals. The [contribution guide](CONTRIBUTING.md) describes all requirements proposal needs to fulfill to reach `Stage 3: Accepted`,
+- Everybody is invited to perform a review of proposals. The [contribution guide](CONTRIBUTING.md) describes all requirements proposal needs to fulfill to reach `Stage 3: Accepted`,
 - Pull request must be:
   - labeled as an accepted proposal,
   - created against the feature branch,
   - created in all repositories specified in contribution guide,
 - At least one user listed in [CODEOWNERS](CODEOWNERS) must approve the pull request in all related repositories.
 
-### Prerequisites for first feature merge
+#### Prerequisites for first feature merge
 
 - `spec` - Make sure all the official examples located in the repository use the new version of the specification,
 - `spec-json-schemas` - Make sure changes are introduced in the new JSON Schema file, and they are exposed [here](https://github.com/asyncapi/spec-json-schemas/blob/master/index.js),
 - `parser-js` - Make sure the list of supported AsyncAPI schema MIME types is extended with the new version [here](https://github.com/asyncapi/parser-js/blob/master/lib/asyncapiSchemaFormatParser.js#L43.)
 
-### Merge
+#### Merge
 
 - Merge can be done only by repository [CODEOWNERS](CODEOWNERS),
 - Every pull request must have a `feat: ` prefix that, after the merge, produces a release candidate with a minor version update. The major version must have `!feat: ` prefix,
