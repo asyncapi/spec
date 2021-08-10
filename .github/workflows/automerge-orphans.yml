@@ -38,7 +38,13 @@ jobs:
             };
             const { repository: { pullRequests: { nodes } } } = await github.graphql(query, variables);
 
-            let orphans = nodes.filter((pr)=> pr.state === 'OPEN' && (pr.author.resourcePath === '/asyncapi-bot' || pr.author.resourcePath === '/apps/dependabot'))
+            let orphans = nodes.filter((pr)=> {
+              console.log('PR', pr.url);
+              console.log('State', pr.state);
+              console.log('Author resource path', pr.author.resourcePath);
+              console.log('Is orphan', pr.state === 'OPEN' && (pr.author.resourcePath === '/asyncapi-bot' || pr.author.resourcePath === '/apps/dependabot'));
+              return pr.state === 'OPEN' && (pr.author.resourcePath === '/asyncapi-bot' || pr.author.resourcePath === '/apps/dependabot')
+            })
 
             if (orphans.length) {
               core.setOutput('found', 'true');
