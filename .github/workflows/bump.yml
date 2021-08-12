@@ -1,0 +1,32 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+#Purpose of this action is to update npm package in libraries that use it. It is like dependabot for asyncapi npm modules only. 
+#It runs in a repo after merge of release commit and searches for other packages that use released package. Every found package gets updated with lates version
+
+name: Bump package version in dependent repos - if Node project
+
+on:
+  #It cannot run on release event as when release is created then version is not yet bumped in package.json
+  #This means we cannot extract easily latest version and have a risk that package is not yet on npm
+  push:
+    branches:
+      - master
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Check if Node.js project and has package.json
+        id: packagejson
+        run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
+      - if: steps.packagejson.outputs.exists == 'true' && startsWith(github.event.commits[0].message, 'chore(release):')
+        name: Bumping latest version of this package in other repositories
+        uses: derberg/custom-dependabot-for-your-github-org@v2
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          committer_username: asyncapi-bot
+          committer_email: info@asyncapi.io
+          repos_to_ignore: html-template #this is temporary until react component releases 1.0, then it can be removed
