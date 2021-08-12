@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v2
-        if: github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+        if: github.actor == ('asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -44,4 +44,4 @@ jobs:
           MERGE_METHOD: "squash"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           MERGE_RETRIES: "20"
-          MERGE_RETRY_SLEEP: "20000"
+          MERGE_RETRY_SLEEP: "30000"
