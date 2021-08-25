@@ -562,6 +562,7 @@ Describes the operations available on a single channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
+<a name="channelItemObjectName"></a>name | `string` | Associates a name to the channel. This can help tooling for code generation.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
