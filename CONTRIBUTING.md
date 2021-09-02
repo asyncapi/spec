@@ -170,7 +170,7 @@ must be a pull request.
 * Consensus the solution is preferred
 * Resolution of identified concerns and challenges
 * Precisely described with spec edits
-* Compliant implementation in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/spec-json-schemas) (might not be merged)
+* Compliant implementation in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/asyncapi-node) (might not be merged)
 
 A *proposal* becomes a *draft* when the set of problems or drawbacks have been
 fully considered and accepted or resolved, and the solution is deemed
@@ -190,13 +190,13 @@ feature without explicit opt-in when possible.
 An RFC at the *accepted* stage is a completed solution. According to a spec
 Committer it is ready to be merged as-is into the spec document. The RFC is
 ready to be deployed in AsyncAPI libraries. An *accepted* RFC must be
-implemented in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/spec-json-schemas).
+implemented in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/asyncapi-node).
 
 *Entrance criteria:*
 
 * Consensus the solution is complete
 * Complete spec edits, including examples and prose
-* Compliant implementation in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/spec-json-schemas) (fully tested and merged or ready to merge)
+* Compliant implementation in the [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/asyncapi-node) (fully tested and merged or ready to merge)
 
 A *draft* is *accepted* when the Committers have been convinced via
 implementations and tests that it appropriately handles all edge cases; that the
@@ -234,7 +234,7 @@ mean it has to be the only person working on it though. They
 are a "person of reference" for a given RFC implementation and
 may or may not know about JS, relying on the help of other
 community members to implement the RFC on the
-[AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/spec-json-schemas).
+[AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/asyncapi-node).
 
 
 
