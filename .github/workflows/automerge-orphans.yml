@@ -20,13 +20,14 @@ jobs:
           script: |
             const query = `query($owner:String!, $name:String!) {
               repository(owner:$owner, name:$name){
-                pullRequests(first: 100, states: OPEN){
+                pullRequests(first: 100){
                   nodes{
                     title
                     url
                     author {
                       resourcePath
                     }
+                    state
                   }
                 }
               }
@@ -37,7 +38,7 @@ jobs:
             };
             const { repository: { pullRequests: { nodes } } } = await github.graphql(query, variables);
 
-            let orphans = nodes.filter( (pr) => pr.author.resourcePath === '/asyncapi-bot' || pr.author.resourcePath === '/apps/dependabot')
+            let orphans = nodes.filter((pr)=> pr.state === 'OPEN' && (pr.author.resourcePath === '/asyncapi-bot' || pr.author.resourcePath === '/apps/dependabot'))
 
             if (orphans.length) {
               core.setOutput('found', 'true');
