@@ -557,7 +557,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelItemObjectServers"></a>servers | [[Server Object](#serverObject)] | The servers on which this channel is available, specified as an optional unordered list of [JSON References](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) to [Server Objects](#serverObject) defined in the [Servers Object](#serversObject). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
+<a name="channelItemObjectServers"></a>servers | [[Server Object](#serverObject)] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
@@ -641,14 +641,14 @@ subscribe:
 ```
 
 
-Using explicit references to the servers on which the channel is available:
+Using explicit by-name references to the servers on which the channel is available:
 
 ```json
 {
   "description": "This application publishes to this AMQP queue WebUICommand messages which it had received via WebSockets on another channel",
   "servers": [
-    { "$ref": "#/servers/rabbitmqBrokerInProd" },
-    { "$ref": "#/servers/rabbitmqBrokerInStaging" },
+    "rabbitmqBrokerInProd",
+    "rabbitmqBrokerInStaging",
   ],
   "subscribe": {
     "message": {
@@ -666,8 +666,8 @@ Using explicit references to the servers on which the channel is available:
 ```yaml
 description: This application publishes to this AMQP queue WebUICommand messages which it had received via WebSockets on another channel
 servers:
-  - $ref: "#/servers/rabbitmqBrokerInProd"
-  - $ref: "#/servers/rabbitmqBrokerInStaging"
+  - rabbitmqBrokerInProd
+  - rabbitmqBrokerInStaging
 subscribe:
   message:
     $ref: "#/components/messages/WebUICommand"
