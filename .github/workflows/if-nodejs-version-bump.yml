@@ -13,10 +13,13 @@ jobs:
     name: Generate assets and bump
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: master
+          # target branch of release. More info https://docs.github.com/en/rest/reference/repos#releases
+          # in case release is created from release branch then we need to checkout from given branch
+          # if @semantic-release/github is used to publish, the minimum version is 7.2.0 for proper working
+          ref: ${{ github.event.release.target_commitish }}
       - name: Check if Node.js project and has package.json
         id: packagejson
         run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
