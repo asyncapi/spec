@@ -22,7 +22,8 @@ The file(s) MUST describe the operations an [application](#definitionsApplicatio
 ```yaml
 user/signedup:
   subscribe:
-    $ref: "#/components/messages/userSignUp"
+    message:
+      $ref: "#/components/messages/userSignUp"
 ```
 
 It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
@@ -538,7 +539,9 @@ Field Pattern | Type | Description
 {
   "user/signedup": {
     "subscribe": {
-      "$ref": "#/components/messages/userSignedUp"
+      "message": {
+        "$ref": "#/components/messages/userSignedUp"
+      }
     }
   }
 }
@@ -547,7 +550,8 @@ Field Pattern | Type | Description
 ```yaml
 user/signedup:
   subscribe:
-    $ref: "#/components/messages/userSignedUp"
+    message:
+      $ref: "#/components/messages/userSignedUp"
 ```
 
 
@@ -815,7 +819,9 @@ Field Pattern | Type | Description
       }
     },
     "subscribe": {
-      "$ref": "#/components/messages/userSignedUp"
+      "message": {
+        "$ref": "#/components/messages/userSignedUp"
+      }
     }
   }
 }
@@ -829,7 +835,8 @@ user/{userId}/signup:
       schema:
         type: string
   subscribe:
-    $ref: "#/components/messages/userSignedUp"
+    message:
+      $ref: "#/components/messages/userSignedUp"
 ```
 
 
@@ -865,7 +872,9 @@ This object can be extended with [Specification Extensions](#specificationExtens
       }
     },
     "subscribe": {
-      "$ref": "#/components/messages/userSignedUp"
+      "message": {
+        "$ref": "#/components/messages/userSignedUp"
+      }
     }
   }
 }
@@ -880,7 +889,8 @@ user/{userId}/signup:
         type: string
       location: $message.payload#/user/id
   subscribe:
-    $ref: "#/components/messages/userSignedUp"
+    message:
+      $ref: "#/components/messages/userSignedUp"
 ```
 
 
