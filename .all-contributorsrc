@@ -297,6 +297,18 @@
         "ideas",
         "review"
       ]
+    },
+    {
+      "login": "jmenning-solace",
+      "name": "Jesse Menning",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62108913?v=4",
+      "profile": "https://github.com/jmenning-solace",
+      "contributions": [
+        "blog",
+        "talk",
+        "review",
+        "ideas"
+      ]
     }
   ],
   "commitConvention": "none"
