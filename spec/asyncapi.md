@@ -1237,7 +1237,7 @@ contentType: application/json
 
 #### <a name="messageExampleObject"></a> Message Example Object
 
-Message Example Object represent example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields. 
+Message Example Object represents an example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields. 
 
 ##### Fixed Fields
 
