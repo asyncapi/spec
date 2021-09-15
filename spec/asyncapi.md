@@ -1243,7 +1243,7 @@ Message Example Object represents an example of a [Message Object](#messageObjec
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object](#messageObject) [headers](#messageObjectHeaders) field. 
+<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
 <a name="messageExampleObjectPayload"></a>payload | `any` | The value of this field MUST validate against the [Message Object](#messageObject) [payload](#messageObjectPayload) field.
 <a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
 <a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
