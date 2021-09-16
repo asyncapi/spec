@@ -670,7 +670,7 @@ Using explicit by-name references to the servers on which the channel is availab
 ```
 
 ```yaml
-description: This application publishes to this AMQP queue WebUICommand messages which it had received via WebSockets on another channel
+description: This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.
 servers:
   - rabbitmqBrokerInProd
   - rabbitmqBrokerInStaging
