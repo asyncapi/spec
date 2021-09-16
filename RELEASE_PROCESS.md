@@ -37,6 +37,18 @@ Release branch must have a year and a month of the release as prefix: {YEAR_OF_R
 
 <img src="./assets/release_process/create_branch.png" alt="This image shows part of the GitHub UI that shows how you can create a new branch using default branch as a base." height="300">
 
+Once feature branches are created, there must be some initial configuration done in each repository.
+
+Things to do in release branch as `chore: ` changes:
+- `spec` - Make sure all the official examples located in the repository use the new version of the specification,
+- `spec-json-schemas` - Create new JSON Schema file with new version name and expose it here [here](https://github.com/asyncapi/spec-json-schemas/blob/master/index.js),
+- `parser-js` - Make sure the list of supported AsyncAPI schema MIME types is extended with the new version [here](https://github.com/asyncapi/parser-js/blob/master/lib/asyncapiSchemaFormatParser.js#L43.)
+
+Things to do in default branche and release branch as `chore: ` changes:
+- Set release branch name in prerelease configuration in some repos repositories:
+  - [package.json in parser-js](https://github.com/asyncapi/parser-js/blob/master/package.json#L90)
+  - [package.json in spec-json-schemas](https://github.com/asyncapi/spec-json-schemas/blob/master/package.json#L49) 
+  - [.releaserc in spec](https://github.com/asyncapi/spec/blob/master/.releaserc#L4)
 #### Release notes
 
 Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A regular changelog is not enough as it is not user-friendly. Every release must have release notes.
@@ -61,12 +73,6 @@ There are no step-by-step instructions to follow but a set of rules.
   - created against the feature branch,
   - created in all repositories specified in contribution guide,
 - At least one user listed in [CODEOWNERS](CODEOWNERS) must approve the pull request in all related repositories.
-
-#### Prerequisites for first feature merge
-
-- `spec` - Make sure all the official examples located in the repository use the new version of the specification,
-- `spec-json-schemas` - Make sure changes are introduced in the new JSON Schema file, and they are exposed [here](https://github.com/asyncapi/spec-json-schemas/blob/master/index.js),
-- `parser-js` - Make sure the list of supported AsyncAPI schema MIME types is extended with the new version [here](https://github.com/asyncapi/parser-js/blob/master/lib/asyncapiSchemaFormatParser.js#L43.)
 
 #### Merge
 
