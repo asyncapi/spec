@@ -44,7 +44,7 @@ Things to do in release branch as `chore: ` changes:
 - `spec-json-schemas` - Create new JSON Schema file with new version name and expose it here [here](https://github.com/asyncapi/spec-json-schemas/blob/master/index.js),
 - `parser-js` - Make sure the list of supported AsyncAPI schema MIME types is extended with the new version [here](https://github.com/asyncapi/parser-js/blob/master/lib/asyncapiSchemaFormatParser.js#L43.)
 
-Things to do in default branche and release branch as `chore: ` changes:
+Things to do in default branch and release branch as `chore: ` changes:
 - Set release branch name in prerelease configuration in some repos repositories:
   - [package.json in parser-js](https://github.com/asyncapi/parser-js/blob/master/package.json#L90)
   - [package.json in spec-json-schemas](https://github.com/asyncapi/spec-json-schemas/blob/master/package.json#L49) 
