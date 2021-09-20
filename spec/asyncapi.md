@@ -133,9 +133,8 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 
 ### <a name="file-structure"></a>File Structure
 
-The A2S representation of the API is made of a single file.
-However, parts of the definitions can be split into separate files, at the discretion of the user.
-This is applicable for `$ref` fields in the specification as follows from the [JSON Schema](https://json-schema.org/understanding-json-schema/structuring.html) definitions.
+An AsyncAPI document MAY be made up of a single document or be divided into multiple,
+connected parts at the discretion of the author. In the latter case, [Reference Objects](#referenceObject) are used.
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
