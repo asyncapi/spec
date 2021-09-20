@@ -49,7 +49,7 @@ The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncap
 * [Version 1.1.0](https://github.com/asyncapi/spec/blob/1.1.0/README.md) (deprecated)
 * [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
 
-**Looking for the JSON Schema files?** Check out our [asyncapi-node](https://www.github.com/asyncapi/asyncapi-node) repo.
+**Looking for the JSON Schema files?** Check out our [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repo.
 
 **Feel like contributing?** Check out our [community repo](https://www.github.com/asyncapi/community).
 
@@ -115,6 +115,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="http://medium.com/@lbroudoux"><img src="https://avatars.githubusercontent.com/u/1538635?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laurent Broudoux</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=lbroudoux" title="Code">💻</a> <a href="https://github.com/asyncapi/spec/commits?author=lbroudoux" title="Documentation">📖</a> <a href="#blog-lbroudoux" title="Blogposts">📝</a> <a href="#talk-lbroudoux" title="Talks">📢</a> <a href="#example-lbroudoux" title="Examples">💡</a> <a href="#ideas-lbroudoux" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/asyncapi/spec/pulls?q=is%3Apr+reviewed-by%3Albroudoux" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/jmenning-solace"><img src="https://avatars.githubusercontent.com/u/62108913?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jesse Menning</b></sub></a><br /><a href="#blog-jmenning-solace" title="Blogposts">📝</a> <a href="#talk-jmenning-solace" title="Talks">📢</a> <a href="https://github.com/asyncapi/spec/pulls?q=is%3Apr+reviewed-by%3Ajmenning-solace" title="Reviewed Pull Requests">👀</a> <a href="#ideas-jmenning-solace" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
