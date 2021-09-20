@@ -59,6 +59,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Operation Trait Object](#operationTraitObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
+      - [Message Example Object](#messageExampleObject)
       - [Tags Object](#tagsObject)
       - [Tag Object](#tag-object)
       - [External Documentation Object](#externalDocumentationObject)
@@ -1021,7 +1022,7 @@ Field Name | Type | Description
 <a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array of key/value pairs where keys MUST be either **headers** and/or **payload**. Values MUST contain examples that validate against the [headers](#messageObjectHeaders) or [payload](#messageObjectPayload) fields, respectively. Example MAY also have the **name** and **summary** additional keys to provide respectively a machine-friendly name and a short summary of what the example is about.
+<a name="messageObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1215,7 +1216,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
+<a name="messageTraitObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1231,6 +1232,55 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 contentType: application/json
+```
+
+#### <a name="messageExampleObject"></a> Message Example Object
+
+Message Example Object represents an example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields. 
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
+<a name="messageExampleObjectPayload"></a>payload | `any` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
+<a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
+<a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Message Example Object Example
+
+```json
+{
+  "name": "SimpleSignup",
+  "summary": "A simple UserSignup example message",
+  "headers": {
+    "correlationId": "my-correlation-id",
+    "applicationInstanceId": "myInstanceId"
+  },
+  "payload": {
+    "user": {
+      "someUserKey": "someUserValue"
+    },
+    "signup": {
+      "someSignupKey": "someSignupValue"
+    }
+  }
+}
+```
+
+```yaml
+name: SimpleSignup
+summary: A simple UserSignup example message
+headers:
+  correlationId: my-correlation-id
+  applicationInstanceId: myInstanceId
+payload:
+  user:
+    someUserKey: someUserValue
+  signup:
+    someSignupKey: someSignupValue
 ```
 
 #### <a name="tagsObject"></a>Tags Object
