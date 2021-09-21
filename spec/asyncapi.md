@@ -1220,7 +1220,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
+<a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array of key/value pairs where keys MUST be either **headers** and/or **payload**. Values MUST contain examples that validate against the [headers](#messageObjectHeaders) or [payload](#messageObjectPayload) fields, respectively. Example MAY also have the **name** and **summary** additional keys to provide respectively a machine-friendly name and a short summary of what the example is about.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
