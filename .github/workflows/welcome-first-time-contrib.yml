@@ -1,30 +1,34 @@
 #This action is centrally managed in https://github.com/asyncapi/.github/
 #Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
-name: Welcome first time contributors
+#########
+#disabled because of https://github.com/asyncapi/.github/issues/73
+#########
 
-on:
-  pull_request_target:
-    types: 
-      - opened
-  issues:
-    types:
-      - opened
+# name: Welcome first time contributors
 
-jobs:
-  welcome:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/first-interaction@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: |
-          Welcome to AsyncAPI. Thanks a lot for reporting your first issue. Please check out our [contributors guide](https://github.com/asyncapi/.github/blob/master/CONTRIBUTING.md) and the instructions about a [basic recommended setup](https://github.com/asyncapi/.github/blob/master/git-workflow.md) useful for opening a pull request.
+# on:
+#   pull_request_target:
+#     types: 
+#       - opened
+#   issues:
+#     types:
+#       - opened
 
-          Keep in mind there are also other channels you can use to interact with AsyncAPI community. For more details check out [this issue](https://github.com/asyncapi/asyncapi/issues/115).
+# jobs:
+#   welcome:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/first-interaction@v1
+#       with:
+#         repo-token: ${{ secrets.GITHUB_TOKEN }}
+#         issue-message: |
+#           Welcome to AsyncAPI. Thanks a lot for reporting your first issue. Please check out our [contributors guide](https://github.com/asyncapi/.github/blob/master/CONTRIBUTING.md) and the instructions about a [basic recommended setup](https://github.com/asyncapi/.github/blob/master/git-workflow.md) useful for opening a pull request.
+
+#           Keep in mind there are also other channels you can use to interact with AsyncAPI community. For more details check out [this issue](https://github.com/asyncapi/asyncapi/issues/115).
 
 
-        pr-message: |
-          Welcome to AsyncAPI. Thanks a lot for creating your first pull request. Please check out our [contributors guide](https://github.com/asyncapi/.github/blob/master/CONTRIBUTING.md) and the instructions about a [basic recommended setup](https://github.com/asyncapi/.github/blob/master/git-workflow.md) useful for opening a pull request.
+#         pr-message: |
+#           Welcome to AsyncAPI. Thanks a lot for creating your first pull request. Please check out our [contributors guide](https://github.com/asyncapi/.github/blob/master/CONTRIBUTING.md) and the instructions about a [basic recommended setup](https://github.com/asyncapi/.github/blob/master/git-workflow.md) useful for opening a pull request.
 
-          Keep in mind there are also other channels you can use to interact with AsyncAPI community. For more details check out [this issue](https://github.com/asyncapi/asyncapi/issues/115).
+#           Keep in mind there are also other channels you can use to interact with AsyncAPI community. For more details check out [this issue](https://github.com/asyncapi/asyncapi/issues/115).
