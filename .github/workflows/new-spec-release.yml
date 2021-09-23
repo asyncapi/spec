@@ -33,7 +33,6 @@ jobs:
           git checkout -b spec-release-${{github.event.release.tag_name}}
       - name: Check for previous spec file and remove it
         uses: actions/github-script@v3
-        if: ${{github.event.release.prerelease == false}}
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
@@ -42,9 +41,10 @@ jobs:
             const specFiles = fs.readdirSync("./website/pages/docs/specifications");
 
             const nextRelease = `${{github.event.release.tag_name}}`;
+            const prefixRelease = nextRelease.split("-")[0];
 
             for (const filename of specFiles) {
-              if (filename.startsWith(nextRelease)) {
+              if (filename.startsWith(prefixRelease)) {
                 fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
               }
             }
@@ -87,6 +87,41 @@ jobs:
             const secondHalf = redirectFile.slice(endingIndex);
 
             const newRedirect = `${firstHalf}${redirectLine}${secondHalf}`;
+
+            fs.writeFileSync("./website/public/_redirects", newRedirect);
+      - name: Remove previous pre-release redirects in case of a new release
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ env.GITHUB_TOKEN }}
+          script: |
+            const fs = require("fs");
+
+            const startingLine = "# SPEC-REDIRECTION:START\n";
+            const endingLine = "# SPEC-REDIRECTION:END\n";
+
+            const releaseVersion = `${{github.event.release.tag_name}}`;
+
+            if(!releaseVersion.startsWith('v')) return;
+
+            const releaseVersionWithoutV = releaseVersion.slice(1).split("-")[0];
+
+            const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
+
+            const startingIndex = redirectFile.indexOf(startingLine);
+            const endingIndex = redirectFile.indexOf(endingLine);
+
+            if (startingIndex === -1 || endingIndex === -1) {
+              console.log("NOT FOUND");
+              return;
+            }
+
+            const firstHalf = redirectFile.slice(0, startingIndex + startingLine.length);
+            const middle = redirectFile.slice(startingIndex + startingLine.length, endingIndex);
+            const secondHalf = redirectFile.slice(endingIndex);
+
+            const middleWithoutPreviousPreReleaseRedirects = middle.split("\n").filter(value => !value.includes(releaseVersionWithoutV)).join("\n");
+
+            const newRedirect = `${firstHalf}${middleWithoutPreviousPreReleaseRedirects}${secondHalf}`;
 
             fs.writeFileSync("./website/public/_redirects", newRedirect);
       - name: Change the redirect file to point to specs
