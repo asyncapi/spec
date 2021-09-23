@@ -33,7 +33,6 @@ jobs:
           git checkout -b spec-release-${{github.event.release.tag_name}}
       - name: Check for previous spec file and remove it
         uses: actions/github-script@v3
-        if: ${{github.event.release.prerelease == false}}
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
@@ -42,9 +41,10 @@ jobs:
             const specFiles = fs.readdirSync("./website/pages/docs/specifications");
 
             const nextRelease = `${{github.event.release.tag_name}}`;
+            const prefixRelease = nextRelease.split("-")[0];
 
             for (const filename of specFiles) {
-              if (filename.startsWith(nextRelease)) {
+              if (filename.startsWith(prefixRelease)) {
                 fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
               }
             }
