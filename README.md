@@ -60,7 +60,7 @@ The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncap
 #### :bulb: Streetlights
 Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
 
-> :point_right: [See more](./examples/streetlights.yml)
+> :point_right: [See more](./examples/streetlights-mqtt.yml)
 
 #### <img src="./assets/slack.png" width="15" alt="Slack icon">&nbsp;&nbsp; Slack Events API
 Partial definition of the Slack Events API. Find the official one [here](https://github.com/slackapi/slack-api-specs/blob/master/events-api/slack_events_api_async_v1.json).
