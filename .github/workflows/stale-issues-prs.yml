@@ -11,19 +11,31 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/stale@v1.1.0
+    - uses: actions/stale@v4.0.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: |
           This issue has been automatically marked as stale because it has not had recent activity :sleeping:
-          It will be closed in 60 days if no further activity occurs. To unstale this issue, add a comment with detailed explanation. 
-          Thank you for your contributions :heart:
+
+          It will be closed in 120 days if no further activity occurs. To unstale this issue, add a comment with a detailed explanation. 
+
+          There can be many reasons why some specific issue has no activity. The most probable cause is lack of time, not lack of interest. AsyncAPI Initiative is a Linux Foundation project not owned by a single for-profit company. It is a community-driven initiative ruled under [open governance model](https://github.com/asyncapi/community/blob/master/CHARTER.md). 
+
+          Let us figure out together how to push this issue forward. Connect with us through [one of many communication channels](https://github.com/asyncapi/community/issues/1) we established here.
+
+          Thank you for your patience :heart:
         stale-pr-message: |
           This pull request has been automatically marked as stale because it has not had recent activity :sleeping:
-          It will be closed in 60 days if no further activity occurs. To unstale this pull request, add a comment with detailed explanation. 
-          Thank you for your contributions :heart:
-        days-before-stale: 60
-        days-before-close: 60
+
+          It will be closed in 120 days if no further activity occurs. To unstale this pull request, add a comment with detailed explanation.
+
+          There can be many reasons why some specific pull request has no activity. The most probable cause is lack of time, not lack of interest. AsyncAPI Initiative is a Linux Foundation project not owned by a single for-profit company. It is a community-driven initiative ruled under [open governance model](https://github.com/asyncapi/community/blob/master/CHARTER.md). 
+
+          Let us figure out together how to push this pull request forward. Connect with us through [one of many communication channels](https://github.com/asyncapi/community/issues/1) we established here.
+
+          Thank you for your patience :heart:
+        days-before-stale: 120
+        days-before-close: 120
         stale-issue-label: stale
         stale-pr-label: stale
         exempt-issue-label: keep-open
