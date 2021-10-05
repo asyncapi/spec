@@ -38,5 +38,5 @@ jobs:
         days-before-close: 120
         stale-issue-label: stale
         stale-pr-label: stale
-        exempt-issue-label: keep-open
-        exempt-pr-label: keep-open
+        exempt-issue-labels: keep-open
+        exempt-pr-labels: keep-open
