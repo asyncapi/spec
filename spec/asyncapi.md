@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 2.1.0
+#### Version 2.2.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -60,6 +60,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Operation Trait Object](#operationTraitObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
+      - [Message Example Object](#messageExampleObject)
       - [Tags Object](#tagsObject)
       - [Tag Object](#tag-object)
       - [External Documentation Object](#externalDocumentationObject)
@@ -99,7 +100,7 @@ A message is the mechanism by which information is exchanged via a channel betwe
 A channel is an addressable component, made available by the server, for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. Servers MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the server implementation, the channel MAY be included in the message via protocol-defined headers.
 
 #### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, MQTT, STOMP, Mercure, WebSocket.  
+A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, STOMP, Mercure, WebSocket.  
 
 #### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
@@ -134,9 +135,8 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 
 ### <a name="file-structure"></a>File Structure
 
-The A2S representation of the API is made of a single file.
-However, parts of the definitions can be split into separate files, at the discretion of the user.
-This is applicable for `$ref` fields in the specification as follows from the [JSON Schema](https://json-schema.org/understanding-json-schema/structuring.html) definitions.
+An AsyncAPI document MAY be made up of a single document or be divided into multiple,
+connected parts at the discretion of the author. In the latter case, [Reference Objects](#referenceObject) are used.
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
@@ -352,7 +352,7 @@ An object representing a message broker, a server or any other kind of computer 
 Field Name | Type | Description
 ---|:---:|---
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`brackets`}`.
-<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `mqtt`, `secure-mqtt`, `stomp`, `stomps`, `ws`, `wss`, `mercure`.
+<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `anypointmq`, `mqtt`, `secure-mqtt`, `stomp`, `stomps`, `ws`, `wss`, `mercure`.
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject)] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
@@ -567,6 +567,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="channelItemObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
 <a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
@@ -650,6 +651,40 @@ subscribe:
 ```
 
 
+Using explicit by-name references to the servers on which the channel is available:
+
+```json
+{
+  "description": "This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.",
+  "servers": [
+    "rabbitmqBrokerInProd",
+    "rabbitmqBrokerInStaging",
+  ],
+  "subscribe": {
+    "message": {
+      "$ref": "#/components/messages/WebUICommand"
+    }
+  },
+  "bindings": {
+    "amqp": {
+      "is": "queue"
+    }
+  }
+}
+```
+
+```yaml
+description: This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.
+servers:
+  - rabbitmqBrokerInProd
+  - rabbitmqBrokerInStaging
+subscribe:
+  message:
+    $ref: "#/components/messages/WebUICommand"
+bindings:
+  amqp:
+    is: queue
+```
 
 
 
@@ -907,6 +942,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectHTTP"></a>`http` | [HTTP Server Binding](https://github.com/asyncapi/bindings/blob/master/http#server) | Protocol-specific information for an HTTP server.
 <a name="serverBindingsObjectWebSockets"></a>`ws` | [WebSockets Server Binding](https://github.com/asyncapi/bindings/blob/master/websockets#server) | Protocol-specific information for a WebSockets server.
 <a name="serverBindingsObjectKafka"></a>`kafka` | [Kafka Server Binding](https://github.com/asyncapi/bindings/blob/master/kafka#server) | Protocol-specific information for a Kafka server.
+<a name="serverBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq#server) | Protocol-specific information for an Anypoint MQ server.
 <a name="serverBindingsObjectAMQP"></a>`amqp` | [AMQP Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp#server) | Protocol-specific information for an AMQP 0-9-1 server.
 <a name="serverBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp1#server) | Protocol-specific information for an AMQP 1.0 server.
 <a name="serverBindingsObjectMQTT"></a>`mqtt` | [MQTT Server Binding](https://github.com/asyncapi/bindings/blob/master/mqtt#server) | Protocol-specific information for an MQTT server.
@@ -935,6 +971,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectHTTP"></a>`http` | [HTTP Channel Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#channel) | Protocol-specific information for an HTTP channel.
 <a name="channelBindingsObjectWebSockets"></a>`ws` | [WebSockets Channel Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#channel) | Protocol-specific information for a WebSockets channel.
 <a name="channelBindingsObjectKafka"></a>`kafka` | [Kafka Channel Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#channel) | Protocol-specific information for a Kafka channel.
+<a name="channelBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Channel Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#channel) | Protocol-specific information for an Anypoint MQ channel.
 <a name="channelBindingsObjectAMQP"></a>`amqp` | [AMQP Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#channel) | Protocol-specific information for an AMQP 0-9-1 channel.
 <a name="channelBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#channel) | Protocol-specific information for an AMQP 1.0 channel.
 <a name="channelBindingsObjectMQTT"></a>`mqtt` | [MQTT Channel Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#channel) | Protocol-specific information for an MQTT channel.
@@ -963,6 +1000,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectHTTP"></a>`http` | [HTTP Operation Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#operation) | Protocol-specific information for an HTTP operation.
 <a name="operationBindingsObjectWebSockets"></a>`ws` | [WebSockets Operation Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#operation) | Protocol-specific information for a WebSockets operation.
 <a name="operationBindingsObjectKafka"></a>`kafka` | [Kafka Operation Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#operation) | Protocol-specific information for a Kafka operation.
+<a name="operationBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#operation) | Protocol-specific information for an Anypoint MQ operation.
 <a name="operationBindingsObjectAMQP"></a>`amqp` | [AMQP Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#operation) | Protocol-specific information for an AMQP 0-9-1 operation.
 <a name="operationBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#operation) | Protocol-specific information for an AMQP 1.0 operation.
 <a name="operationBindingsObjectMQTT"></a>`mqtt` | [MQTT Operation Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#operation) | Protocol-specific information for an MQTT operation.
@@ -991,6 +1029,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectHTTP"></a>`http` | [HTTP Message Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#message) | Protocol-specific information for an HTTP message, i.e., a request or a response.
 <a name="messageBindingsObjectWebSockets"></a>`ws` | [WebSockets Message Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#message) | Protocol-specific information for a WebSockets message.
 <a name="messageBindingsObjectKafka"></a>`kafka` | [Kafka Message Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#message) | Protocol-specific information for a Kafka message.
+<a name="messageBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Message Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#message) | Protocol-specific information for an Anypoint MQ message.
 <a name="messageBindingsObjectAMQP"></a>`amqp` | [AMQP Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#message) | Protocol-specific information for an AMQP 0-9-1 message.
 <a name="messageBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#message) | Protocol-specific information for an AMQP 1.0 message.
 <a name="messageBindingsObjectMQTT"></a>`mqtt` | [MQTT Message Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#message) | Protocol-specific information for an MQTT message.
@@ -1032,7 +1071,7 @@ Field Name | Type | Description
 <a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageObjectExamples"></a>examples | [Map[`string`, `any`]] | An array of key/value pairs where keys MUST be either **headers** and/or **payload**. Values MUST contain examples that validate against the [headers](#messageObjectHeaders) or [payload](#messageObjectPayload) fields, respectively. Example MAY also have the **name** and **summary** additional keys to provide respectively a machine-friendly name and a short summary of what the example is about.
+<a name="messageObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -1043,7 +1082,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 2.1.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.1.0`, `application/vnd.aai.asyncapi+json;version=2.1.0`, `application/vnd.aai.asyncapi+yaml;version=2.1.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 2.2.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.2.0`, `application/vnd.aai.asyncapi+json;version=2.2.0`, `application/vnd.aai.asyncapi+yaml;version=2.2.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
@@ -1226,7 +1265,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of messages.
 <a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this message.
 <a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageTraitObjectExamples"></a>examples | [Map[`string`, `any`]] | An array with examples of valid message objects.
+<a name="messageTraitObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1242,6 +1281,55 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```yaml
 schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 contentType: application/json
+```
+
+#### <a name="messageExampleObject"></a> Message Example Object
+
+Message Example Object represents an example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields. 
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
+<a name="messageExampleObjectPayload"></a>payload | `any` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
+<a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
+<a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Message Example Object Example
+
+```json
+{
+  "name": "SimpleSignup",
+  "summary": "A simple UserSignup example message",
+  "headers": {
+    "correlationId": "my-correlation-id",
+    "applicationInstanceId": "myInstanceId"
+  },
+  "payload": {
+    "user": {
+      "someUserKey": "someUserValue"
+    },
+    "signup": {
+      "someSignupKey": "someSignupValue"
+    }
+  }
+}
+```
+
+```yaml
+name: SimpleSignup
+summary: A simple UserSignup example message
+headers:
+  correlationId: my-correlation-id
+  applicationInstanceId: myInstanceId
+payload:
+  user:
+    someUserKey: someUserValue
+  signup:
+    someSignupKey: someSignupValue
 ```
 
 #### <a name="tagsObject"></a>Tags Object
