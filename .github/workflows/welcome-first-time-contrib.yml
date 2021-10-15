@@ -29,7 +29,6 @@ jobs:
           if (isIssue) {
               const query = `query($owner:String!, $name:String!, $contributer:String!) {
               repository(owner:$owner, name:$name){
-                //since we are reading only totalCount there is no need to fetch more than 1. 
                 issues(first: 1, filterBy: {createdBy:$contributer}){
                   totalCount
                 }
