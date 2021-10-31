@@ -1,0 +1,28 @@
+#This action is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+#This workflow is designed to work with:
+# - autoapprove and automerge workflows for dependabot and asyncapibot. 
+# - special release branches that we from time to time create in upstream repos. If we open up PRs for them from the very beginning of the release, the release branch will constantly update with new things from the destination branch they are opened against
+
+# It uses GitHub Action that auto-updates pull requests branches, whenever changes are pushed to their destination branch.
+#Autoupdating to latest destination branch works only in the context of upstream repo and not forks
+
+name: autoupdate
+
+on:
+  push: {}
+  
+jobs:
+
+  autoupdate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Autoupdating
+        uses: docker://chinthakagodawita/autoupdate-action:v1
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          PR_FILTER: "labelled"
+          PR_LABELS: "autoapproved"
+          PR_READY_STATE: "ready_for_review"
+          MERGE_CONFLICT_ACTION: "ignore"
