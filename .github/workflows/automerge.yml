@@ -17,7 +17,7 @@ on:
   pull_request_review:
     types:
       - submitted
-  
+
 jobs:
 
   autoapprove:
@@ -45,3 +45,15 @@ jobs:
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           MERGE_RETRIES: "20"
           MERGE_RETRY_SLEEP: "30000"
+  
+  labelWhenApproved:
+    needs: [autoapprove]
+    name: Label when approved
+    runs-on: ubuntu-latest
+    steps:
+    - name: Label when approved
+      uses: pullreminders/label-when-approved-action@v1.0.7
+      env:
+        APPROVALS: "1"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ADD_LABEL: "autoapproved"
