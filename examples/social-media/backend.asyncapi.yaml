@@ -1,0 +1,46 @@
+asyncapi: 2.2.0
+
+info:
+  title: Website Backend
+  version: 1.0.0
+
+servers:
+  websiteWebSocketServer:
+    url: ws://mycompany.com/ws
+    protocol: ws
+  mosquitto:
+    url: mqtt://test.mosquitto.org
+    protocol: mqtt
+    bindings:
+      mqtt:
+        clientId: websocketServer
+
+channels:
+  comment/liked:
+    description: Notify all the services that a comment has been liked.
+    servers: ['mosquitto']
+    subscribe: 
+      message:
+        $ref: './dictionary.asyncapi.yaml#/components/messages/commentLiked'
+  like/comment:
+    description: When a comment like is received from the frontend.
+    servers: ['websiteWebSocketServer']
+    publish: 
+      message:
+        $ref: './dictionary.asyncapi.yaml#/components/messages/likeComment'
+  comment/{commentId}/changed:
+    description: When an event from the broker arrives telling us to update the comment likes count on the frontend.
+    parameters: 
+      commentId:
+        schema: 
+          $ref: './dictionary.asyncapi.yaml#/components/schemas/commentId'
+    servers: ['mosquitto']
+    publish: 
+      message:
+        $ref: './dictionary.asyncapi.yaml#/components/messages/commentChanged'
+  update/comment/likes:
+    description: Update comment likes count in the frontend.
+    servers: ['websiteWebSocketServer']
+    subscribe: 
+      message:
+        $ref: './dictionary.asyncapi.yaml#/components/messages/updateCommentLikes'
