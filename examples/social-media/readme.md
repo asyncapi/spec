@@ -2,7 +2,7 @@
 
 Say we have a social network, a very basic one, where all you can do is upvoting comments.
 
-The individual services are defined:
+The individual services are defined as such:
 
 - [A frontend application (./frontend)](./frontend/asyncapi.yaml) where users interact through the website, where they can like comments.
 - [A backend WebSocket server (./backend)](./backend/asyncapi.yaml) that sends and receives events for the UI to update in real-time.
@@ -22,4 +22,5 @@ This ensures that we try to describe the following use-cases mixed together:
 - A public API, and how others may interact with our system.
 - A broker setup to include the most widely used scenario
 - A WebSocket server and client to ensure we dont focus only on broker centric systems.
+- Reusability where possible, to ensure no dublication of definitions
 
