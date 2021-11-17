@@ -1,7 +1,8 @@
 asyncapi: 2.2.0
 
 info:
-  title: Notifications Service
+  title: Public API 
+  description: Public API for others to interact with the system
   version: 1.0.0
 
 servers:
@@ -10,11 +11,11 @@ servers:
     protocol: mqtt
     bindings:
       mqtt:
-        clientId: notification-service
+        clientId: public-api
 
 channels:
   comment/liked:
     description: When a "comment has been liked" message is received, it sends an SMS or push notification to the author.
     publish: 
       message:
-        $ref: './dictionary.asyncapi.yaml#/components/messages/commentLiked'
+        $ref: '../common/messages.yaml#/commentLiked'

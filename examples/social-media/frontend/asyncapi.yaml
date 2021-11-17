@@ -14,9 +14,9 @@ channels:
     description: Notify the backend that a comment has been liked.
     subscribe: 
       message:
-        $ref: './dictionary.asyncapi.yaml#/components/messages/likeComment'
+        $ref: '../common/messages.yaml#/likeComment'
   update/comment/likes:
     description: Update the UI when the comment likes count is updated.
     publish: 
       message:
-        $ref: './dictionary.asyncapi.yaml#/components/messages/updateCommentLikes'
+        $ref: '../common/messages.yaml#/updateCommentLikes'

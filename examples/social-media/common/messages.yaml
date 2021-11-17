@@ -1,0 +1,12 @@
+commentLiked: 
+  payload: 
+    $ref: './schemas.yaml#/commentLikedPayload'
+likeComment: 
+  payload: 
+    $ref: './schemas.yaml#/likeCommentPayload'
+commentChanged: 
+  payload: 
+    $ref: './schemas.yaml#/commentChangedPayload'
+updateCommentLikes: 
+  payload: 
+    $ref: './schemas.yaml#/updateCommentLikesPayload'

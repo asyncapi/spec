@@ -18,14 +18,14 @@ channels:
     description: Updates the likes count in the database and sends the new count to the broker.
     publish: 
       message:
-        $ref: './dictionary.asyncapi.yaml#/components/messages/commentLiked'
+        $ref: '../common/messages.yaml#/commentLiked'
   comment/{commentId}/changed:
     description: Sends the new count to the broker after it has been updated in the database.
     parameters: 
       commentId:
         schema: 
-          $ref: './dictionary.asyncapi.yaml#/components/schemas/commentId'
+          $ref: '../common/schemas.yaml#/commentId'
     subscribe: 
       message:
-        $ref: './dictionary.asyncapi.yaml#/components/messages/commentChanged'
+        $ref: '../common/messages.yaml#/commentChanged'
 
