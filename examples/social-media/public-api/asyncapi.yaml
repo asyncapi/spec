@@ -15,7 +15,7 @@ servers:
 
 channels:
   comment/liked:
-    description: When a "comment has been liked" message is received, it sends an SMS or push notification to the author.
+    description: Others are publishing to you, whenever a comment is liked, for you to do react to such an event. 
     publish: 
       message:
         $ref: '../common/messages.yaml#/commentLiked'
