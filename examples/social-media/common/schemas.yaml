@@ -5,7 +5,7 @@ commentLikedPayload:
   properties:
     commentId: 
       allOf: 
-        - $ref: '#commentId'
+        - $ref: '#/commentId'
         - description: Id of the comment that was liked
 likeCommentPayload: 
   type: object
