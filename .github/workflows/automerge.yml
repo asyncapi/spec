@@ -1,5 +1,5 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+ # This action is centrally managed in https://github.com/asyncapi/.github/
+ # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
 
 name: Automerge release bump PR
 
@@ -21,14 +21,26 @@ on:
 jobs:
 
   autoapprove:
-    if: github.event.pull_request.draft == false
+    if: (github.event.pull_request.draft == false) && (github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v2
-        if: github.actor == ('asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Label autoapproved
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['autoapproved']
+            }) 
+
 
   automerge:
     needs: [autoapprove]
@@ -45,15 +57,3 @@ jobs:
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           MERGE_RETRIES: "20"
           MERGE_RETRY_SLEEP: "30000"
-  
-  labelWhenApproved:
-    needs: [autoapprove]
-    name: Label when approved
-    runs-on: ubuntu-latest
-    steps:
-    - name: Label when approved
-      uses: pullreminders/label-when-approved-action@v1.0.7
-      env:
-        APPROVALS: "1"
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ADD_LABEL: "autoapproved"
