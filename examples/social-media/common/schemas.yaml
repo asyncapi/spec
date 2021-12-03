@@ -18,7 +18,7 @@ likeCommentPayload:
         - description: Id of the comment that should be liked
     likedBy:
       allOf: 
-        - $ref: '#/commentId'
+        - $ref: '#/userId'
         - description: The id of the user that have liked the comment
 commentChangedPayload: 
   type: object
