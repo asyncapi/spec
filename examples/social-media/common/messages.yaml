@@ -1,12 +1,16 @@
-commentLiked: 
+commentLiked:
+  description: Message that is being sent when a comment has been liked by someone.
   payload: 
     $ref: './schemas.yaml#/commentLikedPayload'
 likeComment: 
+  description: Message that is being sent when someone wants to like a comment.
   payload: 
     $ref: './schemas.yaml#/likeCommentPayload'
-commentChanged: 
+commentChanged:
+  description: Message that is being sent when a comment have been updated.
   payload: 
-    $ref: './schemas.yaml#/commentChangedPayload'
+    $ref: './schemas.yaml#/commentChanged'
 updateCommentLikes: 
+  description: Message that is being sent when a comment have been updated.
   payload: 
     $ref: './schemas.yaml#/updateCommentLikesPayload'
