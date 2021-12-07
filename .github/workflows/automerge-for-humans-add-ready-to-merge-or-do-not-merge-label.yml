@@ -1,0 +1,51 @@
+#This workflow is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+#Purpose of this workflow is to enable anyone to label PR with `ready-to-merge` and `do-not-merge` labels to get stuff merged or blocked from merging
+name: Add ready-to-merge or do-not-merge label # if proper comment added
+
+on: issue_comment
+
+jobs:
+  parse-comment-and-add-ready: # for handling cases when you want to mark as ready to merge
+    if: github.event.issue.pull_request && github.event.issue.state != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is draft # such info is not available in the context of issue_comment event
+        uses: actions/github-script@v5
+        id: checkDraft
+        with:
+          result-encoding: string
+          script: |
+            const prDetailsUrl = context.payload.issue.pull_request.url;
+            const response = await github.request(prDetailsUrl);
+            return response.data.draft;
+      - name: Add label
+        if: steps.checkDraft.outputs.result == 'false' && (contains(github.event.comment.body, '/ready-to-merge') || contains(github.event.comment.body, '/rtm' ))
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['ready-to-merge']
+            }) 
+
+  parse-comment-and-add-block: # for handling cases when you want to mark as do-not-merge
+    if: github.event.issue.pull_request && github.event.issue.state != 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add label
+        if: contains(github.event.comment.body, '/do-not-merge') || contains(github.event.comment.body, '/dnm' )
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['do-not-merge']
+            }) 

@@ -21,7 +21,7 @@ on:
 jobs:
 
   autoapprove:
-    if: (github.event.pull_request.draft == false) && (github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
+    if: github.event.pull_request.draft == false && (github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
@@ -44,11 +44,11 @@ jobs:
 
   automerge:
     needs: [autoapprove]
+    if: github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
         uses: pascalgn/automerge-action@v0.13.0
-        if: github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           GITHUB_LOGIN: asyncapi-bot
