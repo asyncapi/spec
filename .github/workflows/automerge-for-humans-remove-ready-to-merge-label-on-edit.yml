@@ -1,0 +1,28 @@
+#This workflow is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+# Defence from evil contributor that after adding `ready-to-merge` all suddenly makes evil commit or evil change in PR title
+# Label is removed once above action is detected
+name: Remove ready-to-merge label
+
+on:
+  pull_request_target:
+    types:
+      - synchronize
+      - edited
+
+jobs:
+  remove-ready-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove label
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'ready-to-merge'
+            }) 
