@@ -8,7 +8,7 @@ on: issue_comment
 
 jobs:
   parse-comment-and-add-ready: # for handling cases when you want to mark as ready to merge
-    if: github.event.issue.pull_request && github.event.issue.state != 'closed'
+    if: github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot'
     runs-on: ubuntu-latest
     steps:
       - name: Check if PR is draft # such info is not available in the context of issue_comment event
@@ -34,7 +34,7 @@ jobs:
             }) 
 
   parse-comment-and-add-block: # for handling cases when you want to mark as do-not-merge
-    if: github.event.issue.pull_request && github.event.issue.state != 'closed'
+    if: github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot'
     runs-on: ubuntu-latest
     steps:
       - name: Add label
