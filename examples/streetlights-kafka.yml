@@ -21,6 +21,7 @@ servers:
     description: Test broker
     security:
       - saslScram: []
+      - certs: []
 
 defaultContentType: application/json
 
@@ -139,6 +140,9 @@ components:
     saslScram:
       type: scramSha256
       description: Provide your username and password for SASL/SCRAM authentication
+    certs:
+      type: X509
+      description: Download the certificate files from service provider
 
   parameters:
     streetlightId:
