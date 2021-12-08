@@ -1668,8 +1668,7 @@ The following properties are taken from the JSON Schema definition but their def
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
-Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline.
-It is appropriate to clarify that the `$ref` keyword will follow the behavior described by [Reference Object](#referenceObject) **and not** the one in JSON Schema definition. Therefore, `$id` keyword won't modify the behavior of `$ref`.
+Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `$ref` keyword will follow the behavior described by [Reference Object](#referenceObject) **and not** the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
 
 In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
 
