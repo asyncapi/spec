@@ -1,0 +1,25 @@
+#This workflow is centrally managed in https://github.com/asyncapi/.github/
+#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+name: Create help comment
+
+on: [issue_comment]
+
+jobs:
+  create_help_comment:
+    if: github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-ecosystem/action-create-comment@v1
+        if: contains(github.event.comment.body, '/help')
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          body: |
+            Hello, @${{ github.actor }}! 👋🏼 
+
+            I'm Genie from the magic lamp. Looks like somebody needs a hand! 🆘 
+
+            At the moment the following comments are supported in pull requests:
+
+            - `/ready-to-merge` or `/rtm` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
+            - `/do-not-merge` or `/dnm` - This comment will block automerging event if all conditions are met and ready-to-merge label is added
