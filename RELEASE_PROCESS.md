@@ -41,7 +41,7 @@ Once feature branches are created, there must be some initial configuration done
 
 Things to do in release branch as `chore: ` changes:
 - `spec` - Make sure all the official examples located in the repository use the new version of the specification,
-- `spec-json-schemas` - Duplicate newest definition folder (such as `./definitions/2.2.0`) and rename it to the new version. Then generate the bundled version of the schema by running `npm run generate:assets`, and expose it here [here](https://github.com/asyncapi/spec-json-schemas/blob/master/index.js),
+- `spec-json-schemas` - To create a new version, please read further in the repository [Creating a new version](https://github.com/asyncapi/spec-json-schemas#creating-a-new-version),
 - `parser-js` - Make sure the list of supported AsyncAPI schema MIME types is extended with the new version [here](https://github.com/asyncapi/parser-js/blob/master/lib/asyncapiSchemaFormatParser.js#L43.)
 
 Things to do in default branch and release branch as `chore: ` changes:
@@ -49,6 +49,7 @@ Things to do in default branch and release branch as `chore: ` changes:
   - [package.json in parser-js](https://github.com/asyncapi/parser-js/blob/master/package.json#L90)
   - [package.json in spec-json-schemas](https://github.com/asyncapi/spec-json-schemas/blob/master/package.json#L49) 
   - [.releaserc in spec](https://github.com/asyncapi/spec/blob/master/.releaserc#L4)
+
 #### Release notes
 
 Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A regular changelog is not enough as it is not user-friendly. Every release must have release notes.
