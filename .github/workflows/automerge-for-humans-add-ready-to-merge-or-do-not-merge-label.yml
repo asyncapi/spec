@@ -4,7 +4,10 @@
 #Purpose of this workflow is to enable anyone to label PR with `ready-to-merge` and `do-not-merge` labels to get stuff merged or blocked from merging
 name: Add ready-to-merge or do-not-merge label # if proper comment added
 
-on: issue_comment
+on: 
+    issue_comment:
+        types: 
+            - created
 
 jobs:
   parse-comment-and-add-ready: # for handling cases when you want to mark as ready to merge
