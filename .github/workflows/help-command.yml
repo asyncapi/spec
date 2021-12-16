@@ -3,7 +3,10 @@
 
 name: Create help comment
 
-on: [issue_comment]
+on: 
+    issue_comment:
+        types: 
+            - created
 
 jobs:
   create_help_comment:
