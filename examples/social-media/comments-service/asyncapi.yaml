@@ -1,0 +1,31 @@
+asyncapi: 2.2.0
+
+info:
+  title: Comments Service
+  version: 1.0.0
+  description: This service is in charge of processing all the events related to comments.
+
+servers:
+  mosquitto:
+    url: mqtt://test.mosquitto.org
+    protocol: mqtt
+    bindings:
+      mqtt:
+        clientId: comment-service
+
+channels:
+  comment/liked:
+    description: Updates the likes count in the database and sends the new count to the broker.
+    publish: 
+      message:
+        $ref: '../common/messages.yaml#/commentLiked'
+  comment/{commentId}/changed:
+    description: Sends the new count to the broker after it has been updated in the database.
+    parameters: 
+      commentId:
+        schema: 
+          $ref: '../common/schemas.yaml#/commentId'
+    subscribe: 
+      message:
+        $ref: '../common/messages.yaml#/commentChanged'
+

@@ -1,0 +1,26 @@
+## Small social media example
+
+Say we have a social network, a very basic one, where all you can do is upvoting comments.
+
+The individual services are defined as such:
+
+- [A frontend application (./frontend)](./frontend/asyncapi.yaml) where users interact through the website, where they can like comments.
+- [A backend WebSocket server (./backend)](./backend/asyncapi.yaml) that sends and receives events for the UI to update in real-time.
+- [A comment service (./comments-service)](./comments-service/asyncapi.yaml) which processes all events related to comments through a message broker.
+- [A notification service (./notification-service)](./notification-service/asyncapi.yaml) which ensures all relevant parties to the comment is notified.
+- [A public-facing API (./public-api)](./public-api/asyncapi.yaml) which is an external application, where anyone outside the organization can get notified about updates.
+
+
+[![](https://mermaid.ink/img/eyJjb2RlIjoiXG5ncmFwaCBURFxuIHNlcnZlcjFbKHdzOi8vbXljb21wYW55LmNvbS93cyldXG5XZWJzaXRlQmFja2VuZFtXZWJzaXRlIEJhY2tlbmRdXG5XZWJzaXRlV2ViU29ja2V0Q2xpZW50W1dlYnNpdGUgV2ViU29ja2V0IENsaWVudF1cbldlYnNpdGVXZWJTb2NrZXRDbGllbnQgLS0gbGlrZS9jb21tZW50IC0tPiBzZXJ2ZXIxXG5zZXJ2ZXIxIC0tIGxpa2UvY29tbWVudCAtLT4gV2Vic2l0ZUJhY2tlbmRcbldlYnNpdGVCYWNrZW5kIC0tIHVwZGF0ZS9jb21tZW50L2xpa2VzIC0tPiBzZXJ2ZXIxXG5zZXJ2ZXIxIC0tIHVwZGF0ZS9jb21tZW50L2xpa2VzIC0tPiBXZWJzaXRlV2ViU29ja2V0Q2xpZW50XG5zZXJ2ZXIyWyhtcXR0Oi8vdGVzdC5tb3NxdWl0dG8ub3JnKV1cbldlYnNpdGVCYWNrZW5kIC0tIGNvbW1lbnQvbGlrZWQgLS0-IHNlcnZlcjJcbkNvbW1lbnRzU2VydmljZVtDb21tZW50cyBTZXJ2aWNlXVxuc2VydmVyMiAtLSBjb21tZW50L2xpa2VkIC0tPiBDb21tZW50c1NlcnZpY2Vcbk5vdGlmaWNhdGlvbnNTZXJ2aWNlW05vdGlmaWNhdGlvbnMgU2VydmljZV1cbnNlcnZlcjIgLS0gY29tbWVudC9saWtlZCAtLT4gTm90aWZpY2F0aW9uc1NlcnZpY2VcbkNvbW1lbnRzU2VydmljZSAtLSBcImNvbW1lbnQve2NvbW1lbnRJZH0vY2hhbmdlZFwiIC0tPiBzZXJ2ZXIyXG5zZXJ2ZXIyIC0tIFwiY29tbWVudC97Y29tbWVudElkfS9jaGFuZ2VkXCIgLS0-IFdlYnNpdGVCYWNrZW5kXG5QdWJsaWNBUElbUHVibGljIEFQSV1cbnNlcnZlcjIgLS0gXCJjb21tZW50L2xpa2VkXCIgLS0-IFB1YmxpY0FQSSIsIm1lcm1haWQiOnsidGhlbWUiOiJkYXJrIn0sInVwZGF0ZUVkaXRvciI6ZmFsc2UsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjpmYWxzZX0)](https://mermaid-js.github.io/mermaid-live-editor/edit/#eyJjb2RlIjoiXG5ncmFwaCBURFxuIHNlcnZlcjFbKHdzOi8vbXljb21wYW55LmNvbS93cyldXG5XZWJzaXRlQmFja2VuZFtXZWJzaXRlIEJhY2tlbmRdXG5XZWJzaXRlV2ViU29ja2V0Q2xpZW50W1dlYnNpdGUgV2ViU29ja2V0IENsaWVudF1cbldlYnNpdGVXZWJTb2NrZXRDbGllbnQgLS0gbGlrZS9jb21tZW50IC0tPiBzZXJ2ZXIxXG5zZXJ2ZXIxIC0tIGxpa2UvY29tbWVudCAtLT4gV2Vic2l0ZUJhY2tlbmRcbldlYnNpdGVCYWNrZW5kIC0tIHVwZGF0ZS9jb21tZW50L2xpa2VzIC0tPiBzZXJ2ZXIxXG5zZXJ2ZXIxIC0tIHVwZGF0ZS9jb21tZW50L2xpa2VzIC0tPiBXZWJzaXRlV2ViU29ja2V0Q2xpZW50XG5zZXJ2ZXIyWyhtcXR0Oi8vdGVzdC5tb3NxdWl0dG8ub3JnKV1cbldlYnNpdGVCYWNrZW5kIC0tIGNvbW1lbnQvbGlrZWQgLS0-IHNlcnZlcjJcbkNvbW1lbnRzU2VydmljZVtDb21tZW50cyBTZXJ2aWNlXVxuc2VydmVyMiAtLSBjb21tZW50L2xpa2VkIC0tPiBDb21tZW50c1NlcnZpY2Vcbk5vdGlmaWNhdGlvbnNTZXJ2aWNlW05vdGlmaWNhdGlvbnMgU2VydmljZV1cbnNlcnZlcjIgLS0gY29tbWVudC9saWtlZCAtLT4gTm90aWZpY2F0aW9uc1NlcnZpY2VcbkNvbW1lbnRzU2VydmljZSAtLSBcImNvbW1lbnQve2NvbW1lbnRJZH0vY2hhbmdlZFwiIC0tPiBzZXJ2ZXIyXG5zZXJ2ZXIyIC0tIFwiY29tbWVudC97Y29tbWVudElkfS9jaGFuZ2VkXCIgLS0-IFdlYnNpdGVCYWNrZW5kXG5QdWJsaWNBUElbUHVibGljIEFQSV1cbnNlcnZlcjIgLS0gXCJjb21tZW50L2xpa2VkXCIgLS0-IFB1YmxpY0FQSSIsIm1lcm1haWQiOiJ7XG4gIFwidGhlbWVcIjogXCJkYXJrXCJcbn0iLCJ1cGRhdGVFZGl0b3IiOmZhbHNlLCJhdXRvU3luYyI6dHJ1ZSwidXBkYXRlRGlhZ3JhbSI6ZmFsc2V9)
+
+<p align = "center">
+Fig.1 - Mermaid diagram for the system, partly generated using <a href="https://github.com/asyncapi/cupid">Cupid</a>.
+</p>
+
+This ensures that we try to describe the following use-cases mixed together:
+
+- A public API, and how others may interact with our system.
+- A broker setup to include the most widely used scenario
+- A WebSocket server and client to ensure we dont focus only on broker centric systems.
+- Reusability where possible, to ensure no dublication of definitions
+
