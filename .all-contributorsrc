@@ -272,6 +272,16 @@
         "ideas",
         "question"
       ]
+    },
+    {
+      "login": "balogal",
+      "name": "Alexander Balogh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80794567?v=4",
+      "profile": "https://github.com/balogal",
+      "contributions": [
+        "doc",
+        "bug"
+      ]
     }
   ],
   "commitConvention": "none"
