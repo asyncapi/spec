@@ -1,0 +1,21 @@
+asyncapi: 2.2.0
+
+info:
+  title: Public API 
+  description: Public API for others to interact with the system
+  version: 1.0.0
+
+servers:
+  mosquitto:
+    url: mqtt://test.mosquitto.org
+    protocol: mqtt
+    bindings:
+      mqtt:
+        clientId: public-api
+
+channels:
+  comment/liked:
+    description: Others are publishing to you, whenever a comment is liked, for you to do react to such an event. 
+    publish: 
+      message:
+        $ref: '../common/messages.yaml#/commentLiked'
