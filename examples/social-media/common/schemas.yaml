@@ -1,0 +1,50 @@
+commentLikedPayload: 
+  type: object
+  title: commentLikedPayload
+  additionalProperties: false
+  properties:
+    commentId: 
+      allOf: 
+        - $ref: '#/commentId'
+        - description: Id of the comment that was liked
+likeCommentPayload: 
+  type: object
+  title: likeCommentPayload
+  additionalProperties: false
+  properties:
+    commentId: 
+      allOf: 
+        - $ref: '#/commentId'
+        - description: Id of the comment that should be liked
+    likedBy:
+      allOf: 
+        - $ref: '#/userId'
+        - description: The id of the user that have liked the comment
+commentChangedPayload: 
+  type: object
+  title: commentChangedPayload
+  additionalProperties: false
+  properties:
+    commentId: 
+      allOf: 
+        - $ref: '#/commentId'
+        - description: Id of the comment that was changed, such as when someone liked it.
+    likeCount:
+      type: integer
+      description: The new like count of how many have liked the comment.
+updateCommentLikesPayload:
+  type: object
+  title: updateCommentLikesPayload
+  additionalProperties: false
+  properties:
+    commentId: 
+      allOf: 
+        - $ref: '#/commentId'
+        - description: Id of the comment that was changed, such as when someone liked it.
+    likeCount:
+      type: integer
+      description: The new like count of how many have liked the comment.
+commentId:
+  type: string
+userId:
+  type: string

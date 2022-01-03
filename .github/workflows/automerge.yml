@@ -1,5 +1,5 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+ # This action is centrally managed in https://github.com/asyncapi/.github/
+ # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
 
 name: Automerge release bump PR
 
@@ -17,26 +17,38 @@ on:
   pull_request_review:
     types:
       - submitted
-  
+
 jobs:
 
   autoapprove:
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false && (github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v2
-        if: github.actor == ('asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
+      - name: Label autoapproved
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['autoapproved']
+            }) 
+
+
   automerge:
     needs: [autoapprove]
+    if: github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
         uses: pascalgn/automerge-action@v0.13.0
-        if: github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           GITHUB_LOGIN: asyncapi-bot
