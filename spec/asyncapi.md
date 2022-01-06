@@ -772,8 +772,8 @@ summary: Action to sign a user up.
 description: A longer description
 security:
   - petstore_auth:
-        - write:pets
-        - read:pets
+    - write:pets
+    - read:pets
 tags:
   - name: user
   - name: signup
