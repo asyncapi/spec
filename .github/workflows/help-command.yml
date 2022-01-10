@@ -9,12 +9,11 @@ on:
             - created
 
 jobs:
-  create_help_comment:
-    if: github.event.issue.pull_request
+  create_help_comment_pr:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/help') 
     runs-on: ubuntu-latest
     steps:
       - uses: actions-ecosystem/action-create-comment@v1
-        if: contains(github.event.comment.body, '/help')
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           body: |
@@ -26,3 +25,19 @@ jobs:
 
             - `/ready-to-merge` or `/rtm` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
             - `/do-not-merge` or `/dnm` - This comment will block automerging even if all conditions are met and ready-to-merge label is added
+  create_help_comment_issue:
+    if: ${{ !github.event.issue.pull_request && contains(github.event.comment.body, '/help') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-ecosystem/action-create-comment@v1
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          body: |
+            Hello, @${{ github.actor }}! 👋🏼 
+
+            I'm Genie from the magic lamp. Looks like somebody needs a hand! 🆘 
+
+            At the moment the following comments are supported in issues:
+
+            - `/good-first-issue {js | ts | java | go | docs | design | ci-cd} ` or `/gfi {js | ts | java | go | docs | design | ci-cd} ` - label an issue as a `good first issue`.
+            example: `/gfi js` or `/good-first-issue ci-cd`
