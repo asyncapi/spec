@@ -47,7 +47,7 @@ jobs:
 
   release:
     needs: test
-    name: Publish to NPM and GitHub
+    name: Publish to any of NPM, Github, and Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Set git to use LF #to once and for all finish neverending fight between Unix and Windows
@@ -68,11 +68,13 @@ jobs:
         name: Install dependencies
         run: npm install
       - if: steps.packagejson.outputs.exists == 'true'
-        name: Release to NPM and GitHub
+        name: Publish to any of NPM, Github, and Docker Hub
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           GIT_AUTHOR_NAME: asyncapi-bot
           GIT_AUTHOR_EMAIL: info@asyncapi.io
           GIT_COMMITTER_NAME: asyncapi-bot
