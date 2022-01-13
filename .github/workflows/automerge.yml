@@ -54,6 +54,6 @@ jobs:
           GITHUB_LOGIN: asyncapi-bot
           MERGE_LABELS: ""
           MERGE_METHOD: "squash"
-          MERGE_COMMIT_MESSAGE: "pull-request-title"
+          MERGE_COMMIT_MESSAGE: "{pullRequest.title} (#{pullRequest.number})"
           MERGE_RETRIES: "20"
           MERGE_RETRY_SLEEP: "30000"
