@@ -6,8 +6,7 @@ info:
 
 servers:
   websiteWebSocketServer:
-    url: ws://mycompany.com/ws
-    protocol: ws
+    $ref: '../common/servers.yaml#/websiteWebSocketServer'
   mosquitto:
     url: mqtt://test.mosquitto.org
     protocol: mqtt

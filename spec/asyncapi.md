@@ -1437,6 +1437,8 @@ All objects defined within the components object will have no effect on the API 
 Field Name | Type | Description
 ---|:---|---
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
+<a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
+<a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelItemObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelItemObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
@@ -1489,6 +1491,23 @@ my.org.User
           },
           "name": {
             "type": "string"
+          }
+        }
+      }
+    },
+    "servers": {
+      "development": {
+        "url": "development.gigantic-server.com",
+        "description": "Development server",
+        "protocol": "amqp",
+        "protocolVersion": "0.9.1"
+      }
+    },
+    "channels": {
+      "user/signedup": {
+        "subscribe": {
+          "message": {
+            "$ref": "#/components/messages/userSignUp"
           }
         }
       }
@@ -1578,6 +1597,17 @@ components:
           format: int64
         name:
           type: string
+  servers:
+    development:
+      url: development.gigantic-server.com
+      description: Development server
+      protocol: amqp
+      protocolVersion: 0.9.1
+  channels:
+    user/signedup:
+      subscribe:
+        message:
+          $ref: "#/components/messages/userSignUp"
   messages:
     userSignUp:
       summary: Action to sign a user up.
