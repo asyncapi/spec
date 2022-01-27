@@ -1825,8 +1825,7 @@ properties:
 required:
 - name
 examples:
--
-  name: Puma
+- name: Puma
   id: 1
 ```
 
