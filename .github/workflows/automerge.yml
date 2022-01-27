@@ -1,5 +1,5 @@
- # This action is centrally managed in https://github.com/asyncapi/.github/
- # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
 
 name: Automerge release bump PR
 
@@ -19,9 +19,8 @@ on:
       - submitted
 
 jobs:
-
   autoapprove:
-    if: github.event.pull_request.draft == false && (github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
+    if: github.event.pull_request.draft == false && (github.actor == 'asyncapi-bot' || github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
@@ -39,8 +38,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['autoapproved']
-            }) 
-
+            })
 
   automerge:
     needs: [autoapprove]
