@@ -6,8 +6,7 @@ info:
 
 servers:
   websiteWebSocketServer:
-    url: ws://mycompany.com/ws
-    protocol: ws
+    $ref: '../common/servers.yaml#/websiteWebSocketServer'
 
 channels:
   like/comment:
