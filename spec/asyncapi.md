@@ -1086,7 +1086,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 2.2.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.2.0`, `application/vnd.aai.asyncapi+json;version=2.2.0`, `application/vnd.aai.asyncapi+yaml;version=2.2.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 2.3.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.3.0`, `application/vnd.aai.asyncapi+json;version=2.3.0`, `application/vnd.aai.asyncapi+yaml;version=2.3.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
