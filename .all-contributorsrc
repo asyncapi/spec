@@ -302,6 +302,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "xunto",
+      "name": "Orlov Valentine",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5288053?v=4",
+      "profile": "https://github.com/xunto",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "none"
