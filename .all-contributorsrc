@@ -293,6 +293,15 @@
         "example",
         "bug"
       ]
+    },
+    {
+      "login": "aaronkorver",
+      "name": "Aaron Korver",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8387325?v=4",
+      "profile": "https://github.com/aaronkorver",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "none"
