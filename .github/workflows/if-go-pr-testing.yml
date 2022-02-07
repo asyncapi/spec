@@ -6,10 +6,10 @@ name: PR testing - if Go project
 on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
-
+    
 jobs:
   lint:
-    if: github.event.pull_request.draft == false
+    if: "github.event.pull_request.draft == false &&!((github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'ci: update global workflows')) || (github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'chore(release):')) || (github.actor == 'allcontributors' && startsWith(github.event.pull_request.title, 'docs: add')))"
     name: lint
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +31,7 @@ jobs:
           skip-go-installation: true # we wanna control the version of Go in use
   
   test:
-    if: github.event.pull_request.draft == false
+    if: "github.event.pull_request.draft == false &&!((github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'ci: update global workflows')) || (github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'chore(release):')) || (github.actor == 'allcontributors' && startsWith(github.event.pull_request.title, 'docs: add')))"
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:

@@ -24,7 +24,7 @@ jobs:
         run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
       - if: steps.packagejson.outputs.exists == 'true' && startsWith(github.event.commits[0].message, 'chore(release):')
         name: Bumping latest version of this package in other repositories
-        uses: derberg/npm-dependency-manager-for-your-github-org@v3
+        uses: derberg/npm-dependency-manager-for-your-github-org@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           committer_username: asyncapi-bot
