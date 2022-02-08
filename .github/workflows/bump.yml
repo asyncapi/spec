@@ -15,6 +15,7 @@ on:
 
 jobs:
   bump:
+    if: startsWith(github.event.commits[0].message, 'chore(release):')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -22,9 +23,9 @@ jobs:
       - name: Check if Node.js project and has package.json
         id: packagejson
         run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
-      - if: steps.packagejson.outputs.exists == 'true' && startsWith(github.event.commits[0].message, 'chore(release):')
+      - if: steps.packagejson.outputs.exists == 'true'
         name: Bumping latest version of this package in other repositories
-        uses: derberg/npm-dependency-manager-for-your-github-org@v3
+        uses: derberg/npm-dependency-manager-for-your-github-org@v4
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           committer_username: asyncapi-bot
