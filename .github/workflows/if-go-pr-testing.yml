@@ -6,16 +6,21 @@ name: PR testing - if Go project
 on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
-
+    
 jobs:
   lint:
-    if: github.event.pull_request.draft == false
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - if: "github.event.pull_request.draft == false &&!((github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'ci: update global workflows')) || (github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'chore(release):')) || (github.actor == 'allcontributors' && startsWith(github.event.pull_request.title, 'docs: add')))"
+        id: should_run
+        name: Should Run
+        run: echo "::set-output name=shouldrun::true"
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Checkout repository
         uses: actions/checkout@v2
-      - name: Check if Go project and has go.mod
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Check if Go project and has go.mod
         id: gomod
         run: test -e ./go.mod && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
         shell: bash
@@ -31,16 +36,21 @@ jobs:
           skip-go-installation: true # we wanna control the version of Go in use
   
   test:
-    if: github.event.pull_request.draft == false
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - name: Checkout repository
+      - if: "github.event.pull_request.draft == false &&!((github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'ci: update global workflows')) || (github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'chore(release):')) || (github.actor == 'allcontributors' && startsWith(github.event.pull_request.title, 'docs: add')))"
+        id: should_run
+        name: Should Run
+        run: echo "::set-output name=shouldrun::true"
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Checkout repository
         uses: actions/checkout@v2
-      - name: Check if Go project and has go.mod
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Check if Go project and has go.mod
         id: gomod
         run: test -e ./go.mod && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
         shell: bash
