@@ -9,20 +9,26 @@ on:
 
 jobs:
   test:
-    if: github.event.pull_request.draft == false
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - name: Set git to use LF #to once and for all finish neverending fight between Unix and Windows
+      - if: "github.event.pull_request.draft == false &&!((github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'ci: update global workflows')) || (github.actor == 'asyncapi-bot' && startsWith(github.event.pull_request.title, 'chore(release):')) || (github.actor == 'allcontributors' && startsWith(github.event.pull_request.title, 'docs: add')))"
+        id: should_run
+        name: Should Run
+        run: echo "::set-output name=shouldrun::true"
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Set git to use LF #to once and for all finish neverending fight between Unix and Windows
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - name: Checkout repository
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Checkout repository
         uses: actions/checkout@v2
-      - name: Check if Node.js project and has package.json
+      - if: steps.should_run.outputs.shouldrun == 'true' 
+        name: Check if Node.js project and has package.json
         id: packagejson
         run: test -e ./package.json && echo "::set-output name=exists::true" || echo "::set-output name=exists::false"
         shell: bash
