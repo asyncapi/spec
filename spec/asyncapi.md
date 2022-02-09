@@ -20,13 +20,14 @@ These files can then be used to create utilities, such as documentation, integra
 The file(s) MUST describe the operations an [application](#definitionsApplication) accepts. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
-user/signedup:
+userSignedUp:
+  address: "user/signedup"
   subscribe:
     message:
       $ref: "#/components/messages/userSignUp"
 ```
 
-It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
+It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `userSignedUp` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
@@ -523,7 +524,7 @@ defaultContentType: application/json
 
 #### <a name="channelsObject"></a>Channels Object
 
-Holds the relative paths to the individual channel and their operations. Channel paths are relative to servers.
+The Channels Object is a map of [Channel Item Objects](#channelItemObject).
 
 Channels are also known as "topics", "routing keys", "event types" or "paths".
 
@@ -531,13 +532,14 @@ Channels are also known as "topics", "routing keys", "event types" or "paths".
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
+<a name="channelsObjectChannel"></a>^[A-Za-z0-9_\-]+$ | [Channel Item Object](#channelItemObject) | The definition of a channel.
 
 ##### Channels Object Example
 
 ```json
 {
-  "user/signedup": {
+  "userSignedUp": {
+    "address": "user/signedup",
     "subscribe": {
       "message": {
         "$ref": "#/components/messages/userSignedUp"
@@ -548,7 +550,8 @@ Field Pattern | Type | Description
 ```
 
 ```yaml
-user/signedup:
+userSignedUp:
+  address: "user/signedup"
   subscribe:
     message:
       $ref: "#/components/messages/userSignedUp"
@@ -566,6 +569,7 @@ Describes the operations available on a single channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*. <br/><br/>**Deprecated:** Usage of the `$ref` property has been deprecated.
+<a name="channelItemObjectAddress"></a>address | `string` | The address of the channel. Channel addresses are relative to servers. The value MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
@@ -579,6 +583,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "address": "user/signedup",
   "description": "This channel is used to exchange messages about users signing up",
   "subscribe": {
     "summary": "A user signed up.",
@@ -609,6 +614,7 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+address: "user/signedup"
 description: This channel is used to exchange messages about users signing up
 subscribe:
   summary: A user signed up.
@@ -655,6 +661,7 @@ Using explicit by-name references to the servers on which the channel is availab
 
 ```json
 {
+  "address": "web/commands",
   "description": "This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.",
   "servers": [
     "rabbitmqBrokerInProd",
@@ -674,6 +681,7 @@ Using explicit by-name references to the servers on which the channel is availab
 ```
 
 ```yaml
+address: "web/commands"
 description: This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.
 servers:
   - rabbitmqBrokerInProd
@@ -1504,7 +1512,8 @@ my.org.User
       }
     },
     "channels": {
-      "user/signedup": {
+      "userSignedUp": {
+        "address": "user/signedup",
         "subscribe": {
           "message": {
             "$ref": "#/components/messages/userSignUp"
@@ -1604,7 +1613,8 @@ components:
       protocol: amqp
       protocolVersion: 0.9.1
   channels:
-    user/signedup:
+    userSignedUp:
+      address: "user/signedup"
       subscribe:
         message:
           $ref: "#/components/messages/userSignUp"
