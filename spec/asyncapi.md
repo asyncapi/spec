@@ -1438,7 +1438,7 @@ Field Name | Type | Description
 ---|:---|--- 
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
-<a name="componentsServer"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
+<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Item Object](#channelItemObject)] | An object to hold reusable [Channel Item Objects](#channelItemObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
