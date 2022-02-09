@@ -1498,14 +1498,22 @@ my.org.User
     },
     "servers": {
       "development": {
-        "url": "{username}.gigantic-server.com:{port}",
+        "url": "{stage}.gigantic-server.com:{port}",
         "description": "Development server",
         "protocol": "amqp",
-        "protocolVersion": "0.9.1"
+        "protocolVersion": "0.9.1",
+        "variables": {
+          "stage": {
+            "$ref": "#/components/serverVariables/stage"
+          },
+          "port": {
+            "$ref": "#/components/serverVariables/port"
+          }
+        }
       }
     },
     "serverVariables": {
-      "username": {
+      "stage": {
         "default": "demo",
         "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
       },
@@ -1610,10 +1618,22 @@ components:
           type: string
   servers:
     development:
-      url: development.gigantic-server.com
+      url: {stage}.gigantic-server.com:{port}
       description: Development server
       protocol: amqp
       protocolVersion: 0.9.1
+      variables:
+        stage:
+          $ref: "#/components/serverVariables/stage"
+        port:
+          $ref: "#/components/serverVariables/port"
+  serverVariables:
+    stage:
+      default: demo,
+      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+    port:
+      enum: [8883, 8884],
+      default: 8883
   channels:
     user/signedup:
       subscribe:
