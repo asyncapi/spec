@@ -184,6 +184,9 @@ The steps to follow for this are:
 - Open a **draft** pull request against the [website](https://github.com/asyncapi/website/) repository. Make sure the option **Allow edits and access to secrets by maintainers** is selected to enable support from maintainers.
 <img src="./assets/release_process/draft_pr.png" alt="This image shows example pull request created in GitHub with release notes for AsyncAPI specification" height="300">
 
+An example of doing this is:
+- this [pull request from the 2.3.0 release](https://github.com/asyncapi/website/pull/512)
+
 ### Step 7 - bring updates into release branch
 
 seek out possible updates that are viable candidates for the release
@@ -192,12 +195,16 @@ look through open pull requests in the three core repos
 
 pull requests from feature branches into release branch(es)
 
-- Open draft pull requests in all repositories required by the contribution guide. They should point from the release branch in the upstream to the master branch in the upstream,
+- Everybody is invited to perform a review of proposals. The [contribution guide](CONTRIBUTING.md) describes all requirements proposal needs to fulfill to reach `Stage 3: Accepted`,
+- Pull request must be:
+  - labeled as an accepted proposal,
+  - created against the feature branch,
+  - created in all repositories specified in contribution guide,
 
 
 ### Step 8 - update announcement blog post
 
-- Update previously created draft of release notes with information about the new feature. Collaborate closely with feature contributors,
+Update previously created draft of release notes with information about the new feature. Collaborate closely with feature contributors,
 
 
 Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A regular changelog is not enough as it is not user-friendly. Every release must have release notes.
@@ -219,11 +226,8 @@ slack
 
 ### Step 11 - reviews
 
-- Everybody is invited to perform a review of proposals. The [contribution guide](CONTRIBUTING.md) describes all requirements proposal needs to fulfill to reach `Stage 3: Accepted`,
-- Pull request must be:
-  - labeled as an accepted proposal,
-  - created against the feature branch,
-  - created in all repositories specified in contribution guide,
+- Open draft pull requests in all repositories required by the contribution guide. They should point from the release branch in the upstream to the master branch in the upstream,
+
 - At least one user listed in [CODEOWNERS](CODEOWNERS) must approve the pull request in all related repositories.
 
 
