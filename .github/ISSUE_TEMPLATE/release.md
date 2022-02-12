@@ -1,6 +1,6 @@
 ---
 name: Release issue
-about: Create a report to help us improve
+about: Track the progress of the next release of the AsyncAPI spec
 title: ""
 labels: ':shipit: Release'
 assignees: ''
