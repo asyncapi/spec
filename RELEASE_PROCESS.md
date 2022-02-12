@@ -301,7 +301,7 @@ The [release coordinator](#%22release-coordinator%22) should notify maintainers 
 The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
 
-### Step 18 - notify the community
+### Step 17 - notify the community
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
@@ -310,7 +310,7 @@ Feel free to use other communication channels. Make sure that as many people as 
 Make sure proper communication is sent from all the official AsyncAPI social accounts and on Slack
 
 
-### Step 19 - improve the release process
+### Step 18 - improve the release process
 
 Every release identifies new issues and ways that the process can be improved.
 
