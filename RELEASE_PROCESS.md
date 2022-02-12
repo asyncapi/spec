@@ -119,6 +119,16 @@ An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/dalelane/spec/commit/8c521539cd875470ea8e89cf3ab7ffd81be64788)
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec/pull/676)
 
+#### Update version number in the spec
+Repository: [spec](https://github.com/asyncapi/spec)
+
+References to the latest version in `spec/asyncapi.md` should be updated to the new version number.
+
+Examples of doing this are:
+- this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/1f29d803ca801756d4ea3f676bcf7e7751478de6)
+- this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/7f827a880fa3ddcbc9a39d50e41502bc450443bc)
+
+
 #### Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
@@ -280,30 +290,28 @@ Release means merge of pull requests created from a release branch against the m
 The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to create the release in Github, using the [release notes they have prepared](#step-10---prepare-release-notes).
 
 
-### Step 16 - update website
+### Step 16 - notify tool maintainers
 
-- Update documentation in [website](https://github.com/asyncapi/website) to promote latest version of the specification. You can do it in the same pull request with release notes. No need to care for the specification markdown file on the Website. It updates automatically during work on release candidates and also after the final release.
-
-
-### Step 17 - notify tool maintainers
-
-
-- Notify maintainers of the following repositories that the first feature is merged and that release will be produced and therefore they need to start preparing for it:
+The [release coordinator](#%22release-coordinator%22) should notify maintainers of the following repositories that the first feature is merged and that release will be produced and therefore they need to start preparing for it:
   - [JavaScript Converter](https://github.com/asyncapi/converter-js/)
   - [Playground](https://github.com/asyncapi/playground/)
   - [React component](https://github.com/asyncapi/asyncapi-react/)
   - [Markdown template](https://github.com/asyncapi/markdown-template)
 
-- Make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages
+The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
 
 ### Step 18 - notify the community
 
-Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel. Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
+Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
-- Make sure proper communication is sent from all the official AsyncAPI social accounts and on Slack
+Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
+
+Make sure proper communication is sent from all the official AsyncAPI social accounts and on Slack
 
 
 ### Step 19 - improve the release process
 
-update this doc, and the release issue template
+Every release identifies new issues and ways that the process can be improved.
+
+Once the release is complete, the final step is to update this document with anything that could have gone better!
