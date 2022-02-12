@@ -187,75 +187,105 @@ The steps to follow for this are:
 An example of doing this is:
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/website/pull/512)
 
-### Step 7 - bring updates into release branch
 
-seek out possible updates that are viable candidates for the release
+### Step 7 - create draft pull requests
 
-look through open pull requests in the three core repos
+Draft pull requests should be opened for all [repositories covered by this process](#repositories).
 
-pull requests from feature branches into release branch(es)
-
-- Everybody is invited to perform a review of proposals. The [contribution guide](CONTRIBUTING.md) describes all requirements proposal needs to fulfill to reach `Stage 3: Accepted`,
-- Pull request must be:
-  - labeled as an accepted proposal,
-  - created against the feature branch,
-  - created in all repositories specified in contribution guide,
+They should point from the [release branches](#step-3---create-release-branches) to the default/master branches for each repository.
 
 
-### Step 8 - update announcement blog post
+### Step 8 - bring updates into release branch
 
-Update previously created draft of release notes with information about the new feature. Collaborate closely with feature contributors,
+The [release coordinator](#%22release-coordinator%22) should help to seek out possible updates that are goood candidates for including in the release.
 
+There are lots of ways to do this:
+- ask for contributions in [Slack](https://www.asyncapi.com/slack-invite)
+- ask for suggestions at a [community meeting](https://github.com/asyncapi/community/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting)
+- look for open accepted issues (see the [contribution guide](CONTRIBUTING.md) for a description of the requirements for a proposal to reach `Stage 3: Accepted`)
+- look for open pull requests in the [repositories covered by this process](#repositories)
 
-Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. A regular changelog is not enough as it is not user-friendly. Every release must have release notes.
+For each feature that is being brought into the release, a pull request should be created from the feature branch (the branch with the accepted changes in) to the [release branch](#step-3---create-release-branches).
 
-A draft pull request with release notes must be opened at the same time release branches are created. Work on release notes should be done on a feature-by-feature basis and not at the end of the release cycle. Cooperate with contributors. They should be able to provide input and also be allowed to work as release notes article co-authors.
-
-In other words, once a feature is introduced in the release branch, make sure it is properly described in release notes.
-
-
-
-### Step 9 - prepare release notes
-
-markdown version for releases in git
-
-### Step 10 - notify people the release is coming
-
-meetings
-slack
-
-### Step 11 - reviews
-
-- Open draft pull requests in all repositories required by the contribution guide. They should point from the release branch in the upstream to the master branch in the upstream,
-
-- At least one user listed in [CODEOWNERS](CODEOWNERS) must approve the pull request in all related repositories.
+Pull requests must be:
+- labeled as an accepted proposal,
+- created against the feature branch,
+- created in all repositories specified in contribution guide
 
 
-### Step 12 - release candidates
+### Step 9 - update announcement blog post
+
+As features are identified for inclusion in the release, the [draft announcement blog post](#step-6---prepare-announcement-blog-post) should be updated with descriptions of them. The [release cooordinator](#%22release-coordinator%22) should coordinate with the feature contributors to write a description of each change. They should be able to provide input and also be allowed to work as co-authors for the release notes post.
+
+Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. The purpose of the announcement blog post is to be a more user-friendly alternative to a regular changelog.
+
+Every feature added to the [release branch](#step-3---create-release-branches) needs to be properly described in the release notes post.
+
+
+### Step 10 - prepare release notes
+
+In addition to the [announcement blog post](#step-9---update-announcement-blog-post), the [release coordinator](#%22release-coordinator%22) should prepare release notes for each of the [repositories covered by this process](#repositories).
+
+These should:
+- be written in markdown
+- include a list of features and significant changes
+- include a link to github issues and pull requests where more background can be found
+- include a link to a github diff with the previous release
+
+Examples of doing this are:
+- the [release notes for version 2.3.0 of spec](https://github.com/asyncapi/spec/releases/tag/v2.3.0)
+
+
+### Step 11 - notify people the release is coming
+
+As the release gets closer to being ready, it is helpful to remind the community that the release is on the way.
+
+This can be done:
+- in [Slack](https://www.asyncapi.com/slack-invite)
+- at [community meetings](https://github.com/asyncapi/community/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting)
+
+Including a link to the [release issue](#step-2---create-a-release-issue) is a good way to let the community see the progress that has been made so far.
+
+
+### Step 12 - reviews
+
+At least one [code owner](#code-owners) must approve the [release pull requests](#step-7---create-draft-pull-requests) in all related [repositories](#repositories).
+
+
+### Step 13 - release candidates
 
 _how is this done?_
 
-### Step 13 - merge the release branches
-
-- Merge can be done only by repository [CODEOWNERS](CODEOWNERS),
-- Every pull request must have a `feat: ` prefix that, after the merge, produces a release candidate with a minor version update. The major version must have `feat!: ` prefix,
-- Pull request in the `parser-js` can be merged only if it uses the release candidate of `@asyncapi/specs` package produced after merge of a pull request in `spec-json-schemas`,
-- First, changes are merged into the `spec` repository, then `spec-json-schemas` and then in `parser-js`.
-
-- Release means merge of pull requests created from a release branch against the master branch. First, changes are merged into the `spec` repository, then `spec-json-schemas` and at the end in `parser-js`. Like in the case of the merge of release candidates, a pull request in `parser-js` can be merged only if it uses the final release of the new `@asyncapi/specs` package.
-
-### Step 14 - publish releases
+Example release candidate
+https://github.com/asyncapi/spec-json-schemas/pull/151
 
 
-- Merge release notes and once they are published, link them under the GitHub release for the specification, like [here](https://github.com/asyncapi/spec/releases/tag/v2.1.0).
+### Step 14 - merge the release branches
+
+Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-draft-pull-requests).
+
+Merging can only be done by [code owners](#code-owners).
+
+Pull requests must have a `feat: ` prefix that, after the merge, produces a release candidate with a minor version update. The major version must have `feat!: ` prefix.
+
+Pull requests in the `parser-js` can be merged only if it uses the release candidate of `@asyncapi/specs` package produced after merge of a pull request in `spec-json-schemas`.
+
+First, changes are merged into the `spec` repository, then `spec-json-schemas` and then in `parser-js`.
+
+Release means merge of pull requests created from a release branch against the master branch. First, changes are merged into the `spec` repository, then `spec-json-schemas` and at the end in `parser-js`. Like in the case of the merge of release candidates, a pull request in `parser-js` can be merged only if it uses the final release of the new `@asyncapi/specs` package.
 
 
-### Step 15 - update website
+### Step 15 - publish releases
+
+The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to create the release in Github, using the [release notes they have prepared](#step-10---prepare-release-notes).
+
+
+### Step 16 - update website
 
 - Update documentation in [website](https://github.com/asyncapi/website) to promote latest version of the specification. You can do it in the same pull request with release notes. No need to care for the specification markdown file on the Website. It updates automatically during work on release candidates and also after the final release.
 
 
-### Step 16 - notify tool maintainers
+### Step 17 - notify tool maintainers
 
 
 - Notify maintainers of the following repositories that the first feature is merged and that release will be produced and therefore they need to start preparing for it:
@@ -267,13 +297,13 @@ _how is this done?_
 - Make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages
 
 
-### Step 17 - notify the community
+### Step 18 - notify the community
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel. Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
 - Make sure proper communication is sent from all the official AsyncAPI social accounts and on Slack
 
 
-### Step 18 - improve the release process
+### Step 19 - improve the release process
 
 update this doc, and the release issue template
