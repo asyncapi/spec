@@ -1,19 +1,19 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/ 
+#This action is centrally managed in https://github.com/asyncapi/.github/
 #Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
 name: Lint PR title
 
 on:
-
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
 
 jobs:
-
-    lint:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: amannn/action-semantic-pull-request@v3.2.5
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # Since this workflow is REQUIRED for a PR to be mergable, we have to have this 'if' statement in step level instead of job level.
+      - if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor) }}
+        uses: amannn/action-semantic-pull-request@v3.2.5
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
