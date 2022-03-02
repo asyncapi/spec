@@ -5,4 +5,4 @@
 # For more details, read the following article on GitHub: https://help.github.com/articles/about-codeowners/.
 
 # The default owners are automatically added as reviewers when you open a pull request unless different owners are specified in the file.
-* @fmvilas @derberg @dalelane @github-actions[bot]
+* @fmvilas @derberg @dalelane @asyncapi-bot-eve
