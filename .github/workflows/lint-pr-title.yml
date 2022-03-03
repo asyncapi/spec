@@ -8,7 +8,8 @@ on:
     types: [opened, reopened, synchronize, edited, ready_for_review]
 
 jobs:
-  lint:
+  lint-pr-title:
+    name: Lint PR title
     runs-on: ubuntu-latest
     steps:
       # Since this workflow is REQUIRED for a PR to be mergable, we have to have this 'if' statement in step level instead of job level.

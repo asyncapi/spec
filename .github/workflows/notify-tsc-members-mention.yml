@@ -35,7 +35,7 @@ jobs:
 
     issue:
       if: github.event_name == 'issues' && contains(github.event.issue.body, '@asyncapi/tsc_members')
-      name: On every new issue
+      name: TSC notification on every new issue
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown
@@ -53,7 +53,7 @@ jobs:
 
     pull_request:
       if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.body, '@asyncapi/tsc_members')
-      name: On every new pull request
+      name: TSC notification on every new pull request
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown
@@ -71,7 +71,7 @@ jobs:
     
     discussion:
       if: github.event_name == 'discussion' && contains(github.event.discussion.body, '@asyncapi/tsc_members')
-      name: On every new discussion
+      name: TSC notification on every new discussion
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown
@@ -89,7 +89,7 @@ jobs:
 
     issue_comment:
       if: ${{ github.event_name == 'issue_comment' && !github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members') }}
-      name: On every new comment in issue
+      name: TSC notification on every new comment in issue
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown
@@ -107,7 +107,7 @@ jobs:
 
     pr_comment:
       if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members')
-      name: On every new comment in pr
+      name: TSC notification on every new comment in pr
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown
@@ -125,7 +125,7 @@ jobs:
 
     discussion_comment:
       if: github.event_name == 'discussion_comment' && contains(github.event.comment.body, '@asyncapi/tsc_members')
-      name: On every new comment in discussion
+      name: TSC notification on every new comment in discussion
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown

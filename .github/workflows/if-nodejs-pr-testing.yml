@@ -8,8 +8,8 @@ on:
     types: [opened, reopened, synchronize, ready_for_review]
 
 jobs:
-  test:
-    name: ${{ matrix.os }}
+  test-nodejs-pr:
+    name: Test NodeJS PR - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
