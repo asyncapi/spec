@@ -1,33 +1,27 @@
- # This action is centrally managed in https://github.com/asyncapi/.github/
- # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
 
 name: Automerge release bump PR
 
 on:
   pull_request_target:
     types:
-      - labeled
-      - unlabeled
-      - synchronize
       - opened
-      - edited
-      - ready_for_review
-      - reopened
-      - unlocked
-  pull_request_review:
-    types:
-      - submitted
+      - synchronize
 
 jobs:
-
-  autoapprove:
-    if: github.event.pull_request.draft == false && (github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]') && !contains(github.event.pull_request.labels.*.name, 'released')
+  autoapprove-for-bot:
+    name: Autoapprove PR comming from a bot
+    if: >
+      contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]"]'), github.event.pull_request.user.login) &&
+      contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]"]'), github.actor) &&
+      !contains(github.event.pull_request.labels.*.name, 'released')
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v2
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.GH_TOKEN_BOT_EVE }}"
 
       - name: Label autoapproved
         uses: actions/github-script@v5
@@ -39,12 +33,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['autoapproved']
-            }) 
+            })
 
-
-  automerge:
-    needs: [autoapprove]
-    if: github.event.pull_request.user.login == 'asyncapi-bot' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'dependabot-preview[bot]'
+  automerge-for-bot:
+    name: Automerge PR autoapproved by a bot
+    needs: [autoapprove-for-bot]
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
@@ -54,6 +47,6 @@ jobs:
           GITHUB_LOGIN: asyncapi-bot
           MERGE_LABELS: ""
           MERGE_METHOD: "squash"
-          MERGE_COMMIT_MESSAGE: "pull-request-title"
+          MERGE_COMMIT_MESSAGE: "{pullRequest.title} (#{pullRequest.number})"
           MERGE_RETRIES: "20"
           MERGE_RETRY_SLEEP: "30000"

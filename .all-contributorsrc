@@ -293,6 +293,24 @@
         "example",
         "bug"
       ]
+    },
+    {
+      "login": "aaronkorver",
+      "name": "Aaron Korver",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8387325?v=4",
+      "profile": "https://github.com/aaronkorver",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "xunto",
+      "name": "Orlov Valentine",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5288053?v=4",
+      "profile": "https://github.com/xunto",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "none"

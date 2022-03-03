@@ -43,7 +43,8 @@
 
 The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
 
-* [Version 2.2.0](https://github.com/asyncapi/spec/blob/v2.2.0/spec/asyncapi.md) (latest)
+* [Version 2.3.0](https://github.com/asyncapi/spec/blob/v2.3.0/spec/asyncapi.md) (latest)
+* [Version 2.2.0](https://github.com/asyncapi/spec/blob/v2.2.0/spec/asyncapi.md)
 * [Version 2.1.0](https://github.com/asyncapi/spec/blob/v2.1.0/spec/asyncapi.md)
 * [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md)
 * [Version 1.2.0](https://github.com/asyncapi/spec/blob/1.2.0/README.md) (deprecated)
@@ -116,6 +117,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/smoya"><img src="https://avatars.githubusercontent.com/u/1083296?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sergio Moya</b></sub></a><br /><a href="https://github.com/asyncapi/spec/pulls?q=is%3Apr+reviewed-by%3Asmoya" title="Reviewed Pull Requests">👀</a> <a href="#ideas-smoya" title="Ideas, Planning, & Feedback">🤔</a> <a href="#question-smoya" title="Answering Questions">💬</a></td>
     <td align="center"><a href="https://github.com/balogal"><img src="https://avatars.githubusercontent.com/u/80794567?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexander Balogh</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=balogal" title="Documentation">📖</a> <a href="https://github.com/asyncapi/spec/issues?q=author%3Abalogal" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/KhudaDad414"><img src="https://avatars.githubusercontent.com/u/32505158?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Khuda Dad Nomani</b></sub></a><br /><a href="#example-KhudaDad414" title="Examples">💡</a> <a href="https://github.com/asyncapi/spec/issues?q=author%3AKhudaDad414" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/aaronkorver"><img src="https://avatars.githubusercontent.com/u/8387325?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aaron Korver</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=aaronkorver" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/xunto"><img src="https://avatars.githubusercontent.com/u/5288053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Orlov Valentine</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=xunto" title="Documentation">📖</a></td>
   </tr>
 </table>
 
