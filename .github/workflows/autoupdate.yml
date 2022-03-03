@@ -19,7 +19,8 @@ on:
       - 'all-contributors/**'
 
 jobs:
-  autoupdate:
+  autoupdate-for-bot:
+    name: Autoupdate autoapproved PR created in the upstream
     runs-on: ubuntu-latest
     steps:
       - name: Autoupdating

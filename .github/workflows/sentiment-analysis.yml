@@ -25,7 +25,7 @@ on:
             - created
             - edited
 jobs:
-    test:
+    sentiments:
         if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor) }}
         name: Checking sentiments
         runs-on: ubuntu-latest

@@ -14,7 +14,8 @@ on:
       - master
 
 jobs:
-  bump:
+  bump-in-dependent-projects:
+    name: Bump this package in repositories that depend on it
     if: startsWith(github.event.commits[0].message, 'chore(release):')
     runs-on: ubuntu-latest
     steps:

@@ -10,7 +10,7 @@ on:
 
 jobs:
   version_bump:
-    name: Generate assets and bump
+    name: Generate assets and bump NodeJS
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

@@ -13,6 +13,7 @@ on:
 
 jobs:
   welcome:
+    name: Post welcome message
     if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor) }}
     runs-on: ubuntu-latest
     steps:
