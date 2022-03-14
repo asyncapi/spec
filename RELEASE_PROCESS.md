@@ -256,7 +256,9 @@ Examples of doing this are:
 
 As the release gets closer to being ready, it is helpful to remind the community that the release is on the way.
 
-This can be done:
+A good way to do this is to mention code owners and community tool maintainers in the [release issue](#step-2---create-a-release-issue) to draw their attention to it.
+
+This can also be done:
 - in the `#specification` channel in [Slack](https://www.asyncapi.com/slack-invite)
 - at [community meetings](https://github.com/asyncapi/community/issues?q=is%3Aissue+is%3Aopen+label%3Ameeting)
 
