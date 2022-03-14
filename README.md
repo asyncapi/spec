@@ -119,6 +119,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/KhudaDad414"><img src="https://avatars.githubusercontent.com/u/32505158?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Khuda Dad Nomani</b></sub></a><br /><a href="#example-KhudaDad414" title="Examples">💡</a> <a href="https://github.com/asyncapi/spec/issues?q=author%3AKhudaDad414" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/aaronkorver"><img src="https://avatars.githubusercontent.com/u/8387325?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aaron Korver</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=aaronkorver" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/xunto"><img src="https://avatars.githubusercontent.com/u/5288053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Orlov Valentine</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=xunto" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://lejenome.tik.tn"><img src="https://avatars.githubusercontent.com/u/2295241?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Moez Bouhlel</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=lejenome" title="Documentation">📖</a></td>
   </tr>
 </table>
 
