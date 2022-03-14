@@ -620,6 +620,7 @@ subscribe:
         user:
           $ref: "#/components/schemas/user"
         signup:
+          $ref: "#/components/schemas/signup"
 bindings:
   amqp:
     is: queue
