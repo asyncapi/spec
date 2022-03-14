@@ -19,7 +19,7 @@ jobs:
 
     issue:
       if: github.event_name == 'issues' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-      name: On every new issue
+      name: Notify slack on every new issue
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown for issue
@@ -31,13 +31,13 @@ jobs:
           uses: rtCamp/action-slack-notify@v2
           env:
             SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
-            SLACK_TITLE: 🐛 New Issue 🐛
+            SLACK_TITLE: 🐛 New Issue in ${{github.repository}} 🐛
             SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
             MSG_MINIMAL: true
 
     pull_request:
       if: github.event_name == 'pull_request_target' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-      name: On every new pull request
+      name: Notify slack on every new pull request
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown for pull request
@@ -49,13 +49,13 @@ jobs:
           uses: rtCamp/action-slack-notify@v2
           env:
             SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
-            SLACK_TITLE: 💪 New Pull Request 💪
+            SLACK_TITLE: 💪 New Pull Request in ${{github.repository}} 💪
             SLACK_MESSAGE: ${{steps.prmarkdown.outputs.text}}
             MSG_MINIMAL: true
     
     discussion:
       if: github.event_name == 'discussion' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-      name: On every new pull request
+      name: Notify slack on every new pull request
       runs-on: ubuntu-latest
       steps:
         - name: Convert markdown to slack markdown for pull request
@@ -67,6 +67,6 @@ jobs:
           uses: rtCamp/action-slack-notify@v2
           env:
             SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
-            SLACK_TITLE: 💬 New Discussion 💬
+            SLACK_TITLE: 💬 New Discussion in ${{github.repository}} 💬
             SLACK_MESSAGE: ${{steps.discussionmarkdown.outputs.text}}
             MSG_MINIMAL: true

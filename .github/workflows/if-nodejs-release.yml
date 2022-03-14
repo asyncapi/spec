@@ -17,8 +17,8 @@ on:
 
 jobs:
 
-  test:
-    name: Test on ${{ matrix.os }}
+  test-nodejs:
+    name: Test NodeJS release on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -49,7 +49,7 @@ jobs:
         run: npm test
 
   release:
-    needs: test
+    needs: [test-nodejs]
     name: Publish to any of NPM, Github, and Docker Hub
     runs-on: ubuntu-latest
     steps:

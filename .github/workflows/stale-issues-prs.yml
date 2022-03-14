@@ -9,6 +9,7 @@ on:
 
 jobs:
   stale:
+    name: Mark issue or PR as stale
     runs-on: ubuntu-latest
     steps:
     - uses: actions/stale@v4.0.0

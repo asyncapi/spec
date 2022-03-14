@@ -311,6 +311,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "lejenome",
+      "name": "Moez Bouhlel",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2295241?v=4",
+      "profile": "https://lejenome.tik.tn",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "none"

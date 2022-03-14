@@ -10,7 +10,8 @@ on:
       - synchronize
 
 jobs:
-  autoapprove:
+  autoapprove-for-bot:
+    name: Autoapprove PR comming from a bot
     if: >
       contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]"]'), github.event.pull_request.user.login) &&
       contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]"]'), github.actor) &&
@@ -20,7 +21,7 @@ jobs:
       - name: Autoapproving
         uses: hmarr/auto-approve-action@v2
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.GH_TOKEN_BOT_EVE }}"
 
       - name: Label autoapproved
         uses: actions/github-script@v5
@@ -34,8 +35,9 @@ jobs:
               labels: ['autoapproved']
             })
 
-  automerge:
-    needs: [autoapprove]
+  automerge-for-bot:
+    name: Automerge PR autoapproved by a bot
+    needs: [autoapprove-for-bot]
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
