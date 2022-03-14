@@ -9,7 +9,7 @@ on:
 
 jobs:
 
-  slack:
+  slack-announce:
     name: Slack - notify on every release
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +26,7 @@ jobs:
             SLACK_MESSAGE: ${{steps.markdown.outputs.text}}
             MSG_MINIMAL: true
 
-  twitter:
+  twitter-announce:
     name: Twitter - notify on minor and major releases
     runs-on: ubuntu-latest
     steps:

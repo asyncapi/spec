@@ -7,9 +7,27 @@
     "README.md"
   ],
   "imageSize": 100,
-  "skipCi": true,
-  "contributorsPerLine": 7,
+  "skipCi": false,
+  "contributorsPerLine": 9,
   "contributors": [
+    {
+      "login": "fmvilas",
+      "name": "Fran Méndez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/242119?v=4",
+      "profile": "http://www.fmvilas.com",
+      "contributions": [
+        "question",
+        "bug",
+        "blog",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "review",
+        "tutorial",
+        "talk"
+      ]
+    },
     {
       "login": "derberg",
       "name": "Lukasz Gornicki",
@@ -19,15 +37,11 @@
         "doc",
         "ideas",
         "review",
-        "code",
         "question",
-        "eventOrganizing",
-        "content",
         "blog",
-        "tool",
         "talk",
         "maintenance",
-        "test"
+        "infra"
       ]
     },
     {
@@ -38,14 +52,10 @@
       "contributions": [
         "question",
         "doc",
-        "code",
         "ideas",
         "infra",
         "review",
-        "test",
-        "tool",
-        "maintenance",
-        "eventOrganizing"
+        "maintenance"
       ]
     },
     {
@@ -56,50 +66,10 @@
       "contributions": [
         "question",
         "bug",
-        "code",
         "doc",
         "ideas",
         "maintenance",
-        "review",
-        "tool",
-        "test"
-      ]
-    },
-    {
-      "login": "fmvilas",
-      "name": "Fran Méndez",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/242119?v=4",
-      "profile": "http://www.fmvilas.com",
-      "contributions": [
-        "question",
-        "bug",
-        "blog",
-        "business",
-        "code",
-        "content",
-        "doc",
-        "design",
-        "financial",
-        "fundingFinding",
-        "ideas",
-        "infra",
-        "maintenance",
-        "plugin",
-        "review",
-        "tool",
-        "test",
-        "tutorial",
-        "talk",
-        "eventOrganizing"
-      ]
-    },
-    {
-      "login": "DulceDeLaRosa",
-      "name": "dulce",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/389154?v=4",
-      "profile": "https://github.com/DulceDeLaRosa",
-      "contributions": [
-        "design"
+        "review"
       ]
     },
     {
@@ -108,7 +78,6 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/2420069?v=4",
       "profile": "https://github.com/SensibleWood",
       "contributions": [
-        "code",
         "ideas",
         "doc"
       ]
@@ -120,7 +89,6 @@
       "profile": "https://github.com/jschabowsky",
       "contributions": [
         "doc",
-        "fundingFinding",
         "ideas"
       ]
     },
@@ -141,7 +109,8 @@
       "profile": "http://antoniogarrote.wordpress.com",
       "contributions": [
         "ideas",
-        "review"
+        "review",
+        "doc"
       ]
     },
     {
@@ -150,7 +119,6 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/9660342?v=4",
       "profile": "https://ramses.tech",
       "contributions": [
-        "fundingFinding",
         "example",
         "ideas",
         "review"
@@ -163,22 +131,11 @@
       "profile": "https://github.com/jonaslagoni",
       "contributions": [
         "bug",
-        "code",
         "doc",
         "ideas",
         "question",
-        "eventOrganizing"
-      ]
-    },
-    {
-      "login": "evamorcillo",
-      "name": "Eva",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/13051398?v=4",
-      "profile": "http://evamorcillo.com/",
-      "contributions": [
-        "ideas",
-        "business",
-        "eventOrganizing"
+        "review",
+        "example"
       ]
     },
     {
@@ -188,8 +145,7 @@
       "profile": "https://waleedashraf.me/",
       "contributions": [
         "talk",
-        "tool",
-        "eventOrganizing"
+        "ideas"
       ]
     },
     {
@@ -198,8 +154,7 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/1447151?v=4",
       "profile": "https://github.com/jerzyn",
       "contributions": [
-        "talk",
-        "eventOrganizing"
+        "talk"
       ]
     },
     {
@@ -209,7 +164,6 @@
       "profile": "https://linkedin.com/in/emmelyn",
       "contributions": [
         "blog",
-        "eventOrganizing",
         "ideas",
         "doc",
         "talk"
@@ -289,7 +243,6 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/1538635?v=4",
       "profile": "http://medium.com/@lbroudoux",
       "contributions": [
-        "code",
         "doc",
         "blog",
         "talk",
@@ -308,6 +261,55 @@
         "talk",
         "review",
         "ideas"
+      ]
+    },
+    {
+      "login": "smoya",
+      "name": "Sergio Moya",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1083296?v=4",
+      "profile": "https://github.com/smoya",
+      "contributions": [
+        "review",
+        "ideas",
+        "question"
+      ]
+    },
+    {
+      "login": "balogal",
+      "name": "Alexander Balogh",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80794567?v=4",
+      "profile": "https://github.com/balogal",
+      "contributions": [
+        "doc",
+        "bug"
+      ]
+    },
+    {
+      "login": "KhudaDad414",
+      "name": "Khuda Dad Nomani",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32505158?v=4",
+      "profile": "https://github.com/KhudaDad414",
+      "contributions": [
+        "example",
+        "bug"
+      ]
+    },
+    {
+      "login": "aaronkorver",
+      "name": "Aaron Korver",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8387325?v=4",
+      "profile": "https://github.com/aaronkorver",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "xunto",
+      "name": "Orlov Valentine",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5288053?v=4",
+      "profile": "https://github.com/xunto",
+      "contributions": [
+        "doc"
       ]
     }
   ],

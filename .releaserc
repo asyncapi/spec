@@ -1,11 +1,11 @@
 ---
 branches:
 - master
-- name: 2021-09-release
+- name: 2022-01-release
   prerelease: true
 plugins:
 - - "@semantic-release/commit-analyzer"
-  - preset: conventionalcommits 
+  - preset: conventionalcommits
 - - "@semantic-release/release-notes-generator"
   - preset: conventionalcommits
 - - "@semantic-release/github"
