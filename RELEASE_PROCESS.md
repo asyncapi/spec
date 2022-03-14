@@ -270,10 +270,20 @@ At least one [code owner](#code-owners) must approve the [release pull requests]
 
 ### Step 13 - release candidates
 
-_how is this done?_
+Pre-release release candidates are generated automatically by the automation bot when:
+- a pull request with a **fix** or **feat** prefix in the title is merged into the [release branch](#step-3---create-release-branches)
 
-Example release candidate
-https://github.com/asyncapi/spec-json-schemas/pull/151
+An example of a pull request created by the automation bot is: https://github.com/asyncapi/spec-json-schemas/pull/151 
+
+Release candidates will include:
+- upcoming release number
+- date of the release
+- release candidate number
+
+An example release candidate is: https://github.com/asyncapi/spec/releases/tag/v2.3.0-2022-01-release.3
+
+
+**Important:** When release candidates are created for the [spec](https://github.com/asyncapi/spec) repository, the [parser-js](https://github.com/asyncapi/parser-js) repository will need to be updated to use that release candidate. 
 
 
 ### Step 14 - merge the release branches
