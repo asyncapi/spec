@@ -198,16 +198,22 @@ An example of doing this is:
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/website/pull/512)
 
 
-### Step 7 - create draft pull requests
+### Step 7 - create pull requests
 
-Draft pull requests should be opened for all [repositories covered by this process](#repositories).
+Pull requests should be opened for all [repositories covered by this process](#repositories).
+
+These should be full, not draft, pull requests to allow automated tests to run.
 
 They should point from the [release branches](#step-3---create-release-branches) to the default/master branches for each repository.
+
+Add a **do-not-merge** label to the pull request by making a comment in the PR saying `/dnm`.
+
+_Note: The automation bot will keep the release branch up to date with the latest commits from the master branch (so long as there are no conflicts)._
 
 
 ### Step 8 - bring updates into release branch
 
-The [release coordinator](#%22release-coordinator%22) should help to seek out possible updates that are goood candidates for including in the release.
+The [release coordinator](#%22release-coordinator%22) should help to seek out possible updates that are good candidates for including in the release.
 
 There are lots of ways to do this:
 - ask for contributions in [Slack](https://www.asyncapi.com/slack-invite)
@@ -259,7 +265,7 @@ Including a link to the [release issue](#step-2---create-a-release-issue) is a g
 
 ### Step 12 - reviews
 
-At least one [code owner](#code-owners) must approve the [release pull requests](#step-7---create-draft-pull-requests) in all related [repositories](#repositories).
+At least one [code owner](#code-owners) must approve the [release pull requests](#step-7---create-pull-requests) in all related [repositories](#repositories).
 
 
 ### Step 13 - release candidates
@@ -272,7 +278,7 @@ https://github.com/asyncapi/spec-json-schemas/pull/151
 
 ### Step 14 - merge the release branches
 
-Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-draft-pull-requests).
+Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-pull-requests).
 
 Merging can only be done by [code owners](#code-owners).
 
