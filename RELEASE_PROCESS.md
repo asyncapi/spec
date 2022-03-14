@@ -303,7 +303,7 @@ Release means merge of pull requests created from a release branch against the m
 
 ### Step 15 - publish releases
 
-The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to create the release in Github, using the [release notes they have prepared](#step-10---prepare-release-notes).
+The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to update the release in Github created by the automation bot, by adding the [release notes they have prepared](#step-10---prepare-release-notes).
 
 
 ### Step 16 - notify tool maintainers
