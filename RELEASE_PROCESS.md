@@ -321,9 +321,9 @@ The [release coordinator](#%22release-coordinator%22) should also make sure othe
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
-Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
+If the [release coordinator](#%22release-coordinator%22) uses social networks like Twitter or LinkedIn, it is a great idea for them to promote the work that they've done to prepare the release by announcing it on their own private accounts. These can then be promoted and shared from the official AsyncAPI social accounts, to highlight and demonstrate the community-driven nature of releases. 
 
-Make sure proper communication is sent from all the official AsyncAPI social accounts and on Slack
+Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
 
 ### Step 18 - improve the release process
