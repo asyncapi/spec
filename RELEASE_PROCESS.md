@@ -110,7 +110,7 @@ The process for doing this is the same for each of these:
 - the change should be contributed in a pull request targeting the [release branch](#step-3---create-release-branches)
 - the [release coordinator](#%22release-coordinator%22) will need to ask the [code owners](#code-owners) for the relevant repository to approve and merge this pull request
 
-#### Update version numbers in official examples
+#### Step 4.1 - Update version numbers in official examples
 Repository: [spec](https://github.com/asyncapi/spec)
 
 Examples are located in the `examples/` folder in the [spec](https://github.com/asyncapi/spec) repository. They should all be updated to the new version number.
@@ -119,7 +119,7 @@ An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/dalelane/spec/commit/8c521539cd875470ea8e89cf3ab7ffd81be64788)
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec/pull/676)
 
-#### Update version number in the spec
+#### Step 4.2 - Update version number in the spec
 Repository: [spec](https://github.com/asyncapi/spec)
 
 References to the latest version in `spec/asyncapi.md` should be updated to the new version number.
@@ -129,7 +129,7 @@ Examples of doing this are:
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/7f827a880fa3ddcbc9a39d50e41502bc450443bc)
 
 
-#### Create a new JSON schema file for the new version
+#### Step 4.3 - Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
 The new file should be created in the `schemas/` folder in the [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repository.
@@ -140,7 +140,7 @@ An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/dalelane/spec-json-schemas/commit/9cff7798ac42f609927e1cb9e532ff16d360ab99)
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/139)
 
-#### Update the list of AsyncAPI schema MIME types with the new version
+#### Step 4.4 - Update the list of AsyncAPI schema MIME types with the new version
 Repository: [parser-js](https://github.com/asyncapi/parser-js)
 
 The file to be updated is `lib/asyncapiSchemaFormatParser.js` in the [parser-js](https://github.com/asyncapi/parser-js) repository.
