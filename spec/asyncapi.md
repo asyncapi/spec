@@ -1632,7 +1632,7 @@ components:
       default: demo,
       description: This value is assigned by the service provider, in this example `gigantic-server.com`
     port:
-      enum: [8883, 8884],
+      enum: [8883, 8884]
       default: 8883
   channels:
     user/signedup:
