@@ -1629,7 +1629,7 @@ components:
           $ref: "#/components/serverVariables/port"
   serverVariables:
     stage:
-      default: demo,
+      default: demo
       description: This value is assigned by the service provider, in this example `gigantic-server.com`
     port:
       enum: [8883, 8884]
