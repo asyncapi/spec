@@ -131,7 +131,7 @@ Examples of doing this are:
 #### Step 4.3 - Add new reference to the latest spec version in README
 The new release should be listed in the [README.md](README.md) file and marked as `(latest)`.
 
-An examples of doing this is:
+An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/pull/710/commits/22ba6c433ddbeeeda38f5aed55708826da62cf70)
 
 #### Step 4.4 - Create a new JSON schema file for the new version
