@@ -1,7 +1,4 @@
-<h1 align="center">
-  <br>
-  <a href="https://www.asyncapi.com"><img src="./assets/logo.png" alt="AsyncAPI logo" height="80"></a>
-</h1>
+[![AsyncAPI Logo](./assets/logo.png)](https://www.asyncapi.com)
 
 <hr/>
 
@@ -43,47 +40,53 @@
 
 The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
 
-* [Version 2.3.0](https://github.com/asyncapi/spec/blob/v2.3.0/spec/asyncapi.md) (latest)
-* [Version 2.2.0](https://github.com/asyncapi/spec/blob/v2.2.0/spec/asyncapi.md)
-* [Version 2.1.0](https://github.com/asyncapi/spec/blob/v2.1.0/spec/asyncapi.md)
-* [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md)
-* [Version 1.2.0](https://github.com/asyncapi/spec/blob/1.2.0/README.md) (deprecated)
-* [Version 1.1.0](https://github.com/asyncapi/spec/blob/1.1.0/README.md) (deprecated)
-* [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
+- [Version 2.4.0](https://github.com/asyncapi/spec/blob/v2.4.0/spec/asyncapi.md) (latest)
+- [Version 2.3.0](https://github.com/asyncapi/spec/blob/v2.3.0/spec/asyncapi.md)
+- [Version 2.2.0](https://github.com/asyncapi/spec/blob/v2.2.0/spec/asyncapi.md)
+- [Version 2.1.0](https://github.com/asyncapi/spec/blob/v2.1.0/spec/asyncapi.md)
+- [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md)
+- [Version 1.2.0](https://github.com/asyncapi/spec/blob/1.2.0/README.md) (deprecated)
+- [Version 1.1.0](https://github.com/asyncapi/spec/blob/1.1.0/README.md) (deprecated)
+- [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
 
 **Looking for the JSON Schema files?** Check out our [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repo.
 
 **Feel like contributing?** Check out our [community repo](https://www.github.com/asyncapi/community).
 
-
 ## Examples
 
 #### :bulb: Streetlights
+
 Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
 
 > :point_right: [See more](./examples/streetlights-mqtt.yml)
 
 #### <img src="./assets/slack.png" width="15" alt="Slack icon">&nbsp;&nbsp; Slack Events API
+
 Partial definition of the Slack Events API. Find the official one [here](https://github.com/slackapi/slack-api-specs/blob/master/events-api/slack_events_api_async_v1.json).
 
 > :point_right: [See more](./examples/slack-rtm.yml)
 
 #### <img src="./assets/gitter.png" width="15" alt="Gitter icon">&nbsp;&nbsp; Gitter Streaming API
+
 Definition of the Gitter streaming API.
 
 > :point_right: [See more](./examples/gitter-streaming.yml)
 
 #### <img src="./assets/gemini.svg" width="15" alt="Gemini icon">&nbsp;&nbsp; Gemini WebSocket API
+
 Definition of the Gemini Websocket API.
 
 > :point_right: [See more](./examples/websocket-gemini.yml)
 
 #### :heavy_plus_sign: and more...
+
 Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
 
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
@@ -119,6 +122,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/KhudaDad414"><img src="https://avatars.githubusercontent.com/u/32505158?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Khuda Dad Nomani</b></sub></a><br /><a href="#example-KhudaDad414" title="Examples">💡</a> <a href="https://github.com/asyncapi/spec/issues?q=author%3AKhudaDad414" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/aaronkorver"><img src="https://avatars.githubusercontent.com/u/8387325?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aaron Korver</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=aaronkorver" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/xunto"><img src="https://avatars.githubusercontent.com/u/5288053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Orlov Valentine</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=xunto" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://lejenome.tik.tn"><img src="https://avatars.githubusercontent.com/u/2295241?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Moez Bouhlel</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=lejenome" title="Documentation">📖</a></td>
   </tr>
 </table>
 
