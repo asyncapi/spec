@@ -1351,6 +1351,7 @@ Field Name | Type | Description
 <a name="tagObjectName"></a>name | `string` | **Required.** The name of the tag.
 <a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this tag.
+<a name="tagObjectValues"></a>values | [`string`] | The value(s) for the tag.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
