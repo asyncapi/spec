@@ -1361,8 +1361,8 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-	"name": "user",
-	"description": "User-related messages"
+  "name": "user",
+  "description": "User-related messages"
 }
 ```
 
@@ -1375,9 +1375,9 @@ description: User-related messages
 
 ```json
 {
-	"name": "environment",
-	"description": "Environment of the application",
-	"values": ["production"]
+  "name": "environment",
+  "description": "Environment of the application",
+  "values": ["production"]
 }
 ```
 
@@ -1385,18 +1385,18 @@ description: User-related messages
 name: environment
 description: Environment of the application
 values:
-	- production
+  - production
 ```
 
 ###### With multiple values example
 
 ```json
 {
-	"name": "environment",
-	"description": "Environment of the application",
-	"values": [
-		"production",
-		"development"
+  "name": "environment",
+  "description": "Environment of the application",
+  "values": [
+    "production",
+    "development"
   ]
 }
 ```
@@ -1405,8 +1405,8 @@ values:
 name: environment
 description: Environment of the application
 values:
-	- production
-	- development
+  - production
+  - development
 ```
 
 
