@@ -1,0 +1,17 @@
+name: Check Markdown links
+
+on: 
+  pull_request_target:
+    types: [synchronize, ready_for_review, opened, reopened]
+
+jobs:
+  External-link-validation-on-PR:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Check links
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: 'yes'
+        use-verbose-mode: 'yes'
+        check-modified-files-only: 'yes' #Only modified files are checked on PRs
