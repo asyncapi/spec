@@ -1355,7 +1355,9 @@ Field Name | Type | Description
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
-##### Tag Object Example
+##### Tag Object Examples
+
+###### Simple example
 
 ```json
 {
@@ -1369,9 +1371,43 @@ name: user
 description: User-related messages
 ```
 
+###### With single value example
 
+```json
+{
+	"name": "environment",
+	"description": "Environment of the application",
+  "values": ["production"]
+}
+```
 
+```yaml
+name: environment
+description: Environment of the application
+values:
+  - production
+```
 
+###### With multiple values example
+
+```json
+{
+	"name": "environment",
+	"description": "Environment of the application",
+  "values": [
+    "production",
+    "development"
+  ]
+}
+```
+
+```yaml
+name: environment
+description: Environment of the application
+values:
+  - production
+  - development
+```
 
 
 
