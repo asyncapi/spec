@@ -1377,7 +1377,7 @@ description: User-related messages
 {
 	"name": "environment",
 	"description": "Environment of the application",
-  "values": ["production"]
+	"values": ["production"]
 }
 ```
 
@@ -1385,7 +1385,7 @@ description: User-related messages
 name: environment
 description: Environment of the application
 values:
-  - production
+	- production
 ```
 
 ###### With multiple values example
@@ -1394,9 +1394,9 @@ values:
 {
 	"name": "environment",
 	"description": "Environment of the application",
-  "values": [
-    "production",
-    "development"
+	"values": [
+		"production",
+		"development"
   ]
 }
 ```
@@ -1405,10 +1405,9 @@ values:
 name: environment
 description: Environment of the application
 values:
-  - production
-  - development
+	- production
+	- development
 ```
-
 
 
 #### <a name="externalDocumentationObject"></a>External Documentation Object
