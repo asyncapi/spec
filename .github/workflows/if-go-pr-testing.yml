@@ -1,6 +1,7 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
-#It does magic only if there is go.mod file in the root of the project
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+# It does magic only if there is go.mod file in the root of the project
 name: PR testing - if Go project
 
 on:

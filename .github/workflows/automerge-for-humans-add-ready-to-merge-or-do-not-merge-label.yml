@@ -1,8 +1,11 @@
-#This workflow is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
-#Purpose of this workflow is to enable anyone to label PR with `ready-to-merge` and `do-not-merge` labels to get stuff merged or blocked from merging
-name: Add ready-to-merge or do-not-merge label # if proper comment added
+# Purpose of this workflow is to enable anyone to label PR with the following labels:
+# `ready-to-merge` and `do-not-merge` labels to get stuff merged or blocked from merging
+# `autoupdate` to keep a branch up-to-date with the target branch
+
+name: Label PRs # if proper comment added
 
 on: 
     issue_comment:
@@ -10,21 +13,52 @@ on:
             - created
 
 jobs:
-  parse-comment-and-add-ready: # for handling cases when you want to mark as ready to merge
-    if: github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot'
+  add-ready-to-merge-label:
+    if: > 
+      github.event.issue.pull_request && 
+      github.event.issue.state != 'closed' && 
+      github.actor != 'asyncapi-bot' && 
+      (
+        contains(github.event.comment.body, '/ready-to-merge') || 
+        contains(github.event.comment.body, '/rtm' )
+      )
+
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR is draft # such info is not available in the context of issue_comment event
+
+      - name: Check if PR is draft or is up-to-date # such info is not available in the context of issue_comment event
         uses: actions/github-script@v5
-        id: checkDraft
+        id: checkPR
         with:
           result-encoding: string
           script: |
+            let isDraft = false;
+            let isUpToDate = true;
             const prDetailsUrl = context.payload.issue.pull_request.url;
-            const response = await github.request(prDetailsUrl);
-            return response.data.draft;
-      - name: Add label
-        if: steps.checkDraft.outputs.result == 'false' && (contains(github.event.comment.body, '/ready-to-merge') || contains(github.event.comment.body, '/rtm' ))
+            const { data: pull } = await github.request(prDetailsUrl);
+            isDraft = pull.draft;
+
+            const { data: comparison } =
+            await github.rest.repos.compareCommitsWithBasehead({
+              owner: pull.head.repo.owner.login,
+              repo: pull.head.repo.name,
+              basehead: `${pull.head.label}...${pull.base.label}`,
+            });
+            if (comparison.behind_by !== 0) isUpToDate = false;
+            return { isDraft, isUpToDate };
+            
+      - uses: actions-ecosystem/action-create-comment@v1
+        if: ${{ !steps.checkPR.outputs.result.isUpToDate }}
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          body: |
+            Hello, @${{ github.actor }}! 👋🏼
+            This PR is not up to date with the base branch and can't be merged.
+            You can add comment to this PR with text: `/autoupdate` or `/au`. This way you ask our bot to perform regular updates for you. The only requirement for this to work is to enable [Allow edits from maintainers](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) option in your PR. Otherwise the only option that you have is to manually update your branch with latest version of the base branch.
+            Thanks 😄 
+
+      - name: Add ready-to-merge label
+        if: ${{ !steps.checkPR.outputs.result.isDraft }}
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GH_TOKEN }}
@@ -36,12 +70,18 @@ jobs:
               labels: ['ready-to-merge']
             }) 
 
-  parse-comment-and-add-block: # for handling cases when you want to mark as do-not-merge
-    if: github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot'
+  add-do-not-merge-label:
+    if: >
+      github.event.issue.pull_request &&
+      github.event.issue.state != 'closed' &&
+      github.actor != 'asyncapi-bot' &&
+      (
+        contains(github.event.comment.body, '/do-not-merge') ||
+        contains(github.event.comment.body, '/dnm' )
+      )
     runs-on: ubuntu-latest
     steps:
-      - name: Add label
-        if: contains(github.event.comment.body, '/do-not-merge') || contains(github.event.comment.body, '/dnm' )
+      - name: Add do-not-merge label
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GH_TOKEN }}
@@ -51,4 +91,26 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['do-not-merge']
+            }) 
+  add-autoupdate-label:
+    if: >
+      github.event.issue.pull_request && 
+      github.event.issue.state != 'closed' && 
+      github.actor != 'asyncapi-bot' &&
+      (
+        contains(github.event.comment.body, '/autoupdate') ||
+        contains(github.event.comment.body, '/au' )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add autoupdate label
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['autoupdate']
             }) 
