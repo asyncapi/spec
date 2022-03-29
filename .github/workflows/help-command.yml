@@ -1,5 +1,5 @@
-#This workflow is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
 name: Create help comment
 
@@ -25,6 +25,7 @@ jobs:
 
             - `/ready-to-merge` or `/rtm` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
             - `/do-not-merge` or `/dnm` - This comment will block automerging even if all conditions are met and ready-to-merge label is added
+            - `/autoupdate` or `/au` - This comment will add `autoupdate` label to the PR and keeps your PR up-to-date to the target branch. Unless there is a merge conflict.
   create_help_comment_issue:
     if: ${{ !github.event.issue.pull_request && contains(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
     runs-on: ubuntu-latest

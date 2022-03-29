@@ -1,7 +1,7 @@
-#This workflow is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
-#Purpose of this workflow is to enable anyone to label issue with 'Good First Issue' and 'area/*' with a single command.
+# Purpose of this workflow is to enable anyone to label issue with 'Good First Issue' and 'area/*' with a single command.
 name: Add 'Good First Issue' and 'area/*' labels # if proper comment added
 
 on: 
