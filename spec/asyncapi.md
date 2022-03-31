@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 2.3.0
+#### Version 2.4.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -1101,7 +1101,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 2.3.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.3.0`, `application/vnd.aai.asyncapi+json;version=2.3.0`, `application/vnd.aai.asyncapi+yaml;version=2.3.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 2.4.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.4.0`, `application/vnd.aai.asyncapi+json;version=2.4.0`, `application/vnd.aai.asyncapi+yaml;version=2.4.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
