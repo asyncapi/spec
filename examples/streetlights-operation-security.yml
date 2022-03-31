@@ -61,7 +61,7 @@ channels:
         $ref: '#/components/messages/turnOnOff'
       security:
        streetlights_auth:
-       - streetlights:read  
+         - streetlights:read  
 
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.off:
     parameters:
