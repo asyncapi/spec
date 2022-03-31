@@ -48,7 +48,7 @@ channels:
         $ref: '#/components/messages/lightMeasured'
       security:
        streetlights_auth:
-       - streetlights:write  
+         - streetlights:write  
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.on:
     parameters:
       streetlightId:
