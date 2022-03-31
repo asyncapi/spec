@@ -88,7 +88,7 @@ channels:
         $ref: '#/components/messages/dimLight'
       security:
        streetlights_auth:
-       - streetlights:read  
+         - streetlights:read  
   
 
 components:
