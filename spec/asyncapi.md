@@ -1618,7 +1618,7 @@ components:
           type: string
   servers:
     development:
-      url: {stage}.gigantic-server.com:{port}
+      url: "{stage}.gigantic-server.com:{port}"
       description: Development server
       protocol: amqp
       protocolVersion: 0.9.1
