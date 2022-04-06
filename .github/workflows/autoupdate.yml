@@ -17,13 +17,9 @@ on:
       - 'dependabot/**'
       - 'bot/**'
       - 'all-contributors/**'
-  pull_request:
-    types:
-      - labeled
 
 jobs:
   autoupdate-for-bot:
-    if: ${{ !github.event.issue.pull_request || contains(github.event.pull_request.labels.*.name, 'autoupdate') }}
     name: Autoupdate autoapproved PR created in the upstream
     runs-on: ubuntu-latest
     steps:
