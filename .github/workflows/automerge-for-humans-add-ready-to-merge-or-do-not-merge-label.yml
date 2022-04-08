@@ -26,17 +26,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Check if PR is draft or is up-to-date # such info is not available in the context of issue_comment event
+      - name: Add ready-to-merge label
         uses: actions/github-script@v5
-        id: checkPR
         with:
-          result-encoding: string
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
-            let isDraft = false;
-            let isUpToDate = true;
             const prDetailsUrl = context.payload.issue.pull_request.url;
             const { data: pull } = await github.request(prDetailsUrl);
-            isDraft = pull.draft;
+            const { draft: isDraft} = pull;
+            if(!isDraft) {
+              console.log('adding ready-to-merge label...');
+              github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['ready-to-merge']
+              })  
+            }
 
             const { data: comparison } =
             await github.rest.repos.compareCommitsWithBasehead({
@@ -46,35 +52,19 @@ jobs:
             });
             if (comparison.behind_by !== 0) {
               console.log(`This branch is behind the target by ${comparison.behind_by} commits`)
-              isUpToDate = false;
-            } else console.log(`This branch is up-to-date.`)
-            return { isDraft, isUpToDate };
-            
-      - uses: actions-ecosystem/action-create-comment@v1
-        if: ${{ !fromJson(steps.checkPR.outputs.result).isUpToDate }}
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          body: |
-            Hello, @${{ github.actor }}! 👋🏼
-            This PR is not up to date with the base branch and can't be merged.
-            Please update your branch manually with the latest version of the base branch.
-
-            PRO-TIP: Add a comment to your PR with the text: `/au` or `/autoupdate` and our bot will take care of updating the branch in the future. The only requirement for this to work is to enable [Allow edits from maintainers](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) option in your PR.
-            Thanks 😄 
-
-      - name: Add ready-to-merge label
-        if: ${{ !fromJson(steps.checkPR.outputs.result).isDraft }}
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          script: |
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['ready-to-merge']
-            }) 
-
+              console.log('adding out-of-date comment...');
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `Hello, @${{ github.actor }}! 👋🏼
+                       This PR is not up to date with the base branch and can't be merged.
+                       Please update your branch manually with the latest version of the base branch.
+                       PRO-TIP: Add a comment to your PR with the text: \`/au\` or \`/autoupdate\` and our bot will take care of updating the branch in the future. The only requirement for this to work is to enable [Allow edits from maintainers](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) option in your PR.
+                       Thanks 😄`
+              })
+            }
+           
   add-do-not-merge-label:
     if: >
       github.event.issue.pull_request &&
