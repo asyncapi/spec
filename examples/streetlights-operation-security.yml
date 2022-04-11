@@ -91,7 +91,7 @@ channels:
       message:
         $ref: '#/components/messages/dimLight'
       security:
-      # This operation level security implies the ability to sends a message to 
+      # This operation level security implies the ability to send a message to 
       # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
       # with `streetlights:read` scope. It is also possible for the same channel when using `test_auth` 
       # server to instead use credentials for security (scramSha256 in this example) specified on the server level
