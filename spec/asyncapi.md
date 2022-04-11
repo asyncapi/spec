@@ -1440,6 +1440,7 @@ Field Name | Type | Description
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Item Object](#channelItemObject)] | An object to hold reusable [Channel Item Objects](#channelItemObject).
+<a name="componentsOperations"></a> operations | Map[`string`, [Operation Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Objects](#operationObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
@@ -1507,9 +1508,14 @@ my.org.User
     "channels": {
       "user/signedup": {
         "subscribe": {
-          "message": {
-            "$ref": "#/components/messages/userSignUp"
-          }
+          "$ref": "#/components/operations/userSignUpSubscribe"
+        }
+      }
+    },
+    "operations": {
+      "userSignUpSubscribe": {
+        "message": {
+          "$ref": "#/components/messages/userSignUp"
         }
       }
     },
@@ -1607,8 +1613,11 @@ components:
   channels:
     user/signedup:
       subscribe:
-        message:
-          $ref: "#/components/messages/userSignUp"
+        $ref: "#/components/operations/userSignUpSubscribe"
+  operations:
+    userSignUpSubscribe:
+      message:
+        $ref: "#/components/messages/userSignUp"
   messages:
     userSignUp:
       summary: Action to sign a user up.
