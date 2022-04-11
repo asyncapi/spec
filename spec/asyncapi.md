@@ -1064,6 +1064,7 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="messageObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
@@ -1103,6 +1104,7 @@ Name | Allowed values | Notes
 
 ```json
 {
+  "messageId": "userSignup",
   "name": "UserSignup",
   "title": "User signup",
   "summary": "Action to sign a user up.",
@@ -1166,6 +1168,7 @@ Name | Allowed values | Notes
 ```
 
 ```yaml
+messageId: userSignup
 name: UserSignup
 title: User signup
 summary: Action to sign a user up.
@@ -1213,6 +1216,7 @@ Example using Avro to define the payload:
 
 ```json
 {
+  "messageId": "messageId",
   "name": "UserSignup",
   "title": "User signup",
   "summary": "Action to sign a user up.",
@@ -1230,6 +1234,7 @@ Example using Avro to define the payload:
 ```
 
 ```yaml
+messageId: userSignup
 name: UserSignup
 title: User signup
 summary: Action to sign a user up.
@@ -1259,6 +1264,7 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="messageTraitObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
