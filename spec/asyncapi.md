@@ -1216,7 +1216,7 @@ Example using Avro to define the payload:
 
 ```json
 {
-  "messageId": "messageId",
+  "messageId": "userSignup",
   "name": "UserSignup",
   "title": "User signup",
   "summary": "Action to sign a user up.",
