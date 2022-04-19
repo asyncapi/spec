@@ -213,6 +213,9 @@ They should point from the [release branches](#step-3---create-release-branches)
 
 Add a **do-not-merge** label to the pull request by making a comment in the PR saying `/dnm`.
 
+Add a **autoupdate** label to the pull request by making a comment in the PR saying `/au`.
+
+
 _Note: The automation bot will keep the release branch up to date with the latest commits from the master branch (so long as there are no conflicts)._
 
 
