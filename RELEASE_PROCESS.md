@@ -212,9 +212,7 @@ These should be full, not draft, pull requests to allow automated tests to run.
 They should point from the [release branches](#step-3---create-release-branches) to the default/master branches for each repository.
 
 Add a **do-not-merge** label to the pull request by making a comment in the PR saying `/dnm`.
-
 Add a **autoupdate** label to the pull request by making a comment in the PR saying `/au`.
-
 
 _Note: The automation bot will keep the release branch up to date with the latest commits from the master branch (so long as there are no conflicts)._
 
