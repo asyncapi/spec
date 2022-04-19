@@ -85,7 +85,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 ## <a name="definitions"></a>Definitions
 
 #### <a name="definitionsServer"></a>Server
-A server MAY be a message broker that capable to sending and/or receiving between [producer](#definitionsProducer) and [consumer](#definitionsConsumer) but also a server MAY be a service with WebSocket API that enables message-drive communication between browser-to-server or server-to-server.
+A server MAY be a message broker that is capable of sending and/or receiving between a [producer](#definitionsProducer) and [consumer](#definitionsConsumer). A server MAY be a service with WebSocket API that enables message-drive communication between browser-to-server or server-to-server.
 
 #### <a name="definitionsApplication"></a>Application
 An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
