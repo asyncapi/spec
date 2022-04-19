@@ -17,7 +17,7 @@ jobs:
 
     # Checks the status of hyperlinks in .md files
     - name: Check links
-      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      uses: derberg/github-action-markdown-link-check@temporary-fix
       with:
         use-quiet-mode: 'yes'
         use-verbose-mode: 'yes'
@@ -29,8 +29,8 @@ jobs:
     - name: Report workflow run status to Slack
       uses: 8398a7/action-slack@v3
       with:
-          status: ${{ job.status }}
-          fields: repo,message,action,eventName,ref,workflow
+        status: ${{ job.status }}
+        fields: repo,action,workflow
       env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DOCS_CHANNEL }}
       if: failure() # Only, on failure, send a message on the Slack Docs Channel (if there are broken links)
