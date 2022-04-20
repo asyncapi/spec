@@ -123,6 +123,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/xunto"><img src="https://avatars.githubusercontent.com/u/5288053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Orlov Valentine</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=xunto" title="Documentation">📖</a></td>
     <td align="center"><a href="https://lejenome.tik.tn"><img src="https://avatars.githubusercontent.com/u/2295241?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Moez Bouhlel</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=lejenome" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/luphieanza"><img src="https://avatars.githubusercontent.com/u/20577131?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Muhammad Rafly Andrianza</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=luphieanza" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->
