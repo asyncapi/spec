@@ -57,7 +57,7 @@ jobs:
         name: Send info about orphan to slack
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+          SLACK_WEBHOOK: ${{secrets.SLACK_CI_FAIL_NOTIFY}}
           SLACK_TITLE: 🚨 Not merged PR that should be automerged 🚨
           SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
           MSG_MINIMAL: true
