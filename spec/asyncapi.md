@@ -1453,6 +1453,7 @@ Field Name | Type | Description
 ---|:---|--- 
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
+<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Item Object](#channelItemObject)] | An object to hold reusable [Channel Item Objects](#channelItemObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
@@ -1512,10 +1513,28 @@ my.org.User
     },
     "servers": {
       "development": {
-        "url": "development.gigantic-server.com",
+        "url": "{stage}.gigantic-server.com:{port}",
         "description": "Development server",
         "protocol": "amqp",
-        "protocolVersion": "0.9.1"
+        "protocolVersion": "0.9.1",
+        "variables": {
+          "stage": {
+            "$ref": "#/components/serverVariables/stage"
+          },
+          "port": {
+            "$ref": "#/components/serverVariables/port"
+          }
+        }
+      }
+    },
+    "serverVariables": {
+      "stage": {
+        "default": "demo",
+        "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+      },
+      "port": {
+        "enum": ["8883", "8884"],
+        "default": "8883"
       }
     },
     "channels": {
@@ -1614,10 +1633,22 @@ components:
           type: string
   servers:
     development:
-      url: development.gigantic-server.com
+      url: "{stage}.gigantic-server.com:{port}"
       description: Development server
       protocol: amqp
       protocolVersion: 0.9.1
+      variables:
+        stage:
+          $ref: "#/components/serverVariables/stage"
+        port:
+          $ref: "#/components/serverVariables/port"
+  serverVariables:
+    stage:
+      default: demo
+      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+    port:
+      enum: [8883, 8884]
+      default: 8883
   channels:
     user/signedup:
       subscribe:
