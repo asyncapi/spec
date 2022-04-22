@@ -49,8 +49,8 @@ channels:
       message:
         $ref: '#/components/messages/lightMeasured'
       security:
-      # This operation level security implies the ability to send a message to 
-      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
+      # This operation level security implies the ability to publish messages to 
+      # `smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured` with Authorization headers 
       # that have `streetlights:write` scope. Note that an operation level security  must still satisfy 
       # security options specified at the server level.
        streetlights_auth:
@@ -68,7 +68,7 @@ channels:
       message:
         $ref: '#/components/messages/turnOnOff'
       security:
-      # This operation level security implies the ability to send a message to 
+      # This operation level security implies the ability to subscribe messages 
       # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
       # that have `streetlights:read` scope. Note that an operation level security  must still satisfy 
       # security options specified at the server level.
@@ -88,7 +88,7 @@ channels:
       message:
         $ref: '#/components/messages/turnOnOff'
       security:
-      # This operation level security implies the ability to send a message to 
+      # This operation level security implies the ability to subscribe messages to 
       # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.off` with Authorization headers 
       # that have `streetlights:read` scope. Note that an operation level security  must still satisfy 
       # security options specified at the server level.
