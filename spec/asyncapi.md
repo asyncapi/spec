@@ -34,6 +34,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
 
 - [Definitions](#definitions)
+  - [Server](#definitionsServer)
   - [Application](#definitionsApplication)
   - [Producer](#definitionsProducer)
   - [Consumer](#definitionsConsumer)
