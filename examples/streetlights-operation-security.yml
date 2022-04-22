@@ -36,6 +36,8 @@ defaultContentType: application/json
 channels:
   smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured:
     description: The topic on which measured values may be produced and consumed.
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -48,8 +50,10 @@ channels:
         $ref: '#/components/messages/lightMeasured'
       security:
        streetlights_auth:
-         - streetlights:write  
+        - streetlights:write  
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.on:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -68,6 +72,8 @@ channels:
          - streetlights:read  
 
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.off:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -85,6 +91,8 @@ channels:
        streetlights_auth:
          - streetlights:read    
   smartylighting.streetlights.1.0.action.{streetlightId}.dim:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
