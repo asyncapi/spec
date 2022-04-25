@@ -70,7 +70,7 @@ channels:
       security:
       # This operation level security implies the ability to subscribe messages 
       # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
-      # that have `streetlights:read` scope. Note that an operation level security  must still satisfy 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
       # security requirements specified at the server level.
        streetlights_auth:
          - streetlights:read  
