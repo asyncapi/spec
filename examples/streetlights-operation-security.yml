@@ -15,6 +15,12 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 servers:
+  test:
+    url: test.mykafkacluster.org:8092
+    protocol: kafka-secure
+    description: Test broker
+    security:
+      - saslScram: []
   test_oauth:
     url: test.mykafkacluster.org:8093
     protocol: kafka-secure
@@ -31,7 +37,7 @@ channels:
   smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured:
     description: The topic on which measured values may be produced and consumed.
     servers:
-     - test_oauth  
+     - test  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -42,13 +48,7 @@ channels:
         - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/lightMeasured'
-      security:
-      # This operation level security implies the ability to publish messages to 
-      # `smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured` channel with Authorization headers 
-      # that have `streetlights:write` scope. Note that an operation level security must still satisfy 
-      # security requirements specified at the server level.
-        - streetlights_auth:
-          - streetlights:write  
+       
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.on:
     servers:
      - test_oauth  
@@ -67,8 +67,7 @@ channels:
       # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
       # security requirements specified at the server level.
         - streetlights_auth:
-          - streetlights:write  
-
+          - streetlights:read  
 
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.off:
     servers:
@@ -175,6 +174,9 @@ components:
       description: Date and time when the message was sent.
 
   securitySchemes:
+    saslScram:
+      type: scramSha256
+      description: Provide your username and password for SASL/SCRAM authentication
     streetlights_auth:
       type: oauth2
       description: The oauth security descriptions
