@@ -69,7 +69,7 @@ channels:
         $ref: '#/components/messages/turnOnOff'
       security:
       # This operation level security implies the ability to subscribe to messages from
-      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` channel with Authorization headers 
       # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
       # security requirements specified at the server level.
        streetlights_auth:
