@@ -15,12 +15,6 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 servers:
-  test:
-    url: test.mykafkacluster.org:8092
-    protocol: kafka-secure
-    description: Test broker
-    security:
-      - saslScram: []
   test_oauth:
     url: test.mykafkacluster.org:8093
     protocol: kafka-secure
@@ -53,8 +47,8 @@ channels:
       # `smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured` channel with Authorization headers 
       # that have `streetlights:write` scope. Note that an operation level security must still satisfy 
       # security requirements specified at the server level.
-       streetlights_auth:
-        - streetlights:write  
+        - streetlights_auth:
+          - streetlights:write  
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.on:
     servers:
      - test_oauth  
@@ -72,8 +66,9 @@ channels:
       # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` channel with Authorization headers 
       # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
       # security requirements specified at the server level.
-       streetlights_auth:
-         - streetlights:read  
+        - streetlights_auth:
+          - streetlights:write  
+
 
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.off:
     servers:
@@ -92,8 +87,8 @@ channels:
       # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.off` channel with Authorization headers 
       # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
       # security options specified at the server level.
-       streetlights_auth:
-         - streetlights:read    
+        - streetlights_auth:
+          - streetlights:read    
   smartylighting.streetlights.1.0.action.{streetlightId}.dim:
     servers:
      - test_oauth  
@@ -111,8 +106,8 @@ channels:
       # `smartylighting.streetlights.1.0.action.{streetlightId}.dim` channel with Authorization headers 
       # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
       # security options specified at the server level.
-       streetlights_auth:
-         - streetlights:read  
+        - streetlights_auth:
+          - streetlights:read  
   
 
 components:
@@ -180,9 +175,6 @@ components:
       description: Date and time when the message was sent.
 
   securitySchemes:
-    saslScram:
-      type: scramSha256
-      description: Provide your username and password for SASL/SCRAM authentication
     streetlights_auth:
       type: oauth2
       description: The oauth security descriptions
