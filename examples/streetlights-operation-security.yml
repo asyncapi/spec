@@ -36,6 +36,8 @@ defaultContentType: application/json
 channels:
   smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured:
     description: The topic on which measured values may be produced and consumed.
+    servers:
+     - test  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -46,10 +48,10 @@ channels:
         - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/lightMeasured'
-      security:
-       streetlights_auth:
-         - streetlights:write  
+       
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.on:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -60,14 +62,16 @@ channels:
       message:
         $ref: '#/components/messages/turnOnOff'
       security:
-      # This operation level security implies the ability to send a message to 
-      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
-      # with `streetlights:read` scope. It is also possible for the same channel when using `test_auth` 
-      # server to instead use credentials for security (scramSha256 in this example) specified on the server level
-       streetlights_auth:
-         - streetlights:read  
+      # This operation level security implies the ability to subscribe to messages from
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` channel with Authorization headers 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
+      # security requirements specified at the server level.
+        - streetlights_auth:
+          - streetlights:read  
 
   smartylighting.streetlights.1.0.action.{streetlightId}.turn.off:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -78,9 +82,15 @@ channels:
       message:
         $ref: '#/components/messages/turnOnOff'
       security:
-       streetlights_auth:
-         - streetlights:read    
+      # This operation level security implies the ability to subscribe to messages from
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.off` channel with Authorization headers 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
+      # security options specified at the server level.
+        - streetlights_auth:
+          - streetlights:read    
   smartylighting.streetlights.1.0.action.{streetlightId}.dim:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -91,12 +101,12 @@ channels:
       message:
         $ref: '#/components/messages/dimLight'
       security:
-      # This operation level security implies the ability to send a message to 
-      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` with Authorization headers 
-      # with `streetlights:read` scope. It is also possible for the same channel when using `test_auth` 
-      # server to instead use credentials for security (scramSha256 in this example) specified on the server level
-       streetlights_auth:
-         - streetlights:read  
+      # This operation level security implies the ability to subscribe to messages from
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.dim` channel with Authorization headers 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
+      # security options specified at the server level.
+        - streetlights_auth:
+          - streetlights:read  
   
 
 components:
