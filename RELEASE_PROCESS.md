@@ -338,7 +338,7 @@ The [release coordinator](#%22release-coordinator%22) should notify maintainers 
   - [Studio](https://github.com/asyncapi/studio)
   - [TS NATS Template](https://github.com/asyncapi/ts-nats-template)
 
-You can check the following [example of Slack message notifying maintainers](https://asyncapi.slack.com/archives/CQVJXFNQL/p1650543345479079).
+You can check the following [example of notification to maintainers](https://github.com/asyncapi/spec/issues/735#issuecomment-1109801674).
 
 The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
