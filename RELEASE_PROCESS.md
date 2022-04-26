@@ -316,11 +316,29 @@ The [release coordinator](#%22release-coordinator%22) should ask the [code owner
 
 ### Step 16 - notify tool maintainers
 
-The [release coordinator](#%22release-coordinator%22) should notify maintainers of the following repositories that the first feature is merged and that release will be produced and therefore they need to start preparing for it:
+The [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that first feature is merged and that release will be produced and therefore they need to start preparing for it. Here is the [full list of repositories depending on parser-js or specs](https://cs.github.com/?scopeName=All+repos&scope=&q=org%3Aasyncapi+%28path%3Apackage.json+OR+go.mod%29+%22%40asyncapi%2Fparser%22+OR+%22%40asyncapi%2Fspecs%22+OR+%22github.com%2Fasyncapi%2Fspec-json-schemas%22+OR+%22github.com%2Fasyncapi%2Fparser-go%22#). Some of them are:
+  - [Avro Schema parser](https://github.com/asyncapi/avro-schema-parser)
+  - [Bundler](https://github.com/asyncapi/bundler)
+  - [CLI](https://github.com/asyncapi/cli)
+  - [Cupid](https://github.com/asyncapi/cupid)
+  - [Dot Net NATS template](https://github.com/asyncapi/dotnet-nats-template)
+  - [Generator](https://github.com/asyncapi/generator)
+  - [Generator React SDK](https://github.com/asyncapi/generator-react-sdk)
+  - [Glee](https://github.com/asyncapi/glee)
+  - [Java Template](https://github.com/asyncapi/java-template)
   - [JavaScript Converter](https://github.com/asyncapi/converter-js/)
-  - [Playground](https://github.com/asyncapi/playground/)
-  - [React component](https://github.com/asyncapi/asyncapi-react/)
   - [Markdown template](https://github.com/asyncapi/markdown-template)
+  - [Modelina](https://github.com/asyncapi/modelina)
+  - [NodeJS WS Template](https://github.com/asyncapi/nodejs-ws-template)
+  - [Optimizer](https://github.com/asyncapi/optimizer)
+  - [Parser Go](https://github.com/asyncapi/parser-go)
+  - [React component](https://github.com/asyncapi/asyncapi-react/)
+  - [Server API](https://github.com/asyncapi/server-api/)
+  - [Simulator](https://github.com/asyncapi/simulator)
+  - [Studio](https://github.com/asyncapi/studio)
+  - [TS NATS Template](https://github.com/asyncapi/ts-nats-template)
+
+You can check the following [example of Slack message notifying maintainers](https://asyncapi.slack.com/archives/CQVJXFNQL/p1650543345479079).
 
 The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
