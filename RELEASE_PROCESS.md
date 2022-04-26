@@ -293,8 +293,17 @@ An example release candidate is: https://github.com/asyncapi/spec/releases/tag/v
 
 **Important:** When release candidates are created for the [spec](https://github.com/asyncapi/spec) repository, the [parser-js](https://github.com/asyncapi/parser-js) repository will need to be updated to use that release candidate. 
 
+### Step 14 - Notify code owners of critical repositories about the pre-releases
 
-### Step 14 - merge the release branches
+In order to let code owners of critical repositories have enough time to work on the changes needed on tooling, the [release coordinator](#%22release-coordinator%22) should notify code owners about the pre-releases.
+As per today, the following repositories are considered critical:
+
+- [HTML Template](https://github.com/asyncapi/html-template)
+- [JavaScript Converter](https://github.com/asyncapi/converter-js/)
+- [React component](https://github.com/asyncapi/asyncapi-react/)
+- [Studio](https://github.com/asyncapi/studio)
+
+### Step 15 - merge the release branches
 
 Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-pull-requests).
 
@@ -309,14 +318,16 @@ First, changes are merged into the `spec` repository, then `spec-json-schemas` a
 Release means merge of pull requests created from a release branch against the master branch. First, changes are merged into the `spec` repository, then `spec-json-schemas` and at the end in `parser-js`. Like in the case of the merge of release candidates, a pull request in `parser-js` can be merged only if it uses the final release of the new `@asyncapi/specs` package.
 
 
-### Step 15 - publish releases
+### Step 16 - publish releases
 
 The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to update the release in Github created by the automation bot, by adding the [release notes they have prepared](#step-10---prepare-release-notes).
 
 
-### Step 16 - notify tool maintainers
+### Step 17 - notify tool maintainers
 
-The [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that first feature is merged and that release will be produced and therefore they need to start preparing for it. Here is the [full list of repositories depending on parser-js or specs](https://cs.github.com/?scopeName=All+repos&scope=&q=org%3Aasyncapi+%28path%3Apackage.json+OR+go.mod%29+%22%40asyncapi%2Fparser%22+OR+%22%40asyncapi%2Fspecs%22+OR+%22github.com%2Fasyncapi%2Fspec-json-schemas%22+OR+%22github.com%2Fasyncapi%2Fparser-go%22#). Some of them are:
+Our current CI/CD automation will fill PR's updating the dependencies **automatically** on all repositories after the release. 
+However, the [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that a new release happened, as those might want to adopt the new features. 
+Here is the [full list of repositories depending on parser-js or specs](https://cs.github.com/?scopeName=All+repos&scope=&q=org%3Aasyncapi+%28path%3Apackage.json+OR+go.mod%29+%22%40asyncapi%2Fparser%22+OR+%22%40asyncapi%2Fspecs%22+OR+%22github.com%2Fasyncapi%2Fspec-json-schemas%22+OR+%22github.com%2Fasyncapi%2Fparser-go%22#). Some of them are:
   - [Avro Schema parser](https://github.com/asyncapi/avro-schema-parser)
   - [Bundler](https://github.com/asyncapi/bundler)
   - [CLI](https://github.com/asyncapi/cli)
@@ -325,6 +336,7 @@ The [release coordinator](#%22release-coordinator%22) should notify maintainers 
   - [Generator](https://github.com/asyncapi/generator)
   - [Generator React SDK](https://github.com/asyncapi/generator-react-sdk)
   - [Glee](https://github.com/asyncapi/glee)
+  - [HTML Template](https://github.com/asyncapi/html-template)
   - [Java Template](https://github.com/asyncapi/java-template)
   - [JavaScript Converter](https://github.com/asyncapi/converter-js/)
   - [Markdown template](https://github.com/asyncapi/markdown-template)
@@ -343,7 +355,7 @@ You can check the following [example of notification to maintainers](https://git
 The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
 
-### Step 17 - notify the community
+### Step 18 - notify the community
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
@@ -352,7 +364,7 @@ If the [release coordinator](#%22release-coordinator%22) uses social networks li
 Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
 
-### Step 18 - improve the release process
+### Step 19 - improve the release process
 
 Every release identifies new issues and ways that the process can be improved.
 
