@@ -11,9 +11,6 @@
     },
     {
       "pattern": "^https://github.com/asyncapi/website/pull/PULLREQUEST"
-    },
-    {
-      "pattern": "^https://github.com/asyncapi/spec/blob/.*.md$"
     }
   ]
 }
