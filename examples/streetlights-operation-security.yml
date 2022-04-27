@@ -1,6 +1,6 @@
 asyncapi: '2.4.0'
 info:
-  title: Streetlights MQTT API
+  title: Streetlights Kafka API
   version: '1.0.0'
   description: |
     The Smartylighting Streetlights API allows you to remotely manage the city lights.
@@ -15,30 +15,29 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0
 
 servers:
-  production:
-    url: test.mosquitto.org:{port}
-    protocol: mqtt
+  test:
+    url: test.mykafkacluster.org:8092
+    protocol: kafka-secure
     description: Test broker
-    variables:
-      port:
-        description: Secure connection (TLS) is available through port 8883.
-        default: '1883'
-        enum:
-          - '1883'
-          - '8883'
     security:
-      - apiKey: []
-      - supportedOauthFlows:
-        - streetlights:on
-        - streetlights:off
-        - streetlights:dim
-      - openIdConnectWellKnown: []
-
+      - saslScram: []
+  test_oauth:
+    url: test.mykafkacluster.org:8093
+    protocol: kafka-secure
+    description: Test port for oauth 
+    security:
+      - streetlights_auth:
+         - streetlights:write
+         - streetlights:read
+    
+ 
 defaultContentType: application/json
 
 channels:
-  smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured:
+  smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured:
     description: The topic on which measured values may be produced and consumed.
+    servers:
+     - test  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
@@ -46,42 +45,69 @@ channels:
       summary: Inform about environmental lighting conditions of a particular streetlight.
       operationId: receiveLightMeasurement
       traits:
-        - $ref: '#/components/operationTraits/mqtt'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/lightMeasured'
-
-  smartylighting/streetlights/1/0/action/{streetlightId}/turn/on:
+       
+  smartylighting.streetlights.1.0.action.{streetlightId}.turn.on:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
     subscribe:
       operationId: turnOn
       traits:
-        - $ref: '#/components/operationTraits/mqtt'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/turnOnOff'
+      security:
+      # This operation level security implies the ability to subscribe to messages from
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.on` channel with Authorization headers 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
+      # security requirements specified at the server level.
+        - streetlights_auth:
+          - streetlights:read  
 
-  smartylighting/streetlights/1/0/action/{streetlightId}/turn/off:
+  smartylighting.streetlights.1.0.action.{streetlightId}.turn.off:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
     subscribe:
       operationId: turnOff
       traits:
-        - $ref: '#/components/operationTraits/mqtt'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/turnOnOff'
-
-  smartylighting/streetlights/1/0/action/{streetlightId}/dim:
+      security:
+      # This operation level security implies the ability to subscribe to messages from
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.turn.off` channel with Authorization headers 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
+      # security options specified at the server level.
+        - streetlights_auth:
+          - streetlights:read    
+  smartylighting.streetlights.1.0.action.{streetlightId}.dim:
+    servers:
+     - test_oauth  
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
     subscribe:
       operationId: dimLight
       traits:
-        - $ref: '#/components/operationTraits/mqtt'
+        - $ref: '#/components/operationTraits/kafka'
       message:
         $ref: '#/components/messages/dimLight'
+      security:
+      # This operation level security implies the ability to subscribe to messages from
+      # `smartylighting.streetlights.1.0.action.{streetlightId}.dim` channel with Authorization headers 
+      # that have `streetlights:read` scope. Note that an operation level security must still satisfy 
+      # security options specified at the server level.
+        - streetlights_auth:
+          - streetlights:read  
+  
 
 components:
   messages:
@@ -148,43 +174,18 @@ components:
       description: Date and time when the message was sent.
 
   securitySchemes:
-    apiKey:
-      type: apiKey
-      in: user
-      description: Provide your API key as the user and leave the password empty.
-    supportedOauthFlows:
+    saslScram:
+      type: scramSha256
+      description: Provide your username and password for SASL/SCRAM authentication
+    streetlights_auth:
       type: oauth2
-      description: Flows to support OAuth 2.0
+      description: The oauth security descriptions
       flows:
-        implicit:
-          authorizationUrl: 'https://authserver.example/auth'
-          scopes:
-            'streetlights:on': Ability to switch lights on
-            'streetlights:off': Ability to switch lights off
-            'streetlights:dim': Ability to dim the lights
-        password:
-          tokenUrl: 'https://authserver.example/token'
-          scopes:
-            'streetlights:on': Ability to switch lights on
-            'streetlights:off': Ability to switch lights off
-            'streetlights:dim': Ability to dim the lights
-        clientCredentials:
-          tokenUrl: 'https://authserver.example/token'
-          scopes:
-            'streetlights:on': Ability to switch lights on
-            'streetlights:off': Ability to switch lights off
-            'streetlights:dim': Ability to dim the lights
-        authorizationCode:
-          authorizationUrl: 'https://authserver.example/auth'
-          tokenUrl: 'https://authserver.example/token'
-          refreshUrl: 'https://authserver.example/refresh'
-          scopes:
-            'streetlights:on': Ability to switch lights on
-            'streetlights:off': Ability to switch lights off
-            'streetlights:dim': Ability to dim the lights
-    openIdConnectWellKnown:
-      type: openIdConnect
-      openIdConnectUrl: 'https://authserver.example/.well-known'
+       clientCredentials:
+        tokenUrl: 'https://example.com/api/oauth/dialog'
+        scopes:
+          streetlights:read: Scope required for subscribing to channel
+          streetlights:write: Scope required for publishing to channel
 
   parameters:
     streetlightId:
@@ -203,7 +204,9 @@ components:
             maximum: 100
 
   operationTraits:
-    mqtt:
+    kafka:
       bindings:
-        mqtt:
-          qos: 1
+        kafka:
+          clientId:
+            type: string
+            enum: ['my-app-id']
