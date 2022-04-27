@@ -23,7 +23,7 @@ Each release can have a different release coordinator. If you are interested and
 
 Many of the steps needed to release a new version of the AsyncAPI specification (e.g. merging, creating branches, creating releases) need support from administrators for individual github.com/asyncapi repositories.
 
-Each respository contains a `CODEOWNERS` file (e.g. https://github.com/asyncapi/parser-js/blob/master/CODEOWNERS) that identifies the people who can help.
+Each repository contains a `CODEOWNERS` file (e.g. https://github.com/asyncapi/parser-js/blob/master/CODEOWNERS) that identifies the people who can help.
 
 ---
 ## When?
@@ -128,8 +128,13 @@ Examples of doing this are:
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/1f29d803ca801756d4ea3f676bcf7e7751478de6)
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/7f827a880fa3ddcbc9a39d50e41502bc450443bc)
 
+#### Step 4.3 - Add new reference to the latest spec version in README
+The new release should be listed in the [README.md](README.md) file and marked as `(latest)`.
 
-#### Step 4.3 - Create a new JSON schema file for the new version
+An example of doing this is:
+- this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/pull/710/commits/22ba6c433ddbeeeda38f5aed55708826da62cf70)
+
+#### Step 4.4 - Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
 The new file should be created in the `schemas/` folder in the [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repository.
@@ -140,7 +145,7 @@ An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/dalelane/spec-json-schemas/commit/9cff7798ac42f609927e1cb9e532ff16d360ab99)
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/139)
 
-#### Step 4.4 - Update the list of AsyncAPI schema MIME types with the new version
+#### Step 4.5 - Update the list of AsyncAPI schema MIME types with the new version
 Repository: [parser-js](https://github.com/asyncapi/parser-js)
 
 The file to be updated is `lib/asyncapiSchemaFormatParser.js` in the [parser-js](https://github.com/asyncapi/parser-js) repository.
@@ -207,6 +212,7 @@ These should be full, not draft, pull requests to allow automated tests to run.
 They should point from the [release branches](#step-3---create-release-branches) to the default/master branches for each repository.
 
 Add a **do-not-merge** label to the pull request by making a comment in the PR saying `/dnm`.
+Add a **autoupdate** label to the pull request by making a comment in the PR saying `/au`.
 
 _Note: The automation bot will keep the release branch up to date with the latest commits from the master branch (so long as there are no conflicts)._
 

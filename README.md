@@ -40,8 +40,12 @@
 
 The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
 
+<<<<<<< HEAD
 - [Version 2.4.0](https://github.com/asyncapi/spec/blob/v2.4.0/spec/asyncapi.md) (latest)
 - [Version 2.3.0](https://github.com/asyncapi/spec/blob/v2.3.0/spec/asyncapi.md)
+=======
+- [Version 2.3.0](https://github.com/asyncapi/spec/blob/v2.3.0/spec/asyncapi.md) (latest)
+>>>>>>> origin/master
 - [Version 2.2.0](https://github.com/asyncapi/spec/blob/v2.2.0/spec/asyncapi.md)
 - [Version 2.1.0](https://github.com/asyncapi/spec/blob/v2.1.0/spec/asyncapi.md)
 - [Version 2.0.0](https://github.com/asyncapi/spec/blob/2.0.0/versions/2.0.0/asyncapi.md)
@@ -123,6 +127,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/aaronkorver"><img src="https://avatars.githubusercontent.com/u/8387325?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Aaron Korver</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=aaronkorver" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/xunto"><img src="https://avatars.githubusercontent.com/u/5288053?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Orlov Valentine</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=xunto" title="Documentation">📖</a></td>
     <td align="center"><a href="https://lejenome.tik.tn"><img src="https://avatars.githubusercontent.com/u/2295241?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Moez Bouhlel</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=lejenome" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/luphieanza"><img src="https://avatars.githubusercontent.com/u/20577131?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Muhammad Rafly Andrianza</b></sub></a><br /><a href="https://github.com/asyncapi/spec/commits?author=luphieanza" title="Documentation">📖</a></td>
   </tr>
 </table>
 
