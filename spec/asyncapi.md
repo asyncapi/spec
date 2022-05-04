@@ -42,9 +42,10 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
   - [Channel](#definitionsChannel)
   - [Protocol](#definitionsProtocol)
 - [Specification](#specification)
-	- [Format](#format)
-	- [File Structure](#file-structure)
-	- [Schema](#schema)
+    - [Format](#format)
+    - [File Structure](#file-structure)
+    - [Relative References In URLs](#relativeReferencesURL)
+    - [Schema](#schema)
       - [AsyncAPI Object](#A2SObject)
       - [AsyncAPI Version String](#A2SVersionString)
       - [Identifier](#A2SIdString)
@@ -144,6 +145,11 @@ connected parts at the discretion of the author. In the latter case, [Reference 
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
+### <a name="relativeReferencesURL"></a>Relative References in URLs
+
+Unless specified otherwise, all properties that are URLs MAY be relative references as defined by [RFC3986](https://tools.ietf.org/html/rfc3986#section-4.2).
+Unless specified otherwise, relative references are resolved using the URLs defined in the [`Server Object`](#serverObject) as a Base URL. Note that these themselves MAY be relative to the referring document.
+
 ### <a name="schema"></a>Schema
 
 #### <a name="A2SObject"></a>AsyncAPI Object
@@ -218,7 +224,7 @@ Field Name | Type | Description
 <a name="infoObjectTitle"></a>title | `string` | **Required.** The title of the application.
 <a name="infoObjectVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
+<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of a URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
 
@@ -267,7 +273,7 @@ Contact information for the exposed API.
 Field Name | Type | Description
 ---|:---:|---
 <a name="contactObjectName"></a>name | `string` | The identifying name of the contact person/organization.
-<a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. MUST be in the format of a URL.
+<a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. This MUST be in the form of a URL.
 <a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
@@ -297,7 +303,7 @@ License information for the exposed API.
 Field Name | Type | Description
 ---|:---:|---
 <a name="licenseObjectName"></a>name | `string` | **Required.** The license name used for the API.
-<a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
+<a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. This MUST be in the form of a URL.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1407,7 +1413,7 @@ Allows referencing an external resource for extended documentation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. Value MUST be in the format of a URL.
+<a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. This MUST be in the form of a URL.
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
