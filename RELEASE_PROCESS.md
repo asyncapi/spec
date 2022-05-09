@@ -327,7 +327,8 @@ The [release coordinator](#%22release-coordinator%22) should ask the [code owner
 
 Our current CI/CD automation will fill PR's updating the dependencies **automatically** on all repositories after the release. 
 However, the [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that a new release happened, as those might want to adopt the new features. 
-Here is the [full list of repositories depending on parser-js or specs](https://cs.github.com/?scopeName=All+repos&scope=&q=org%3Aasyncapi+%28path%3Apackage.json+OR+go.mod%29+%22%40asyncapi%2Fparser%22+OR+%22%40asyncapi%2Fspecs%22+OR+%22github.com%2Fasyncapi%2Fspec-json-schemas%22+OR+%22github.com%2Fasyncapi%2Fparser-go%22#). Some of them are:
+
+Some of the dependant repositories are:
   - [Avro Schema parser](https://github.com/asyncapi/avro-schema-parser)
   - [Bundler](https://github.com/asyncapi/bundler)
   - [CLI](https://github.com/asyncapi/cli)
@@ -349,6 +350,13 @@ Here is the [full list of repositories depending on parser-js or specs](https://
   - [Simulator](https://github.com/asyncapi/simulator)
   - [Studio](https://github.com/asyncapi/studio)
   - [TS NATS Template](https://github.com/asyncapi/ts-nats-template)
+
+You can use Github Code Search to find the [list of repositories depending on parser-js or the specs](https://cs.github.com/?scopeName=All+repos&scope=&q=org%3Aasyncapi+%28path%3Apackage.json+OR+go.mod%29+%22%40asyncapi%2Fparser%22+OR+%22%40asyncapi%2Fspecs%22+OR+%22github.com%2Fasyncapi%2Fspec-json-schemas%22+OR+%22github.com%2Fasyncapi%2Fparser-go%22#). 
+Alternatively, you can use the following GH search queries:
+- [NodeJS @asyncapi/specs dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Apackage.json+%22%40asyncapi%2Fspecs%22)
+- [NodeJS @asyncapi/parser dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Apackage.json+%22%40asyncapi%2Fparser%22)
+- [Go github.com/asyncapi/spec-json-schema dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fspec-json-schemas%22)
+- [Go github.com/asyncapi/parser-go dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fparser-go%22)
 
 You can check the following [example of notification to maintainers](https://github.com/asyncapi/spec/issues/735#issuecomment-1109801674).
 
