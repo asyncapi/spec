@@ -355,7 +355,7 @@ You can use Github Code Search to find the [list of repositories depending on pa
 Alternatively, you can use the following GH search queries:
 - [NodeJS @asyncapi/specs dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Apackage.json+%22%40asyncapi%2Fspecs%22)
 - [NodeJS @asyncapi/parser dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Apackage.json+%22%40asyncapi%2Fparser%22)
-- [Go github.com/asyncapi/spec-json-schema dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fspec-json-schemas%22)
+- [Go github.com/asyncapi/spec-json-schemas dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fspec-json-schemas%22)
 - [Go github.com/asyncapi/parser-go dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fparser-go%22)
 
 You can check the following [example of notification to maintainers](https://github.com/asyncapi/spec/issues/735#issuecomment-1109801674).
