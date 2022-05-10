@@ -94,8 +94,8 @@ Release branches should be present in the following repositories:
  
 Depending on the type of release you are working on, you should use one branch or another:
 
-- `next-spec`: for releasing minor versions. For example, `2.4.0`.
-- `next-major-spec`: for releasing major versions. For example, `3.0.0`.
+- `next-spec`: for releasing minor versions. For example, `2.3.0` to `2.4.0`.
+- `next-major-spec`: for releasing major versions. For example, `2.4.0` to `3.0.0`.
 
 Once you know which branch you should use, there are some initial changes that need to be made.
 
