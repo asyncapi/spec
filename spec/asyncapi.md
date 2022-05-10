@@ -176,7 +176,7 @@ Field Name | Type | Description
 <a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
 <a name="A2STags"></a>tags | [[Tags Object](#tagsObject) \| [Reference Object](#referenceObject)] | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
-<a name="A2SExternalDocs"></a>externalDocs | [[External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | Additional external documentation.
+<a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation.
 
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -1450,7 +1450,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="tagObjectName"></a>name | `string` | **REQUIRED.** The name of the tag.
 <a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="tagObjectExternalDocs"></a>externalDocs | [[External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | Additional external documentation for this tag.
+<a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this tag.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1846,7 +1846,7 @@ In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields 
 Field Name | Type | Description
 ---|:---:|---
 <a name="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
-<a name="schemaObjectExternalDocs"></a>externalDocs | [[External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | Additional external documentation for this schema.
+<a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this schema.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
