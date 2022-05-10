@@ -84,33 +84,29 @@ A [template for a new release issue](https://github.com/asyncapi/spec/blob/maste
 
 An example is the [release issue for the 2.3.0](https://github.com/asyncapi/spec/issues/675) release.
 
-### Step 3 - create release branches
+### Step 3 - update release branches
 
-Release branches must have a year and a month of the release as prefix: {YEAR_OF_RELEASE}-{MONTH_OF_RELEASE}-release.
+Release branches should be present in the following repositories:
 
-For example, a release created in September 2021 has a `2021-09-release` release branch.
-
-<img src="./assets/release_process/create_branch.png" alt="This image shows part of the GitHub UI that shows how you can create a new branch using default branch as a base." height="300">
-
-At the beginning of the release cycle, we need to have a new release branch created in the following repositories:
 - [spec](https://github.com/asyncapi/spec) where contributor works with the specification file,
 - [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) where contributor pushes changes to JSON Schema of the spec,
 - [parser-js](https://github.com/asyncapi/parser-js) where contributor makes necessary changes in the JavaScript Parser.
+ 
+Depending on the type of release you are working on, you should use one branch or another:
 
-The [release coordinator](#%22release-coordinator%22) should decide what the branch name needs to be, and contact the [code owners](#code-owners) for each repository to ask them to create the branches for them.
+- `next-spec`: for releasing minor versions. For example, `2.3.0` to `2.4.0`.
+- `next-major-spec`: for releasing major versions. For example, `2.4.0` to `3.0.0`.
 
-
-### Step 4 - update release branches
-
-Once [release branches are created](#step-3---create-release-branches), there are some initial changes that need to be made.
+Once you know which branch you should use, there are some initial changes that need to be made.
 
 The process for doing this is the same for each of these:
-- the [release coordinator](#%22release-coordinator%22) should create a fork of the relevant repository for these changes
+- the [release coordinator](#%22release-coordinator%22) should create a fork, if not created yet, of the relevant repository for these changes.
+- the [release coordinator](#%22release-coordinator%22) should ensure the chosen **release branch** is up-to-date with the **default branch** (normally `master`) before adding any changes.
 - the commit message for the change should start with `chore:`
-- the change should be contributed in a pull request targeting the [release branch](#step-3---create-release-branches)
+- the change should be contributed in a pull request targeting the chosen **release branch**. 
 - the [release coordinator](#%22release-coordinator%22) will need to ask the [code owners](#code-owners) for the relevant repository to approve and merge this pull request
 
-#### Step 4.1 - Update version numbers in official examples
+#### Step 3.1 - Update version numbers in official examples
 Repository: [spec](https://github.com/asyncapi/spec)
 
 Examples are located in the `examples/` folder in the [spec](https://github.com/asyncapi/spec) repository. They should all be updated to the new version number.
@@ -119,7 +115,7 @@ An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/dalelane/spec/commit/8c521539cd875470ea8e89cf3ab7ffd81be64788)
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec/pull/676)
 
-#### Step 4.2 - Update version number in the spec
+#### Step 3.2 - Update version number in the spec
 Repository: [spec](https://github.com/asyncapi/spec)
 
 References to the latest version in `spec/asyncapi.md` should be updated to the new version number.
@@ -128,13 +124,13 @@ Examples of doing this are:
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/1f29d803ca801756d4ea3f676bcf7e7751478de6)
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/commit/7f827a880fa3ddcbc9a39d50e41502bc450443bc)
 
-#### Step 4.3 - Add new reference to the latest spec version in README
+#### Step 3.3 - Add new reference to the latest spec version in README
 The new release should be listed in the [README.md](README.md) file and marked as `(latest)`.
 
 An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/asyncapi/spec/pull/710/commits/22ba6c433ddbeeeda38f5aed55708826da62cf70)
 
-#### Step 4.4 - Create a new JSON schema file for the new version
+#### Step 3.4 - Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
 The new file should be created in the `schemas/` folder in the [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repository.
@@ -145,7 +141,7 @@ An example of doing this is:
 - this [commit from the 2.3.0 release](https://github.com/dalelane/spec-json-schemas/commit/9cff7798ac42f609927e1cb9e532ff16d360ab99)
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/139)
 
-#### Step 4.5 - Update the list of AsyncAPI schema MIME types with the new version
+#### Step 3.5 - Update the list of AsyncAPI schema MIME types with the new version
 Repository: [parser-js](https://github.com/asyncapi/parser-js)
 
 The file to be updated is `lib/asyncapiSchemaFormatParser.js` in the [parser-js](https://github.com/asyncapi/parser-js) repository.
@@ -156,35 +152,7 @@ An example of doing this is:
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/parser-js/pull/426)
 
 
-### Step 5 - update default branches
-
-Once [release branches have been updated](#step-4---update-release-branches), the default (e.g. "master") branches should be updated to identify the new release branch.
-
-The process for doing this is the same for each of these:
-- the [release coordinator](#%22release-coordinator%22) should create a fork of the relevant repository for these changes (_this can be the same fork as used for updating the release branches_)
-- the commit message for the change should start with `chore:`
-- the change should be contributed in a pull request targeting the **default branch** (normally `master`)
-- the [release coordinator](#%22release-coordinator%22) will need to ask the [code owners](#code-owners) for the relevant repository to approve and merge this pull request
-
-#### Update package.json files
-There are **two** repositories where `package.json` files need to be updated. In both repositories, the release branch name needs to be updated in the list of branches under `.release.branches`.
-
-- [parser-js](https://github.com/asyncapi/parser-js/blob/master/package.json#L90-L93)
-- [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas/blob/master/package.json#L48-L51)
-
-Examples of doing this are:
-- this [commit from the 2.3.0 release for parser-js](https://github.com/dalelane/parser-js/commit/1d9f9ed52718269ffbce4d32bd4635c690371f80)
-- this [commit from the 2.3.0 release for spec-json-schemas](https://github.com/dalelane/spec-json-schemas/commit/8a4b94aaf86240a6ca2aeb7ce3cc515bad283a2d)
-
-
-#### Update .releaserc file
-The release branch name needs to be updated in the `.releaserc` file in the [spec](https://github.com/asyncapi/spec) repository needs.
-
-An example of doing this is:
-- this [commit from the 2.3.0 release](https://github.com/dalelane/spec/commit/210f89adc74f17aaf09d808b84132f232ff2e412)
-
-
-### Step 6 - prepare announcement blog post
+### Step 4 - prepare announcement blog post
 
 Each new release is announced by a blog post. You can see all of these at https://www.asyncapi.com/blog?tags=Release+Notes
 
@@ -203,7 +171,7 @@ An example of doing this is:
 - this [pull request from the 2.3.0 release](https://github.com/asyncapi/website/pull/512)
 
 
-### Step 7 - create pull requests
+### Step 5 - create pull requests
 
 Pull requests should be opened for all [repositories covered by this process](#repositories).
 
@@ -217,7 +185,7 @@ Add a **autoupdate** label to the pull request by making a comment in the PR say
 _Note: The automation bot will keep the release branch up to date with the latest commits from the master branch (so long as there are no conflicts)._
 
 
-### Step 8 - bring updates into release branch
+### Step 6 - bring updates into release branch
 
 The [release coordinator](#%22release-coordinator%22) should help to seek out possible updates that are good candidates for including in the release.
 
@@ -235,7 +203,7 @@ Pull requests must be:
 - created in all repositories specified in contribution guide
 
 
-### Step 9 - update announcement blog post
+### Step 7 - update announcement blog post
 
 As features are identified for inclusion in the release, the [draft announcement blog post](#step-6---prepare-announcement-blog-post) should be updated with descriptions of them. The [release cooordinator](#%22release-coordinator%22) should coordinate with the feature contributors to write a description of each change. They should be able to provide input and also be allowed to work as co-authors for the release notes post.
 
@@ -244,7 +212,7 @@ Changes in the specification need to be well described. We need clear informatio
 Every feature added to the [release branch](#step-3---create-release-branches) needs to be properly described in the release notes post.
 
 
-### Step 10 - prepare release notes
+### Step 8 - prepare release notes
 
 In addition to the [announcement blog post](#step-9---update-announcement-blog-post), the [release coordinator](#%22release-coordinator%22) should prepare release notes for each of the [repositories covered by this process](#repositories).
 
@@ -258,7 +226,7 @@ Examples of doing this are:
 - the [release notes for version 2.3.0 of spec](https://github.com/asyncapi/spec/releases/tag/v2.3.0)
 
 
-### Step 11 - notify people the release is coming
+### Step 9 - notify people the release is coming
 
 As the release gets closer to being ready, it is helpful to remind the community that the release is on the way.
 
@@ -271,12 +239,12 @@ This can also be done:
 Including a link to the [release issue](#step-2---create-a-release-issue) is a good way to let the community see the progress that has been made so far.
 
 
-### Step 12 - reviews
+### Step 10 - reviews
 
 At least one [code owner](#code-owners) must approve the [release pull requests](#step-7---create-pull-requests) in all related [repositories](#repositories).
 
 
-### Step 13 - release candidates
+### Step 11 - release candidates
 
 Pre-release release candidates are generated automatically by the automation bot when:
 - a pull request with a **fix** or **feat** prefix in the title is merged into the [release branch](#step-3---create-release-branches)
@@ -290,10 +258,9 @@ Release candidates will include:
 
 An example release candidate is: https://github.com/asyncapi/spec/releases/tag/v2.3.0-2022-01-release.3
 
-
 **Important:** When release candidates are created for the [spec](https://github.com/asyncapi/spec) repository, the [parser-js](https://github.com/asyncapi/parser-js) repository will need to be updated to use that release candidate. 
 
-### Step 14 - Notify code owners of critical repositories about the pre-releases
+### Step 12 - Notify code owners of critical repositories about the pre-releases
 
 In order to let code owners of critical repositories have enough time to work on the changes needed on tooling, the [release coordinator](#%22release-coordinator%22) should notify code owners about the pre-releases.
 As per today, the following repositories are considered critical:
@@ -303,7 +270,7 @@ As per today, the following repositories are considered critical:
 - [React component](https://github.com/asyncapi/asyncapi-react/)
 - [Studio](https://github.com/asyncapi/studio)
 
-### Step 15 - merge the release branches
+### Step 13 - merge the release branches
 
 Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-pull-requests).
 
@@ -318,12 +285,12 @@ First, changes are merged into the `spec` repository, then `spec-json-schemas` a
 Release means merge of pull requests created from a release branch against the master branch. First, changes are merged into the `spec` repository, then `spec-json-schemas` and at the end in `parser-js`. Like in the case of the merge of release candidates, a pull request in `parser-js` can be merged only if it uses the final release of the new `@asyncapi/specs` package.
 
 
-### Step 16 - publish releases
+### Step 14 - publish releases
 
 The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to update the release in Github created by the automation bot, by adding the [release notes they have prepared](#step-10---prepare-release-notes).
 
 
-### Step 17 - notify tool maintainers
+### Step 15 - notify tool maintainers
 
 Our current CI/CD automation will fill PR's updating the dependencies **automatically** on all repositories after the release. 
 However, the [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that a new release happened, as those might want to adopt the new features. 
@@ -363,7 +330,7 @@ You can check the following [example of notification to maintainers](https://git
 The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
 
-### Step 18 - notify the community
+### Step 16 - notify the community
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
@@ -372,7 +339,7 @@ If the [release coordinator](#%22release-coordinator%22) uses social networks li
 Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
 
-### Step 19 - improve the release process
+### Step 17 - improve the release process
 
 Every release identifies new issues and ways that the process can be improved.
 
