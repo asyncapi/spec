@@ -175,9 +175,6 @@ Field Name | Type | Description
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
 <a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
-<a name="A2STags"></a>tags | [Tags Object](#tagsObject) | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
-<a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation.
-
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -234,6 +231,8 @@ Field Name | Type | Description
 <a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of an absolute URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
+<a name="infoObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for application API documentation control. Tags can be used for logical grouping of applications.
+<a name="infoObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation of the exposed API.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -242,7 +241,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "title": "AsyncAPI Sample App",
-  "description": "This is a sample server.",
+  "version": "1.0.1",
+  "description": "This is a sample app.",
   "termsOfService": "https://asyncapi.org/terms/",
   "contact": {
     "name": "API Support",
@@ -253,13 +253,22 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     "name": "Apache 2.0",
     "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
   },
-  "version": "1.0.1"
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://www.asyncapi.org"
+  },
+  "tags": [
+    {
+      "name": "e-commerce"
+    }
+  ]
 }
 ```
 
 ```yaml
 title: AsyncAPI Sample App
-description: This is a sample server.
+version: 1.0.1
+description: This is a sample app.
 termsOfService: https://asyncapi.org/terms/
 contact:
   name: API Support
@@ -268,7 +277,11 @@ contact:
 license:
   name: Apache 2.0
   url: https://www.apache.org/licenses/LICENSE-2.0.html
-version: 1.0.1
+externalDocs:
+  description: Find more info here
+  url: https://www.asyncapi.org
+tags:
+  - name: e-commerce
 ```
 
 #### <a name="contactObject"></a>Contact Object
