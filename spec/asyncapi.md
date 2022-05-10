@@ -6,7 +6,19 @@ Part of this content has been taken from the great work done by the folks at the
 
 #### Version 2.4.0
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
+The key words 
+- "MUST" 
+- "MUST NOT"
+- "REQUIRED" 
+- "SHALL" 
+- "SHALL NOT"
+- "SHOULD" 
+- "SHOULD NOT"
+- "RECOMMENDED" 
+- "MAY"
+- "OPTIONAL" 
+
+in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
 The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html).
 
