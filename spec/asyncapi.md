@@ -71,6 +71,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Tags Object](#tagsObject)
       - [Tag Object](#tag-object)
       - [External Documentation Object](#externalDocumentationObject)
+      - [Metadata Object](#metadataObject)
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
@@ -355,21 +356,41 @@ Field Pattern | Type | Description
 
 ```json
 {
-  "production": {
-    "url": "development.gigantic-server.com",
-    "description": "Development server",
-    "protocol": "kafka",
-    "protocolVersion": "1.0.0"
+  "url": "development.gigantic-server.com",
+  "protocol": "kafka",
+  "protocolVersion": "1.0.0",
+  "metadata": {
+    "name": "DevelopmentServer",
+    "title": "Development server",
+    "summary": "A development server",
+    "description": "A longer description",
+    "tags": [
+      {
+        "name": "development"
+      }
+    ],
+    "externalDocs": {
+      "description": "Find more info here",
+      "url": "https://kafka.apache.org/"
+    }
   }
 }
 ```
 
 ```yaml
-production:
-  url: development.gigantic-server.com
-  description: Development server
-  protocol: kafka
-  protocolVersion: '1.0.0'
+url: development.gigantic-server.com
+protocol: kafka
+protocolVersion: 1.0.0
+metadata:
+  name: DevelopmentServer
+  title: Development server
+  summary: A development server
+  description: A longer description
+  tags:
+  - name: development
+  externalDocs:
+    description: Find more info here
+    url: https://kafka.apache.org/
 ```
 
 
@@ -399,17 +420,40 @@ A single server would be described as:
 ```json
 {
   "url": "development.gigantic-server.com",
-  "description": "Development server",
   "protocol": "kafka",
-  "protocolVersion": "1.0.0"
+  "protocolVersion": "1.0.0",
+  "metadata": {
+    "name": "DevelopmentServer",
+    "title": "Development server",
+    "summary": "A development server",
+    "description": "A longer description",
+    "tags": [
+      {
+        "name": "development"
+      }
+    ],
+    "externalDocs": {
+      "description": "Find more info here",
+      "url": "https://kafka.apache.org/"
+    }
+  }
 }
 ```
 
 ```yaml
 url: development.gigantic-server.com
-description: Development server
 protocol: kafka
-protocolVersion: '1.0.0'
+protocolVersion: 1.0.0
+metadata:
+  name: DevelopmentServer
+  title: Development server
+  summary: A development server
+  description: A longer description
+  tags:
+  - name: development
+  externalDocs:
+    description: Find more info here
+    url: https://kafka.apache.org/
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -419,7 +463,6 @@ The following shows how multiple servers can be described, for example, at the A
   "servers": {
     "development": {
       "url": "development.gigantic-server.com",
-      "description": "Development server",
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
       "tags": [
@@ -431,7 +474,6 @@ The following shows how multiple servers can be described, for example, at the A
     },
     "staging": {
       "url": "staging.gigantic-server.com",
-      "description": "Staging server",
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
       "tags": [
@@ -443,7 +485,6 @@ The following shows how multiple servers can be described, for example, at the A
     },
     "production": {
       "url": "api.gigantic-server.com",
-      "description": "Production server",
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
       "tags": [
@@ -461,7 +502,6 @@ The following shows how multiple servers can be described, for example, at the A
 servers:
   development:
     url: development.gigantic-server.com
-    description: Development server
     protocol: amqp
     protocolVersion: 0.9.1
     tags:
@@ -469,7 +509,6 @@ servers:
         description: "This environment is meant for developers to run their own tests"
   staging:
     url: staging.gigantic-server.com
-    description: Staging server
     protocol: amqp
     protocolVersion: 0.9.1
     tags:
@@ -477,7 +516,6 @@ servers:
         description: "This environment is a replica of the production environment"
   production:
     url: api.gigantic-server.com
-    description: Production server
     protocol: amqp
     protocolVersion: 0.9.1
     tags:
@@ -492,8 +530,10 @@ The following shows how variables can be used for a server configuration:
   "servers": {
     "production": {
       "url": "{username}.gigantic-server.com:{port}/{basePath}",
-      "description": "The production API server",
       "protocol": "secure-mqtt",
+      "metadata": {
+        "description": "The production API server",
+      },
       "variables": {
         "username": {
           "default": "demo",
@@ -519,8 +559,9 @@ The following shows how variables can be used for a server configuration:
 servers:
   production:
     url: '{username}.gigantic-server.com:{port}/{basePath}'
-    description: The production API server
     protocol: secure-mqtt
+    metadata:
+      description: The production API server
     variables:
       username:
         # note! no enum here means it is an open value
@@ -1514,6 +1555,64 @@ description: Find more info here
 url: https://example.com
 ```
 
+
+#### <a name="metadataObject"></a>Metadata Object
+
+The object provides metadata about the described object. May contain previously non defined fields.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="metadataObjectName"></a>name | `string` | A machine-friendly name for the described item.
+<a name="metadataObjectTitle"></a>title | `string` | A human-friendly title for the described item.
+<a name="metadataObjectSummary"></a>summary | `string` | A short summary of what the described item is about.
+<a name="metadataObjectDescription"></a>description | `string` | A verbose explanation of the described item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="metadataObjectTags"></a>tags | Tags Object | A list of tags for API documentation control. Tags can be used for logical grouping of items.
+<a name="metadataObjectExternalDocs"></a>externalDocs | External Documentation Object | Additional external documentation for described item.
+
+This object can be extended with [Specification Extensions](#specificationExtensions).
+
+##### Metadata Object Example
+
+```json
+{
+  "name": "UserSignup",
+  "title": "User signup",
+  "summary": "Action to sign a user up.",
+  "description": "A longer description",
+  "tags": [
+    {
+      "name": "user",
+      "description": "User-related messages"
+    },
+    { "name": "signup" },
+    { "name": "register" }
+  ],
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://example.com"
+  }
+}
+```
+
+```yaml
+name: UserSignup
+title: User signup
+summary: Action to sign a user up.
+description: A longer description
+tags:
+- name: user
+  description: User-related messages
+- name: signup
+- name: register
+externalDocs:
+  description: Find more info here
+  url: https://example.com
+```
+
+
+
 #### <a name="referenceObject"></a>Reference Object
 
 A simple object to allow referencing other components in the specification, internally and externally.
@@ -1650,16 +1749,18 @@ my.org.User
     },
     "messages": {
       "userSignUp": {
-        "summary": "Action to sign a user up.",
-        "description": "Multiline description of what this action does.\nHere you have another line.\n",
-        "tags": [
-          {
-            "name": "user"
-          },
-          {
-            "name": "signup"
-          }
-        ],
+        "metadata": {
+          "summary": "Action to sign a user up.",
+          "description": "Multiline description of what this action does.\nHere you have another line.\n",
+          "tags": [
+            {
+              "name": "user"
+            },
+            {
+              "name": "signup"
+            }
+          ]
+        },
         "headers": {
           "type": "object",
           "properties": {
@@ -1758,13 +1859,14 @@ components:
           $ref: "#/components/messages/userSignUp"
   messages:
     userSignUp:
-      summary: Action to sign a user up.
-      description: |
-        Multiline description of what this action does.
-        Here you have another line.
-      tags:
-        - name: user
-        - name: signup
+      metadata:
+        summary: Action to sign a user up.
+        description: |
+          Multiline description of what this action does.
+          Here you have another line.
+        tags:
+          - name: user
+          - name: signup
       headers:
         type: object
         properties:
