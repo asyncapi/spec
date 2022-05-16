@@ -1067,7 +1067,6 @@ Field Name | Type | Description
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). When the payload is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`.<br/><br/>Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -1080,23 +1079,6 @@ Field Name | Type | Description
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
-
-##### <a name="messageObjectSchemaFormatTable"></a>Schema formats table
-
-The following table contains a set of values that every implementation MUST support.
-
-Name | Allowed values | Notes
----|:---:|---
-[AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
-[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
-
-The following table contains a set of values that every implementation is RECOMMENDED to support.
-
-Name | Allowed values | Notes
----|:---:|---
-[Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
-[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
-[RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
 
 
 ##### Message Object Example
@@ -1222,9 +1204,11 @@ Example using Avro to define the payload:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "payload": {
-    "$ref": "path/to/user-create.avsc#/UserCreate"
+    "schemaFormat": "application/vnd.apache.avro+yaml;version=1.9.0",
+    "schema": {
+      "$ref": "path/to/user-create.avsc"
+    }
   }
 }
 ```
@@ -1240,7 +1224,9 @@ tags:
   - name: register
 schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 payload:
-  $ref: 'path/to/user-create.avsc/#UserCreate'
+  schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+  schema:
+    $ref: 'path/to/user-create.avsc'
 ```
 
 
@@ -1261,7 +1247,6 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -1278,13 +1263,11 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "contentType": "application/json"
 }
 ```
 
 ```yaml
-schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 contentType: application/json
 ```
 
@@ -1654,10 +1637,25 @@ components:
 #### <a name="schemaObject"></a>Schema Object
 
 The Schema Object allows the definition of input and output data types.
+
 These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](https://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
+
+The Schema Object value can be expressed in two ways, through the words `schema` and `schemaFormat` to define a schema in a custom format or through an inline schema.
 
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
+
+##### Using custom format
+
+Use the `schema` and `schemaFormat` keywords to define a schema in a custom format. The `schemaFormat` describes the format in which the value in the `schema` field is defined. This field can be written as string containing the name of the schema format used to define the schema, or be described by a `Schema Format Object` with additional attributes for the format, mainly needed by tools. When the schema is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`
+
+Check out the [supported schema formats table](#schemaFormatObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#schemaFormatObjectSchemaFormatTable).
+
+###### Fixed Fields
+Field Name | Type | Description
+---|:---:|---
+<a name="schemaObjectSchemaFormat"></a>schemaFormat | `string` \| [Schema Format Object](#schemaFormatObject) | The format of the described schema.
+<a name="schemaObjectSchema"></a>schema | Any | Value of the described schema.
 
 ##### Properties
 
@@ -1823,7 +1821,7 @@ additionalProperties:
   $ref: '#/components/schemas/ComplexModel'
 ```
 
-###### Model with Example
+###### Model with Examples
 
 ```json
 {
@@ -1840,10 +1838,12 @@ additionalProperties:
   "required": [
     "name"
   ],
-  "example": {
-    "name": "Puma",
-    "id": 1
-  }
+  "examples": [
+    {
+      "name": "Puma",
+      "id": 1
+    }
+  ]
 }
 ```
 
@@ -1857,9 +1857,9 @@ properties:
     type: string
 required:
 - name
-example:
-  name: Puma
-  id: 1
+examples:
+  - name: Puma
+    id: 1
 ```
 
 ###### Model with Boolean Schemas
@@ -1884,6 +1884,137 @@ required:
 properties:
   anySchema: true
   cannotBeDefined: false
+```
+
+###### Model using inlined Custom Schema Format
+
+```json
+{
+  "schemaFormat": "application/vnd.apache.avro+yaml;version=1.9.0",
+  "schema": {
+    "type": "record",
+    "namespace": "com.example.common",
+    "name": "Student",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "string"
+      },
+      {
+        "name": "Age",
+        "type": "int"
+      }
+    ]
+  }
+}
+```
+
+```yaml
+schemaFormat: application/vnd.apache.avro+yaml;version=1.9.0
+schema:
+  type: record
+  namespace: com.example.common
+  name: Student
+  fields:
+  - name: Name
+    type: string
+  - name: Age
+    type: int
+```
+
+###### Model using Custom Schema Format
+
+```json
+{
+  "schemaFormat": {
+    "format": "application/vnd.apache.avro+yaml;version=1.9.0",
+    "type": "com.example.Student"
+  },
+  "schema": {
+    "type": "record",
+    "namespace": "com.example",
+    "name": "Student",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "string"
+      },
+      {
+        "name": "Age",
+        "type": "int"
+      }
+    ]
+  }
+}
+```
+
+```yaml
+schemaFormat:
+  format: application/vnd.apache.avro+yaml;version=1.9.0
+  type: com.example.Student
+schema:
+  type: record
+  namespace: com.example
+  name: Student
+  fields:
+  - name: Name
+    type: string
+  - name: Age
+    type: int
+```
+
+###### Model using nested Custom Schema Format
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "grades": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "student": {
+      "schemaFormat": "application/vnd.apache.avro+yaml;version=1.9.0",
+      "schema": {
+        "type": "record",
+        "namespace": "com.example",
+        "name": "Student",
+        "fields": [
+          {
+            "name": "Name",
+            "type": "string"
+          },
+          {
+            "name": "Age",
+            "type": "int"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+```yaml
+type: object
+properties:
+  grades:
+    type: array
+    items:
+      type: integer
+  student:
+    schemaFormat: application/vnd.apache.avro+yaml;version=1.9.0
+    schema:
+      type: record
+      namespace: com.example
+      name: Student
+      fields:
+      - name: Name
+        type: string
+      - name: Age
+        type: int
 ```
 
 ###### Models with Composition
@@ -2114,7 +2245,61 @@ schemas:
 ```
 
 
+#### <a name="schemaFormatObject"></a>Schema Format Object
 
+Details describing the schema format.
+
+##### Fixed Fields
+Field Name | Type | Description
+---|:---:|---|---
+<a name="schemaFormatObjectFormat"></a>format | `string` | **REQUIRED**. The format type of the schema being described. When the schema is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions) and MAY contains additional fields.
+
+##### <a name="schemaFormatObjectSchemaFormatTable"></a>Schema formats table
+
+The following table contains a set of values that every implementation MUST support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
+[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+
+The following table contains a set of values that every implementation is RECOMMENDED to support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
+[RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
+
+##### Schema Format Object Examples
+
+###### Simple Schema Format
+
+```json
+{
+  "format": "application/vnd.apache.avro+json;version=1.9.0"
+}
+```
+
+```YAML
+format: "application/vnd.apache.avro+yaml;version=1.9.0"
+```
+
+###### Schema Format with additional fields fields
+
+```json
+{
+  "format": "application/vnd.apache.avro+json;version=1.9.0",
+  "type": "com.example.Payload"
+}
+```
+
+```YAML
+format: "application/vnd.apache.avro+yaml;version=1.9.0"
+type: "com.example.Student"
+```
 
 
 #### <a name="securitySchemeObject"></a>Security Scheme Object
