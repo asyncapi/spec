@@ -2287,7 +2287,7 @@ Name | Allowed values | Notes
 format: "application/vnd.apache.avro+yaml;version=1.9.0"
 ```
 
-###### Schema Format with additional fields fields
+###### Schema Format with additional fields
 
 ```json
 {
