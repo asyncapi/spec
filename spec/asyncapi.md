@@ -1890,7 +1890,7 @@ properties:
 
 ```json
 {
-  "schemaFormat": "application/vnd.apache.avro+yaml;version=1.9.0",
+  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "schema": {
     "type": "record",
     "namespace": "com.example.common",
@@ -1927,7 +1927,7 @@ schema:
 ```json
 {
   "schemaFormat": {
-    "format": "application/vnd.apache.avro+yaml;version=1.9.0",
+    "format": "application/vnd.apache.avro+json;version=1.9.0",
     "type": "com.example.Student"
   },
   "schema": {
@@ -1976,7 +1976,7 @@ schema:
       }
     },
     "student": {
-      "schemaFormat": "application/vnd.apache.avro+yaml;version=1.9.0",
+      "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
       "schema": {
         "type": "record",
         "namespace": "com.example",
