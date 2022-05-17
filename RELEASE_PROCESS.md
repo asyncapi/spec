@@ -133,20 +133,13 @@ An example of doing this is:
 #### Step 3.4 - Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
-To create a new version, please read further in the repository [Creating a new version](https://github.com/asyncapi/spec-json-schemas#creating-a-new-version),
+To create a new version, please read further in the repository under [Creating a new version](https://github.com/asyncapi/spec-json-schemas#creating-a-new-version),
 
-Things to do in default branch and release branch as `chore: ` changes:
-- Set release branch name in prerelease configuration in some repos repositories:
-  - [package.json in parser-js](https://github.com/asyncapi/parser-js/blob/master/package.json#L90)
-  - [package.json in spec-json-schemas](https://github.com/asyncapi/spec-json-schemas/blob/master/package.json#L49) 
-  - [.releaserc in spec](https://github.com/asyncapi/spec/blob/master/.releaserc#L4)
-
-#### Release notes
 It should be named with the version of the new release, and a link should be added to the `index.js` file (in the same repository).
 
 An example of doing this is:
-- this [commit from the 2.3.0 release](https://github.com/dalelane/spec-json-schemas/commit/9cff7798ac42f609927e1cb9e532ff16d360ab99)
-- this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/139)
+- this [commit from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221/files)
+- this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221)
 
 #### Step 3.5 - Update the list of AsyncAPI schema MIME types with the new version
 Repository: [parser-js](https://github.com/asyncapi/parser-js)
