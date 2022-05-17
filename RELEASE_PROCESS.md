@@ -138,8 +138,8 @@ To create a new version, please read further in the repository under [Creating a
 It should be named with the version of the new release, and a link should be added to the `index.js` file (in the same repository).
 
 An example of doing this is:
-- this [commit from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221/files)
-- this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221)
+- this [commit from the 3.0.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221/files)
+- this [pull request from the 3.0.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221)
 
 #### Step 3.5 - Update the list of AsyncAPI schema MIME types with the new version
 Repository: [parser-js](https://github.com/asyncapi/parser-js)
