@@ -133,7 +133,7 @@ An example of doing this is:
 #### Step 3.4 - Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
-To create a new version, please read further in the repository under [Creating a new version](https://github.com/asyncapi/spec-json-schemas#creating-a-new-version),
+To create a new version, please read [Creating a new version](https://github.com/asyncapi/spec-json-schemas#creating-a-new-version).
 
 It should be named with the version of the new release, and a link should be added to the `index.js` file (in the same repository).
 
