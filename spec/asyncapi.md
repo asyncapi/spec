@@ -1206,7 +1206,7 @@ Example using Avro to define the payload:
   ],
   "payload": {
     "customSchema": {
-      "format": "application/vnd.apache.avro+yaml;version=1.9.0",
+      "format": "application/vnd.apache.avro+json;version=1.9.0",
       "definition": {
         "$ref": "path/to/user-create.avsc"
       }
