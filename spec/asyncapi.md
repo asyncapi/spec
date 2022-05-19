@@ -1640,22 +1640,8 @@ The Schema Object allows the definition of input and output data types.
 
 These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](https://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
 
-The Schema Object value can be expressed in two ways, through the words `schema` and `schemaFormat` to define a schema in a custom format or through an inline schema.
-
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
 Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
-
-##### Using custom format
-
-Use the `schema` and `schemaFormat` keywords to define a schema in a custom format. The `schemaFormat` describes the format in which the value in the `schema` field is defined. This field can be written as string containing the name of the schema format used to define the schema, or be described by a `Schema Format Object` with additional attributes for the format, mainly needed by tools. When the schema is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`
-
-Check out the [supported schema formats table](#schemaFormatObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#schemaFormatObjectSchemaFormatTable).
-
-###### Fixed Fields
-Field Name | Type | Description
----|:---:|---
-<a name="schemaObjectSchemaFormat"></a>schemaFormat | `string` \| [Schema Format Object](#schemaFormatObject) | The format of the described schema.
-<a name="schemaObjectSchema"></a>schema | Any | Value of the described schema.
 
 ##### Properties
 
@@ -1703,11 +1689,12 @@ The following properties are taken from the JSON Schema definition but their def
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `$ref` keyword MUST follow the behavior described by [Reference Object](#referenceObject) instead of the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
 
-In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
+In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation or use schema with custom format:
 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
+<a name="schemaObjectCustomSchema"></a>customSchema | [Custom Schema Object](#customSchemaObject) | Object describing the schema defined in the custom format. When using this field, it is recommended to use only additional fields for documentation purposes.
 <a name="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
 <a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
@@ -1886,81 +1873,93 @@ properties:
   cannotBeDefined: false
 ```
 
-###### Model using inlined Custom Schema Format
+###### Model defined by Custom Schema
 
 ```json
 {
-  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
-  "schema": {
-    "type": "record",
-    "namespace": "com.example.common",
-    "name": "Student",
-    "fields": [
-      {
-        "name": "Name",
-        "type": "string"
-      },
-      {
-        "name": "Age",
-        "type": "int"
-      }
-    ]
-  }
-}
-```
-
-```yaml
-schemaFormat: application/vnd.apache.avro+yaml;version=1.9.0
-schema:
-  type: record
-  namespace: com.example.common
-  name: Student
-  fields:
-  - name: Name
-    type: string
-  - name: Age
-    type: int
-```
-
-###### Model using Custom Schema Format
-
-```json
-{
-  "schemaFormat": {
+  "customSchema": {
     "format": "application/vnd.apache.avro+json;version=1.9.0",
-    "type": "com.example.Student"
-  },
-  "schema": {
-    "type": "record",
-    "namespace": "com.example",
-    "name": "Student",
-    "fields": [
-      {
-        "name": "Name",
-        "type": "string"
-      },
-      {
-        "name": "Age",
-        "type": "int"
-      }
-    ]
+    "definition": {
+      "type": "record",
+      "namespace": "com.example.common",
+      "name": "Student",
+      "fields": [
+        {
+          "name": "Name",
+          "type": "string"
+        },
+        {
+          "name": "Age",
+          "type": "int"
+        }
+      ]
+    }
   }
 }
 ```
 
 ```yaml
-schemaFormat:
+customSchema:
   format: application/vnd.apache.avro+yaml;version=1.9.0
-  type: com.example.Student
-schema:
-  type: record
-  namespace: com.example
-  name: Student
-  fields:
-  - name: Name
-    type: string
-  - name: Age
-    type: int
+  definition:
+    type: record
+    namespace: com.example.common
+    name: Student
+    fields:
+    - name: Name
+      type: string
+    - name: Age
+      type: int
+```
+
+###### Model defined by Custom Schema with documentation fields
+
+```json
+{
+  "title": "Student Model",
+  "description": "A model describing a Student object, defined using the AVRO format.",
+  "customSchema": {
+    "format": "application/vnd.apache.avro+json;version=1.9.0",
+    "definition": {
+      "type": "record",
+      "namespace": "com.example.common",
+      "name": "Student",
+      "fields": [
+        {
+          "name": "Name",
+          "type": "string"
+        },
+        {
+          "name": "Age",
+          "type": "int"
+        }
+      ]
+    }
+  },
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://example.com"
+  }
+}
+```
+
+```yaml
+title: Student Model
+description: A model describing a Student object, defined using the AVRO format.
+customSchema:
+  format: application/vnd.apache.avro+yaml;version=1.9.0
+  definition:
+    type: record
+    namespace: com.example.common
+    name: Student
+    fields:
+    - name: Name
+      type: string
+    - name: Age
+      type: int
+externalDocs:
+  description: Find more info here
+  url: https://example.com
 ```
 
 ###### Model using nested Custom Schema Format
@@ -1976,21 +1975,23 @@ schema:
       }
     },
     "student": {
-      "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
-      "schema": {
-        "type": "record",
-        "namespace": "com.example",
-        "name": "Student",
-        "fields": [
-          {
-            "name": "Name",
-            "type": "string"
-          },
-          {
-            "name": "Age",
-            "type": "int"
-          }
-        ]
+      "customSchema": {
+        "format": "application/vnd.apache.avro+json;version=1.9.0",
+        "definition": {
+          "type": "record",
+          "namespace": "com.example",
+          "name": "Student",
+          "fields": [
+            {
+              "name": "Name",
+              "type": "string"
+            },
+            {
+              "name": "Age",
+              "type": "int"
+            }
+          ]
+        }
       }
     }
   }
@@ -2005,16 +2006,17 @@ properties:
     items:
       type: integer
   student:
-    schemaFormat: application/vnd.apache.avro+yaml;version=1.9.0
-    schema:
-      type: record
-      namespace: com.example
-      name: Student
-      fields:
-      - name: Name
-        type: string
-      - name: Age
-        type: int
+    customSchema:
+      format: application/vnd.apache.avro+yaml;version=1.9.0
+      definition:
+        type: record
+        namespace: com.example
+        name: Student
+        fields:
+        - name: Name
+          type: string
+        - name: Age
+          type: int
 ```
 
 ###### Models with Composition
@@ -2244,19 +2246,20 @@ schemas:
       - color
 ```
 
+#### <a name="customSchemaObject"></a>Custom Schema Object
 
-#### <a name="schemaFormatObject"></a>Schema Format Object
-
-Details describing the schema format.
+Object describing the schema defined in the custom format.
 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---|---
-<a name="schemaFormatObjectFormat"></a>format | `string` | **REQUIRED**. The format type of the schema being described. When the schema is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`
+<a name="customSchemaObjectFormat"></a>format | `string` | **REQUIRED**. The format type of the schema being described. When the schema is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`
+<a name="customSchemaObjectDefinition"></a>definition | Any | **REQUIRED**. Definition of the described schema.
+<a name="customSchemaObjectOptions"></a>options | Any | Additional attributes for the format, mainly needed by tools.
 
-This object MAY be extended with [Specification Extensions](#specificationExtensions) and MAY contains additional fields.
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### <a name="schemaFormatObjectSchemaFormatTable"></a>Schema formats table
+##### <a name="customSchemaObjectSchemaFormatTable"></a>Schema formats table
 
 The following table contains a set of values that every implementation MUST support.
 
@@ -2273,32 +2276,83 @@ Name | Allowed values | Notes
 [OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
 [RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
 
-##### Schema Format Object Examples
+##### Custom Schema Object Examples
 
-###### Simple Schema Format
-
-```json
-{
-  "format": "application/vnd.apache.avro+json;version=1.9.0"
-}
-```
-
-```YAML
-format: "application/vnd.apache.avro+yaml;version=1.9.0"
-```
-
-###### Schema Format with additional fields
+###### Simple Custom Schema
 
 ```json
 {
   "format": "application/vnd.apache.avro+json;version=1.9.0",
-  "type": "com.example.Payload"
+  "definition": {
+    "type": "record",
+    "namespace": "com.example.common",
+    "name": "Student",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "string"
+      },
+      {
+        "name": "Age",
+        "type": "int"
+      }
+    ]
+  }
 }
 ```
 
-```YAML
-format: "application/vnd.apache.avro+yaml;version=1.9.0"
-type: "com.example.Student"
+```yaml
+format: application/vnd.apache.avro+yaml;version=1.9.0
+definition:
+  type: record
+  namespace: com.example.common
+  name: Student
+  fields:
+  - name: Name
+    type: string
+  - name: Age
+    type: int
+```
+
+###### Custom Schema with options
+
+```json
+{
+  "format": "application/vnd.apache.avro+json;version=1.9.0",
+  "options": {
+    "type": "com.example.Student"
+  },
+  "definition": {
+    "type": "record",
+    "namespace": "com.example",
+    "name": "Student",
+    "fields": [
+      {
+        "name": "Name",
+        "type": "string"
+      },
+      {
+        "name": "Age",
+        "type": "int"
+      }
+    ]
+  }
+}
+```
+
+```yaml
+format: application/vnd.apache.avro+yaml;version=1.9.0
+options:
+  type: com.example.Student
+definition:
+  type: record
+  namespace: com.example
+  name: Student
+  fields:
+  - name: Name
+    type: string
+  - name: Age
+    type: int
 ```
 
 
