@@ -1205,9 +1205,11 @@ Example using Avro to define the payload:
     { "name": "register" }
   ],
   "payload": {
-    "schemaFormat": "application/vnd.apache.avro+yaml;version=1.9.0",
-    "schema": {
-      "$ref": "path/to/user-create.avsc"
+    "customSchema": {
+      "format": "application/vnd.apache.avro+yaml;version=1.9.0",
+      "definition": {
+        "$ref": "path/to/user-create.avsc"
+      }
     }
   }
 }
@@ -1222,11 +1224,11 @@ tags:
   - name: user
   - name: signup
   - name: register
-schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 payload:
-  schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
-  schema:
-    $ref: 'path/to/user-create.avsc'
+  customSchema:
+    format: 'application/vnd.apache.avro+yaml;version=1.9.0'
+    definition:
+      $ref: 'path/to/user-create.avsc'
 ```
 
 
@@ -1689,7 +1691,7 @@ The following properties are taken from the JSON Schema definition but their def
 
 Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `$ref` keyword MUST follow the behavior described by [Reference Object](#referenceObject) instead of the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
 
-In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation or use schema with custom format:
+In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation or define schema with custom format:
 
 ##### Fixed Fields
 Field Name | Type | Description
