@@ -1558,7 +1558,7 @@ url: https://example.com
 
 #### <a name="metadataObject"></a>Metadata Object
 
-The object provides metadata about the described object. May contain previously non defined fields.
+The object provides metadata about the described object.
 
 ##### Fixed Fields
 
@@ -1571,7 +1571,7 @@ Field Name | Type | Description
 <a name="metadataObjectTags"></a>tags | Tags Object | A list of tags for API documentation control. Tags can be used for logical grouping of items.
 <a name="metadataObjectExternalDocs"></a>externalDocs | External Documentation Object | Additional external documentation for described item.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object can be extended with [Specification Extensions](#specificationExtensions) and MAY contain previously non defined fields.
 
 ##### Metadata Object Example
 
