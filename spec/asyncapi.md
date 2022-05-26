@@ -57,7 +57,8 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
       - [Servers Object](#serversObject)
-      - [Server Object](#serverObject)  
+      - [Server Object](#serverObject)
+      - [Server Trait Object](#serverTraitObject)  
       - [Server Variable Object](#serverVariableObject)
       - [Default Content Type](#defaultContentTypeString)  
       - [Channels Object](#channelsObject)
@@ -359,20 +360,18 @@ Field Pattern | Type | Description
   "url": "development.gigantic-server.com",
   "protocol": "kafka",
   "protocolVersion": "1.0.0",
-  "metadata": {
-    "name": "DevelopmentServer",
-    "title": "Development server",
-    "summary": "A development server",
-    "description": "A longer description",
-    "tags": [
-      {
-        "name": "development"
-      }
-    ],
-    "externalDocs": {
-      "description": "Find more info here",
-      "url": "https://kafka.apache.org/"
+  "name": "DevelopmentServer",
+  "title": "Development server",
+  "summary": "A development server",
+  "description": "A longer description",
+  "tags": [
+    {
+      "name": "development"
     }
+  ],
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://kafka.apache.org/"
   }
 }
 ```
@@ -381,16 +380,15 @@ Field Pattern | Type | Description
 url: development.gigantic-server.com
 protocol: kafka
 protocolVersion: 1.0.0
-metadata:
-  name: DevelopmentServer
-  title: Development server
-  summary: A development server
-  description: A longer description
-  tags:
+name: DevelopmentServer
+title: Development server
+summary: A development server
+description: A longer description
+tags:
   - name: development
-  externalDocs:
-    description: Find more info here
-    url: https://kafka.apache.org/
+externalDocs:
+  description: Find more info here
+  url: https://kafka.apache.org/
 ```
 
 
@@ -410,8 +408,9 @@ Field Name | Type | Description
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
+<a name="serverObjectTraits"></a>traits | [[Server Trait Object](#serverTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the server object. Traits MUST be merged into the server object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Server Object](#serverObject).
 
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
+This object inherits the fields from [Metadata Object](#metadataObject) and MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Server Object Example
 
@@ -422,20 +421,18 @@ A single server would be described as:
   "url": "development.gigantic-server.com",
   "protocol": "kafka",
   "protocolVersion": "1.0.0",
-  "metadata": {
-    "name": "DevelopmentServer",
-    "title": "Development server",
-    "summary": "A development server",
-    "description": "A longer description",
-    "tags": [
-      {
-        "name": "development"
-      }
-    ],
-    "externalDocs": {
-      "description": "Find more info here",
-      "url": "https://kafka.apache.org/"
+  "name": "DevelopmentServer",
+  "title": "Development server",
+  "summary": "A development server",
+  "description": "A longer description",
+  "tags": [
+    {
+      "name": "development"
     }
+  ],
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://kafka.apache.org/"
   }
 }
 ```
@@ -444,16 +441,15 @@ A single server would be described as:
 url: development.gigantic-server.com
 protocol: kafka
 protocolVersion: 1.0.0
-metadata:
-  name: DevelopmentServer
-  title: Development server
-  summary: A development server
-  description: A longer description
-  tags:
+name: DevelopmentServer
+title: Development server
+summary: A development server
+description: A longer description
+tags:
   - name: development
-  externalDocs:
-    description: Find more info here
-    url: https://kafka.apache.org/
+externalDocs:
+  description: Find more info here
+  url: https://kafka.apache.org/
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -531,9 +527,7 @@ The following shows how variables can be used for a server configuration:
     "production": {
       "url": "{username}.gigantic-server.com:{port}/{basePath}",
       "protocol": "secure-mqtt",
-      "metadata": {
-        "description": "The production API server",
-      },
+      "description": "The production API server",
       "variables": {
         "username": {
           "default": "demo",
@@ -560,8 +554,7 @@ servers:
   production:
     url: '{username}.gigantic-server.com:{port}/{basePath}'
     protocol: secure-mqtt
-    metadata:
-      description: The production API server
+    description: The production API server
     variables:
       username:
         # note! no enum here means it is an open value
@@ -575,6 +568,41 @@ servers:
       basePath:
         # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
         default: v2
+```
+
+
+
+#### <a name="serverTraitObject"></a>Server Trait Object
+
+Describes a trait that MAY be applied to an [Server Object](#serverObject). This object MAY contain any property from the [Server Object](#serverObject), except `url`, `protocol`, `protocolVersion`, `variables` and `traits`.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
+
+This object inherits the fields from [Metadata Object](#metadataObject) and MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Server Trait Object Example
+
+```json
+{
+  "security": {
+    "petstore_auth": [
+      "write:pets",
+      "read:pets"
+    ]
+  }
+}
+```
+
+```yaml
+security:
+  petstore_auth:
+    - "write:pets"
+    - "read:pets"
 ```
 
 
@@ -850,7 +878,9 @@ onUserSignUp:
 ```
 
 
+#### <a name="channelTraitObject"></a>Channel Trait Object
 
+Describes a trait that MAY be applied to an [Channel Object](#channelObject). This object MAY contain any property from the [Channel Object](#channelObject), except `parameters` and `traits`.
 
 #### <a name="operationObject"></a>Operation Object
 
@@ -1660,6 +1690,8 @@ Field Name | Type | Description
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
 <a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
+<a name="componentsServerTraits"></a> serverTraits | Map[`string`, [Server Trait Object](#serverTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Trait Objects](#serverTraitObject).
+<a name="componentsChannelTraits"></a> channelTraits | Map[`string`, [Channel Trait Object](#channelTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Trait Objects](#channelTraitObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
 <a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
 <a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Bindings Objects](#serverBindingsObject).
@@ -1749,18 +1781,16 @@ my.org.User
     },
     "messages": {
       "userSignUp": {
-        "metadata": {
-          "summary": "Action to sign a user up.",
-          "description": "Multiline description of what this action does.\nHere you have another line.\n",
-          "tags": [
-            {
-              "name": "user"
-            },
-            {
-              "name": "signup"
-            }
-          ]
-        },
+        "summary": "Action to sign a user up.",
+        "description": "Multiline description of what this action does.\nHere you have another line.\n",
+        "tags": [
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          }
+        ],
         "headers": {
           "type": "object",
           "properties": {
@@ -1859,14 +1889,13 @@ components:
           $ref: "#/components/messages/userSignUp"
   messages:
     userSignUp:
-      metadata:
-        summary: Action to sign a user up.
-        description: |
-          Multiline description of what this action does.
-          Here you have another line.
-        tags:
-          - name: user
-          - name: signup
+      summary: Action to sign a user up.
+      description: |
+        Multiline description of what this action does.
+        Here you have another line.
+      tags:
+        - name: user
+        - name: signup
       headers:
         type: object
         properties:
