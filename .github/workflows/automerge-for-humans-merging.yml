@@ -1,7 +1,7 @@
-#This workflow is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
-#Purpose of this workflow is to allow people to merge PR without a need of maintainer doing it. If all checks are in place (including maintainers approval) - JUST MERGE IT!
+# Purpose of this workflow is to allow people to merge PR without a need of maintainer doing it. If all checks are in place (including maintainers approval) - JUST MERGE IT!
 name: Automerge For Humans
 
 on:

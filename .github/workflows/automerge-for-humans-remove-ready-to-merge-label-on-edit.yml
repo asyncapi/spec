@@ -1,5 +1,5 @@
-#This workflow is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
 # Defence from evil contributor that after adding `ready-to-merge` all suddenly makes evil commit or evil change in PR title
 # Label is removed once above action is detected
