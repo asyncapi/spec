@@ -11,6 +11,7 @@ on:
   
 jobs:
   External-link-validation-weekly:
+    if: startsWith(github.repository, 'asyncapi/')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
