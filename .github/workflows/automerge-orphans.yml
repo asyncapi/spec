@@ -9,6 +9,7 @@ on:
 
 jobs:
   identify-orphans:
+    if: startsWith(github.repository, 'asyncapi/')
     name: Find orphans and notify
     runs-on: ubuntu-latest
     steps:

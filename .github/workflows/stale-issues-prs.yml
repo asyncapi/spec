@@ -9,6 +9,7 @@ on:
 
 jobs:
   stale:
+    if: startsWith(github.repository, 'asyncapi/')
     name: Mark issue or PR as stale
     runs-on: ubuntu-latest
     steps:
