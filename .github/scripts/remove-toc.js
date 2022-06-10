@@ -9,7 +9,7 @@ module.exports = (givenSpec) => {
   const startingLine = "## Table of Contents\n";
   const endingLine = "<!-- /TOC -->\n";
 
-  const specFile = fs.readFileSync(`./website/pages/docs/specifications/${givenSpec}.md`);
+  const specFile = fs.readFileSync(`./website/pages/docs/reference/specification/${givenSpec}.md`);
 
   const startingIndex = specFile.indexOf(startingLine);
   const endingIndex = specFile.indexOf(endingLine);
@@ -21,5 +21,5 @@ module.exports = (givenSpec) => {
   const firstHalf = specFile.slice(0, startingIndex);
   const secondHalf = specFile.slice(endingIndex + endingLine.length);
   const specWithoutToc = `${firstHalf}${secondHalf}`;
-  fs.writeFileSync(`./website/pages/docs/specifications/${givenSpec}.md`, specWithoutToc);
+  fs.writeFileSync(`./website/pages/docs/reference/specification/${givenSpec}.md`, specWithoutToc);
 }
