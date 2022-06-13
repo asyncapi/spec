@@ -705,7 +705,7 @@ userCompletedOrder:
 
 #### <a name="operationsObject"></a>Operations Object
 
-Holds a dictionary with all the [operations](#operation-object) this application MUST implement.
+Holds a dictionary with all the [operations](#operationObject) this application MUST implement.
 
 Note: If you're looking for a place to define operations that MAY or MAY NOT be implemented by the application, consider defining them in [`components/operations`](#componentsOperations).
 
