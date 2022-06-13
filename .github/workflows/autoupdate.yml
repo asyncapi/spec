@@ -20,6 +20,7 @@ on:
 
 jobs:
   autoupdate-for-bot:
+    if: startsWith(github.repository, 'asyncapi/')
     name: Autoupdate autoapproved PR created in the upstream
     runs-on: ubuntu-latest
     steps:
