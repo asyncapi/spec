@@ -50,7 +50,7 @@ jobs:
               repo: pull.head.repo.name,
               basehead: `${pull.base.label}...${pull.head.label}`,
             });
-            if (comparison.behind_by !== 0) {
+            if (comparison.behind_by !== 0 && pull.mergeable_state === 'behind') {
               console.log(`This branch is behind the target by ${comparison.behind_by} commits`)
               console.log('adding out-of-date comment...');
               github.rest.issues.createComment({
