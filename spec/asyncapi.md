@@ -1895,10 +1895,12 @@ additionalProperties:
   "required": [
     "name"
   ],
-  "example": {
-    "name": "Puma",
-    "id": 1
-  }
+  "examples": [
+    {
+      "name": "Puma",
+      "id": 1
+    }
+  ]
 }
 ```
 
@@ -1912,8 +1914,8 @@ properties:
     type: string
 required:
 - name
-example:
-  name: Puma
+examples:
+- name: Puma
   id: 1
 ```
 
