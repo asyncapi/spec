@@ -162,7 +162,7 @@ The steps to follow for this are:
 - Create a fork of the [website](https://github.com/asyncapi/website) repository
 - Create a new file at `pages/blog/release-notes-X.X.X.md` (replacing `X.X.X` with the version number for the release)
 - Add a standard header at the top of the file (see the release notes for [2.2.0](https://raw.githubusercontent.com/asyncapi/website/master/pages/blog/release-notes-2.2.0.md) and [2.3.0](https://raw.githubusercontent.com/asyncapi/website/master/pages/blog/release-notes-2.3.0.md) for examples)
-- Add a (webp format) cover image to the `public/img/posts/release-notes-X.X.X/` folder, and update the `cover` attribute of the blog post header with it. (**Make sure to attribute the image correctly** - unsplash.com is a good source of free images for this). See [this commit from the 2.3.0 release](4050ca0540684f5188300e0c27efc713a6ba1ec2) for an example of doing this.
+- Add a (webp format) cover image to the `public/img/posts/release-notes-X.X.X/` folder, and update the `cover` attribute of the blog post header with it. (**Make sure to attribute the image correctly** - unsplash.com is a good source of free images for this). See [this commit from the 2.3.0 release](https://github.com/asyncapi/website/pull/512/commits/4050ca0540684f5188300e0c27efc713a6ba1ec2) for an example of doing this.
 - Add a (webp format) profile picture of the release coordinator to the `public/img/avatars` folder, and update the `authors` attribute of the blog post header with it. See [this commit from the 2.3.0 release](https://github.com/asyncapi/website/pull/512/commits/006f7df26b0d0803ed2e1dd6b8004dfdaec15617) for an example of doing this.
 - Open a **draft** pull request against the [website](https://github.com/asyncapi/website/) repository. Make sure the option **Allow edits and access to secrets by maintainers** is selected to enable support from maintainers.
 <img src="./assets/release_process/draft_pr.png" alt="This image shows example pull request created in GitHub with release notes for AsyncAPI specification" height="300">
@@ -258,11 +258,19 @@ Release candidates will include:
 
 An example release candidate is: https://github.com/asyncapi/spec/releases/tag/v2.3.0-2022-01-release.3
 
-
 **Important:** When release candidates are created for the [spec](https://github.com/asyncapi/spec) repository, the [parser-js](https://github.com/asyncapi/parser-js) repository will need to be updated to use that release candidate. 
 
+### Step 12 - Notify code owners of critical repositories about the pre-releases
 
-### Step 12 - merge the release branches
+In order to let code owners of critical repositories have enough time to work on the changes needed on tooling, the [release coordinator](#%22release-coordinator%22) should notify code owners about the pre-releases.
+As per today, the following repositories are considered critical:
+
+- [HTML Template](https://github.com/asyncapi/html-template)
+- [JavaScript Converter](https://github.com/asyncapi/converter-js/)
+- [React component](https://github.com/asyncapi/asyncapi-react/)
+- [Studio](https://github.com/asyncapi/studio)
+
+### Step 13 - merge the release branches
 
 Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-pull-requests).
 
@@ -277,23 +285,52 @@ First, changes are merged into the `spec` repository, then `spec-json-schemas` a
 Release means merge of pull requests created from a release branch against the master branch. First, changes are merged into the `spec` repository, then `spec-json-schemas` and at the end in `parser-js`. Like in the case of the merge of release candidates, a pull request in `parser-js` can be merged only if it uses the final release of the new `@asyncapi/specs` package.
 
 
-### Step 13 - publish releases
+### Step 14 - publish releases
 
 The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to update the release in Github created by the automation bot, by adding the [release notes they have prepared](#step-10---prepare-release-notes).
 
 
-### Step 14 - notify tool maintainers
+### Step 15 - notify tool maintainers
 
-The [release coordinator](#%22release-coordinator%22) should notify maintainers of the following repositories that the first feature is merged and that release will be produced and therefore they need to start preparing for it:
+Our current CI/CD automation will fill PR's updating the dependencies **automatically** on all repositories after the release. 
+However, the [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that a new release happened, as those might want to adopt the new features. 
+
+Some of the dependant repositories are:
+  - [Avro Schema parser](https://github.com/asyncapi/avro-schema-parser)
+  - [Bundler](https://github.com/asyncapi/bundler)
+  - [CLI](https://github.com/asyncapi/cli)
+  - [Cupid](https://github.com/asyncapi/cupid)
+  - [Dot Net NATS template](https://github.com/asyncapi/dotnet-nats-template)
+  - [Generator](https://github.com/asyncapi/generator)
+  - [Generator React SDK](https://github.com/asyncapi/generator-react-sdk)
+  - [Glee](https://github.com/asyncapi/glee)
+  - [HTML Template](https://github.com/asyncapi/html-template)
+  - [Java Template](https://github.com/asyncapi/java-template)
   - [JavaScript Converter](https://github.com/asyncapi/converter-js/)
-  - [Playground](https://github.com/asyncapi/playground/)
-  - [React component](https://github.com/asyncapi/asyncapi-react/)
   - [Markdown template](https://github.com/asyncapi/markdown-template)
+  - [Modelina](https://github.com/asyncapi/modelina)
+  - [NodeJS WS Template](https://github.com/asyncapi/nodejs-ws-template)
+  - [Optimizer](https://github.com/asyncapi/optimizer)
+  - [Parser Go](https://github.com/asyncapi/parser-go)
+  - [React component](https://github.com/asyncapi/asyncapi-react/)
+  - [Server API](https://github.com/asyncapi/server-api/)
+  - [Simulator](https://github.com/asyncapi/simulator)
+  - [Studio](https://github.com/asyncapi/studio)
+  - [TS NATS Template](https://github.com/asyncapi/ts-nats-template)
+
+You can use Github Code Search to find the [list of repositories depending on parser-js or the specs](https://cs.github.com/?scopeName=All+repos&scope=&q=org%3Aasyncapi+%28path%3Apackage.json+OR+go.mod%29+%22%40asyncapi%2Fparser%22+OR+%22%40asyncapi%2Fspecs%22+OR+%22github.com%2Fasyncapi%2Fspec-json-schemas%22+OR+%22github.com%2Fasyncapi%2Fparser-go%22#). 
+Alternatively, you can use the following GH search queries:
+- [NodeJS @asyncapi/specs dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Apackage.json+%22%40asyncapi%2Fspecs%22)
+- [NodeJS @asyncapi/parser dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Apackage.json+%22%40asyncapi%2Fparser%22)
+- [Go github.com/asyncapi/spec-json-schemas dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fspec-json-schemas%22)
+- [Go github.com/asyncapi/parser-go dependants](https://github.com/search?q=org%3Aasyncapi+in%3Afile+filename%3Ago.mod+%22%40github.com%2Fasyncapi%2Fparser-go%22)
+
+You can check the following [example of notification to maintainers](https://github.com/asyncapi/spec/issues/735#issuecomment-1109801674).
 
 The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
 
-### Step 15 - notify the community
+### Step 16 - notify the community
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
@@ -302,7 +339,7 @@ If the [release coordinator](#%22release-coordinator%22) uses social networks li
 Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
 
-### Step 16 - improve the release process
+### Step 17 - improve the release process
 
 Every release identifies new issues and ways that the process can be improved.
 
