@@ -133,13 +133,13 @@ An example of doing this is:
 #### Step 3.4 - Create a new JSON schema file for the new version
 Repository: [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas)
 
-The new file should be created in the `schemas/` folder in the [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repository.
+To create a new version, please read [Creating a new version](https://github.com/asyncapi/spec-json-schemas#creating-a-new-version).
 
 It should be named with the version of the new release, and a link should be added to the `index.js` file (in the same repository).
 
 An example of doing this is:
-- this [commit from the 2.3.0 release](https://github.com/dalelane/spec-json-schemas/commit/9cff7798ac42f609927e1cb9e532ff16d360ab99)
-- this [pull request from the 2.3.0 release](https://github.com/asyncapi/spec-json-schemas/pull/139)
+- this [commit from the 3.0.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221/files)
+- this [pull request from the 3.0.0 release](https://github.com/asyncapi/spec-json-schemas/pull/221)
 
 #### Step 3.5 - Update the list of AsyncAPI schema MIME types with the new version
 Repository: [parser-js](https://github.com/asyncapi/parser-js)
