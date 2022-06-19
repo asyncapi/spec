@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 2.3.0
+#### Version 2.4.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -34,6 +34,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
 
 - [Definitions](#definitions)
+  - [Server](#definitionsServer)
   - [Application](#definitionsApplication)
   - [Producer](#definitionsProducer)
   - [Consumer](#definitionsConsumer)
@@ -84,20 +85,23 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 
 ## <a name="definitions"></a>Definitions
 
+#### <a name="definitionsServer"></a>Server
+A server MAY be a message broker that is capable of sending and/or receiving between a [producer](#definitionsProducer) and [consumer](#definitionsConsumer). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
+
 #### <a name="definitionsApplication"></a>Application
-An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the server in order to connect and exchange [messages](#definitionsMessage). 
+An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
 
 #### <a name="definitionsProducer"></a>Producer
-A producer is a type of application, connected to a server, that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the server, protocol, and use-case pattern.
+A producer is a type of application, connected to a [server](#definitionsServer), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
 
 #### <a name="definitionsConsumer"></a>Consumer
-A consumer is a type of application, connected to a server via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the server, protocol, and the use-case pattern.
+A consumer is a type of application, connected to a [server](#definitionsServer) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern.
 
 #### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between servers and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 #### <a name="definitionsChannel"></a>Channel
-A channel is an addressable component, made available by the server, for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. Servers MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the server implementation, the channel MAY be included in the message via protocol-defined headers.
+A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 #### <a name="definitionsProtocol"></a>Protocol
 A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket.  
@@ -319,7 +323,7 @@ The Servers Object is a map of [Server Objects](#serverObject).
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) | The definition of a server this application MAY connect to.
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
 
 ##### Servers Object Example
 
@@ -620,6 +624,7 @@ subscribe:
         user:
           $ref: "#/components/schemas/user"
         signup:
+          $ref: "#/components/schemas/signup"
 bindings:
   amqp:
     is: queue
@@ -702,7 +707,8 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
 <a name="operationObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
@@ -718,6 +724,14 @@ This object can be extended with [Specification Extensions](#specificationExtens
   "operationId": "registerUser",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
+  "security": [
+    {
+     "petstore_auth": [
+       "write:pets",
+       "read:pets"
+     ]
+    }
+  ],
   "tags": [
     { "name": "user" },
     { "name": "signup" },
@@ -760,6 +774,10 @@ This object can be extended with [Specification Extensions](#specificationExtens
 operationId: registerUser
 summary: Action to sign a user up.
 description: A longer description
+security:
+  - petstore_auth:
+    - write:pets
+    - read:pets
 tags:
   - name: user
   - name: signup
@@ -801,6 +819,7 @@ Field Name | Type | Description
 <a name="operationTraitObjectOperationId"></a>operationId | `string` | Unique string used to identify the operation. The id MUST be unique among all operations described in the API. The operationId value is **case-sensitive**. Tools and libraries MAY use the operationId to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationTraitObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
 <a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for API documentation control. Tags can be used for logical grouping of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
@@ -1063,6 +1082,7 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="messageObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
@@ -1086,7 +1106,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 2.3.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.3.0`, `application/vnd.aai.asyncapi+json;version=2.3.0`, `application/vnd.aai.asyncapi+yaml;version=2.3.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 2.4.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.4.0`, `application/vnd.aai.asyncapi+json;version=2.4.0`, `application/vnd.aai.asyncapi+yaml;version=2.4.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
@@ -1102,6 +1122,7 @@ Name | Allowed values | Notes
 
 ```json
 {
+  "messageId": "userSignup",
   "name": "UserSignup",
   "title": "User signup",
   "summary": "Action to sign a user up.",
@@ -1165,6 +1186,7 @@ Name | Allowed values | Notes
 ```
 
 ```yaml
+messageId: userSignup
 name: UserSignup
 title: User signup
 summary: Action to sign a user up.
@@ -1212,6 +1234,7 @@ Example using Avro to define the payload:
 
 ```json
 {
+  "messageId": "userSignup",
   "name": "UserSignup",
   "title": "User signup",
   "summary": "Action to sign a user up.",
@@ -1229,6 +1252,7 @@ Example using Avro to define the payload:
 ```
 
 ```yaml
+messageId: userSignup
 name: UserSignup
 title: User signup
 summary: Action to sign a user up.
@@ -1258,6 +1282,7 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="messageTraitObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 <a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
@@ -1438,6 +1463,7 @@ Field Name | Type | Description
 ---|:---|--- 
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
+<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Item Object](#channelItemObject)] | An object to hold reusable [Channel Item Objects](#channelItemObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
@@ -1497,10 +1523,28 @@ my.org.User
     },
     "servers": {
       "development": {
-        "url": "development.gigantic-server.com",
+        "url": "{stage}.gigantic-server.com:{port}",
         "description": "Development server",
         "protocol": "amqp",
-        "protocolVersion": "0.9.1"
+        "protocolVersion": "0.9.1",
+        "variables": {
+          "stage": {
+            "$ref": "#/components/serverVariables/stage"
+          },
+          "port": {
+            "$ref": "#/components/serverVariables/port"
+          }
+        }
+      }
+    },
+    "serverVariables": {
+      "stage": {
+        "default": "demo",
+        "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+      },
+      "port": {
+        "enum": ["8883", "8884"],
+        "default": "8883"
       }
     },
     "channels": {
@@ -1599,10 +1643,22 @@ components:
           type: string
   servers:
     development:
-      url: development.gigantic-server.com
+      url: "{stage}.gigantic-server.com:{port}"
       description: Development server
       protocol: amqp
       protocolVersion: 0.9.1
+      variables:
+        stage:
+          $ref: "#/components/serverVariables/stage"
+        port:
+          $ref: "#/components/serverVariables/port"
+  serverVariables:
+    stage:
+      default: demo
+      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+    port:
+      enum: [8883, 8884]
+      default: 8883
   channels:
     user/signedup:
       subscribe:
@@ -1839,10 +1895,12 @@ additionalProperties:
   "required": [
     "name"
   ],
-  "example": {
-    "name": "Puma",
-    "id": 1
-  }
+  "examples": [
+    {
+      "name": "Puma",
+      "id": 1
+    }
+  ]
 }
 ```
 
@@ -1856,8 +1914,8 @@ properties:
     type: string
 required:
 - name
-example:
-  name: Puma
+examples:
+- name: Puma
   id: 1
 ```
 

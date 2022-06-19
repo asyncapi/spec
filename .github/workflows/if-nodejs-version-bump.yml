@@ -1,6 +1,7 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
-#It does magic only if there is package.json file in the root of the project
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+# It does magic only if there is package.json file in the root of the project
 name: Version bump - if Node.js project
 
 on: 
@@ -10,7 +11,7 @@ on:
 
 jobs:
   version_bump:
-    name: Generate assets and bump
+    name: Generate assets and bump NodeJS
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

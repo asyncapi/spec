@@ -1,5 +1,6 @@
-#This action is centrally managed in https://github.com/asyncapi/.github/
-#Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
 name: 'Announce releases in different channels'
 
 on: 
@@ -9,7 +10,7 @@ on:
 
 jobs:
 
-  slack:
+  slack-announce:
     name: Slack - notify on every release
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +27,7 @@ jobs:
             SLACK_MESSAGE: ${{steps.markdown.outputs.text}}
             MSG_MINIMAL: true
 
-  twitter:
+  twitter-announce:
     name: Twitter - notify on minor and major releases
     runs-on: ubuntu-latest
     steps:

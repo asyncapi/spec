@@ -1,0 +1,37 @@
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+name: Check Markdown links (Weekly)
+
+on:
+  workflow_dispatch:
+  schedule:
+    # At 00:00 UTC on every Monday
+    - cron: '0 0 * * 0'
+  
+jobs:
+  External-link-validation-weekly:
+    if: startsWith(github.repository, 'asyncapi/')
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    # Checks the status of hyperlinks in .md files
+    - name: Check links
+      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: 'yes'
+        use-verbose-mode: 'yes'
+        
+        # A configuration file can be included, indicating the properties of the link check action
+        # More information can be found here: https://github.com/tcort/markdown-link-check#config-file-format
+        # Create mlc_config.json file in the root of the directory
+
+    - name: Report workflow run status to Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        fields: repo,action,workflow
+      env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CI_FAIL_NOTIFY }}
+      if: failure() # Only, on failure, send a message on the Slack Docs Channel (if there are broken links)

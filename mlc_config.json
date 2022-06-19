@@ -1,0 +1,19 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^https://github.com/asyncapi/spec/tree/BRANCH_NAME"
+    },
+    {
+      "pattern": "^https://github.com/asyncapi/spec-json-schemas/tree/BRANCH_NAME"
+    },
+    {
+      "pattern": "^https://github.com/asyncapi/parser-js/tree/BRANCH_NAME"
+    },
+    {
+      "pattern": "^https://github.com/asyncapi/website/pull/PULLREQUEST"
+    },
+    {
+      "pattern": "^https://github.com/asyncapi/spec/blob/.*.md$"
+    }
+  ]
+}
