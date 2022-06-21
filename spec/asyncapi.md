@@ -188,12 +188,12 @@ It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globall
 
 ```json
 {
-  "id": "urn:com:smartylighting:streetlights:server"
+  "id": "urn:example:com:smartylighting:streetlights:server"
 }
 ```
 
 ```yaml
-id: 'urn:com:smartylighting:streetlights:server'
+id: 'urn:example:com:smartylighting:streetlights:server'
 ```
 
 ```json
