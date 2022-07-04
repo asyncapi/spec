@@ -1,5 +1,5 @@
-asyncapi: '2.3.0'
-id: 'urn:com:slack:rtm:api'
+asyncapi: '2.4.0'
+id: 'wss://wss-primary.slack.com/websocket'
 info:
   title: Slack Real Time Messaging API
   version: '1.0.0'

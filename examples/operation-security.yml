@@ -1,0 +1,106 @@
+asyncapi: 2.4.0
+info:
+  title: Notifications
+  version: 1.0.0
+  description: >-
+    This contract defines HTTP Push notification for 
+    application authorization revocation topic
+channels:
+  AUTHORIZATION_REVOCATION:
+    subscribe:
+      message:
+        $ref: '#/components/messages/message'
+      bindings:
+        http:
+          type: request
+          method: POST
+          headers:
+            type: object
+            properties:
+              Content-Type:
+                type: string
+                enum:
+                  - application/json
+      security:
+        petstore_auth:
+          - subscribe:auth_revocations
+components:
+  messages:
+    message:
+      headers:
+        type: object
+        properties:
+          X-SIGNATURE:
+            description: ECC message signature
+            type: string
+      payload:
+        type: object
+        properties:
+          metadata:
+            $ref: '#/components/schemas/MetaData'
+          notification:
+            $ref: '#/components/schemas/Notification'
+  schemas:
+    MetaData:
+      type: object
+      properties:
+        topic:
+          type: string
+          description: Topic subscribed to.
+        schemaVersion:
+          type: string
+          description: The schema for this topic.
+        deprecated:
+          type: boolean
+          description: If this is a deprecated schema or topic.
+          default: 'false'
+    Notification:
+      type: object
+      properties:
+        notificationId:
+          type: string
+          description: The notification Id.
+        eventDate:
+          type: string
+          description: The event date associated with this notification in UTC.
+        publishDate:
+          type: string
+          description: The message publish date in UTC.
+        publishAttemptCount:
+          type: integer
+          description: The number of attempts made to publish this message.
+        data:
+          $ref: '#/components/schemas/AuthorizationRevocationData'
+    AuthorizationRevocationData:
+      type: object
+      description: The Authorization Revocation payload.
+      properties:
+        username:
+          type: string
+          description: The username for the user.
+        userId:
+          type: string
+          description: The immutable public userId for the user
+        eiasToken:
+          type: string
+          description: The legacy eiasToken specific to the user
+        revokeReason:
+          type: string
+          enum:
+            - REVOKED_BY_APP
+            - REVOKED_BY_USER
+            - REVOKED_BY_ADMIN
+            - PASSWORD_CHANGE
+          description: The reason for authorization revocation
+        revocationDate:
+          type: string
+          description: Date and time when the authorization was revoked
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      description: The oauth security descriptions
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://example.com/api/oauth/dialog'
+          scopes:
+            subscribe:auth_revocations: Scope required for authorization revocation topic

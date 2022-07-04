@@ -1,5 +1,5 @@
-asyncapi: '2.3.0'
-id: 'urn:rpc:example:client'
+asyncapi: '2.4.0'
+id: 'urn:example:rpcclient'
 defaultContentType: application/json
 
 info:
