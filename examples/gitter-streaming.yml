@@ -1,5 +1,5 @@
 asyncapi: '2.4.0'
-id: 'urn:com:gitter:streaming:api'
+id: 'tag:stream.gitter.im,2022:api'
 info:
   title: Gitter Streaming API
   version: '1.0.0'

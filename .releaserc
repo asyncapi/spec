@@ -1,7 +1,9 @@
 ---
 branches:
 - master
-- name: 2022-04-release
+- name: next-spec
+  prerelease: true
+- name: next-major-spec
   prerelease: true
 plugins:
 - - "@semantic-release/commit-analyzer"
