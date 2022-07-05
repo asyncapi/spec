@@ -138,7 +138,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 An AsyncAPI document MAY be made up of a single document or be divided into multiple,
 connected parts at the discretion of the author. In the latter case, [Reference Objects](#referenceObject) are used.
 
-It is important to note that everything that is defined in an AsyncAPI document MUST be used by the implemented [Application](#definitionsApplication), with the exception of the [Components Object](#componentsObject). Everything that is defined inside the Components Object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
+It is important to note that everything that is defined in an AsyncAPI document MUST be used by the implemented [Application](#definitionsApplication), with the exception of the [Components Object](#componentsObject). Everything that is defined inside the Components Object represents a resource that MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
