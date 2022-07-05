@@ -25,7 +25,7 @@ jobs:
 
             - `/ready-to-merge` or `/rtm` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
             - `/do-not-merge` or `/dnm` - This comment will block automerging even if all conditions are met and ready-to-merge label is added
-            - `/autoupdate` or `/au` - This comment will add `autoupdate` label to the PR and keeps your PR up-to-date to the target branch's future changes. Unless there is a merge conflict.
+            - `/autoupdate` or `/au` - This comment will add `autoupdate` label to the PR and keeps your PR up-to-date to the target branch's future changes. Unless there is a merge conflict or it is a draft PR.
   create_help_comment_issue:
     if: ${{ !github.event.issue.pull_request && contains(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
     runs-on: ubuntu-latest

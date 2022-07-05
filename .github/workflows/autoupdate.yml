@@ -20,13 +20,14 @@ on:
 
 jobs:
   autoupdate-for-bot:
+    if: startsWith(github.repository, 'asyncapi/')
     name: Autoupdate autoapproved PR created in the upstream
     runs-on: ubuntu-latest
     steps:
       - name: Autoupdating
         uses: docker://chinthakagodawita/autoupdate-action:v1
         env:
-          GITHUB_TOKEN: '${{ secrets.GH_TOKEN }}'
+          GITHUB_TOKEN: '${{ secrets.GH_TOKEN_BOT_EVE }}'
           PR_FILTER: "labelled"
           PR_LABELS: "autoupdate"
           PR_READY_STATE: "ready_for_review"
