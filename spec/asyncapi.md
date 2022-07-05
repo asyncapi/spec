@@ -188,12 +188,12 @@ It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globall
 
 ```json
 {
-  "id": "urn:com:smartylighting:streetlights:server"
+  "id": "urn:example:com:smartylighting:streetlights:server"
 }
 ```
 
 ```yaml
-id: 'urn:com:smartylighting:streetlights:server'
+id: 'urn:example:com:smartylighting:streetlights:server'
 ```
 
 ```json
@@ -1895,10 +1895,12 @@ additionalProperties:
   "required": [
     "name"
   ],
-  "example": {
-    "name": "Puma",
-    "id": 1
-  }
+  "examples": [
+    {
+      "name": "Puma",
+      "id": 1
+    }
+  ]
 }
 ```
 
@@ -1912,8 +1914,8 @@ properties:
     type: string
 required:
 - name
-example:
-  name: Puma
+examples:
+- name: Puma
   id: 1
 ```
 
@@ -2344,8 +2346,8 @@ Allows configuration of the supported OAuth Flows.
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow
-<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow
+<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow.
+<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow.
 <a name="oauthFlowsClientCredentials"></a>clientCredentials| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Client Credentials flow.
 <a name="oauthFlowsAuthorizationCode"></a>authorizationCode| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Authorization Code flow.
 

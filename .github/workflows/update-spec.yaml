@@ -41,7 +41,7 @@ jobs:
       - name: Copy Spec file from Current Repo to Another
         working-directory: ./website
         run: |
-          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{ steps.latest_version.outputs.latest_tag }}.md
+          cp ../spec/spec/asyncapi.md ./pages/docs/reference/specification/${{ steps.latest_version.outputs.latest_tag }}.md
       - name: Remove Table of Contents from Spec
         uses: actions/github-script@v4
         with:
