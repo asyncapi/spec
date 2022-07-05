@@ -155,18 +155,18 @@ It combines resource listing and API declaration together into one document.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **Required.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
+<a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
-<a name="A2SInfo"></a>info | [Info Object](#infoObject) | **Required.** Provides metadata about the API. The metadata can be used by the clients if needed.
+<a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
-<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required** The available channels and messages for the API.
+<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **REQUIRED** The available channels and messages for the API.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
 <a name="A2STags"></a>tags | [Tags Object](#tagsObject) | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="A2SVersionString"></a>AsyncAPI Version String
 
@@ -215,14 +215,14 @@ The metadata can be used by the clients if needed.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="infoObjectTitle"></a>title | `string` | **Required.** The title of the application.
-<a name="infoObjectVersion"></a>version | `string` | **Required** Provides the version of the application API (not to be confused with the specification version).
+<a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
+<a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Info Object Example:
 
@@ -270,7 +270,7 @@ Field Name | Type | Description
 <a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. MUST be in the format of a URL.
 <a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Contact Object Example:
 
@@ -296,10 +296,10 @@ License information for the exposed API.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="licenseObjectName"></a>name | `string` | **Required.** The license name used for the API.
+<a name="licenseObjectName"></a>name | `string` | **REQUIRED.** The license name used for the API.
 <a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### License Object Example:
 
@@ -577,7 +577,7 @@ Field Name | Type | Description
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 <a name="channelItemObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Channel Item Object Example
 
@@ -715,7 +715,7 @@ Field Name | Type | Description
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 <a name="operationObjectMessage"></a>message | [Message Object](#messageObject) &#124; [Reference Object](#referenceObject) &#124; Map["oneOf", [[Message Object](#messageObject) &#124; [Reference Object](#referenceObject)]] | A definition of the message that will be published or received by this operation. Map containing a single `oneOf` key is allowed here to specify multiple messages. However, **a message MUST be valid only against one of the message objects.**
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Operation Object Example
 
@@ -824,7 +824,7 @@ Field Name | Type | Description
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this operation.
 <a name="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Operation Trait Object Example
 
@@ -909,7 +909,7 @@ Field Name | Type | Description
 <a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the parameter.
 location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Parameter Object Example
 
@@ -976,7 +976,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectMercure"></a>`mercure` | [Mercure Server Binding](https://github.com/asyncapi/bindings/blob/master/mercure#server) | Protocol-specific information for a Mercure server.
 <a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -1006,7 +1006,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectMercure"></a>`mercure` | [Mercure Channel Binding](https://github.com/asyncapi/bindings/blob/master/mercure#channel) | Protocol-specific information for a Mercure channel.
 <a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -1035,7 +1035,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectRedis"></a>`redis` | [Redis Operation Binding](https://github.com/asyncapi/bindings/blob/master/redis#operation) | Protocol-specific information for a Redis operation.
 <a name="operationBindingsObjectMercure"></a>`mercure` | [Mercure Operation Binding](https://github.com/asyncapi/bindings/blob/master/mercure#operation) | Protocol-specific information for a Mercure operation.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -1066,7 +1066,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectMercure"></a>`mercure` | [Mercure Message Binding](https://github.com/asyncapi/bindings/blob/master/mercure#message) | Protocol-specific information for a Mercure message.
 <a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
@@ -1098,7 +1098,7 @@ Field Name | Type | Description
 <a name="messageObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### <a name="messageObjectSchemaFormatTable"></a>Schema formats table
 
@@ -1296,7 +1296,7 @@ Field Name | Type | Description
 <a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageTraitObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Message Trait Object Example
 
@@ -1325,7 +1325,7 @@ Field Name | Type | Description
 <a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
 <a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Message Example Object Example
 
@@ -1372,11 +1372,11 @@ Allows adding meta data to a single tag.
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="tagObjectName"></a>name | `string` | **Required.** The name of the tag.
+<a name="tagObjectName"></a>name | `string` | **REQUIRED.** The name of the tag.
 <a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this tag.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Tag Object Example
 
@@ -1407,9 +1407,9 @@ Allows referencing an external resource for extended documentation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="externalDocUrl"></a>url | `string` | **Required.** The URL for the target documentation. Value MUST be in the format of a URL.
+<a name="externalDocUrl"></a>url | `string` | **REQUIRED.** The URL for the target documentation. Value MUST be in the format of a URL.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### External Documentation Object Example
 
@@ -1436,7 +1436,7 @@ For this specification, reference resolution is done as defined by the JSON Refe
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="referenceRef"></a>$ref | `string` | **Required.** The reference string.
+<a name="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
 
 This object cannot be extended with additional properties and any properties added SHALL be ignored.
 
@@ -1476,7 +1476,7 @@ Field Name | Type | Description
 <a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
 <a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 All the fixed fields declared above are objects that MUST use keys that match the regular expression: `^[a-zA-Z0-9\.\-_]+$`.
 
@@ -1769,7 +1769,7 @@ Field Name | Type | Description
 <a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this schema.
 <a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ###### <a name="schemaComposition"></a>Composition and Inheritance (Polymorphism)
 
@@ -2477,7 +2477,7 @@ Field Name | Type | Description
 description | `string` | An optional description of the identifier. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the correlation ID.
 
-This object can be extended with [Specification Extensions](#specificationExtensions).
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Examples
 
