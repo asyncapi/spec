@@ -21,7 +21,7 @@ jobs:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const areas = ['javascript', 'typescript', 'java' , 'go', 'docs', 'ci-cd', 'design'];
-            const values = context.payload.comment.body.split(" ");
+            const values = context.payload.comment.body.trim().split(" ");
             switch(values[1]){
               case 'ts':
                 values[1] = 'typescript';
