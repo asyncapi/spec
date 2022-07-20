@@ -397,7 +397,10 @@ The following shows how multiple servers can be described, for example, at the A
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
       "tags": [
-        { "name": "env:development" }
+        { 
+          "name": "env:development",
+          "description": "This environment is meant for developers to run their own tests"
+        }
       ]
     },
     "staging": {
@@ -406,7 +409,10 @@ The following shows how multiple servers can be described, for example, at the A
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
       "tags": [
-        { "name": "env:staging" }
+        { 
+          "name": "env:staging",
+          "description": "This environment is a replica of the production environment"
+        }
       ]
     },
     "production": {
@@ -415,7 +421,10 @@ The following shows how multiple servers can be described, for example, at the A
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
       "tags": [
-        { "name": "env:production" }
+        { 
+          "name": "env:production",
+          "description": "This environment is the live environment available for final users"
+        }
       ]
     }
   }
@@ -431,6 +440,7 @@ servers:
     protocolVersion: 0.9.1
     tags:
       - name: "env:development"
+        description: "This environment is meant for developers to run their own tests"
   staging:
     url: staging.gigantic-server.com
     description: Staging server
@@ -438,6 +448,7 @@ servers:
     protocolVersion: 0.9.1
     tags:
       - name: "env:staging"
+        description: "This environment is a replica of the production environment"
   production:
     url: api.gigantic-server.com
     description: Production server
@@ -445,6 +456,7 @@ servers:
     protocolVersion: 0.9.1
     tags:
       - name: "env:production"
+        description: "This environment is the live environment available for final users"
 ```
 
 The following shows how variables can be used for a server configuration:
