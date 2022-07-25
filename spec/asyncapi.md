@@ -143,6 +143,8 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 An AsyncAPI document MAY be made up of a single document or be divided into multiple,
 connected parts at the discretion of the author. In the latter case, [Reference Objects](#referenceObject) are used.
 
+It is important to note that everything that is defined in an AsyncAPI document MUST be used by the implemented [Application](#definitionsApplication), with the exception of the [Components Object](#componentsObject). Everything that is defined inside the Components Object represents a resource that MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
+
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
 ### <a name="absolute-urls"></a>Absolute URLs
@@ -165,8 +167,8 @@ Field Name | Type | Description
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
-<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **REQUIRED** The available channels and messages for the API.
-<a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various schemas for the specification.
+<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | **Required** The available channels and messages for the API.
+<a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
 <a name="A2STags"></a>tags | [Tags Object](#tagsObject) | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
 
