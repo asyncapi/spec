@@ -75,7 +75,7 @@ If the URI contained in the JSON Reference value is a relative URI, then the bas
 
 If a URI contains a fragment identifier, then the fragment should be resolved per the fragment resolution mechansim of the referrant document.  If the representation of the referrant document is JSON, then the fragment identifier SHOULD be interpreted as a [[JSON-Pointer](https://datatracker.ietf.org/doc/html/draft-pbryan-zyp-json-ref-03#ref-JSON-Pointer)]. 
 
-If it's non-JSON, then fragment MUST be ignored.
+If it's non-JSON, then fragment MUST be ignored as there are no accurate way to fragment into non-JSON data.
 
 For references, any subsequent `$ref` encounters, are NOT to be interpreted as reference-linking, but MUST be interpreted and determined by the reference-linking format.
 

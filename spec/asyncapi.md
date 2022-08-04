@@ -1114,10 +1114,18 @@ The following table contains a set of values that every implementation is RECOMM
 
 Name | Allowed values | Notes
 ---|:---:|---
+[AsyncAPI 2.0.0 Schema Object](https://www.asyncapi.com/docs/reference/specification/v2.0.0#schemaObject) | `application/vnd.aai.asyncapi;version=2.0.0`, `application/vnd.aai.asyncapi+json;version=2.0.0`, `application/vnd.aai.asyncapi+yaml;version=2.0.0` | 
+[AsyncAPI 2.1.0 Schema Object](https://www.asyncapi.com/docs/reference/specification/v2.1.0#schemaObject) | `application/vnd.aai.asyncapi;version=2.1.0`, `application/vnd.aai.asyncapi+json;version=2.1.0`, `application/vnd.aai.asyncapi+yaml;version=2.1.0` | 
+[AsyncAPI 2.2.0 Schema Object](https://www.asyncapi.com/docs/reference/specification/v2.2.0#schemaObject) | `application/vnd.aai.asyncapi;version=2.2.0`, `application/vnd.aai.asyncapi+json;version=2.2.0`, `application/vnd.aai.asyncapi+yaml;version=2.2.0` | 
+[AsyncAPI 2.3.0 Schema Object](https://www.asyncapi.com/docs/reference/specification/v2.3.0#schemaObject) | `application/vnd.aai.asyncapi;version=2.3.0`, `application/vnd.aai.asyncapi+json;version=2.3.0`, `application/vnd.aai.asyncapi+yaml;version=2.3.0` | 
+[AsyncAPI 2.4.0 Schema Object](https://www.asyncapi.com/docs/reference/specification/v2.4.0#schemaObject) | `application/vnd.aai.asyncapi;version=2.4.0`, `application/vnd.aai.asyncapi+json;version=2.4.0`, `application/vnd.aai.asyncapi+yaml;version=2.4.0` | 
 [Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
 [OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
+[OpenAPI 3.1.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.1.0`, `application/vnd.oai.openapi+json;version=3.1.0`, `application/vnd.oai.openapi+yaml;version=3.1.0` | 
+[JSON Schema draft 2020-12](https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-00) | `application/schema+json;version=draft-2020-12`, `application/schema+yaml;version=draft-2020-12` | 
 [RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
-
+[Protobuf]() | `application/vnd.google.protobuf` |
+[XML Schema]() | `application/xsd` |
 
 ##### Message Object Example
 
