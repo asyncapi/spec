@@ -1426,6 +1426,14 @@ description: Find more info here
 url: https://example.com
 ```
 
+#### <a name="schemaReferenceLinkingObject"></a>Schema Reference and Linking Object
+
+The Schema Reference and Linking Object is defined by [draft-asyncapi-ref-linking-01](./draft-asyncapi-ref-linking-01.md).
+
+The difference between this and normal [Reference Object](#referenceObject), is to support linking to non-JSON data, that is otherwise not possible through the Reference Object. As well as defining a behavior for when encountering subsequent references.
+
+See [schema format](....) for reference-linking formats that is supported and how it's defined.
+
 #### <a name="referenceObject"></a>Reference Object
 
 A simple object to allow referencing other components in the specification, internally and externally.
