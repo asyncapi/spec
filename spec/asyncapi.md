@@ -139,6 +139,10 @@ This is applicable for `$ref` fields in the specification as follows from the [J
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
+### <a name="traits"></a>Traits
+
+Traits are pieces of information that will be merged into the referencing object. Using traits reduces the amount of repetitive information within an AsyncAPI document.
+
 ### <a name="traitInheritance"></a>Trait Inheritance
 
 When traits ([Operation Trait Object](#operationTraitObject) and [Message Trait Object](#messageTraitObject)) are defined, they MUST be merged into the target object according to the following rules:
