@@ -56,7 +56,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Server Variable Object](#serverVariableObject)
       - [Default Content Type](#defaultContentTypeString)  
       - [Channels Object](#channelsObject)
-      - [Channel Item Object](#channelItemObject)
+      - [Channel Object](#channelObject)
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
       - [Message Object](#messageObject)
@@ -529,24 +529,26 @@ defaultContentType: application/json
 
 #### <a name="channelsObject"></a>Channels Object
 
-Holds the relative paths to the individual channel and their operations. Channel paths are relative to servers.
-
-Channels are also known as "topics", "routing keys", "event types" or "paths".
+An object containing all the [Channel Object](#channelObject) definitions the [Application](#definitionsApplication) MUST use during runtime.
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="channelsObjectChannel"></a>{channel} | [Channel Item Object](#channelItemObject) \| [Reference Object](#referenceObject) | A relative path to an individual channel. The field name MUST be in the form of a [RFC 6570 URI template](https://tools.ietf.org/html/rfc6570). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
+<a name="channelsObjectChannel"></a>{channelId} | [Channel Object](#channelObject) \| [Reference Object](#referenceObject) | An identifier for the described channel. The `channelId` value is **case-sensitive**. Tools and libraries MAY use the `channelId` to uniquely identify a channel, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Channels Object Example
 
 ```json
 {
-  "user/signedup": {
-    "subscribe": {
-      "message": {
-        "$ref": "#/components/messages/userSignedUp"
+  "channels": {
+    "userSignedUp": {
+      "address": "user.signedup",
+      "addressDelimiter": ".",
+      "messages": {
+        "userSignedUp": {
+          "$ref": "#/components/messages/userSignedUp"
+        }
       }
     }
   }
@@ -554,142 +556,170 @@ Field Pattern | Type | Description
 ```
 
 ```yaml
-user/signedup:
-  subscribe:
-    message:
-      $ref: "#/components/messages/userSignedUp"
+channels:
+  userSignedUp:
+    address: 'user.signedup'
+    addressDelimiter: '.'
+    messages:
+      userSignedUp:
+        $ref: '#/components/messages/userSignedUp'
 ```
 
 
 
 
-#### <a name="channelItemObject"></a>Channel Item Object
+#### <a name="channelObject"></a>Channel Object
 
-Describes the operations available on a single channel.
+Describes a shared communication channel.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelItemObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
-<a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
-<a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
-<a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
-<a name="channelItemObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+<a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Pattern-Matching Expressions](#channelPatternMatchingExpressions).
+<a name="channelObjectAddressDelimiter"></a>addressDelimiter | `string` | An optional string to use for delimiting the address in multiple logical sections. E.g., the AMQP protocol uses the `.` (dot) character and MQTT uses the `/` (slash) character.
+<a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the message objects defined in this map.**
+<a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="channelObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
+<a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Pattern-Matching Expressions](channelPatternMatchingExpressions).
+<a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+<a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
+<a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this channel.
+
 
 This object can be extended with [Specification Extensions](#specificationExtensions).
 
-##### Channel Item Object Example
+##### Channel Object Example
 
 ```json
 {
-  "description": "This channel is used to exchange messages about users signing up",
-  "subscribe": {
-    "summary": "A user signed up.",
-    "message": {
-      "description": "A longer description of the message",
-      "payload": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/user"
-          },
-          "signup": {
-            "$ref": "#/components/schemas/signup"
+  "channels": {
+    "userEvents": {
+      "address": "users.{userId}",
+      "addressDelimiter": ".",
+      "description": "This channel is used to exchange messages about user events.",
+      "messages": {
+        "userSignedUp": {
+          "$ref": "#/components/messages/userSignedUp"
+        },
+        "userCompletedOrder": {
+          "$ref": "#/components/messages/userCompletedOrder"
+        }
+      },
+      "parameters": {
+        "userId": {
+          "$ref": "#/components/parameters/userId"
+        }
+      },
+      "servers": ["rabbitmqInProd", "rabbitmqInStaging"],
+      "bindings": {
+        "amqp": {
+          "is": "queue",
+          "queue": {
+            "exclusive": true
           }
+        }
+      },
+      "tags": [{
+        "name": "user",
+        "description": "User-related messages"
+      }],
+      "externalDocs": {
+        "description": "Find more info here",
+        "url": "https://example.com"
+      }
+    }
+  }
+}
+```
+
+```yaml
+channels:
+  userEvents:
+    address: 'users.{userId}'
+    addressDelimiter: '.'
+    description: This channel is used to exchange messages about user events.
+    messages:
+      userSignedUp:
+        $ref: '#/components/messages/userSignedUp'
+      userCompletedOrder:
+        $ref: '#/components/messages/userCompletedOrder'
+    parameters:
+      userId:
+        $ref: '#/components/parameters/userId'
+    servers:
+      - rabbitmqInProd
+      - rabbitmqInStaging
+    bindings:
+      amqp:
+        is: queue
+        queue:
+          exclusive: true
+    tags:
+      - name: user
+        description: User-related messages
+    externalDocs:
+      description: 'Find more info here'
+      url: 'https://example.com'
+```
+
+
+
+
+
+#### <a name="channelPatternMatchingExpressions"></a>Channel Pattern-Matching Expressions
+
+Channel addresses MAY contain pattern-matching expressions that can be used to define dynamic values.
+
+Pattern-matching expressions MUST be composed by a name enclosed in curly braces (`{` and `}`). E.g., `{userId}`.
+
+When the channel address contains [delimiters](#channelObjectAddressDelimiter), pattern-matching expressions MUST be surrounded by either the delimiters, the beginning of the string, or the end of the string. E.g., assuming a `.` (dot) delimiter, `users.{userId}` is correct but `users.id{userId}` is not.
+
+
+
+
+
+#### <a name="messagesObject"></a>Messages Object
+
+Describes a map of messages included in a channel.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="messagesObjectId"></a>`{messageId}` | [Message Object](#messageObject) \| [Reference Object](#referenceObject) | The key represents the message identifier. The `messageId` value is **case-sensitive**. Tools and libraries MAY use the `messageId` value to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
+
+##### Messages Object Example
+
+```json
+{
+  "channels": {
+    "userEvents": {
+      "address": "users.{userId}",
+      "addressDelimiter": ".",
+      "messages": {
+        "userSignedUp": {
+          "$ref": "#/components/messages/userSignedUp"
+        },
+        "userCompletedOrder": {
+          "$ref": "#/components/messages/userCompletedOrder"
         }
       }
     }
-  },
-  "bindings": {
-    "amqp": {
-      "is": "queue",
-      "queue": {
-        "exclusive": true
-      }
-    }
   }
 }
 ```
 
 ```yaml
-description: This channel is used to exchange messages about users signing up
-subscribe:
-  summary: A user signed up.
-  message:
-    description: A longer description of the message
-    payload:
-      type: object
-      properties:
-        user:
-          $ref: "#/components/schemas/user"
-        signup:
-          $ref: "#/components/schemas/signup"
-bindings:
-  amqp:
-    is: queue
-    queue:
-      exclusive: true
-```
-
-Using `oneOf` to specify multiple messages per operation:
-
-```json
-{
-  "subscribe": {
-    "message": {
-      "oneOf": [
-        { "$ref": "#/components/messages/signup" },
-        { "$ref": "#/components/messages/login" }
-      ]
-    }
-  }
-}
-```
-
-```yaml
-subscribe:
-  message:
-    oneOf:
-      - $ref: '#/components/messages/signup'
-      - $ref: '#/components/messages/login'
-```
-
-
-Using explicit by-name references to the servers on which the channel is available:
-
-```json
-{
-  "description": "This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.",
-  "servers": [
-    "rabbitmqBrokerInProd",
-    "rabbitmqBrokerInStaging",
-  ],
-  "subscribe": {
-    "message": {
-      "$ref": "#/components/messages/WebUICommand"
-    }
-  },
-  "bindings": {
-    "amqp": {
-      "is": "queue"
-    }
-  }
-}
-```
-
-```yaml
-description: This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.
-servers:
-  - rabbitmqBrokerInProd
-  - rabbitmqBrokerInStaging
-subscribe:
-  message:
-    $ref: "#/components/messages/WebUICommand"
-bindings:
-  amqp:
-    is: queue
+channels:
+  userEvents:
+    address: 'users.{userId}'
+    addressDelimiter: '.'
+    messages:
+      userSignedUp:
+        $ref: '#/components/messages/userSignedUp'
+      userCompletedOrder:
+        $ref: '#/components/messages/userCompletedOrder'
 ```
 
 
@@ -1464,7 +1494,7 @@ Field Name | Type | Description
 ---|:---|--- 
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
-<a name="componentsChannels"></a> channels | Map[`string`, [Channel Item Object](#channelItemObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Item Objects](#channelItemObject).
+<a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
 <a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
