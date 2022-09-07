@@ -22,6 +22,20 @@ Release X.X.X is scheduled for XXXX
 ### Release notes:
 * draft PR - https://github.com/asyncapi/website/pull/PULLREQUEST
 
+### Potential work to be included in this version
+
+#### Accepted
+
+- [ ]
+
+#### Pending
+
+- [ ]
+
+#### Discarded
+
+- [ ]
+
 ### Progress:
 - [ ] Create release branches
     - [ ] spec
@@ -59,3 +73,7 @@ Release X.X.X is scheduled for XXXX
     - [ ] spec-json-schemas
     - [ ] parser-js
 - [ ] Update RELEASE_PROCESS doc with any changes
+
+### Cleanup tasks after the release
+
+- [ ]

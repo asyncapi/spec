@@ -9,10 +9,11 @@ on:
 
 jobs:
   stale:
+    if: startsWith(github.repository, 'asyncapi/')
     name: Mark issue or PR as stale
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/stale@v4.0.0
+    - uses: actions/stale@v5.1.0
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         stale-issue-message: |
@@ -41,3 +42,4 @@ jobs:
         stale-pr-label: stale
         exempt-issue-labels: keep-open
         exempt-pr-labels: keep-open
+        close-issue-reason: not_planned
