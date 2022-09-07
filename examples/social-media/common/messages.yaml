@@ -9,7 +9,7 @@ likeComment:
 commentChanged:
   description: Message that is being sent when a comment have been updated.
   payload: 
-    $ref: './schemas.yaml#/commentChanged'
+    $ref: './schemas.yaml#/commentChangedPayload'
 updateCommentLikes: 
   description: Message that is being sent when a comment have been updated.
   payload: 

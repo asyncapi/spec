@@ -38,20 +38,20 @@ jobs:
           script: |
             const fs = require("fs");
 
-            const specFiles = fs.readdirSync("./website/pages/docs/specifications");
+            const specFiles = fs.readdirSync("./website/pages/docs/reference/specification");
 
             const nextRelease = `${{github.event.release.tag_name}}`;
             const prefixRelease = nextRelease.split("-")[0];
 
             for (const filename of specFiles) {
               if (filename.startsWith(prefixRelease)) {
-                fs.unlinkSync(`./website/pages/docs/specifications/${filename}`);
+                fs.unlinkSync(`./website/pages/docs/reference/specification/${filename}`);
               }
             }
       - name: Copy Spec file from Current Repo to Another
         working-directory: ./website
         run: |
-          cp ../spec/spec/asyncapi.md ./pages/docs/specifications/${{github.event.release.tag_name}}.md
+          cp ../spec/spec/asyncapi.md ./pages/docs/reference/specification/${{github.event.release.tag_name}}.md
       - name: Remove Table of Contents from Spec
         uses: actions/github-script@v4
         with:
@@ -71,7 +71,7 @@ jobs:
             const endingLine = "# LATEST-SPEC-REDIRECTION:END";
 
             const releaseVersion = `${{github.event.release.tag_name}}`;
-            const redirectLine = `/docs/specifications/latest /docs/specifications/${releaseVersion} 302!\n`;
+            const redirectLine = `/docs/reference/specification/latest /docs/reference/specification/${releaseVersion} 302!\n`;
 
             const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
 
@@ -139,7 +139,7 @@ jobs:
 
             const releaseVersionWithoutV = releaseVersion.slice(1);
 
-            const redirectLine = `/docs/specifications/${releaseVersionWithoutV} /docs/specifications/${releaseVersion} 302!\n`;
+            const redirectLine = `/docs/reference/specification/${releaseVersionWithoutV} /docs/reference/specification/${releaseVersion} 302!\n`;
 
             const redirectFile = fs.readFileSync("./website/public/_redirects", "utf-8");
 

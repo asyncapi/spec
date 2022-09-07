@@ -193,12 +193,12 @@ It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globall
 
 ```json
 {
-  "id": "urn:com:smartylighting:streetlights:server"
+  "id": "urn:example:com:smartylighting:streetlights:server"
 }
 ```
 
 ```yaml
-id: 'urn:com:smartylighting:streetlights:server'
+id: 'urn:example:com:smartylighting:streetlights:server'
 ```
 
 ```json
@@ -574,7 +574,7 @@ Describes the operations available on a single channel.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*. <br/><br/>**Deprecated:** Usage of the `$ref` property has been deprecated.
+<a name="channelItemObjectRef"></a>$ref | `string` | Allows for a referenced definition of this channel item. The referenced structure MUST be in the form of a [Channel Item Object](#channelItemObject). In case a Channel Item Object field appears both in the defined object and the referenced object, the behavior is *undefined*. Resolution is done as defined by the [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03). <br/><br/>**Deprecated:** Usage of the `$ref` property has been deprecated.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
@@ -1900,10 +1900,12 @@ additionalProperties:
   "required": [
     "name"
   ],
-  "example": {
-    "name": "Puma",
-    "id": 1
-  }
+  "examples": [
+    {
+      "name": "Puma",
+      "id": 1
+    }
+  ]
 }
 ```
 
@@ -1917,8 +1919,8 @@ properties:
     type: string
 required:
 - name
-example:
-  name: Puma
+examples:
+- name: Puma
   id: 1
 ```
 
@@ -2349,8 +2351,8 @@ Allows configuration of the supported OAuth Flows.
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow
-<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow
+<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow.
+<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow.
 <a name="oauthFlowsClientCredentials"></a>clientCredentials| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Client Credentials flow.
 <a name="oauthFlowsAuthorizationCode"></a>authorizationCode| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Authorization Code flow.
 
