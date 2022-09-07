@@ -42,9 +42,10 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
   - [Channel](#definitionsChannel)
   - [Protocol](#definitionsProtocol)
 - [Specification](#specification)
-	- [Format](#format)
-	- [File Structure](#file-structure)
-	- [Schema](#schema)
+    - [Format](#format)
+    - [File Structure](#file-structure)
+    - [Absolute URLs](#absolute-urls)
+    - [Schema](#schema)
       - [AsyncAPI Object](#A2SObject)
       - [AsyncAPI Version String](#A2SVersionString)
       - [Identifier](#A2SIdString)
@@ -144,6 +145,10 @@ connected parts at the discretion of the author. In the latter case, [Reference 
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
+### <a name="absolute-urls"></a>Absolute URLs
+
+Unless specified otherwise, all properties that are absolute URLs are defined by [RFC3986, section 4.3](https://datatracker.ietf.org/doc/html/rfc3986#section-4.3).
+
 ### <a name="schema"></a>Schema
 
 #### <a name="A2SObject"></a>AsyncAPI Object
@@ -218,7 +223,7 @@ Field Name | Type | Description
 <a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
 <a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. MUST be in the format of a URL.
+<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of an absolute URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
 
@@ -267,7 +272,7 @@ Contact information for the exposed API.
 Field Name | Type | Description
 ---|:---:|---
 <a name="contactObjectName"></a>name | `string` | The identifying name of the contact person/organization.
-<a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. MUST be in the format of a URL.
+<a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. This MUST be in the form of an absolute URL.
 <a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -297,7 +302,7 @@ License information for the exposed API.
 Field Name | Type | Description
 ---|:---:|---
 <a name="licenseObjectName"></a>name | `string` | **REQUIRED.** The license name used for the API.
-<a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. MUST be in the format of a URL.
+<a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. This MUST be in the form of an absolute URL.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -569,7 +574,7 @@ Describes the operations available on a single channel.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelItemObjectRef"></a>$ref | `string` | Allows for an external definition of this channel item. The referenced structure MUST be in the format of a [Channel Item Object](#channelItemObject). If there are conflicts between the referenced definition and this Channel Item's definition, the behavior is *undefined*. <br/><br/>**Deprecated:** Usage of the `$ref` property has been deprecated.
+<a name="channelItemObjectRef"></a>$ref | `string` | Allows for a referenced definition of this channel item. The referenced structure MUST be in the form of a [Channel Item Object](#channelItemObject). In case a Channel Item Object field appears both in the defined object and the referenced object, the behavior is *undefined*. Resolution is done as defined by the [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03). <br/><br/>**Deprecated:** Usage of the `$ref` property has been deprecated.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
@@ -1407,7 +1412,7 @@ Allows referencing an external resource for extended documentation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="externalDocUrl"></a>url | `string` | **REQUIRED.** The URL for the target documentation. Value MUST be in the format of a URL.
+<a name="externalDocUrl"></a>url | `string` | **REQUIRED.** The URL for the target documentation. This MUST be in the form of an absolute URL.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2198,7 +2203,7 @@ Field Name | Type | Applies To | Description
 <a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
 <a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
 <a name="securitySchemeFlows"></a>flows | [OAuth Flows Object](#oauthFlowsObject) | `oauth2` | **REQUIRED**. An object containing configuration information for the flow types supported.
-<a name="securitySchemeOpenIdConnectUrl"></a>openIdConnectUrl | `string` | `openIdConnect` | **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This MUST be in the form of a URL.
+<a name="securitySchemeOpenIdConnectUrl"></a>openIdConnectUrl | `string` | `openIdConnect` | **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This MUST be in the form of an absolute URL.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2360,9 +2365,9 @@ Configuration details for a supported OAuth Flow
 ##### Fixed Fields
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
-<a name="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of a URL.
-<a name="oauthFlowTokenUrl"></a>tokenUrl | `string` | `oauth2` (`"password"`, `"clientCredentials"`, `"authorizationCode"`) | **REQUIRED**. The token URL to be used for this flow. This MUST be in the form of a URL.
-<a name="oauthFlowRefreshUrl"></a>refreshUrl | `string` | `oauth2` | The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL.
+<a name="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of an absolute URL.
+<a name="oauthFlowTokenUrl"></a>tokenUrl | `string` | `oauth2` (`"password"`, `"clientCredentials"`, `"authorizationCode"`) | **REQUIRED**. The token URL to be used for this flow. This MUST be in the form of an absolute URL.
+<a name="oauthFlowRefreshUrl"></a>refreshUrl | `string` | `oauth2` | The URL to be used for obtaining refresh tokens. This MUST be in the form of an absolute URL.
 <a name="oauthFlowScopes"></a>scopes | Map[`string`, `string`] | `oauth2` | **REQUIRED**. The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
