@@ -543,7 +543,6 @@ Field Pattern | Type | Description
 {
   "userSignedUp": {
     "address": "user.signedup",
-    "addressDelimiter": ".",
     "messages": {
       "userSignedUp": {
         "$ref": "#/components/messages/userSignedUp"
@@ -556,7 +555,6 @@ Field Pattern | Type | Description
 ```yaml
 userSignedUp:
   address: 'user.signedup'
-  addressDelimiter: '.'
   messages:
     userSignedUp:
       $ref: '#/components/messages/userSignedUp'
@@ -574,7 +572,6 @@ Describes a shared communication channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions).
-<a name="channelObjectAddressDelimiter"></a>addressDelimiter | `string` | An optional string to use for delimiting the address in multiple logical sections. E.g., the AMQP protocol uses the `.` (dot) character and MQTT uses the `/` (slash) character.
 <a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
@@ -591,7 +588,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "address": "users.{userId}",
-  "addressDelimiter": ".",
   "description": "This channel is used to exchange messages about user events.",
   "messages": {
     "userSignedUp": {
@@ -628,7 +624,6 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```yaml
 address: 'users.{userId}'
-addressDelimiter: '.'
 description: This channel is used to exchange messages about user events.
 messages:
   userSignedUp:
@@ -663,8 +658,6 @@ externalDocs:
 Channel addresses MAY contain expressions that can be used to define dynamic values.
 
 Expressions MUST be composed by a name enclosed in curly braces (`{` and `}`). E.g., `{userId}`.
-
-When the channel address contains [delimiters](#channelObjectAddressDelimiter), the expressions MUST be surrounded by either the delimiters, the beginning of the string, or the end of the string. E.g., assuming a `.` (dot) delimiter, `users.{userId}` is correct but `users.id{userId}` is not.
 
 
 
