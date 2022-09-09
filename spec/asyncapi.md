@@ -768,7 +768,7 @@ onUserSignUp:
 
 #### <a name="operationObject"></a>Operation Object
 
-Describes a `send` or a `receive` operation.
+Describes a specific operation.
 
 ##### Fixed Fields
 
