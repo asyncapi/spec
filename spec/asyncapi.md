@@ -541,14 +541,12 @@ Field Pattern | Type | Description
 
 ```json
 {
-  "channels": {
-    "userSignedUp": {
-      "address": "user.signedup",
-      "addressDelimiter": ".",
-      "messages": {
-        "userSignedUp": {
-          "$ref": "#/components/messages/userSignedUp"
-        }
+  "userSignedUp": {
+    "address": "user.signedup",
+    "addressDelimiter": ".",
+    "messages": {
+      "userSignedUp": {
+        "$ref": "#/components/messages/userSignedUp"
       }
     }
   }
@@ -556,13 +554,12 @@ Field Pattern | Type | Description
 ```
 
 ```yaml
-channels:
-  userSignedUp:
-    address: 'user.signedup'
-    addressDelimiter: '.'
-    messages:
-      userSignedUp:
-        $ref: '#/components/messages/userSignedUp'
+userSignedUp:
+  address: 'user.signedup'
+  addressDelimiter: '.'
+  messages:
+    userSignedUp:
+      $ref: '#/components/messages/userSignedUp'
 ```
 
 
@@ -578,7 +575,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions).
 <a name="channelObjectAddressDelimiter"></a>addressDelimiter | `string` | An optional string to use for delimiting the address in multiple logical sections. E.g., the AMQP protocol uses the `.` (dot) character and MQTT uses the `/` (slash) character.
-<a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the message objects defined in this map.**
+<a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
 <a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
@@ -593,74 +590,68 @@ This object can be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "channels": {
-    "userEvents": {
-      "address": "users.{userId}",
-      "addressDelimiter": ".",
-      "description": "This channel is used to exchange messages about user events.",
-      "messages": {
-        "userSignedUp": {
-          "$ref": "#/components/messages/userSignedUp"
-        },
-        "userCompletedOrder": {
-          "$ref": "#/components/messages/userCompletedOrder"
-        }
-      },
-      "parameters": {
-        "userId": {
-          "$ref": "#/components/parameters/userId"
-        }
-      },
-      "servers": ["rabbitmqInProd", "rabbitmqInStaging"],
-      "bindings": {
-        "amqp": {
-          "is": "queue",
-          "queue": {
-            "exclusive": true
-          }
-        }
-      },
-      "tags": [{
-        "name": "user",
-        "description": "User-related messages"
-      }],
-      "externalDocs": {
-        "description": "Find more info here",
-        "url": "https://example.com"
+  "address": "users.{userId}",
+  "addressDelimiter": ".",
+  "description": "This channel is used to exchange messages about user events.",
+  "messages": {
+    "userSignedUp": {
+      "$ref": "#/components/messages/userSignedUp"
+    },
+    "userCompletedOrder": {
+      "$ref": "#/components/messages/userCompletedOrder"
+    }
+  },
+  "parameters": {
+    "userId": {
+      "$ref": "#/components/parameters/userId"
+    }
+  },
+  "servers": ["rabbitmqInProd", "rabbitmqInStaging"],
+  "bindings": {
+    "amqp": {
+      "is": "queue",
+      "queue": {
+        "exclusive": true
       }
     }
+  },
+  "tags": [{
+    "name": "user",
+    "description": "User-related messages"
+  }],
+  "externalDocs": {
+    "description": "Find more info here",
+    "url": "https://example.com"
   }
 }
 ```
 
 ```yaml
-channels:
-  userEvents:
-    address: 'users.{userId}'
-    addressDelimiter: '.'
-    description: This channel is used to exchange messages about user events.
-    messages:
-      userSignedUp:
-        $ref: '#/components/messages/userSignedUp'
-      userCompletedOrder:
-        $ref: '#/components/messages/userCompletedOrder'
-    parameters:
-      userId:
-        $ref: '#/components/parameters/userId'
-    servers:
-      - rabbitmqInProd
-      - rabbitmqInStaging
-    bindings:
-      amqp:
-        is: queue
-        queue:
-          exclusive: true
-    tags:
-      - name: user
-        description: User-related messages
-    externalDocs:
-      description: 'Find more info here'
-      url: 'https://example.com'
+address: 'users.{userId}'
+addressDelimiter: '.'
+description: This channel is used to exchange messages about user events.
+messages:
+  userSignedUp:
+    $ref: '#/components/messages/userSignedUp'
+  userCompletedOrder:
+    $ref: '#/components/messages/userCompletedOrder'
+parameters:
+  userId:
+    $ref: '#/components/parameters/userId'
+servers:
+  - rabbitmqInProd
+  - rabbitmqInStaging
+bindings:
+  amqp:
+    is: queue
+    queue:
+      exclusive: true
+tags:
+  - name: user
+    description: User-related messages
+externalDocs:
+  description: 'Find more info here'
+  url: 'https://example.com'
 ```
 
 
@@ -693,33 +684,20 @@ Field Pattern | Type | Description
 
 ```json
 {
-  "channels": {
-    "userEvents": {
-      "address": "users.{userId}",
-      "addressDelimiter": ".",
-      "messages": {
-        "userSignedUp": {
-          "$ref": "#/components/messages/userSignedUp"
-        },
-        "userCompletedOrder": {
-          "$ref": "#/components/messages/userCompletedOrder"
-        }
-      }
-    }
+  "userSignedUp": {
+    "$ref": "#/components/messages/userSignedUp"
+  },
+  "userCompletedOrder": {
+    "$ref": "#/components/messages/userCompletedOrder"
   }
 }
 ```
 
 ```yaml
-channels:
-  userEvents:
-    address: 'users.{userId}'
-    addressDelimiter: '.'
-    messages:
-      userSignedUp:
-        $ref: '#/components/messages/userSignedUp'
-      userCompletedOrder:
-        $ref: '#/components/messages/userCompletedOrder'
+userSignedUp:
+  $ref: '#/components/messages/userSignedUp'
+userCompletedOrder:
+  $ref: '#/components/messages/userCompletedOrder'
 ```
 
 
