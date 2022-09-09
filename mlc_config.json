@@ -15,6 +15,5 @@
     {
       "pattern": "^https://github.com/asyncapi/spec/blob/.*.md$"
     }
-  ],
-  "aliveStatusCodes": [429, 200]
+  ]
 }
