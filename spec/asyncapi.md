@@ -713,7 +713,7 @@ userCompletedOrder:
 
 Holds a dictionary with all the [operations](#operationObject) this application MUST implement.
 
-Note: If you're looking for a place to define operations that MAY or MAY NOT be implemented by the application, consider defining them in [`components/operations`](#componentsOperations).
+> If you're looking for a place to define operations that MAY or MAY NOT be implemented by the application, consider defining them in [`components/operations`](#componentsOperations).
 
 ##### Patterned Fields
 
