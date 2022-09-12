@@ -18,15 +18,15 @@ servers:
   scram-connections:
     url: test.mykafkacluster.org:18092
     protocol: kafka-secure
-     description: Test broker secured with scramSha256
-     security:
-       - saslScram: []
+    description: Test broker secured with scramSha256
+    security:
+      - saslScram: []
   mtls-connections:
     url: test.mykafkacluster.org:28092
     protocol: kafka-secure
-     description: Test broker secured with X509
-     security:
-       - certs: []
+    description: Test broker secured with X509
+    security:
+      - certs: []
 
 defaultContentType: application/json
 
