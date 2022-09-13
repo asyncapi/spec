@@ -1,6 +1,6 @@
 # ATTENTION: Work in progress
 
-This version is not yet ready to be used. We're currently working on it. If you want to join the effort and participate in the development of the next major version of AsyncAPI, head over to https://github.com/asyncapi/spec/issues/691.
+This version is not yet ready to be used. We're currently working on it. If you want to join the effort and participate in the development of the next major version of AsyncAPI, head over to [GitHub Issue that we use for tracking 3.0 development progress](https://github.com/asyncapi/spec/issues/691).
 
 # AsyncAPI Specification
 
