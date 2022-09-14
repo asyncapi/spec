@@ -34,4 +34,4 @@ jobs:
         fields: repo,action,workflow
       env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CI_FAIL_NOTIFY }}
-      if: failure() # Only, on failure, send a message on the Slack Docs Channel (if there are broken links)
+      if: failure() # Only, on failure, send a message on the 94_bot-failing-ci slack channel
