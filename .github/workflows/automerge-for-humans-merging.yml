@@ -34,8 +34,8 @@ jobs:
           # 6. Builds the `Co-authored-by: ...` lines with actual info.
           # 7. Transforms the array into plain text. Thanks to this, the actual stdout of this step can be used by the next Workflow step (wich is basically the automerge).
           cmd: | 
-            curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" "${{github.event.pull_request._links.commits.href}}?per_page=100" 
-              | jq -r '[.[] 
+            curl -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" "${{github.event.pull_request._links.commits.href}}?per_page=100" | 
+              jq -r '[.[] 
                 | {name: .commit.author.name, email: .commit.author.email, login: .author.login}] 
                 | map(select(.login != "${{github.event.pull_request.user.login}}")) 
                 | unique 
