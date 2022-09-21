@@ -7,12 +7,26 @@ info:
 servers:
   websiteWebSocketServer:
     $ref: '../common/servers.yaml#/websiteWebSocketServer'
+  tags:
+    - name: "env:production"
+      description: "This environment is meant for production use case"
+    - name: "kind:local"
+      description: "This server is a local server. It is exposed by the application"
+    - name: "visibility:public"
+      description: "This resource is public and available to everyone"
   mosquitto:
     url: mqtt://test.mosquitto.org
     protocol: mqtt
     bindings:
       mqtt:
         clientId: websocketServer
+    tags:
+      - name: "env:production"
+        description: "This environment is meant for production use case"
+      - name: "kind:remote"
+        description: "This server is a remote server. Not exposed by the application"
+      - name: "visibility:public"
+        description: "This resource is public and available to everyone"
 
 channels:
   comment/liked:
