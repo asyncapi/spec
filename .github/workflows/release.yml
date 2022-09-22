@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - master
-      - '**-release'
+      - next-spec
+      - next-major-spec
  
 jobs:
   release:
