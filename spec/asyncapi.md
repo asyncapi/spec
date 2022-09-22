@@ -58,6 +58,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Default Content Type](#defaultContentTypeString)  
       - [Channels Object](#channelsObject)
       - [Channel Object](#channelObject)
+      - [Operations Object](#operationsObject)
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
       - [Message Object](#messageObject)
@@ -168,6 +169,7 @@ Field Name | Type | Description
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
+<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionApplication) will perform.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
 <a name="A2STags"></a>tags | [Tags Object](#tagsObject) | A list of tags used by the specification with additional metadata. Each tag name in the list MUST be unique.
 <a name="A2SExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation.
