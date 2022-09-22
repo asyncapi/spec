@@ -18,7 +18,7 @@ jobs:
 
     # Checks the status of hyperlinks in .md files
     - name: Check links
-      uses: gaurav-nelson/github-action-markdown-link-check@v1
+      uses: gaurav-nelson/github-action-markdown-link-check@0a51127e9955b855a9bbfa1ff5577f1d1338c9a5 #1.0.14 but pointing to commit for security reasons
       with:
         use-quiet-mode: 'yes'
         use-verbose-mode: 'yes'

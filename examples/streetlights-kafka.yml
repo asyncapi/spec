@@ -21,6 +21,7 @@ servers:
     description: Test broker secured with scramSha256
     security:
       - saslScram: []
+<<<<<<< HEAD
     tags:
       - name: "env:test-scram"
         description: "This environment is meant for running internal tests through scramSha256"
@@ -28,12 +29,15 @@ servers:
         description: "This server is a remote server. Not exposed by the application"
       - name: "visibility:private"
         description: "This resource is private and only available to certain users"  
+=======
+>>>>>>> master
   mtls-connections:
     url: test.mykafkacluster.org:28092
     protocol: kafka-secure
     description: Test broker secured with X509
     security:
       - certs: []
+<<<<<<< HEAD
     tags:
       - name: "env:test-mtls"
         description: "This environment is meant for running internal tests through mtls"
@@ -41,6 +45,8 @@ servers:
         description: "This server is a remote server. Not exposed by the application"
       - name: "visibility:private"
         description: "This resource is private and only available to certain users"
+=======
+>>>>>>> master
 
 defaultContentType: application/json
 
