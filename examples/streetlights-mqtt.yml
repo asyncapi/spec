@@ -33,6 +33,13 @@ servers:
         - streetlights:off
         - streetlights:dim
       - openIdConnectWellKnown: []
+    tags:
+      - name: "env:production"
+        description: "This environment is meant for production use case"
+      - name: "kind:remote"
+        description: "This server is a remote server. Not exposed by the application"
+      - name: "visibility:public"
+        description: "This resource is public and available to everyone"
 
 defaultContentType: application/json
 
