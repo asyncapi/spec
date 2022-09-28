@@ -1,23 +1,49 @@
 # This action is centrally managed in https://github.com/asyncapi/.github/
 # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
+
+
 name: Lint PR title
 
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
-
+    
 jobs:
   lint-pr-title:
-    name: Lint PR title
-    runs-on: ubuntu-latest
-    steps:
+   name: Lint PR title
+   runs-on: ubuntu-latest
+   steps:
       # Since this workflow is REQUIRED for a PR to be mergable, we have to have this 'if' statement in step level instead of job level.
       - if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor) }}
-        uses: amannn/action-semantic-pull-request@v3.2.5
+        uses: amannn/action-semantic-pull-request@505e44b4f33b4c801f063838b3f053990ee46ea7      #version 4.6.0
+        id: lint_pr_title
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
         with:
           subjectPattern: ^(?![A-Z]).+$
           subjectPatternError: |
             The subject "{subject}" found in the pull request title "{title}" should start with a lowercase character.
+            
+      # Comments the error message from the above lint_pr_title action 
+      - if: ${{always() &&  !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor)}}
+        name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443    #version 2.2
+        with:
+          header: pr-title-lint-error
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
+          message: |
+                   
+                   We require all PRs to follow [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/). 
+                   More details 👇🏼
+                   ```
+                    ${{ steps.lint_pr_title.outputs.error_message}}
+                   ```
+       # deletes the error comment if the title is correct            
+      - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
+        name: delete the comment
+        uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443    #version 2.2
+        with:   
+          header: pr-title-lint-error
+          delete: true
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
