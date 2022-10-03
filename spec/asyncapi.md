@@ -956,10 +956,10 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationTraitObjectAction"></a>action | `string` | Allowed values are `send` and `receive`. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
 <a name="operationTraitObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationObjectName"></a>name | `string` | A machine-friendly name for the operation.
-<a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
-<a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationTraitObjectName"></a>name | `string` | A machine-friendly name for the operation.
+<a name="operationTraitObjectTitle"></a>title | `string` | A human-friendly title for the operation.
+<a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationTraitObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
 <a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
