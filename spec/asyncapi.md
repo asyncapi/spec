@@ -58,9 +58,8 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [License Object](#licenseObject)
       - [Servers Object](#serversObject)
       - [Server Object](#serverObject)
-      - [Server Trait Object](#serverTraitObject)  
       - [Server Variable Object](#serverVariableObject)
-      - [Default Content Type](#defaultContentTypeString)  
+      - [Default Content Type](#defaultContentTypeString)
       - [Channels Object](#channelsObject)
       - [Channel Object](#channelObject)
       - [Operations Object](#operationsObject)
@@ -72,7 +71,6 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Tags Object](#tagsObject)
       - [Tag Object](#tag-object)
       - [External Documentation Object](#externalDocumentationObject)
-      - [Metadata Object](#metadataObject)
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
@@ -403,14 +401,15 @@ Field Name | Type | Description
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`braces`}`.
 <a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `anypointmq`, `mqtt`, `secure-mqtt`, `solace`, `stomp`, `stomps`, `ws`, `wss`, `mercure`, `googlepubsub`.
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
+<a name="serverObjectName"></a>name | `string` | A machine-friendly name for the server.
+<a name="serverObjectTitle"></a>title | `string` | A human-friendly title for the server.
+<a name="serverObjectSummary"></a>summary | `string` | A short summary of the server.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
+<a name="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this server.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
-<a name="serverObjectTraits"></a>traits | [[Server Trait Object](#serverTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the server object. Traits MUST be merged into the server object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Server Object](#serverObject).
-
-This object inherits the fields from [Metadata Object](#metadataObject) and MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Server Object Example
 
@@ -571,41 +570,6 @@ servers:
 ```
 
 
-
-#### <a name="serverTraitObject"></a>Server Trait Object
-
-Describes a trait that MAY be applied to an [Server Object](#serverObject). This object MAY contain any property from the [Server Object](#serverObject), except `url`, `protocol`, `protocolVersion`, `variables` and `traits`.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="serverTraitObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
-<a name="serverTraitObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
-
-This object inherits the fields from [Metadata Object](#metadataObject) and MAY be extended with [Specification Extensions](#specificationExtensions).
-
-##### Server Trait Object Example
-
-```json
-{
-  "security": {
-    "petstore_auth": [
-      "write:pets",
-      "read:pets"
-    ]
-  }
-}
-```
-
-```yaml
-security:
-  petstore_auth:
-    - "write:pets"
-    - "read:pets"
-```
-
-
 #### <a name="serverVariableObject"></a>Server Variable Object
 
 An object representing a Server Variable for server URL template substitution.
@@ -694,12 +658,19 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions).
 <a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
+<a name="channelObjectName"></a>name | `string` | A machine-friendly name for the server.
+<a name="channelObjectTitle"></a>title | `string` | A human-friendly title for the server.
+<a name="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
-<a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
+<<<<<<< next-major-spec
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
+=======
+<a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) | Additional external documentation for this channel.
+<a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+>>>>>>> after rebease
 
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -878,10 +849,6 @@ onUserSignUp:
 ```
 
 
-#### <a name="channelTraitObject"></a>Channel Trait Object
-
-Describes a trait that MAY be applied to an [Channel Object](#channelObject). This object MAY contain any property from the [Channel Object](#channelObject), except `parameters` and `traits`.
-
 #### <a name="operationObject"></a>Operation Object
 
 Describes a specific operation.
@@ -892,6 +859,8 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationObjectAction"></a>action | `string` | **Required**. Allowed values are `send` and `receive`. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
 <a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectName"></a>name | `string` | A machine-friendly name for the operation.
+<a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
@@ -972,8 +941,10 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationTraitObjectAction"></a>action | `string` | Allowed values are `send` and `receive`. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
 <a name="operationTraitObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectName"></a>name | `string` | A machine-friendly name for the operation.
+<a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
+<a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationTraitObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
 <a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
@@ -1584,63 +1555,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 description: Find more info here
 url: https://example.com
 ```
-
-
-#### <a name="metadataObject"></a>Metadata Object
-
-The object provides metadata about the described object.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="metadataObjectName"></a>name | `string` | A machine-friendly name for the described item.
-<a name="metadataObjectTitle"></a>title | `string` | A human-friendly title for the described item.
-<a name="metadataObjectSummary"></a>summary | `string` | A short summary of what the described item is about.
-<a name="metadataObjectDescription"></a>description | `string` | A verbose explanation of the described item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="metadataObjectTags"></a>tags | Tags Object | A list of tags for API documentation control. Tags can be used for logical grouping of items.
-<a name="metadataObjectExternalDocs"></a>externalDocs | External Documentation Object | Additional external documentation for described item.
-
-This object can be extended with [Specification Extensions](#specificationExtensions) and MAY contain previously non defined fields.
-
-##### Metadata Object Example
-
-```json
-{
-  "name": "UserSignup",
-  "title": "User signup",
-  "summary": "Action to sign a user up.",
-  "description": "A longer description",
-  "tags": [
-    {
-      "name": "user",
-      "description": "User-related messages"
-    },
-    { "name": "signup" },
-    { "name": "register" }
-  ],
-  "externalDocs": {
-    "description": "Find more info here",
-    "url": "https://example.com"
-  }
-}
-```
-
-```yaml
-name: UserSignup
-title: User signup
-summary: Action to sign a user up.
-description: A longer description
-tags:
-- name: user
-  description: User-related messages
-- name: signup
-- name: register
-externalDocs:
-  description: Find more info here
-  url: https://example.com
-```
-
 
 
 #### <a name="referenceObject"></a>Reference Object
