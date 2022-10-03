@@ -1539,7 +1539,6 @@ Field Name | Type | Description
 ---|:---|--- 
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
-<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject).
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
 <a name="componentsOperations"></a> operations | Map[`string`, [Operation Item Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Item Objects](#operationObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
