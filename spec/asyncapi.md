@@ -355,38 +355,41 @@ Field Pattern | Type | Description
 
 ```json
 {
-  "url": "development.gigantic-server.com",
-  "protocol": "kafka",
-  "protocolVersion": "1.0.0",
-  "name": "DevelopmentServer",
-  "title": "Development server",
-  "summary": "A development server",
-  "description": "A longer description",
-  "tags": [
-    {
-      "name": "development"
+  "development": {
+    "url": "development.gigantic-server.com",
+    "protocol": "kafka",
+    "protocolVersion": "1.0.0",
+    "name": "DevelopmentServer",
+    "title": "Development server",
+    "summary": "A development server",
+    "description": "A longer description",
+    "tags": [
+      {
+        "name": "env:development"
+      }
+    ],
+    "externalDocs": {
+      "description": "Find more info here",
+      "url": "https://kafka.apache.org/"
     }
-  ],
-  "externalDocs": {
-    "description": "Find more info here",
-    "url": "https://kafka.apache.org/"
   }
 }
 ```
 
 ```yaml
-url: development.gigantic-server.com
-protocol: kafka
-protocolVersion: 1.0.0
-name: DevelopmentServer
-title: Development server
-summary: A development server
-description: A longer description
-tags:
-  - name: development
-externalDocs:
-  description: Find more info here
-  url: https://kafka.apache.org/
+development:
+  url: development.gigantic-server.com
+  protocol: kafka
+  protocolVersion: 1.0.0
+  name: DevelopmentServer
+  title: Development server
+  summary: A development server
+  description: A longer description
+  tags:
+    - name: "env:development"
+  externalDocs:
+    description: Find more info here
+    url: https://kafka.apache.org/
 ```
 
 
@@ -426,7 +429,7 @@ A single server would be described as:
   "description": "A longer description",
   "tags": [
     {
-      "name": "development"
+      "name": "env:development"
     }
   ],
   "externalDocs": {
@@ -445,7 +448,7 @@ title: Development server
 summary: A development server
 description: A longer description
 tags:
-  - name: development
+  - name: "env:development"
 externalDocs:
   description: Find more info here
   url: https://kafka.apache.org/
@@ -460,6 +463,7 @@ The following shows how multiple servers can be described, for example, at the A
       "url": "development.gigantic-server.com",
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
+      "title": "Development server",
       "tags": [
         { 
           "name": "env:development",
@@ -471,6 +475,7 @@ The following shows how multiple servers can be described, for example, at the A
       "url": "staging.gigantic-server.com",
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
+      "title": "Staging server",
       "tags": [
         { 
           "name": "env:staging",
@@ -482,6 +487,7 @@ The following shows how multiple servers can be described, for example, at the A
       "url": "api.gigantic-server.com",
       "protocol": "amqp",
       "protocolVersion": "0.9.1",
+      "title": "Production server",
       "tags": [
         { 
           "name": "env:production",
@@ -499,6 +505,7 @@ servers:
     url: development.gigantic-server.com
     protocol: amqp
     protocolVersion: 0.9.1
+    title: Development server
     tags:
       - name: "env:development"
         description: "This environment is meant for developers to run their own tests"
@@ -506,6 +513,7 @@ servers:
     url: staging.gigantic-server.com
     protocol: amqp
     protocolVersion: 0.9.1
+    title: Staging server
     tags:
       - name: "env:staging"
         description: "This environment is a replica of the production environment"
@@ -513,6 +521,7 @@ servers:
     url: api.gigantic-server.com
     protocol: amqp
     protocolVersion: 0.9.1
+    title: Production server
     tags:
       - name: "env:production"
         description: "This environment is the live environment available for final users"
@@ -526,7 +535,7 @@ The following shows how variables can be used for a server configuration:
     "production": {
       "url": "{username}.gigantic-server.com:{port}/{basePath}",
       "protocol": "secure-mqtt",
-      "description": "The production API server",
+      "title": "Production server",
       "variables": {
         "username": {
           "default": "demo",
@@ -553,7 +562,7 @@ servers:
   production:
     url: '{username}.gigantic-server.com:{port}/{basePath}'
     protocol: secure-mqtt
-    description: The production API server
+    title: Production server
     variables:
       username:
         # note! no enum here means it is an open value
@@ -680,6 +689,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```json
 {
   "address": "users.{userId}",
+  "title": "Users channel",
   "description": "This channel is used to exchange messages about user events.",
   "messages": {
     "userSignedUp": {
@@ -719,6 +729,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```yaml
 address: 'users.{userId}'
+title: Users channel
 description: This channel is used to exchange messages about user events.
 messages:
   userSignedUp:
@@ -807,6 +818,7 @@ Field Pattern | Type | Description
 ```json
 {
   "onUserSignUp": {
+    "title": "User sign up",
     "summary": "Action to sign a user up.",
     "description": "A longer description",
     "channel": {
@@ -832,6 +844,7 @@ Field Pattern | Type | Description
 
 ```yaml
 onUserSignUp:
+  title: User sign up
   summary: Action to sign a user up.
   description: A longer description
   channel:
@@ -875,6 +888,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "title": "User sign up",
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "channel": {
@@ -906,6 +920,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+title: User sign up
 summary: Action to sign a user up.
 description: A longer description
 channel:
