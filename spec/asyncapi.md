@@ -2378,7 +2378,7 @@ type: userPassword
 ```
 
 ```yaml
-type: apiKey,
+type: apiKey
 in: user
 ```
 
