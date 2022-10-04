@@ -236,7 +236,12 @@ may or may not know about JS, relying on the help of other
 community members to implement the RFC on the
 [AsyncAPI JS Parser](https://www.github.com/asyncapi/parser-js) and the [AsyncAPI JSON Schema](https://github.com/asyncapi/spec-json-schemas).
 
+## Merging pull requests
 
+A pull request can be merged if:
+
+* There is, at least, a mininum of 3 approvals from the [repository code owners](./CODEOWNERS).
+* Sufficient time has passed to let all code owners review the pull request. As of now, it should be a minimum of 1 week. If all code owners have already approved a pull request, it's ok not to wait for this period of time.
 
 
 ## References
