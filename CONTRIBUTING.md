@@ -238,7 +238,7 @@ community members to implement the RFC on the
 
 ## Merging pull requests
 
-A pull request can be merged if:
+A pull request can be merged if all the following conditions are met:
 
 * There is, at least, a mininum of 3 approvals from the [repository code owners](./CODEOWNERS).
 * Sufficient time has passed to let all code owners review the pull request. As of now, it should be a minimum of 1 week. If all code owners have already approved a pull request, it's ok not to wait for this period of time.
