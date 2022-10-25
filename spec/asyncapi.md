@@ -332,6 +332,8 @@ url: https://www.apache.org/licenses/LICENSE-2.0.html
 
 The Servers Object is a map of [Server Objects](#serverObject).
 
+> If you're looking for a place to define servers that MAY or MAY NOT be used by the application, consider defining them in [`components/servers`](#componentsServers).
+
 ##### Patterned Fields
 
 Field Pattern | Type | Description
@@ -376,6 +378,7 @@ Field Name | Type | Description
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
+<a name="serverObjectTraits"></a>traits | [[Server Trait Object](#serverTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the server object. Traits MUST be merged into the server object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -388,7 +391,10 @@ A single server would be described as:
   "url": "development.gigantic-server.com",
   "description": "Development server",
   "protocol": "kafka",
-  "protocolVersion": "1.0.0"
+  "protocolVersion": "1.0.0",
+  "traits": [
+    { "$ref": "#/components/serverTraits/kafka" }
+  ]
 }
 ```
 
@@ -397,6 +403,8 @@ url: development.gigantic-server.com
 description: Development server
 protocol: kafka
 protocolVersion: '1.0.0'
+traits:
+  - $ref: '#/components/serverTraits/kafka'
 ```
 
 The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
@@ -524,6 +532,42 @@ servers:
 ```
 
 
+#### <a name="serverTraitObject"></a>Server Trait Object
+
+Describes a trait that MAY be applied to a [Server Object](#serverObject). This object MAY contain any property from the [Server Object](#serverObject), except `url`, `protocol` and `protocolVersion`.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
+<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
+<a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Server Trait Object Example
+
+```json
+{
+  "tags": [
+    { 
+      "name": "env:production",
+      "description": "This environment is the live environment available for final users"
+    }
+  ]
+}
+```
+
+```yaml
+tags:
+  - name: "env:production"
+    description: "This environment is the live environment available for final users"
+```
+
+
 #### <a name="serverVariableObject"></a>Server Variable Object
 
 An object representing a Server Variable for server URL template substitution.
@@ -569,6 +613,8 @@ defaultContentType: application/json
 #### <a name="channelsObject"></a>Channels Object
 
 An object containing all the [Channel Object](#channelObject) definitions the [Application](#definitionsApplication) MUST use during runtime.
+
+> If you're looking for a place to define channels that MAY or MAY NOT be implemented by the application, consider defining them in [`components/channels`](#componentsChannels).
 
 ##### Patterned Fields
 
@@ -618,6 +664,7 @@ Field Name | Type | Description
 <a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
+<a name="channelObjectTraits"></a>traits | [[Channel Trait Object](#channelTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the channel object. Traits MUST be merged into the channel object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -660,7 +707,10 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "externalDocs": {
     "description": "Find more info here",
     "url": "https://example.com"
-  }
+  },
+  "traits": [
+    { "$ref": "#/components/channelTraits/kafka" }
+  ]
 }
 ```
 
@@ -685,12 +735,49 @@ bindings:
       exclusive: true
 tags:
   - name: user
-    description: User-related messages
+    description: User-related channels
 externalDocs:
   description: 'Find more info here'
   url: 'https://example.com'
+traits:
+  - $ref: '#/components/channelTraits/kafka'
 ```
 
+
+#### <a name="channelTraitObject"></a>Channel Trait Object
+
+Describes a trait that MAY be applied to an [Channel Object](#channelObject). This object MAY contain any property from the [Channel Object](#channelObject), except the `messages` and `traits` ones.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions).
+<a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
+<a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+<a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
+<a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Channel Trait Object Example
+
+```json
+{
+  "servers": [
+    { "$ref": "#/servers/rabbitmqInProd" },
+    { "$ref": "#/servers/rabbitmqInStaging" }
+  ]
+}
+```
+
+```yaml
+servers:
+  - $ref: '#/servers/rabbitmqInProd'
+  - $ref: '#/servers/rabbitmqInStaging'
+```
 
 
 
@@ -879,8 +966,6 @@ traits:
 #### <a name="operationTraitObject"></a>Operation Trait Object
 
 Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `message` and `traits` ones.
-
-If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
 
 ##### Fixed Fields
 
@@ -1352,8 +1437,6 @@ payload:
 
 Describes a trait that MAY be applied to a [Message Object](#messageObject). This object MAY contain any property from the [Message Object](#messageObject), except `payload` and `traits`.
 
-If you're looking to apply traits to an operation, see the [Operation Trait Object](#operationTraitObject).
-
 ##### Fixed Fields
 
 Field Name | Type | Description
@@ -1548,6 +1631,8 @@ Field Name | Type | Description
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
 <a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
+<a name="componentsServerTraits"></a> serverTraits | Map[`string`, [Server Trait Object](#serverTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Trait Objects](#serverTraitObject).
+<a name="componentsChannelTraits"></a> channelTraits | Map[`string`, [Channel Trait Object](#channelTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Trait Objects](#channelTraitObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
 <a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
 <a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Bindings Objects](#serverBindingsObject).
