@@ -26,7 +26,7 @@ jobs:
             The subject "{subject}" found in the pull request title "{title}" should start with a lowercase character.
             
       # Comments the error message from the above lint_pr_title action 
-      - if: ${{always() &&  !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor)}}
+      - if: ${{steps.lint_pr_title.outputs.error_message != null && !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor)}}
         name: Comment on PR
         uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443    #version 2.2
         with:
