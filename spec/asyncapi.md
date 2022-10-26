@@ -359,7 +359,6 @@ Field Pattern | Type | Description
     "url": "development.gigantic-server.com",
     "protocol": "kafka",
     "protocolVersion": "1.0.0",
-    "name": "DevelopmentServer",
     "title": "Development server",
     "summary": "A development server",
     "description": "A longer description",
@@ -381,7 +380,6 @@ development:
   url: development.gigantic-server.com
   protocol: kafka
   protocolVersion: 1.0.0
-  name: DevelopmentServer
   title: Development server
   summary: A development server
   description: A longer description
@@ -422,7 +420,6 @@ A single server would be described as:
   "url": "development.gigantic-server.com",
   "protocol": "kafka",
   "protocolVersion": "1.0.0",
-  "name": "DevelopmentServer",
   "title": "Development server",
   "summary": "A development server",
   "description": "A longer description",
@@ -442,7 +439,6 @@ A single server would be described as:
 url: development.gigantic-server.com
 protocol: kafka
 protocolVersion: 1.0.0
-name: DevelopmentServer
 title: Development server
 summary: A development server
 description: A longer description
