@@ -91,28 +91,28 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 
 ## <a name="definitions"></a>Definitions
 
-#### <a name="definitionsServer"></a>Server
+### <a name="definitionsServer"></a>Server
 A server MAY be a message broker that is capable of sending and/or receiving between a [producer](#definitionsProducer) and [consumer](#definitionsConsumer). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
 
-#### <a name="definitionsApplication"></a>Application
+### <a name="definitionsApplication"></a>Application
 An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
 
-#### <a name="definitionsProducer"></a>Producer
+### <a name="definitionsProducer"></a>Producer
 A producer is a type of application, connected to a [server](#definitionsServer), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
 
-#### <a name="definitionsConsumer"></a>Consumer
+### <a name="definitionsConsumer"></a>Consumer
 A consumer is a type of application, connected to a [server](#definitionsServer) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern.
 
-#### <a name="definitionsMessage"></a>Message
+### <a name="definitionsMessage"></a>Message
 A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
-#### <a name="definitionsChannel"></a>Channel
+### <a name="definitionsChannel"></a>Channel
 A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
-#### <a name="definitionsProtocol"></a>Protocol
+### <a name="definitionsProtocol"></a>Protocol
 A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket.  
 
-#### <a name="definitionsBindings"></a>Bindings
+### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
 
 ## <a name="specification"></a>Specification
