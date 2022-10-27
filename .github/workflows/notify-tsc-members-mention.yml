@@ -2,7 +2,7 @@
 # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
 # This action notifies community on slack whenever there is a new issue, PR or discussion started in given repository
-name: Notify slack whenever TSC members are mentioned in GitHub
+name: Notify slack and email subscribers whenever TSC members are mentioned in GitHub
 
 on:
     issue_comment:
@@ -38,6 +38,9 @@ jobs:
       name: TSC notification on every new issue
       runs-on: ubuntu-latest
       steps:
+        #########
+        # Handling Slack notifications
+        #########
         - name: Convert markdown to slack markdown
           uses: LoveToKnow/slackify-markdown-action@v1.0.0
           id: issuemarkdown
@@ -50,12 +53,39 @@ jobs:
             SLACK_TITLE: 🆘 New issue that requires TSC Members attention 🆘
             SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
             MSG_MINIMAL: true
+        #########
+        # Handling Mailchimp notifications
+        #########
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'npm'
+            cache-dependency-path: '**/package-lock.json'
+        - name: Install deps
+          run: npm install
+          working-directory: ./.github/workflows/scripts/mailchimp
+        - name: Send email with MailChimp
+          uses: actions/github-script@v4
+          env:
+            CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+            CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
+            MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          with:
+            script: |
+              const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
+              sendEmail('${{github.event.issue.html_url}}');
 
     pull_request:
       if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.body, '@asyncapi/tsc_members')
       name: TSC notification on every new pull request
       runs-on: ubuntu-latest
       steps:
+        #########
+        # Handling Slack notifications
+        #########
         - name: Convert markdown to slack markdown
           uses: LoveToKnow/slackify-markdown-action@v1.0.0
           id: prmarkdown
@@ -68,12 +98,39 @@ jobs:
             SLACK_TITLE: 🆘 New PR that requires TSC Members attention 🆘
             SLACK_MESSAGE: ${{steps.prmarkdown.outputs.text}}
             MSG_MINIMAL: true
+        #########
+        # Handling Mailchimp notifications
+        #########
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'npm'
+            cache-dependency-path: '**/package-lock.json'
+        - name: Install deps
+          run: npm install
+          working-directory: ./.github/workflows/scripts/mailchimp
+        - name: Send email with MailChimp
+          uses: actions/github-script@v4
+          env:
+            CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+            CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
+            MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          with:
+            script: |
+              const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
+              sendEmail('${{github.event.pull_request.html_url}}');
     
     discussion:
       if: github.event_name == 'discussion' && contains(github.event.discussion.body, '@asyncapi/tsc_members')
       name: TSC notification on every new discussion
       runs-on: ubuntu-latest
       steps:
+        #########
+        # Handling Slack notifications
+        #########
         - name: Convert markdown to slack markdown
           uses: LoveToKnow/slackify-markdown-action@v1.0.0
           id: discussionmarkdown
@@ -86,12 +143,39 @@ jobs:
             SLACK_TITLE: 🆘 New discussion that requires TSC Members attention 🆘
             SLACK_MESSAGE: ${{steps.discussionmarkdown.outputs.text}}
             MSG_MINIMAL: true
+        #########
+        # Handling Mailchimp notifications
+        #########
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'npm'
+            cache-dependency-path: '**/package-lock.json'
+        - name: Install deps
+          run: npm install
+          working-directory: ./.github/workflows/scripts/mailchimp
+        - name: Send email with MailChimp
+          uses: actions/github-script@v4
+          env:
+            CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+            CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
+            MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          with:
+            script: |
+              const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
+              sendEmail('${{github.event.discussion.html_url}}');
 
     issue_comment:
       if: ${{ github.event_name == 'issue_comment' && !github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members') }}
       name: TSC notification on every new comment in issue
       runs-on: ubuntu-latest
       steps:
+        #########
+        # Handling Slack notifications
+        #########
         - name: Convert markdown to slack markdown
           uses: LoveToKnow/slackify-markdown-action@v1.0.0
           id: issuemarkdown
@@ -104,12 +188,39 @@ jobs:
             SLACK_TITLE: 🆘 New comment under existing issue that requires TSC Members attention 🆘
             SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
             MSG_MINIMAL: true
+        #########
+        # Handling Mailchimp notifications
+        #########
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'npm'
+            cache-dependency-path: '**/package-lock.json'
+        - name: Install deps
+          run: npm install
+          working-directory: ./.github/workflows/scripts/mailchimp
+        - name: Send email with MailChimp
+          uses: actions/github-script@v4
+          env:
+            CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+            CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
+            MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          with:
+            script: |
+              const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
+              sendEmail('${{github.event.comment.html_url}}');
 
     pr_comment:
       if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members')
       name: TSC notification on every new comment in pr
       runs-on: ubuntu-latest
       steps:
+        #########
+        # Handling Slack notifications
+        #########
         - name: Convert markdown to slack markdown
           uses: LoveToKnow/slackify-markdown-action@v1.0.0
           id: prmarkdown
@@ -122,12 +233,39 @@ jobs:
             SLACK_TITLE: 🆘 New comment under existing PR that requires TSC Members attention 🆘
             SLACK_MESSAGE: ${{steps.prmarkdown.outputs.text}}
             MSG_MINIMAL: true
+        #########
+        # Handling Mailchimp notifications
+        #########
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'npm'
+            cache-dependency-path: '**/package-lock.json'
+        - name: Install deps
+          run: npm install
+          working-directory: ./.github/workflows/scripts/mailchimp
+        - name: Send email with MailChimp
+          uses: actions/github-script@v4
+          env:
+            CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+            CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
+            MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          with:
+            script: |
+              const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
+              sendEmail('${{github.event.comment.html_url}}');
 
     discussion_comment:
       if: github.event_name == 'discussion_comment' && contains(github.event.comment.body, '@asyncapi/tsc_members')
       name: TSC notification on every new comment in discussion
       runs-on: ubuntu-latest
       steps:
+        #########
+        # Handling Slack notifications
+        #########
         - name: Convert markdown to slack markdown
           uses: LoveToKnow/slackify-markdown-action@v1.0.0
           id: discussionmarkdown
@@ -140,3 +278,27 @@ jobs:
             SLACK_TITLE: 🆘 New comment under existing discussion that requires TSC Members attention 🆘
             SLACK_MESSAGE: ${{steps.discussionmarkdown.outputs.text}}
             MSG_MINIMAL: true
+        #########
+        # Handling Mailchimp notifications
+        #########
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Setup Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: 16
+            cache: 'npm'
+            cache-dependency-path: '**/package-lock.json'
+        - name: Install deps
+          run: npm install
+          working-directory: ./.github/workflows/scripts/mailchimp
+        - name: Send email with MailChimp
+          uses: actions/github-script@v4
+          env:
+            CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
+            CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
+            MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          with:
+            script: |
+              const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
+              sendEmail('${{github.event.comment.html_url}}');
