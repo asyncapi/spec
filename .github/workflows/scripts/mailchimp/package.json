@@ -3,7 +3,7 @@
   "description": "This code is responsible for scheduling an email campaign. This file is centrally managed in https://github.com/asyncapi/.github/",
   "license": "Apache 2.0",
   "dependencies": {
-    "@actions/core": "1.6.0",
+    "@actions/core": "1.9.1",
     "@mailchimp/mailchimp_marketing": "3.0.74"
   }
 }
