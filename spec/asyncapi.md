@@ -767,12 +767,12 @@ Field Pattern | Type | Description
 ```json
 {
   "onUserSignUp": {
-    "summary": "Action to sign a user up.",
-    "description": "A longer description",
+    "action": "send",
     "channel": {
       "$ref": "#/channels/userSignup"
     },
-    "action": "send",
+    "summary": "Action to sign a user up.",
+    "description": "A longer description",
     "tags": [
       { "name": "user" },
       { "name": "signup" },
@@ -792,11 +792,11 @@ Field Pattern | Type | Description
 
 ```yaml
 onUserSignUp:
-  summary: Action to sign a user up.
-  description: A longer description
+  action: send
   channel:
     $ref: '#/channels/userSignup'
-  action: send
+  summary: Action to sign a user up.
+  description: A longer description
   tags:
     - name: user
     - name: signup
@@ -821,6 +821,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationObjectAction"></a>action | `string` | **Required**. Allowed values are `send` and `receive`. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
 <a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be processed by this operation at any time during the running of the application.  **The map should contain a subset of messages that are defined in the corresponding channel. If the field is omitted, the operation performs an action on every message defined in the corresponding channel.**
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
 <a name="operationObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
@@ -835,12 +836,12 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "summary": "Action to sign a user up.",
-  "description": "A longer description",
+  "action": "send",
   "channel": {
     "$ref": "#/channels/userSignup"
   },
-  "action": "send",
+  "summary": "Action to sign a user up.",
+  "description": "A longer description",
   "security": [
     {
      "petstore_auth": [
@@ -866,11 +867,11 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
-summary: Action to sign a user up.
-description: A longer description
+action: send
 channel:
   $ref: '#/channels/userSignup'
-action: send
+summary: Action to sign a user up.
+description: A longer description
 security:
   - petstore_auth:
     - write:pets
@@ -891,7 +892,7 @@ traits:
 
 #### <a name="operationTraitObject"></a>Operation Trait Object
 
-Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel` and `traits` ones.
+Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel`, `messages` and `traits` ones.
 
 If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
 
