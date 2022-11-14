@@ -534,12 +534,13 @@ servers:
 
 #### <a name="serverTraitObject"></a>Server Trait Object
 
-Describes a trait that MAY be applied to a [Server Object](#serverObject). This object MAY contain any property from the [Server Object](#serverObject), except `url`, `protocol` and `protocolVersion`.
+Describes a trait that MAY be applied to a [Server Object](#serverObject). This object MAY contain any property from the [Server Object](#serverObject), except `url`, `protocol` and `traits`.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
+<a name="serverTraitObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverTraitObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverTraitObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
 <a name="serverTraitObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
@@ -552,6 +553,19 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "variables": {
+    "username": {
+      "default": "demo",
+      "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+    },
+    "port": {
+      "enum": [
+        "8883",
+        "8884"
+      ],
+      "default": "8883"
+    },
+  },
   "tags": [
     { 
       "name": "env:production",
@@ -562,6 +576,15 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+variables:
+  username:
+    default: demo
+    description: This value is assigned by the service provider, in this example `gigantic-server.com`
+  port:
+    enum:
+      - '8883'
+      - '8884'
+    default: '8883'
 tags:
   - name: "env:production"
     description: "This environment is the live environment available for final users"
@@ -766,6 +789,11 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
+  "parameters": {
+    "userId": {
+      "$ref": "#/components/parameters/userId"
+    }
+  },
   "servers": [
     { "$ref": "#/servers/rabbitmqInProd" },
     { "$ref": "#/servers/rabbitmqInStaging" }
@@ -774,6 +802,9 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```
 
 ```yaml
+parameters:
+  userId:
+    $ref: '#/components/parameters/userId'
 servers:
   - $ref: '#/servers/rabbitmqInProd'
   - $ref: '#/servers/rabbitmqInStaging'
