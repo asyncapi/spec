@@ -378,7 +378,7 @@ Field Name | Type | Description
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
-<a name="serverObjectTraits"></a>traits | [[Server Trait Object](#serverTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the server object. Traits MUST be merged into the server object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="serverObjectTraits"></a>traits | [[Server Trait Object](#serverTraitObject) \| [Reference Object](#referenceObject)] | A list of traits to apply to the server object. Traits MUST be merged into the server object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -614,7 +614,7 @@ defaultContentType: application/json
 
 An object containing all the [Channel Object](#channelObject) definitions the [Application](#definitionsApplication) MUST use during runtime.
 
-> If you're looking for a place to define channels that MAY or MAY NOT be implemented by the application, consider defining them in [`components/channels`](#componentsChannels).
+> If you're looking for a place to define channels that MAY or MAY NOT be used or implemented by the application, consider defining them in [`components/channels`](#componentsChannels).
 
 ##### Patterned Fields
 
@@ -664,7 +664,7 @@ Field Name | Type | Description
 <a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
-<a name="channelObjectTraits"></a>traits | [[Channel Trait Object](#channelTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the channel object. Traits MUST be merged into the channel object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="channelObjectTraits"></a>traits | [[Channel Trait Object](#channelTraitObject) \| [Reference Object](#referenceObject)] | A list of traits to apply to the channel object. Traits MUST be merged into the channel object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
 
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
