@@ -463,7 +463,7 @@ protocol: kafka
 protocolVersion: '1.0.0'
 ```
 
-The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
+The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`usedServers`](#A2SUsedServers):
 
 ```json
 {
