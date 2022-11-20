@@ -54,15 +54,15 @@ We can't automatically assume that an _opposite_ application exists by simply re
 
 ```yaml
 operations:
-  onUserSignedUp: # <-- This doesn't make sense now
-    summary: On user signed up. # <-- This doesn't make sense now
-    description: Event received when a user signed up on the product. # <-- This doesn't make sense now
+  onUserSignedUp: # <-- This doesn't make sense now. Should be something like sendUserSignedUp.
+    summary: On user signed up. # <-- This doesn't make sense now. Should say something like "Sends a user signed up event".
+    description: Event received when a user signed up on the product. # <-- This doesn't make sense now. Should speak about sending an event, not receiving it.
     action: send
     channel:
       $ref: "#/channels/userSignedUp"
 ```
 
-Aside from the issues mentioned above, there may also be infrastructure restrictions that are not represented here. For instance, an application may use a channel for read-only operations (`receive`) so you can't send messages to the same channel.
+Aside from the issues mentioned above, there may also be infrastructure configuration that is not represented here. For instance, a system may use a read-only channel for receiving messages, a different one for sending them, and an intermediary process that will forward messages from one channel to the other.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
