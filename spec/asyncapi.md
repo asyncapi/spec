@@ -345,7 +345,7 @@ url: https://www.apache.org/licenses/LICENSE-2.0.html
 
 #### <a name="providedServersObject"></a>Provided Servers Object
 
-The Provided Servers Object is a map of [Server Objects](#serverObject). These are the servers this [application](#definitionsApplication) exposes. E.g., an HTTP or a WebSocket server.
+The Provided Servers Object is a map of [Server Objects](#serverObject). These are the servers this [application](#definitionsApplication) MAY expose. E.g., an HTTP or a WebSocket server.
 
 ##### Patterned Fields
 
@@ -385,7 +385,7 @@ production:
 
 #### <a name="usedServersObject"></a>Used Servers Object
 
-The Used Servers Object is a map of [Server Objects](#serverObject). These are the servers this [application](#definitionsApplication) uses. E.g., a message broker, a remote HTTP API server, or a remote WebSocket server.
+The Used Servers Object is a map of [Server Objects](#serverObject). These are the servers this [application](#definitionsApplication) MAY use. E.g., a message broker, a remote HTTP API server, or a remote WebSocket server.
 
 ##### Patterned Fields
 
