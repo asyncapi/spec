@@ -56,7 +56,8 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Info Object](#infoObject)
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
-      - [Servers Object](#serversObject)
+      - [Provided Servers Object](#providedServersObject)
+      - [Used Servers Object](#usedServersObject)
       - [Server Object](#serverObject)  
       - [Server Variable Object](#serverVariableObject)
       - [Default Content Type](#defaultContentTypeString)  
@@ -170,7 +171,8 @@ Field Name | Type | Description
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
-<a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
+<a name="A2SProvidedServers"></a>providedServers | [Provided Servers Object](#providedServersObject) | A map of the servers the [application](#definitionsApplication) MAY provide.
+<a name="A2SUsedServers"></a>usedServers | [Used Servers Object](#usedServersObject) | A map of the servers the [application](#definitionsApplication) MAY have to connect to.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
 <a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
@@ -341,36 +343,85 @@ name: Apache 2.0
 url: https://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
-#### <a name="serversObject"></a>Servers Object
+#### <a name="providedServersObject"></a>Provided Servers Object
 
-The Servers Object is a map of [Server Objects](#serverObject).
+The Provided Servers Object is a map of [Server Objects](#serverObject). These are the servers this [application](#definitionsApplication) exposes. E.g., an HTTP or a WebSocket server.
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
+<a name="providedServersObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this [application](#definitionsApplication) MAY provide for others to reach it.
 
 ##### Servers Object Example
 
 ```json
 {
-  "production": {
-    "url": "development.gigantic-server.com",
+  "development": {
+    "url": "http://localhost:3000",
     "description": "Development server",
-    "protocol": "kafka",
-    "protocolVersion": "1.0.0"
+    "protocol": "http"
+  },
+  "production": {
+    "url": "https://api.mycompany.com",
+    "description": "Production server",
+    "protocol": "https"
   }
 }
 ```
 
 ```yaml
-production:
-  url: development.gigantic-server.com
+development:
+  url: http://localhost:3000
   description: Development server
-  protocol: kafka
-  protocolVersion: '1.0.0'
+  protocol: http
+production:
+  url: https://api.mycompany.com
+  description: Production server
+  protocol: https
 ```
+
+
+
+#### <a name="usedServersObject"></a>Used Servers Object
+
+The Used Servers Object is a map of [Server Objects](#serverObject). These are the servers this [application](#definitionsApplication) uses. E.g., a message broker, a remote HTTP API server, or a remote WebSocket server.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="usedServersObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this [application](#definitionsApplication) MAY connect to.
+
+##### Servers Object Example
+
+```json
+{
+  "streaming": {
+    "url": "wss://streaming.mycompany.com",
+    "description": "Real-time websocket server",
+    "protocol": "wss"
+  },
+  "kafka": {
+    "url": "kafka://kafka.in.mycompany.com",
+    "description": "Kafka message broker",
+    "protocol": "kafka"
+  }
+}
+```
+
+```yaml
+streaming:
+  url: wss://streaming.mycompany.com
+  description: Real-time websocket server
+  protocol: wss
+kafka:
+  url: kafka://kafka.in.mycompany.com
+  description: Kafka message broker
+  protocol: kafka
+```
+
+
 
 
 #### <a name="serverObject"></a>Server Object
@@ -626,7 +677,7 @@ Field Name | Type | Description
 <a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions).
 <a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Provided Servers Object](#providedServersObject) and the [Used Servers Object](#usedServersObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
 <a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
