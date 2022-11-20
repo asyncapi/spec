@@ -16,23 +16,53 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 ## Introduction
 
-The AsyncAPI Specification is a project used to describe and document message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, Mercure, etc).
+The AsyncAPI Specification is a project used to describe message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, Mercure, etc).
 
-The AsyncAPI Specification defines a set of files required to describe such an API.
-These files can then be used to create utilities, such as documentation, integration and/or testing tools.
+The AsyncAPI Specification defines a set of files required to describe the API of an [application](#definitionsApplication).
+These files can be used to create utilities, such as documentation, code, integration, or testing tools.
 
-The file(s) MUST describe the operations an [application](#definitionsApplication) accepts. For instance, consider the following AsyncAPI definition snippet:
+The file(s) MUST describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
-user/signedup:
-  subscribe:
-    message:
-      $ref: "#/components/messages/userSignUp"
+channels:
+  userSignedUp:
+    # ...(redacted for brevity)
+operations:
+  onUserSignedUp:
+    action: receive
+    channel:
+      $ref: "#/channels/userSignedUp"
 ```
 
-It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
+It means that the [application](#definitionsApplication) will subscribe to the `userSignedUp` [channel](#definitionsChannel) to receive messages.
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
+
+It's NOT RECOMMENDED to derive a consumer AsyncAPI document from a producer one or viceversa. There are no guarantees that the channel used by an application to receive messages will be the same channel where another application is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the operation might stop making sense. For instance, given the following consumer snippet:
+
+```yaml
+operations:
+  onUserSignedUp:
+    summary: On user signed up.
+    description: Event received when a user signed up on the product.
+    action: receive
+    channel:
+      $ref: "#/channels/userSignedUp"
+```
+
+We can't automatically assume that an _opposite_ application exists by simply replacing `receive` with `send`:
+
+```yaml
+operations:
+  onUserSignedUp: # <-- This doesn't make sense now
+    summary: On user signed up. # <-- This doesn't make sense now
+    description: Event received when a user signed up on the product. # <-- This doesn't make sense now
+    action: send
+    channel:
+      $ref: "#/channels/userSignedUp"
+```
+
+Aside from the issues mentioned above, there may also be infrastructure restrictions that are not represented here. For instance, an application may use a channel for read-only operations (`receive`) so you can't send messages to the same channel.
 
 ## Table of Contents
 <!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
