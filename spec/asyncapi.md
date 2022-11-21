@@ -38,7 +38,7 @@ It means that the [application](#definitionsApplication) will subscribe to the `
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
-It's NOT RECOMMENDED to derive a consumer AsyncAPI document from a producer one or viceversa. There are no guarantees that the channel used by an application to receive messages will be the same channel where another application is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the operation might stop making sense. For instance, given the following consumer snippet:
+It's NOT RECOMMENDED to derive a consumer AsyncAPI document from a producer one or vice versa. There are no guarantees that the channel used by an application to receive messages will be the same channel where another application is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the operation might stop making sense. For instance, given the following consumer snippet:
 
 ```yaml
 operations:
