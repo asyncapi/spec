@@ -8,28 +8,22 @@ on:
   issue_comment:
     types:
       - created
-      - edited
 
   discussion_comment:
     types:
       - created
-      - edited
 
   issues:
     types:
       - opened
-      - reopened
 
   pull_request_target:
     types:
       - opened
-      - reopened
-      - ready_for_review
 
   discussion:
     types:
       - created
-      - edited
 
 jobs:
   issue:
@@ -75,7 +69,7 @@ jobs:
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.issue.html_url}}');
+            sendEmail('${{github.event.issue.html_url}}', '${{github.event.issue.title}}');
 
   pull_request:
     if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.body, '@asyncapi/tsc_members')
@@ -120,7 +114,7 @@ jobs:
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.pull_request.html_url}}');
+            sendEmail('${{github.event.pull_request.html_url}}', '${{github.event.pull_request.title}}');
 
   discussion:
     if: github.event_name == 'discussion' && contains(github.event.discussion.body, '@asyncapi/tsc_members')
@@ -165,7 +159,7 @@ jobs:
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.discussion.html_url}}');
+            sendEmail('${{github.event.discussion.html_url}}', '${{github.event.discussion.title}}');
 
   issue_comment:
     if: ${{ github.event_name == 'issue_comment' && !github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members') }}
@@ -210,7 +204,7 @@ jobs:
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}');
+            sendEmail('${{github.event.comment.html_url}}', '${{github.event.issue.title}}');
 
   pr_comment:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members')
@@ -255,7 +249,7 @@ jobs:
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}');
+            sendEmail('${{github.event.comment.html_url}}', '${{github.event.issue.title}}');
 
   discussion_comment:
     if: github.event_name == 'discussion_comment' && contains(github.event.comment.body, '@asyncapi/tsc_members')
@@ -300,4 +294,4 @@ jobs:
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}');
+            sendEmail('${{github.event.comment.html_url}}', '${{github.event.discussion.title}}');
