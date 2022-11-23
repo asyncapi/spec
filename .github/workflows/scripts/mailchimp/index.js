@@ -10,7 +10,7 @@ const htmlContent = require('./htmlContent.js');
  * Sending API request to mailchimp to schedule email to subscribers
  * Input is the URL to issue/discussion or other resource
  */
-module.exports = async (link) => {
+module.exports = async (link, title) => {
 
     let newCampaign;
 
@@ -32,7 +32,7 @@ module.exports = async (link) => {
                 }
             },
             settings: {
-                subject_line: 'AsyncAPI TSC members attention required',
+                subject_line: `TSC attention required: ${ title }`,
                 preview_text: 'Check out the latest topic that TSC members have to be aware of',
                 title: `New topic info - ${ new Date(Date.now()).toUTCString()}`,
                 from_name: 'AsyncAPI Initiative',
@@ -47,7 +47,7 @@ module.exports = async (link) => {
     * Content of the email is added separately after campaign creation
     */
     try {
-        await mailchimp.campaigns.setContent(newCampaign.id, { html: htmlContent(link) });
+        await mailchimp.campaigns.setContent(newCampaign.id, { html: htmlContent(link, title) });
     } catch (error) {
         return core.setFailed(`Failed adding content to campaign: ${ JSON.stringify(error) }`);
     }
