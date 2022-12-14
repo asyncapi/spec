@@ -85,9 +85,9 @@ Definition of the Gemini Websocket API.
 
 Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
 
-# Our Sponsors
+## Our Sponsors
 
-## Platinum-tier
+### Platinum
 
 <p align="center">
   
@@ -107,6 +107,31 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
     <img src="./assets/postman.png" alt="Postman logo" height="90">
   </a>
 </p>
+
+
+### Gold
+
+<p align="center">
+  
+<a href="https://redhat.com" target="_blank">
+    <img src="./assets/redhat.png" alt="RedHat logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+
+</p>
+
+### Silver
+
+<p align="center">
+  
+<a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
+    <img src="./assets/bump-sh.svg" alt="Bump.sh logo" height="60">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+
+</p>
+
+
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
