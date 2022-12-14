@@ -122,9 +122,9 @@ components:
             events:
               - type: change
                 side: bid
-                price: '54350.40'
-                remaining: '0.002'
-                delta: '0.002'
+                price: 54350.40
+                remaining: 0.002
+                delta: 0.002
                 reason: place
         - name: heartbeatMessage
           summary: Example of additional heartbeat message when you enable them. 
@@ -158,12 +158,10 @@ components:
             events:
               $ref: '#/components/schemas/events'
             timestamp:
-              type: string
-              format: date-time
+              type: number
               description: The timestamp in seconds for this group of events (included for compatibility reasons). We recommend using the timestampms field instead.
             timestampms:
-              type: string
-              format: time
+              type: number
               description: The timestamp in milliseconds for this group of events.
           required:
             - type
@@ -194,7 +192,7 @@ components:
             enum: ['trade', 'change', 'auction, block_trade']
           price:
             type: number
-            multipleOf: 1.000
+            multipleOf: 0.01
             description: The price of this order book entry.
           side:
             type: string
@@ -205,9 +203,7 @@ components:
             description: Indicates why the change has occurred. initial is for the initial response message, which will show the entire existing state of the order book.
           remaining: 
             type: number
-            multipleOf: 1.000
             description: The quantity remaining at that price level after this change occurred. May be zero if all orders at this price level have been filled or canceled.
           delta:
             type: number
-            multipleOf: 1.000
             description: The quantity changed. May be negative, if an order is filled or canceled. For initial messages, delta will equal remaining.
