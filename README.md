@@ -125,7 +125,7 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
 <p align="center">
   
 <a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
-    <img src="./assets/bump-sh.svg" alt="Bump.sh logo" height="60">
+    <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh logo" height="70">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
 
