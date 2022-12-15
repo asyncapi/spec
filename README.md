@@ -2,6 +2,7 @@
 
 <hr/>
 
+<!--
 <p align="center">
   <a href="https://iqvia.com" target="_blank">
     <img src="./assets/iqvia.png" alt="IQVIA logo" height="40">
@@ -35,6 +36,7 @@
 <p align="center">
   :raised_hands: Platinum sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
 </p>
+-->
 
 ## Read the specification
 
