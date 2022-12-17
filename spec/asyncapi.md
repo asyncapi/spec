@@ -355,67 +355,6 @@ Field Pattern | Type | Description
 
 ```json
 {
-  "production": {
-    "host": "development.gigantic-server.com",
-    "description": "Development server",
-    "protocol": "kafka",
-    "protocolVersion": "1.0.0"
-  }
-}
-```
-
-```yaml
-production:
-  url: development.gigantic-server.com
-  description: Development server
-  protocol: kafka
-  protocolVersion: '1.0.0'
-```
-
-
-#### <a name="serverObject"></a>Server Object
-
-An object representing a message broker, a server or any other kind of computer program capable of sending and/or receiving data. This object is used to capture details such as URIs, protocols and security configuration. Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
-
-##### Fixed Fields
-
-Field Name | Type | Description
----|:---:|---
-<a name="serverObjectHost"></a>host | `string` | **REQUIRED**. The server host name. It MAY include the port. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
-<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this server supports for connection.
-<a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
-<a name="serverObjectDescription"></a>description | `string` | An optional string describing the server. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` template.
-<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
-<a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
-<a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
-
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-##### Server Object Example
-
-A single server would be described as:
-
-```json
-{
-  "host": "kafka.in.mycompany.com:9092",
-  "description": "Production Kafka broker.",
-  "protocol": "kafka",
-  "protocolVersion": "9"
-}
-```
-
-```yaml
-host: kafka.in.mycompany.com:9092
-description: Production Kafka broker.
-protocol: kafka
-protocolVersion: '9'
-```
-
-The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
-
-```json
-{
   "servers": {
     "development": {
       "host": "localhost:5672",
@@ -483,6 +422,46 @@ servers:
     tags:
       - name: "env:production"
         description: "This environment is the live environment available for final users."
+```
+
+
+#### <a name="serverObject"></a>Server Object
+
+An object representing a message broker, a server or any other kind of computer program capable of sending and/or receiving data. This object is used to capture details such as URIs, protocols and security configuration. Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="serverObjectHost"></a>host | `string` | **REQUIRED**. The server host name. It MAY include the port. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
+<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this server supports for connection.
+<a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
+<a name="serverObjectDescription"></a>description | `string` | An optional string describing the server. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` template.
+<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
+<a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Server Object Example
+
+A single server would be described as:
+
+```json
+{
+  "host": "kafka.in.mycompany.com:9092",
+  "description": "Production Kafka broker.",
+  "protocol": "kafka",
+  "protocolVersion": "9"
+}
+```
+
+```yaml
+host: kafka.in.mycompany.com:9092
+description: Production Kafka broker.
+protocol: kafka
+protocolVersion: '9'
 ```
 
 #### <a name="serverVariableObject"></a>Server Variable Object
