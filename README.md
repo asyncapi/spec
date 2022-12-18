@@ -2,6 +2,9 @@
 
 <hr/>
 
+##Sponsors
+
+###Platinum
 <p align="center">
   <a href="https://iqvia.com" target="_blank">
     <img src="./assets/iqvia.png" alt="IQVIA logo" height="40">
@@ -34,6 +37,23 @@
 
 <p align="center">
   :raised_hands: Platinum sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
+</p>
+
+###Gold
+
+<p align="center">
+  :raised_hands: Gold sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
+</p>
+
+###Silver
+<p align="center">
+  <a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
+    <img src="./assets/Bump.svg" alt=" Bump.sh logo" height="40">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p align="center">
+  :raised_hands: Silver sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
 </p>
 
 ## Read the specification
