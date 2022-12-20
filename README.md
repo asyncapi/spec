@@ -2,6 +2,7 @@
 
 <hr/>
 
+<!--
 <p align="center">
   <a href="https://iqvia.com" target="_blank">
     <img src="./assets/iqvia.png" alt="IQVIA logo" height="40">
@@ -35,6 +36,7 @@
 <p align="center">
   :raised_hands: Platinum sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
 </p>
+-->
 
 ## Read the specification
 
@@ -84,6 +86,53 @@ Definition of the Gemini Websocket API.
 #### :heavy_plus_sign: and more...
 
 Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
+
+## Our Sponsors
+
+### Platinum
+
+<p align="center">
+  
+<a href="https://solace.com" target="_blank">
+    <img src="./assets/solace.png" alt="Solace logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://ibm.com" target="_blank">
+    <img src="./assets/ibm.png" alt="IBM logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://iqvia.com" target="_blank">
+    <img src="./assets/iqvia.png" alt="IQVIA logo" height="60">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://postman.com" target="_blank">
+    <img src="./assets/postman.png" alt="Postman logo" height="90">
+  </a>
+</p>
+
+
+### Gold
+
+<p align="center">
+  
+<a href="https://redhat.com" target="_blank">
+    <img src="./assets/redhat.png" alt="RedHat logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+
+</p>
+
+### Silver
+
+<p align="center">
+  
+<a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
+    <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+
+</p>
+
 
 ## Contributors
 
