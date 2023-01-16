@@ -28,8 +28,10 @@ jobs:
                 break;
               case 'js':
                 values[1] = 'javascript';
+                break;
               case 'markdown':
                 values[1] = 'docs';
+                break;
             }
             if(values.length != 2 || !areas.includes(values[1])){
               const message = `Hey @${context.payload.sender.login}, your message doesn't follow the requirements, you can try \`/help\`.`
