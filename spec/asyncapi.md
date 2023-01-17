@@ -500,34 +500,28 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "servers": {
-    "production": {
-      "host": "api.gemini.com",
-      "pathname": "/v1/marketdata/{symbol}",
-      "protocol": "wss",
-      "description": "Market data is a public API that streams all the market data on a given symbol.",
-      "title": "Market Data API v1",
-      "variables": {
-        "symbol": {
-          "description": "Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`."
-        }
-      }
+  "host": "api.gemini.com",
+  "pathname": "/v1/marketdata/{symbol}",
+  "protocol": "wss",
+  "description": "Market data is a public API that streams all the market data on a given symbol.",
+  "title": "Market Data API v1",
+  "variables": {
+    "symbol": {
+      "description": "Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`."
     }
   }
 }
 ```
 
 ```yaml
-servers:
-  production:
-    host: 'api.gemini.com'
-    pathname: '/v1/marketdata/{symbol}'
-    protocol: wss
-    description: Market data is a public API that streams all the market data on a given symbol.
-    title: Market Data API v1
-    variables:
-      symbol:
-        description: Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`.
+host: 'api.gemini.com'
+pathname: '/v1/marketdata/{symbol}'
+protocol: wss
+description: Market data is a public API that streams all the market data on a given symbol.
+title: Market Data API v1
+variables:
+  symbol:
+    description: Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`.
 ```
 
 
