@@ -8,30 +8,30 @@ on:
   schedule:
     # At 00:00 UTC on every Monday
     - cron: '0 0 * * 0'
-  
+
 jobs:
   External-link-validation-weekly:
     if: startsWith(github.repository, 'asyncapi/')
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    # Checks the status of hyperlinks in .md files
-    - name: Check links
-      uses: gaurav-nelson/github-action-markdown-link-check@0a51127e9955b855a9bbfa1ff5577f1d1338c9a5 #1.0.14 but pointing to commit for security reasons
-      with:
-        use-quiet-mode: 'yes'
-        use-verbose-mode: 'yes'
-        
-        # A configuration file can be included, indicating the properties of the link check action
-        # More information can be found here: https://github.com/tcort/markdown-link-check#config-file-format
-        # Create mlc_config.json file in the root of the directory
+      # Checks the status of hyperlinks in .md files
+      - name: Check links
+        uses: gaurav-nelson/github-action-markdown-link-check@0a51127e9955b855a9bbfa1ff5577f1d1338c9a5 #1.0.14 but pointing to commit for security reasons
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
 
-    - name: Report workflow run status to Slack
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        fields: repo,action,workflow
-      env:
+          # A configuration file can be included, indicating the properties of the link check action
+          # More information can be found here: https://github.com/tcort/markdown-link-check#config-file-format
+          # Create mlc_config.json file in the root of the directory
+
+      - name: Report workflow run status to Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,action,workflow
+        env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_CI_FAIL_NOTIFY }}
-      if: failure() # Only, on failure, send a message on the 94_bot-failing-ci slack channel
+        if: failure() # Only, on failure, send a message on the 94_bot-failing-ci slack channel

@@ -5,7 +5,6 @@
 name: Notify slack
 
 on:
-
   issues:
     types: [opened, reopened]
 
@@ -16,57 +15,56 @@ on:
     types: [created]
 
 jobs:
+  issue:
+    if: github.event_name == 'issues' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    name: Notify slack on every new issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert markdown to slack markdown for issue
+        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        id: issuemarkdown
+        with:
+          text: "[${{github.event.issue.title}}](${{github.event.issue.html_url}}) \n ${{github.event.issue.body}}"
+      - name: Send info about issue
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+          SLACK_TITLE: 🐛 New Issue in ${{github.repository}} 🐛
+          SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
+          MSG_MINIMAL: true
 
-    issue:
-      if: github.event_name == 'issues' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-      name: Notify slack on every new issue
-      runs-on: ubuntu-latest
-      steps:
-        - name: Convert markdown to slack markdown for issue
-          uses: LoveToKnow/slackify-markdown-action@v1.0.0
-          id: issuemarkdown
-          with:
-            text: "[${{github.event.issue.title}}](${{github.event.issue.html_url}}) \n ${{github.event.issue.body}}"
-        - name: Send info about issue
-          uses: rtCamp/action-slack-notify@v2
-          env:
-            SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
-            SLACK_TITLE: 🐛 New Issue in ${{github.repository}} 🐛
-            SLACK_MESSAGE: ${{steps.issuemarkdown.outputs.text}}
-            MSG_MINIMAL: true
+  pull_request:
+    if: github.event_name == 'pull_request_target' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    name: Notify slack on every new pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert markdown to slack markdown for pull request
+        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        id: prmarkdown
+        with:
+          text: "[${{github.event.pull_request.title}}](${{github.event.pull_request.html_url}}) \n ${{github.event.pull_request.body}}"
+      - name: Send info about pull request
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+          SLACK_TITLE: 💪 New Pull Request in ${{github.repository}} 💪
+          SLACK_MESSAGE: ${{steps.prmarkdown.outputs.text}}
+          MSG_MINIMAL: true
 
-    pull_request:
-      if: github.event_name == 'pull_request_target' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-      name: Notify slack on every new pull request
-      runs-on: ubuntu-latest
-      steps:
-        - name: Convert markdown to slack markdown for pull request
-          uses: LoveToKnow/slackify-markdown-action@v1.0.0
-          id: prmarkdown
-          with:
-            text: "[${{github.event.pull_request.title}}](${{github.event.pull_request.html_url}}) \n ${{github.event.pull_request.body}}"
-        - name: Send info about pull request
-          uses: rtCamp/action-slack-notify@v2
-          env:
-            SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
-            SLACK_TITLE: 💪 New Pull Request in ${{github.repository}} 💪
-            SLACK_MESSAGE: ${{steps.prmarkdown.outputs.text}}
-            MSG_MINIMAL: true
-    
-    discussion:
-      if: github.event_name == 'discussion' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
-      name: Notify slack on every new pull request
-      runs-on: ubuntu-latest
-      steps:
-        - name: Convert markdown to slack markdown for pull request
-          uses: LoveToKnow/slackify-markdown-action@v1.0.0
-          id: discussionmarkdown
-          with:
-            text: "[${{github.event.discussion.title}}](${{github.event.discussion.html_url}}) \n ${{github.event.discussion.body}}"
-        - name: Send info about pull request
-          uses: rtCamp/action-slack-notify@v2
-          env:
-            SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
-            SLACK_TITLE: 💬 New Discussion in ${{github.repository}} 💬
-            SLACK_MESSAGE: ${{steps.discussionmarkdown.outputs.text}}
-            MSG_MINIMAL: true
+  discussion:
+    if: github.event_name == 'discussion' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    name: Notify slack on every new pull request
+    runs-on: ubuntu-latest
+    steps:
+      - name: Convert markdown to slack markdown for pull request
+        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        id: discussionmarkdown
+        with:
+          text: "[${{github.event.discussion.title}}](${{github.event.discussion.html_url}}) \n ${{github.event.discussion.body}}"
+      - name: Send info about pull request
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
+          SLACK_TITLE: 💬 New Discussion in ${{github.repository}} 💬
+          SLACK_MESSAGE: ${{steps.discussionmarkdown.outputs.text}}
+          MSG_MINIMAL: true

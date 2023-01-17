@@ -3,7 +3,7 @@
 
 name: Check Markdown links
 
-on: 
+on:
   pull_request_target:
     types: [synchronize, ready_for_review, opened, reopened]
     paths:
@@ -13,15 +13,16 @@ jobs:
   External-link-validation-on-PR:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
-    - name: Check links
-      uses: gaurav-nelson/github-action-markdown-link-check@0a51127e9955b855a9bbfa1ff5577f1d1338c9a5 #1.0.14 but pointing to commit for security reasons
-      with:
-        use-quiet-mode: 'yes'
-        use-verbose-mode: 'yes'
-        check-modified-files-only: 'yes' # Only modified files are checked on PRs
-        
-        # A configuration file can be included, indicating the properties of the link check action
-        # More information can be found here: https://github.com/tcort/markdown-link-check#config-file-format
-        # Create mlc_config.json file in the root of the directory
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Check links
+        uses: gaurav-nelson/github-action-markdown-link-check@0a51127e9955b855a9bbfa1ff5577f1d1338c9a5 #1.0.14 but pointing to commit for security reasons
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          check-modified-files-only: 'yes' # Only modified files are checked on PRs
+
+
+          # A configuration file can be included, indicating the properties of the link check action
+          # More information can be found here: https://github.com/tcort/markdown-link-check#config-file-format
+          # Create mlc_config.json file in the root of the directory
