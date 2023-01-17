@@ -75,7 +75,6 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
       - [Security Scheme Object](#securitySchemeObject)
-      - [Security Requirement Object](#security-requirement-object)
       - [OAuth Flows Object](#oauth-flows-object)  
       - [OAuth Flow Object](#oauth-flow-object)
       - [Server Bindings Object](#serverBindingsObject)
@@ -406,7 +405,7 @@ Field Name | Type | Description
 <a name="serverObjectSummary"></a>summary | `string` | A short summary of the server.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
-<a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | A declaration of which security schemes can be used with this server. The list of values includes alternative [security scheme objects](#securitySchemeObject) that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
 <a name="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this server.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
@@ -449,128 +448,82 @@ externalDocs:
   url: https://kafka.apache.org/
 ```
 
-The following shows how multiple servers can be described, for example, at the AsyncAPI Object's [`servers`](#A2SServers):
+Using server variables for dynamic URLs:
 
 ```json
 {
-  "servers": {
-    "development": {
-      "url": "development.gigantic-server.com",
-      "protocol": "amqp",
-      "protocolVersion": "0.9.1",
-      "title": "Development server",
-      "tags": [
-        { 
-          "name": "env:development",
-          "description": "This environment is meant for developers to run their own tests"
-        }
-      ]
+  "url": "{username}.gigantic-server.com:{port}/{basePath}",
+  "description": "The production API server",
+  "protocol": "secure-mqtt",
+  "variables": {
+    "username": {
+      "default": "demo",
+      "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
     },
-    "staging": {
-      "url": "staging.gigantic-server.com",
-      "protocol": "amqp",
-      "protocolVersion": "0.9.1",
-      "title": "Staging server",
-      "tags": [
-        { 
-          "name": "env:staging",
-          "description": "This environment is a replica of the production environment"
-        }
-      ]
+    "port": {
+      "enum": [
+        "8883",
+        "8884"
+      ],
+      "default": "8883"
     },
-    "production": {
-      "url": "api.gigantic-server.com",
-      "protocol": "amqp",
-      "protocolVersion": "0.9.1",
-      "title": "Production server",
-      "tags": [
-        { 
-          "name": "env:production",
-          "description": "This environment is the live environment available for final users"
-        }
-      ]
+    "basePath": {
+      "default": "v2"
     }
   }
 }
 ```
 
 ```yaml
-servers:
-  development:
-    url: development.gigantic-server.com
-    protocol: amqp
-    protocolVersion: 0.9.1
-    title: Development server
-    tags:
-      - name: "env:development"
-        description: "This environment is meant for developers to run their own tests"
-  staging:
-    url: staging.gigantic-server.com
-    protocol: amqp
-    protocolVersion: 0.9.1
-    title: Staging server
-    tags:
-      - name: "env:staging"
-        description: "This environment is a replica of the production environment"
-  production:
-    url: api.gigantic-server.com
-    protocol: amqp
-    protocolVersion: 0.9.1
-    title: Production server
-    tags:
-      - name: "env:production"
-        description: "This environment is the live environment available for final users"
+url: '{username}.gigantic-server.com:{port}/{basePath}'
+description: The production API server
+protocol: secure-mqtt
+variables:
+  username:
+    # Note: no enum here means it is an open value.
+    default: demo
+    description: This value is assigned by the service provider, in this example `gigantic-server.com`
+  port:
+    enum:
+      - '8883'
+      - '8884'
+    default: '8883'
+  basePath:
+    # Note: open meaning. There is the opportunity to use special base paths as assigned by the provider, default is `v2`.
+    default: v2
 ```
 
-The following shows how variables can be used for a server configuration:
+Using security mechanisms:
 
 ```json
 {
-  "servers": {
-    "production": {
-      "url": "{username}.gigantic-server.com:{port}/{basePath}",
-      "protocol": "secure-mqtt",
-      "title": "Production server",
-      "variables": {
-        "username": {
-          "default": "demo",
-          "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
-        },
-        "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
-          "default": "8883"
-        },
-        "basePath": {
-          "default": "v2"
-        }
-      }
+  "url": "broker.company.com",
+  "description": "Production MQTT broker",
+  "protocol": "secure-mqtt",
+  "protocolVersion": "5",
+  "security": [
+    {
+      "type": "userPassword",
+      "description": "Connect to the MQTT broker using basic authentication."
+    },
+    {
+      "type": "X509",
+      "description": "Connect to the MQTT broker using a X509 certificate."
     }
-  }
+  ]
 }
 ```
 
 ```yaml
-servers:
-  production:
-    url: '{username}.gigantic-server.com:{port}/{basePath}'
-    protocol: secure-mqtt
-    title: Production server
-    variables:
-      username:
-        # note! no enum here means it is an open value
-        default: demo
-        description: This value is assigned by the service provider, in this example `gigantic-server.com`
-      port:
-        enum:
-          - '8883'
-          - '8884'
-        default: '8883'
-      basePath:
-        # open meaning there is the opportunity to use special base paths as assigned by the provider, default is `v2`
-        default: v2
+url: broker.company.com
+description: Production MQTT broker
+protocol: secure-mqtt
+protocolVersion: '5'
+security:
+  - type: userPassword
+    description: Connect to the MQTT broker using basic authentication.
+  - type: X509
+    description: Connect to the MQTT broker using a X509 certificate.
 ```
 
 
@@ -864,8 +817,8 @@ Field Name | Type | Description
 <a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="operationObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
+<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a name="operationObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)]| A declaration of which security schemes are associated with this operation. Only one of the [security scheme objects](#securitySchemeObject) MUST be satisfied to authorize an operation. In cases where [Server Security](#serverObjectSecurity) also applies, it MUST also be satisfied.
 <a name="operationObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
@@ -946,7 +899,7 @@ Field Name | Type | Description
 <a name="operationTraitObjectTitle"></a>title | `string` | A human-friendly title for the operation.
 <a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="operationTraitObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)]| A declaration of which security mechanisms are associated with this operation. Only one of the security requirement objects MUST be satisfied to authorize an operation. In cases where Server Security also applies, it MUST also be satisfied.
+<a name="operationTraitObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)]| A declaration of which security schemes are associated with this operation. Only one of the [security scheme objects](#securitySchemeObject) MUST be satisfied to authorize an operation. In cases where [Server Security](#serverObjectSecurity) also applies, it MUST also be satisfied.
 <a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
 <a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
@@ -2335,6 +2288,7 @@ Field Name | Type | Applies To | Description
 <a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
 <a name="securitySchemeFlows"></a>flows | [OAuth Flows Object](#oauthFlowsObject) | `oauth2` | **REQUIRED**. An object containing configuration information for the flow types supported.
 <a name="securitySchemeOpenIdConnectUrl"></a>openIdConnectUrl | `string` | `openIdConnect` | **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This MUST be in the form of an absolute URL.
+<a name="securitySchemeScopes"></a>scopes | [`string`] | `oauth2` \| `openIdConnect` | List of the needed scope names. An empty array means no scopes are needed.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2444,12 +2398,15 @@ bearerFormat: JWT
   "flows": {
     "implicit": {
       "authorizationUrl": "https://example.com/api/oauth/dialog",
-      "scopes": {
+      "availableScopes": {
         "write:pets": "modify pets in your account",
         "read:pets": "read your pets"
       }
     }
-  }
+  },
+  "scopes": [
+    "write:pets"
+  ]
 }
 ```
 
@@ -2458,9 +2415,11 @@ type: oauth2
 flows:
   implicit:
     authorizationUrl: https://example.com/api/oauth/dialog
-    scopes:
+    availableScopes:
       write:pets: modify pets in your account
       read:pets: read your pets
+scopes:
+  - 'write:pets'
 ```
 
 ###### SASL Sample
@@ -2499,7 +2458,7 @@ Field Name | Type | Applies To | Description
 <a name="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of an absolute URL.
 <a name="oauthFlowTokenUrl"></a>tokenUrl | `string` | `oauth2` (`"password"`, `"clientCredentials"`, `"authorizationCode"`) | **REQUIRED**. The token URL to be used for this flow. This MUST be in the form of an absolute URL.
 <a name="oauthFlowRefreshUrl"></a>refreshUrl | `string` | `oauth2` | The URL to be used for obtaining refresh tokens. This MUST be in the form of an absolute URL.
-<a name="oauthFlowScopes"></a>scopes | Map[`string`, `string`] | `oauth2` | **REQUIRED**. The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
+<a name="oauthFlowScopes"></a>availableScopes | Map[`string`, `string`] | `oauth2` | **REQUIRED**. The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2507,98 +2466,24 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```JSON
 {
-  "type": "oauth2",
-  "flows": {
-    "implicit": {
-      "authorizationUrl": "https://example.com/api/oauth/dialog",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
-    "authorizationCode": {
-      "authorizationUrl": "https://example.com/api/oauth/dialog",
-      "tokenUrl": "https://example.com/api/oauth/token",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    }
+  "authorizationUrl": "https://example.com/api/oauth/dialog",
+  "tokenUrl": "https://example.com/api/oauth/token",
+  "availableScopes": {
+    "write:pets": "modify pets in your account",
+    "read:pets": "read your pets"
   }
 }
 ```
 
 ```YAML
-type: oauth2
-flows:
-  implicit:
-    authorizationUrl: https://example.com/api/oauth/dialog
-    scopes:
-      write:pets: modify pets in your account
-      read:pets: read your pets
-  authorizationCode:
-    authorizationUrl: https://example.com/api/oauth/dialog
-    tokenUrl: https://example.com/api/oauth/token
-    scopes:
-      write:pets: modify pets in your account
-      read:pets: read your pets
+authorizationUrl: https://example.com/api/oauth/dialog
+tokenUrl: https://example.com/api/oauth/token
+availableScopes:
+  write:pets: modify pets in your account
+  read:pets: read your pets
 ```
 
-#### <a name="securityRequirementObject"></a>Security Requirement Object
 
-Lists the required security schemes to execute this operation.
-The name used for each property MUST correspond to a security scheme declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject).
-
-When a list of Security Requirement Objects is defined on a [Server object](#serverObject), only one of the Security Requirement Objects in the list needs to be satisfied to authorize the connection.
-
-##### Patterned Fields
-
-Field Pattern | Type | Description
----|:---:|---
-<a name="securityRequirementsName"></a>{name} | [`string`] | Each name MUST correspond to a security scheme which is declared in the [Security Schemes](#componentsSecuritySchemes) under the [Components Object](#componentsObject). If the security scheme is of type `"oauth2"` or `"openIdConnect"`, then the value is a list of scope names. Provide scopes that are required to establish successful connection with the server. If scopes are not needed, the list can be empty. For other security scheme types, the array MUST be empty.
-
-##### Security Requirement Object Examples
-
-###### User/Password Security Requirement
-
-```json
-{
-  "user_pass": []
-}
-```
-
-```yaml
-user_pass: []
-```
-
-###### API Key Security Requirement
-
-```json
-{
-  "api_key": []
-}
-```
-
-```yaml
-api_key: []
-```
-
-###### OAuth2 Security Requirement
-
-```json
-{
-  "petstore_auth": [
-    "write:pets",
-    "read:pets"
-  ]
-}
-```
-
-```yaml
-petstore_auth:
-- write:pets
-- read:pets
-```
 
 ### <a name="correlationIdObject"></a>Correlation ID Object
 
