@@ -355,73 +355,70 @@ Field Pattern | Type | Description
 
 ```json
 {
-  "servers": {
-    "development": {
-      "host": "localhost:5672",
-      "description": "Development AMQP broker.",
-      "protocol": "amqp",
-      "protocolVersion": "0-9-1",
-      "tags": [
-        { 
-          "name": "env:development",
-          "description": "This environment is meant for developers to run their own tests."
-        }
-      ]
-    },
-    "staging": {
-      "host": "rabbitmq-staging.in.mycompany.com:5672",
-      "description": "RabbitMQ broker for the staging environment.",
-      "protocol": "amqp",
-      "protocolVersion": "0-9-1",
-      "tags": [
-        { 
-          "name": "env:staging",
-          "description": "This environment is a replica of the production environment."
-        }
-      ]
-    },
-    "production": {
-      "host": "rabbitmq.in.mycompany.com:5672",
-      "description": "RabbitMQ broker for the production environment.",
-      "protocol": "amqp",
-      "protocolVersion": "0-9-1",
-      "tags": [
-        { 
-          "name": "env:production",
-          "description": "This environment is the live environment available for final users."
-        }
-      ]
-    }
+  "development": {
+    "host": "localhost:5672",
+    "description": "Development AMQP broker.",
+    "protocol": "amqp",
+    "protocolVersion": "0-9-1",
+    "tags": [
+      { 
+        "name": "env:development",
+        "description": "This environment is meant for developers to run their own tests."
+      }
+    ]
+  },
+  "staging": {
+    "host": "rabbitmq-staging.in.mycompany.com:5672",
+    "description": "RabbitMQ broker for the staging environment.",
+    "protocol": "amqp",
+    "protocolVersion": "0-9-1",
+    "tags": [
+      { 
+        "name": "env:staging",
+        "description": "This environment is a replica of the production environment."
+      }
+    ]
+  },
+  "production": {
+    "host": "rabbitmq.in.mycompany.com:5672",
+    "description": "RabbitMQ broker for the production environment.",
+    "protocol": "amqp",
+    "protocolVersion": "0-9-1",
+    "tags": [
+      { 
+        "name": "env:production",
+        "description": "This environment is the live environment available for final users."
+      }
+    ]
   }
 }
 ```
 
 ```yaml
-servers:
-  development:
-    host: localhost:5672
-    description: Development AMQP broker.
-    protocol: amqp
-    protocolVersion: 0-9-1
-    tags:
-      - name: "env:development"
-        description: "This environment is meant for developers to run their own tests."
-  staging:
-    host: rabbitmq-staging.in.mycompany.com:5672
-    description: RabbitMQ broker for the staging environment.
-    protocol: amqp
-    protocolVersion: 0-9-1
-    tags:
-      - name: "env:staging"
-        description: "This environment is a replica of the production environment."
-  production:
-    host: rabbitmq.in.mycompany.com:5672
-    description: RabbitMQ broker for the production environment.
-    protocol: amqp
-    protocolVersion: 0-9-1
-    tags:
-      - name: "env:production"
-        description: "This environment is the live environment available for final users."
+development:
+  host: localhost:5672
+  description: Development AMQP broker.
+  protocol: amqp
+  protocolVersion: 0-9-1
+  tags:
+    - name: "env:development"
+      description: "This environment is meant for developers to run their own tests."
+staging:
+  host: rabbitmq-staging.in.mycompany.com:5672
+  description: RabbitMQ broker for the staging environment.
+  protocol: amqp
+  protocolVersion: 0-9-1
+  tags:
+    - name: "env:staging"
+      description: "This environment is a replica of the production environment."
+production:
+  host: rabbitmq.in.mycompany.com:5672
+  description: RabbitMQ broker for the production environment.
+  protocol: amqp
+  protocolVersion: 0-9-1
+  tags:
+    - name: "env:production"
+      description: "This environment is the live environment available for final users."
 ```
 
 
