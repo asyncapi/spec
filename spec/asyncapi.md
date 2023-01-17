@@ -436,6 +436,7 @@ Field Name | Type | Description
 <a name="serverObjectHost"></a>host | `string` | **REQUIRED**. The server host name. It MAY include the port. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
 <a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this server supports for connection.
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
+<a name="serverObjectPathname"></a>pathname | `string` | The path to a resource in the host. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the server. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` template.
 <a name="serverObjectSecurity"></a>security | [[Security Requirement Object](#securityRequirementObject)] | A declaration of which security mechanisms can be used with this server. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a connection or operation.
@@ -464,6 +465,24 @@ protocol: kafka
 protocolVersion: '9'
 ```
 
+An example of a server that has a `pathname`:
+
+```json
+{
+  "host": "api.gemini.com",
+  "pathname": "/v2/marketdata",
+  "protocol": "wss",
+  "description": "Market data v2 is a public API that can stream all market and candle data across books. Market data v2 also supports multiple subscriptions in the same data feed."
+}
+```
+
+```yaml
+  host: api.gemini.com
+  pathname: /v2/marketdata
+  protocol: wss
+  description: Market data v2 is a public API that can stream all market and candle data across books. Market data v2 also supports multiple subscriptions in the same data feed.
+```
+
 #### <a name="serverVariableObject"></a>Server Variable Object
 
 An object representing a Server Variable for server URL template substitution.
@@ -485,14 +504,13 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 {
   "servers": {
     "production": {
-      "host": "{org}.mycompany.com",
-      "path": "/api/v1",
-      "description": "The production API server.",
-      "protocol": "https",
+      "host": "api.gemini.com",
+      "pathname": "/v1/marketdata/{symbol}",
+      "protocol": "wss",
+      "description": "Market data is a public API that streams all the market data on a given symbol.",
       "variables": {
-        "org": {
-          "default": "demo",
-          "description": "This value is assigned by the service provider, in this example `mycompany.com`."
+        "symbol": {
+          "description": "Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`."
         }
       }
     }
@@ -503,14 +521,13 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```yaml
 servers:
   production:
-    host: '{org}.mycompany.com'
-    path: '/api/v1'
-    description: The production API server.
-    protocol: https
+    host: 'api.gemini.com'
+    pathname: '/v1/marketdata/{symbol}'
+    protocol: wss
+    description: Market data is a public API that streams all the market data on a given symbol.
     variables:
-      org:
-        default: demo
-        description: This value is assigned by the service provider, in this example `mycompany.com`.
+      symbol:
+        description: Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`.
 ```
 
 
