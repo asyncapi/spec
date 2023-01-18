@@ -22,8 +22,8 @@ channels:
                 enum:
                   - application/json
       security:
-        petstore_auth:
-          - subscribe:auth_revocations
+        - petstore_auth:
+            - subscribe:auth_revocations
 components:
   messages:
     message:
