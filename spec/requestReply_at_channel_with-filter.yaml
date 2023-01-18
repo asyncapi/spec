@@ -1,0 +1,68 @@
+channels:
+  rootStatic:
+    address: '/'
+    correlationId:
+      location: '$message.header#/corelationId'
+    messages:
+      ping:
+        $ref: '#/components/messages/ping'     
+      pong:
+        $ref: '#/components/messages/pong' 
+      dontWork:
+        $ref: '#/components/messages/genericError'
+
+  rootDynamic:
+    address: '/'
+    replyAddress:
+      location: '$message.header#/replyTo'
+    correlationId:
+      location: '$message.header#/corelationId'
+    messages:
+      ping:
+        $ref: '#/components/messages/ping'     
+  pongDynamic:
+    address: null # will be used from ping.replyAddress
+    correlationId:
+      location: '$message.header#/corelationId'
+    messages:
+      pong:
+        $ref: '#/components/messages/pong' 
+      dontWork:
+        $ref: '#/components/messages/genericError'
+
+
+operations:
+  requestStatic:
+    channel:
+      $ref: '#/channels/rootStatic'
+    messages:
+      - $ref: '#/channels/rootStatic/messages/ping' 
+    reply:
+      channel:
+        $ref: '#/channels/rootStatic'
+      messages:
+        - $ref: '#/channels/rootStatic/messages/pong'
+        - $ref: '#/channels/rootStatic/messages/genericError'
+  requestDynamic:
+    channel:
+      $ref: '#/channels/rootDynamic'
+    messages:
+      - $ref: '#/channels/rootDynamic/messages/ping' 
+    reply:
+      channel:
+        $ref: '#/channels/pongDynamic'
+      messages:
+        - $ref: '#/channels/rootDynamic/messages/pong' 
+        - $ref: '#/channels/rootDynamic/messages/genericError' 
+    
+components:
+  messages:
+    ping:
+      headers: ...
+      payload: ... 
+    pong:
+      headers: ...
+      payload: ... 
+    genericError:
+      headers: ...
+      payload: ... 

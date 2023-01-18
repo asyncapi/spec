@@ -1,0 +1,66 @@
+channels:
+  pingStatic:
+    address: '/'
+    messages:
+      ping:
+        $ref: '#/components/messages/pingStatic'       
+  pongStatic:
+    address: '/'
+    messages:
+      ping:
+        $ref: '#/components/messages/pong'     
+      dontWork:
+        $ref: '#/components/messages/genericError'
+
+  pingDynamic:
+    address: '/'
+    messages:
+      ping:
+        $ref: '#/components/messages/pingDynamic'     
+  pongDynamic:
+    address: null # will be used from ping.replyAddress
+    messages:
+      pong:
+        $ref: '#/components/messages/pong' 
+      dontWork:
+        $ref: '#/components/messages/genericError'
+
+
+operations:
+  requestStatic:
+    channel:
+      $ref: '#/channels/pingStatic'
+    reply:
+      channel:
+        $ref: '#/channels/pongStatic'
+  requestDynamic:
+    channel:
+      $ref: '#/channels/pingDynamic'
+    reply:
+      address: # Attention: that will be applied to the messages of operations[x].channel
+        location: '$message.header#/replyTo'
+      channel:
+        $ref: '#/channels/pongDynamic'
+    
+components:
+  messages:
+    pingStatic:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
+    pingDynamic:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
+    pong:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
+    genericError:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 

@@ -8,7 +8,7 @@ This version is not yet ready to be used. We're currently working on it. If you 
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 2.5.0
+#### Version 3.0.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -57,14 +57,15 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Contact Object](#contactObject)
       - [License Object](#licenseObject)
       - [Servers Object](#serversObject)
-      - [Server Object](#serverObject)  
+      - [Server Object](#serverObject)
       - [Server Variable Object](#serverVariableObject)
-      - [Default Content Type](#defaultContentTypeString)  
+      - [Default Content Type](#defaultContentTypeString)
       - [Channels Object](#channelsObject)
       - [Channel Object](#channelObject)
       - [Operations Object](#operationsObject)
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
+      - [Operation Reply Object](#operationReplyObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
       - [Message Example Object](#messageExampleObject)
@@ -815,6 +816,8 @@ Field Name | Type | Description
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="operationObjectMessages"></a>messages | [Messages Object](#messagesObject) | A list of supported messages, that can be processes by this operation. Can be set if the not the full list of messages from the channel is supported by this operation. **Every message sent to this operation MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this list.**
+<a name="operationObjectReply"></a>reply | [Reply Object](#operationReplyObject) | The definition of the reply in a request-reply operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -848,7 +851,18 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   },
   "traits": [
     { "$ref": "#/components/operationTraits/kafka" }
-  ]
+  ],
+  "messages": [
+    { "$ref": "/components/messages/userSignedUp" }
+  ],
+  "reply": {
+    "address": {
+      "location": "$message.header#/replyTo"
+    },
+    "channel": {
+      "$ref": "#/channels/userSignupReply"
+    }
+  }
 }
 ```
 
@@ -871,6 +885,13 @@ bindings:
     ack: false
 traits:
   - $ref: "#/components/operationTraits/kafka"
+messages:
+  - $ref: '#/components/messages/userSignedUp'
+reply:
+  address:
+    location: '$message.header#/replyTo'
+  channel:
+    $ref: '#/channels/userSignupReply'
 ```
 
 
@@ -916,6 +937,18 @@ bindings:
 ```
 
 
+
+
+#### <a name="operationReplyObject"></a>Reply Object
+
+Describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationReplyObjectAddress"></a>address | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the reply address used telling operation where to send the response to. Used if a client uses a inbox for request/reply responses.
+<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 
 #### <a name="parametersObject"></a>Parameters Object
@@ -1182,7 +1215,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 2.5.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.5.0`, `application/vnd.aai.asyncapi+json;version=2.5.0`, `application/vnd.aai.asyncapi+yaml;version=2.5.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
@@ -1546,6 +1579,7 @@ Field Name | Type | Description
 <a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
+<a name="componentsreplyChannel"></a>replyChannel | Map[`string`, [replyChannel Object](#replyChannelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [replyChannel Objects](#replyChannelObject).
 <a name="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
 <a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).

@@ -1,0 +1,78 @@
+channels:
+  root:
+    address: '/'
+    messages:
+      pingStatic:
+        $ref: '#/components/messages/pingStatic'
+      pingDynamic:
+        $ref: '#/components/messages/pingDynamic'
+      createUserDynamic:
+        $ref: '#/components/messages/createUserDynamic'
+      pong:
+        $ref: '#/components/messages/pong' 
+      dontWork:
+        $ref: '#/components/messages/genericError' 
+  pongDynamic:
+    address: null # will be used from ping.replyAddress
+    messages:
+      pong:
+        $ref: '#/components/messages/pong' 
+      dontWork:
+        $ref: '#/components/messages/genericError'
+
+
+operations:
+  requestStatic:
+    channel:
+      $ref: '#/channels/root'
+    messages:
+      - $ref: '#/channels/root/messages/pingStatic'
+    reply:
+      channel:
+        $ref: '#/channels/root'
+      messages:
+        - $ref: '#/channels/root/messages/pong'
+        - $ref: '#/channels/root/messages/genericError'
+  requestDynamic:
+    channel:
+      $ref: '#/channels/root'
+    messages:
+      - $ref: '#/channels/root/messages/pingDynamic'
+      - $ref: '#/channels/root/messages/createUserDynamic'
+    reply:
+      channel:
+        $ref: '#/channels/pongDynamic'
+      address: # Attention: that will be applied to the messages of operations[x].channel
+      - message:
+          $ref: '#/channels/root/messages/pingDynamic'
+        location: '$message.header#/replyTo'
+      - message:
+          $ref: '#/channels/root/messages/createUserDynamic'
+        location: '$message.header#/replyTo'
+
+      messages:
+        - $ref: '#/channels/root/messages/pong'
+        - $ref: '#/channels/root/messages/genericError'
+    
+components:
+  messages:
+    pingStatic:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
+    pingDynamic:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
+    pong:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
+    genericError:
+      headers: ...
+      correlationId: 
+        location: '$message.header#/correlationId'
+      payload: ... 
