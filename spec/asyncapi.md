@@ -948,7 +948,7 @@ Describes the reply part that MAY be applied to an Operation Object. If an opera
 Field Name | Type | Description
 ---|:---:|---
 <a name="operationReplyObjectAddress"></a>address | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the reply address used telling operation where to send the response to. Used if a client uses a inbox for request/reply responses.
-<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyObjectAddress) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 
 #### <a name="parametersObject"></a>Parameters Object
