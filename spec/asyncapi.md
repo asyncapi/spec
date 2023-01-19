@@ -66,6 +66,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
       - [Operation Reply Object](#operationReplyObject)
+      - [Operation Reply Adress Object](#operationReplyAddressObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
       - [Message Example Object](#messageExampleObject)
@@ -939,7 +940,7 @@ bindings:
 
 
 
-#### <a name="operationReplyObject"></a>Reply Object
+#### <a name="operationReplyObject"></a>Operation Reply Object
 
 Describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
 
@@ -947,8 +948,37 @@ Describes the reply part that MAY be applied to an Operation Object. If an opera
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddress) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
+<a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
 <a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyObjectAddress) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+
+### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
+
+An object that specifies where an operatio have to send the reply to. 
+
+For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+description | `string` | An optional description of the adress. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the reply adress.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Examples
+
+```json
+{
+  "description": "Consumer inbox",
+  "location": "$message.header#/replyTo"
+}
+```
+
+```yaml
+description: Consumer Inbox
+location: $message.header#/replyTo
+```
 
 
 #### <a name="parametersObject"></a>Parameters Object
