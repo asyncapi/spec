@@ -66,7 +66,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
       - [Operation Reply Object](#operationReplyObject)
-      - [Operation Reply Adress Object](#operationReplyAddressObject)
+      - [Operation Reply Address Object](#operationReplyAddressObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
       - [Message Example Object](#messageExampleObject)
@@ -961,8 +961,8 @@ For specifying and computing the location of a Correlation ID, a [runtime expres
 
 Field Name | Type | Description
 ---|:---|---
-description | `string` | An optional description of the adress. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the reply adress.
+description | `string` | An optional description of the address. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the reply address.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
