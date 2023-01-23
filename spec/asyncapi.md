@@ -467,18 +467,18 @@ An example of a server that has a `pathname`:
 
 ```json
 {
-  "host": "api.gemini.com",
-  "pathname": "/v2/marketdata",
-  "protocol": "wss",
-  "description": "Market data v2 is a public API that can stream all market and candle data across books. Market data v2 also supports multiple subscriptions in the same data feed."
+  "host": "rabbitmq.in.mycompany.com:5672",
+  "pathname": "/production",
+  "protocol": "amqp",
+  "description": "Production RabbitMQ broker (uses the `production` vhost)."
 }
 ```
 
 ```yaml
-host: api.gemini.com
-pathname: /v2/marketdata
-protocol: wss
-description: Market data v2 is a public API that can stream all market and candle data across books. Market data v2 also supports multiple subscriptions in the same data feed.
+host: rabbitmq.in.mycompany.com:5672
+pathname: /production
+protocol: amqp
+description: Production RabbitMQ broker (uses the `production` vhost).
 ```
 
 #### <a name="serverVariableObject"></a>Server Variable Object
@@ -500,28 +500,33 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "host": "api.gemini.com",
-  "pathname": "/v1/marketdata/{symbol}",
-  "protocol": "wss",
-  "description": "Market data is a public API that streams all the market data on a given symbol.",
-  "title": "Market Data API v1",
+  "host": "rabbitmq.in.mycompany.com:5672",
+  "pathname": "/{env}",
+  "protocol": "amqp",
+  "description": "RabbitMQ broker. Use the `env` variable to point to either `production` or `staging`.",
   "variables": {
-    "symbol": {
-      "description": "Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`."
+    "env": {
+      "description": "Environment to connect to. It can be either `production` or `staging`.",
+      "enum": [
+        "production",
+        "staging"
+      ]
     }
   }
 }
 ```
 
 ```yaml
-host: 'api.gemini.com'
-pathname: '/v1/marketdata/{symbol}'
-protocol: wss
-description: Market data is a public API that streams all the market data on a given symbol.
-title: Market Data API v1
+host: 'rabbitmq.in.mycompany.com:5672'
+pathname: '/{env}'
+protocol: amqp
+description: RabbitMQ broker. Use the `env` variable to point to either `production` or `staging`.
 variables:
-  symbol:
-    description: Symbols are formatted as `CCY1CCY2` where prices are in `CCY2` and quantities are in `CCY1`.
+  env:
+    description: Environment to connect to. It can be either `production` or `staging`.
+    enum:
+      - production
+      - staging
 ```
 
 
