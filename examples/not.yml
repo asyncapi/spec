@@ -1,4 +1,4 @@
-asyncapi: '2.5.0'
+asyncapi: '2.6.0'
 info:
   title: Not example
   version: '1.0.0'

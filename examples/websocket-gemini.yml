@@ -12,7 +12,7 @@
 # - Live stream about topics mentioned in part 1 and 2 articles: https://www.youtube.com/watch?v=8tFBcf31e_c
 #
 
-asyncapi: '2.5.0'
+asyncapi: '2.6.0'
 
 #
 # Overal information for users of the application
