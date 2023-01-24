@@ -43,7 +43,8 @@
 The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
 The human-readable markdown file is the source of truth for the specification.
 
-- [Version 2.5.0](https://github.com/asyncapi/spec/blob/v2.5.0/spec/asyncapi.md) (latest)
+- [Version 2.6.0](https://github.com/asyncapi/spec/blob/v2.6.0/spec/asyncapi.md) (latest)
+- [Version 2.5.0](https://github.com/asyncapi/spec/blob/v2.5.0/spec/asyncapi.md)
 - [Version 2.4.0](https://github.com/asyncapi/spec/blob/v2.4.0/spec/asyncapi.md)
 - [Version 2.3.0](https://github.com/asyncapi/spec/blob/v2.3.0/spec/asyncapi.md)
 - [Version 2.2.0](https://github.com/asyncapi/spec/blob/v2.2.0/spec/asyncapi.md)
