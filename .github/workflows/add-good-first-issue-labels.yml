@@ -4,36 +4,37 @@
 # Purpose of this workflow is to enable anyone to label issue with 'Good First Issue' and 'area/*' with a single command.
 name: Add 'Good First Issue' and 'area/*' labels # if proper comment added
 
-on: 
-    issue_comment:
-        types: 
-            - created
+on:
+  issue_comment:
+    types:
+      - created
 
 jobs:
   add-labels:
-    if: ${{!github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot'}}
+    if: ${{(!github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot') && (contains(github.event.comment.body, '/good-first-issue') || contains(github.event.comment.body, '/gfi' ))}}
     runs-on: ubuntu-latest
     steps:
       - name: Add label
-        if: contains(github.event.comment.body, '/good-first-issue') || contains(github.event.comment.body, '/gfi' )
         uses: actions/github-script@v5
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const areas = ['javascript', 'typescript', 'java' , 'go', 'docs', 'ci-cd', 'design'];
-            const values = context.payload.comment.body.trim().split(" ");
-            switch(values[1]){
+            const words = context.payload.comment.body.trim().split(" ");
+            const areaIndex = words.findIndex((word)=> word === '/gfi' || word === '/good-first-issue') + 1
+            let area = words[areaIndex];
+            switch(area){
               case 'ts':
-                values[1] = 'typescript';
+                area = 'typescript';
                 break;
               case 'js':
-                values[1] = 'javascript';
+                area = 'javascript';
                 break;
               case 'markdown':
-                values[1] = 'docs';
+                area = 'docs';
                 break;
             }
-            if(values.length != 2 || !areas.includes(values[1])){
+            if(!areas.includes(area)){
               const message = `Hey @${context.payload.sender.login}, your message doesn't follow the requirements, you can try \`/help\`.`
 
               await github.rest.issues.createComment({
@@ -44,14 +45,14 @@ jobs:
               })
             } else {
 
-              //remove complexity and areas if there are any before adding new labels;
+              // remove area if there is any before adding new labels.
               const currentLabels = (await github.rest.issues.listLabelsOnIssue({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
               })).data.map(label => label.name);
 
-              const shouldBeRemoved = currentLabels.filter(label => (label.startsWith('area/') && !label.endsWith(values[1])));
+              const shouldBeRemoved = currentLabels.filter(label => (label.startsWith('area/') && !label.endsWith(area));
               shouldBeRemoved.forEach(label => {
                 github.rest.issues.deleteLabel({
                   owner: context.repo.owner,
@@ -60,11 +61,11 @@ jobs:
                 });
               });
 
-              //add new labels
+               // Add new labels.
               github.rest.issues.addLabels({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                labels: ['good first issue', `area/${values[1]}`]
+                labels: ['good first issue', `area/${area}`]
               });
             }
