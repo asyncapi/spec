@@ -28,10 +28,10 @@ jobs:
                 area = 'typescript';
                 break;
               case 'js':
-                values[1] = 'javascript';
+                area = 'javascript';
                 break;
               case 'markdown':
-                values[1] = 'docs';
+                area = 'docs';
                 break;
             }
             if(!areas.includes(area)){
