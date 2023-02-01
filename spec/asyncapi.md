@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
 
-#### Version 2.5.0
+#### Version 2.6.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -105,7 +105,7 @@ A message is the mechanism by which information is exchanged via a channel betwe
 A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 #### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket.  
+A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
 #### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
@@ -361,7 +361,7 @@ An object representing a message broker, a server or any other kind of computer 
 Field Name | Type | Description
 ---|:---:|---
 <a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`braces`}`.
-<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `anypointmq`, `mqtt`, `secure-mqtt`, `solace`, `stomp`, `stomps`, `ws`, `wss`, `mercure`, `googlepubsub`.
+<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `anypointmq`, `mqtt`, `secure-mqtt`, `solace`, `stomp`, `stomps`, `ws`, `wss`, `mercure`, `googlepubsub`, `pulsar`.
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
 <a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
@@ -1009,6 +1009,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectMercure"></a>`mercure` | [Mercure Server Binding](https://github.com/asyncapi/bindings/blob/master/mercure#server) | Protocol-specific information for a Mercure server.
 <a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
 <a name="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
+<a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1040,6 +1041,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectMercure"></a>`mercure` | [Mercure Channel Binding](https://github.com/asyncapi/bindings/blob/master/mercure#channel) | Protocol-specific information for a Mercure channel.
 <a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
 <a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
+<a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1071,6 +1073,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectMercure"></a>`mercure` | [Mercure Operation Binding](https://github.com/asyncapi/bindings/blob/master/mercure#operation) | Protocol-specific information for a Mercure operation.
 <a name="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
 <a name="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
+<a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1103,6 +1106,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectMercure"></a>`mercure` | [Mercure Message Binding](https://github.com/asyncapi/bindings/blob/master/mercure#message) | Protocol-specific information for a Mercure message.
 <a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
 <a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
+<a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1144,7 +1148,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 2.5.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.5.0`, `application/vnd.aai.asyncapi+json;version=2.5.0`, `application/vnd.aai.asyncapi+yaml;version=2.5.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 2.6.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=2.6.0`, `application/vnd.aai.asyncapi+json;version=2.6.0`, `application/vnd.aai.asyncapi+yaml;version=2.6.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
