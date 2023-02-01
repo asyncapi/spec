@@ -955,7 +955,7 @@ Field Name | Type | Description
 
 An object that specifies where an operatio have to send the reply to. 
 
-For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
+For specifying and computing the location of a reply address, a [runtime expression](#runtimeExpression) is used.
 
 ##### Fixed Fields
 
