@@ -953,7 +953,7 @@ Field Name | Type | Description
 
 ### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
 
-An object that specifies where an operatio have to send the reply to. 
+An object that specifies where an operation has to send the reply. 
 
 For specifying and computing the location of a reply address, a [runtime expression](#runtimeExpression) is used.
 
