@@ -489,7 +489,7 @@ A single server would be described as:
 host: kafka.in.mycompany.com:9092
 description: Production Kafka broker.
 protocol: kafka
-protocolVersion: '3.1'
+protocolVersion: '3.2'
 ```
 
 An example of a server that has a `pathname`:
@@ -1625,10 +1625,10 @@ my.org.User
     },
     "servers": {
       "development": {
-        "url": "{stage}.gigantic-server.com:{port}",
-        "description": "Development server",
+        "host": "{stage}.in.mycompany.com:{port}",
+        "description": "RabbitMQ broker",
         "protocol": "amqp",
-        "protocolVersion": "0.9.1",
+        "protocolVersion": "0-9-1",
         "variables": {
           "stage": {
             "$ref": "#/components/serverVariables/stage"
@@ -1642,11 +1642,11 @@ my.org.User
     "serverVariables": {
       "stage": {
         "default": "demo",
-        "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+        "description": "This value is assigned by the service provider, in this example `mycompany.com`"
       },
       "port": {
-        "enum": ["8883", "8884"],
-        "default": "8883"
+        "enum": ["5671", "5672"],
+        "default": "5672"
       }
     },
     "channels": {
@@ -1745,10 +1745,10 @@ components:
           type: string
   servers:
     development:
-      url: "{stage}.gigantic-server.com:{port}"
-      description: Development server
+      url: "{stage}.in.mycompany.com:{port}"
+      description: RabbitMQ broker
       protocol: amqp
-      protocolVersion: 0.9.1
+      protocolVersion: 0-9-1
       variables:
         stage:
           $ref: "#/components/serverVariables/stage"
@@ -1757,10 +1757,10 @@ components:
   serverVariables:
     stage:
       default: demo
-      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+      description: This value is assigned by the service provider, in this example `mycompany.com`
     port:
-      enum: [8883, 8884]
-      default: 8883
+      enum: [5671, 5672]
+      default: 5672
   channels:
     user/signedup:
       subscribe:
