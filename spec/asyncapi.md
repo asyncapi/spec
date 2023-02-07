@@ -481,7 +481,7 @@ A single server would be described as:
   "host": "kafka.in.mycompany.com:9092",
   "description": "Production Kafka broker.",
   "protocol": "kafka",
-  "protocolVersion": "9"
+  "protocolVersion": "3.2"
 }
 ```
 
