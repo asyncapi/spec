@@ -987,8 +987,6 @@ user/{userId}/signup:
 
 Map describing protocol-specific definitions for a server.
 
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
 ##### Fixed Fields
 
 Field Name | Type | Description
@@ -1012,13 +1010,12 @@ Field Name | Type | Description
 <a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
 <a name="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="channelBindingsObject"></a>Channel Bindings Object
 
 Map describing protocol-specific definitions for a channel.
-
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Fixed Fields
 
@@ -1043,13 +1040,12 @@ Field Name | Type | Description
 <a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
 <a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="operationBindingsObject"></a>Operation Bindings Object
 
 Map describing protocol-specific definitions for an operation.
-
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Fixed Fields
 
@@ -1074,13 +1070,12 @@ Field Name | Type | Description
 <a name="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
 <a name="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="messageBindingsObject"></a>Message Bindings Object
 
 Map describing protocol-specific definitions for a message.
-
-This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 ##### Fixed Fields
 
@@ -1105,6 +1100,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
 <a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
 Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="messageObject"></a>Message Object
