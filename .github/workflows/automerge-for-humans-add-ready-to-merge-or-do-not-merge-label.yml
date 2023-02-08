@@ -7,14 +7,14 @@
 
 name: Label PRs # if proper comment added
 
-on: 
-    issue_comment:
-        types: 
-            - created
+on:
+  issue_comment:
+    types:
+      - created
 
 jobs:
   add-ready-to-merge-label:
-    if: > 
+    if: >
       github.event.issue.pull_request && 
       github.event.issue.state != 'closed' && 
       github.actor != 'asyncapi-bot' && 
@@ -25,7 +25,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-
       - name: Add ready-to-merge label
         uses: actions/github-script@v5
         with:
@@ -64,7 +63,7 @@ jobs:
                        Thanks 😄`
               })
             }
-           
+
   add-do-not-merge-label:
     if: >
       github.event.issue.pull_request &&
@@ -86,7 +85,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['do-not-merge']
-            }) 
+            })
   add-autoupdate-label:
     if: >
       github.event.issue.pull_request && 
@@ -108,4 +107,4 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['autoupdate']
-            }) 
+            })
