@@ -1613,6 +1613,7 @@ Field Name | Type | Description
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsReplies"></a>replies | Map[`string`, [Operation Reply Object](#operationReplyObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Objects](#operationReplyObject).
+<a name="componentsReplyAddresses"></a> replyAddresses | Map[`string`, [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Address Objects](#operationReplyAddressObject).
 <a name="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
 <a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
@@ -1621,7 +1622,6 @@ Field Name | Type | Description
 <a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
 <a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
 <a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
-<a name="componentsReplyAddresses"></a> replyAddresses | Map[`string`, [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Address Objects](#operationReplyAddressObject).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
