@@ -1012,8 +1012,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-
+Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="channelBindingsObject"></a>Channel Bindings Object
 
@@ -1044,8 +1043,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-
+Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="operationBindingsObject"></a>Operation Bindings Object
 
@@ -1076,9 +1074,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-
-
+Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="messageBindingsObject"></a>Message Bindings Object
 
@@ -1109,12 +1105,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-
-
-
-
-
+Protocol-specific binding objects MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="messageObject"></a>Message Object
 
