@@ -951,11 +951,14 @@ Field Name | Type | Description
 <a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
 <a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
-### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+#### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
 
 An object that specifies where an operation has to send the reply. 
 
 For specifying and computing the location of a reply address, a [runtime expression](#runtimeExpression) is used.
+
 
 ##### Fixed Fields
 
