@@ -52,7 +52,7 @@ jobs:
                 repo: context.repo.repo,
               })).data.map(label => label.name);
 
-              const shouldBeRemoved = currentLabels.filter(label => (label.startsWith('area/') && !label.endsWith(area));
+              const shouldBeRemoved = currentLabels.filter(label => (label.startsWith('area/') && !label.endsWith(area)));
               shouldBeRemoved.forEach(label => {
                 github.rest.issues.deleteLabel({
                   owner: context.repo.owner,
