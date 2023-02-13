@@ -385,38 +385,69 @@ Field Pattern | Type | Description
 ```json
 {
   "development": {
-    "url": "development.gigantic-server.com",
-    "protocol": "kafka",
-    "protocolVersion": "1.0.0",
-    "title": "Development server",
-    "summary": "A development server",
-    "description": "A longer description",
+    "host": "localhost:5672",
+    "description": "Development AMQP broker.",
+    "protocol": "amqp",
+    "protocolVersion": "0-9-1",
     "tags": [
-      {
-        "name": "env:development"
+      { 
+        "name": "env:development",
+        "description": "This environment is meant for developers to run their own tests."
       }
-    ],
-    "externalDocs": {
-      "description": "Find more info here",
-      "url": "https://kafka.apache.org/"
-    }
+    ]
+  },
+  "staging": {
+    "host": "rabbitmq-staging.in.mycompany.com:5672",
+    "description": "RabbitMQ broker for the staging environment.",
+    "protocol": "amqp",
+    "protocolVersion": "0-9-1",
+    "tags": [
+      { 
+        "name": "env:staging",
+        "description": "This environment is a replica of the production environment."
+      }
+    ]
+  },
+  "production": {
+    "host": "rabbitmq.in.mycompany.com:5672",
+    "description": "RabbitMQ broker for the production environment.",
+    "protocol": "amqp",
+    "protocolVersion": "0-9-1",
+    "tags": [
+      { 
+        "name": "env:production",
+        "description": "This environment is the live environment available for final users."
+      }
+    ]
   }
 }
 ```
 
 ```yaml
 development:
-  url: development.gigantic-server.com
-  protocol: kafka
-  protocolVersion: 1.0.0
-  title: Development server
-  summary: A development server
-  description: A longer description
+  host: localhost:5672
+  description: Development AMQP broker.
+  protocol: amqp
+  protocolVersion: 0-9-1
   tags:
     - name: "env:development"
-  externalDocs:
-    description: Find more info here
-    url: https://kafka.apache.org/
+      description: "This environment is meant for developers to run their own tests."
+staging:
+  host: rabbitmq-staging.in.mycompany.com:5672
+  description: RabbitMQ broker for the staging environment.
+  protocol: amqp
+  protocolVersion: 0-9-1
+  tags:
+    - name: "env:staging"
+      description: "This environment is a replica of the production environment."
+production:
+  host: rabbitmq.in.mycompany.com:5672
+  description: RabbitMQ broker for the production environment.
+  protocol: amqp
+  protocolVersion: 0-9-1
+  tags:
+    - name: "env:production"
+      description: "This environment is the live environment available for final users."
 ```
 
 
@@ -428,13 +459,14 @@ An object representing a message broker, a server or any other kind of computer 
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="serverObjectUrl"></a>url | `string` | **REQUIRED**. A URL to the target host.  This URL supports Server Variables and MAY be relative, to indicate that the host location is relative to the location where the AsyncAPI document is being served. Variable substitutions will be made when a variable is named in `{`braces`}`.
-<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this URL supports for connection. Supported protocol include, but are not limited to: `amqp`, `amqps`, `http`, `https`, `ibmmq`, `jms`, `kafka`, `kafka-secure`, `anypointmq`, `mqtt`, `secure-mqtt`, `solace`, `stomp`, `stomps`, `ws`, `wss`, `mercure`, `googlepubsub`.
+<a name="serverObjectHost"></a>host | `string` | **REQUIRED**. The server host name. It MAY include the port. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
+<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this server supports for connection.
 <a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
+<a name="serverObjectPathname"></a>pathname | `string` | The path to a resource in the host. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
+<a name="serverObjectDescription"></a>description | `string` | An optional string describing the server. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
 <a name="serverObjectTitle"></a>title | `string` | A human-friendly title for the server.
 <a name="serverObjectSummary"></a>summary | `string` | A short summary of the server.
-<a name="serverObjectDescription"></a>description | `string` | An optional string describing the host designated by the URL. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's URL template.
+<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` and `pathname` template.
 <a name="serverObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | A declaration of which security schemes can be used with this server. The list of values includes alternative [security scheme objects](#securitySchemeObject) that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or operation.
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
 <a name="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this server.
@@ -446,116 +478,37 @@ A single server would be described as:
 
 ```json
 {
-  "url": "development.gigantic-server.com",
+  "host": "kafka.in.mycompany.com:9092",
+  "description": "Production Kafka broker.",
   "protocol": "kafka",
-  "protocolVersion": "1.0.0",
-  "title": "Development server",
-  "summary": "A development server",
-  "description": "A longer description",
-  "tags": [
-    {
-      "name": "env:development"
-    }
-  ],
-  "externalDocs": {
-    "description": "Find more info here",
-    "url": "https://kafka.apache.org/"
-  }
+  "protocolVersion": "3.2"
 }
 ```
 
 ```yaml
-url: development.gigantic-server.com
+host: kafka.in.mycompany.com:9092
+description: Production Kafka broker.
 protocol: kafka
-protocolVersion: 1.0.0
-title: Development server
-summary: A development server
-description: A longer description
-tags:
-  - name: "env:development"
-externalDocs:
-  description: Find more info here
-  url: https://kafka.apache.org/
+protocolVersion: '3.2'
 ```
 
-Using server variables for dynamic URLs:
+An example of a server that has a `pathname`:
 
 ```json
 {
-  "url": "{username}.gigantic-server.com:{port}/{basePath}",
-  "description": "The production API server",
-  "protocol": "secure-mqtt",
-  "variables": {
-    "username": {
-      "default": "demo",
-      "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
-    },
-    "port": {
-      "enum": [
-        "8883",
-        "8884"
-      ],
-      "default": "8883"
-    },
-    "basePath": {
-      "default": "v2"
-    }
-  }
+  "host": "rabbitmq.in.mycompany.com:5672",
+  "pathname": "/production",
+  "protocol": "amqp",
+  "description": "Production RabbitMQ broker (uses the `production` vhost)."
 }
 ```
 
 ```yaml
-url: '{username}.gigantic-server.com:{port}/{basePath}'
-description: The production API server
-protocol: secure-mqtt
-variables:
-  username:
-    # Note: no enum here means it is an open value.
-    default: demo
-    description: This value is assigned by the service provider, in this example `gigantic-server.com`
-  port:
-    enum:
-      - '8883'
-      - '8884'
-    default: '8883'
-  basePath:
-    # Note: open meaning. There is the opportunity to use special base paths as assigned by the provider, default is `v2`.
-    default: v2
+host: rabbitmq.in.mycompany.com:5672
+pathname: /production
+protocol: amqp
+description: Production RabbitMQ broker (uses the `production` vhost).
 ```
-
-Using security mechanisms:
-
-```json
-{
-  "url": "broker.company.com",
-  "description": "Production MQTT broker",
-  "protocol": "secure-mqtt",
-  "protocolVersion": "5",
-  "security": [
-    {
-      "type": "userPassword",
-      "description": "Connect to the MQTT broker using basic authentication."
-    },
-    {
-      "type": "X509",
-      "description": "Connect to the MQTT broker using a X509 certificate."
-    }
-  ]
-}
-```
-
-```yaml
-url: broker.company.com
-description: Production MQTT broker
-protocol: secure-mqtt
-protocolVersion: '5'
-security:
-  - type: userPassword
-    description: Connect to the MQTT broker using basic authentication.
-  - type: X509
-    description: Connect to the MQTT broker using a X509 certificate.
-```
-
 
 #### <a name="serverVariableObject"></a>Server Variable Object
 
@@ -572,8 +525,38 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
+##### Server Variable Object Example
 
+```json
+{
+  "host": "rabbitmq.in.mycompany.com:5672",
+  "pathname": "/{env}",
+  "protocol": "amqp",
+  "description": "RabbitMQ broker. Use the `env` variable to point to either `production` or `staging`.",
+  "variables": {
+    "env": {
+      "description": "Environment to connect to. It can be either `production` or `staging`.",
+      "enum": [
+        "production",
+        "staging"
+      ]
+    }
+  }
+}
+```
 
+```yaml
+host: 'rabbitmq.in.mycompany.com:5672'
+pathname: '/{env}'
+protocol: amqp
+description: RabbitMQ broker. Use the `env` variable to point to either `production` or `staging`.
+variables:
+  env:
+    description: Environment to connect to. It can be either `production` or `staging`.
+    enum:
+      - production
+      - staging
+```
 
 
 #### <a name="defaultContentTypeString"></a>Default Content Type
@@ -1642,10 +1625,10 @@ my.org.User
     },
     "servers": {
       "development": {
-        "url": "{stage}.gigantic-server.com:{port}",
-        "description": "Development server",
+        "host": "{stage}.in.mycompany.com:{port}",
+        "description": "RabbitMQ broker",
         "protocol": "amqp",
-        "protocolVersion": "0.9.1",
+        "protocolVersion": "0-9-1",
         "variables": {
           "stage": {
             "$ref": "#/components/serverVariables/stage"
@@ -1659,11 +1642,11 @@ my.org.User
     "serverVariables": {
       "stage": {
         "default": "demo",
-        "description": "This value is assigned by the service provider, in this example `gigantic-server.com`"
+        "description": "This value is assigned by the service provider, in this example `mycompany.com`"
       },
       "port": {
-        "enum": ["8883", "8884"],
-        "default": "8883"
+        "enum": ["5671", "5672"],
+        "default": "5672"
       }
     },
     "channels": {
@@ -1762,10 +1745,10 @@ components:
           type: string
   servers:
     development:
-      url: "{stage}.gigantic-server.com:{port}"
-      description: Development server
+      url: "{stage}.in.mycompany.com:{port}"
+      description: RabbitMQ broker
       protocol: amqp
-      protocolVersion: 0.9.1
+      protocolVersion: 0-9-1
       variables:
         stage:
           $ref: "#/components/serverVariables/stage"
@@ -1774,10 +1757,10 @@ components:
   serverVariables:
     stage:
       default: demo
-      description: This value is assigned by the service provider, in this example `gigantic-server.com`
+      description: This value is assigned by the service provider, in this example `mycompany.com`
     port:
-      enum: [8883, 8884]
-      default: 8883
+      enum: [5671, 5672]
+      default: 5672
   channels:
     user/signedup:
       subscribe:
