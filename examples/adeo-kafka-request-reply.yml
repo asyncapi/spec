@@ -5,7 +5,7 @@ info:
   description: >
     This Adeo specification illustrates how ADEO uses Async API to document some of their exchanges
   contact:
-    name: AsyncApi team
+    name: AsyncAPI team
     email: case-study@asyncapi.com
 servers:
   production:
