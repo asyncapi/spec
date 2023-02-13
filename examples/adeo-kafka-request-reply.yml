@@ -1,6 +1,6 @@
 asyncapi: 3.0.0
 info:
-  title: Adeo Async API Case Study
+  title: Adeo AsyncAPI Case Study
   version: "%REPLACED_BY_MAVEN%"
   description: >
     This Adeo specification illustrates how ADEO uses Async API to document some of their exchanges
