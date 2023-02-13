@@ -84,7 +84,7 @@ channels:
       [**RecordNameStrategy**](https://docs.confluent.io/platform/current/schema-registry/serdes-develop/index.html#subject-name-strategy)
       to infer the messages schema.
       You have to define `key.subject.name.strategy` and
-      `value.subject.name.strategy` to
+      `x-value.subject.name.strategy` to
       `io.confluent.kafka.serializers.subject.RecordNameStrategy` in your
       consumer.
       The schema below illustrates how Costing Response messages are
