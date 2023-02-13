@@ -20,7 +20,7 @@ servers:
           https://schema-registry.prod.url/
   staging:
     url: "staging.url:9092"
-    protocol: kafka
+    protocol: kafka-secure
     description: Kafka STAGING cluster for `uat` and `preprod` environments
     security:
       - sasl-ssl: []
