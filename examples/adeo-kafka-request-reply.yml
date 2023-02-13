@@ -150,7 +150,7 @@ operations:
               The groupId must be prefixed by your `svc` account, deliver by the
               Adeo Kafka team.
               This `svc` must have the write access to the topic.
-          value.subject.name.strategy:
+          x-value.subject.name.strategy:
             type: string
             description: >
               We use the RecordNameStrategy to infer the messages schema.
