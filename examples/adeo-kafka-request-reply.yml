@@ -155,7 +155,7 @@ operations:
             description: >
               We use the RecordNameStrategy to infer the messages schema.
               Use
-              `value.subject.name.strategy=io.confluent.kafka.serializers.subject.RecordNameStrategy`
+              `x-value.subject.name.strategy=io.confluent.kafka.serializers.subject.RecordNameStrategy`
               in your producer configuration.
     getCostingResponse:
       action: send
