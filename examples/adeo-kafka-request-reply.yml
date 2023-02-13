@@ -10,7 +10,7 @@ info:
 servers:
   production:
     url: "prod.url:9092"
-    protocol: kafka
+    protocol: kafka-secure
     description: Kafka PRODUCTION cluster
     security:
       - sasl-ssl: []
