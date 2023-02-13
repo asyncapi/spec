@@ -49,7 +49,7 @@ channels:
       We use the
       [**RecordNameStrategy**](https://docs.confluent.io/platform/current/schema-registry/serdes-develop/index.html#subject-name-strategy)
       to infer the messages schema.
-      You have to define `value.subject.name.strategy` to
+      You have to define `x-value.subject.name.strategy` to
       `io.confluent.kafka.serializers.subject.RecordNameStrategy` in your
       producer to use the schema we manage.
       The schema below illustrates how Costing Request messages are
