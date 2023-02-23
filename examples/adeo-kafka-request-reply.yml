@@ -6,7 +6,7 @@ info:
     This Adeo specification illustrates how ADEO uses AsyncAPI to document some of their exchanges
   contact:
     name: AsyncAPI team
-    email: case-study@asyncapi.com
+    email: info@asyncapi.io
 servers:
   production:
     url: "prod.url:9092"
