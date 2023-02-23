@@ -30,7 +30,7 @@ servers:
           https://schema-registry.staging.url/
   dev:
     url: "dev.url:9092"
-    protocol: kafka
+    protocol: kafka-secure
     description: Kafka DEV cluster for `dev` and `sit` environments
     security:
       - sasl-ssl: []
