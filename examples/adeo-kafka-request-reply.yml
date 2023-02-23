@@ -16,7 +16,7 @@ servers:
       - sasl-ssl: []
     bindings:
       kafka:
-        schema.registry.url: >-
+        schemaRegistryUrl: >-
           https://schema-registry.prod.url/
   staging:
     url: "staging.url:9092"
