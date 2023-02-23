@@ -104,7 +104,7 @@ channels:
             The groupId must be prefixed by your `svc` account, deliver by the
             Adeo Kafka team.
             This `svc` must have the read access to the topic.
-        key.subject.name.strategy:
+        x-key.subject.name.strategy:
           type: string
           description: >
             We use the RecordNameStrategy to infer the messages schema.
