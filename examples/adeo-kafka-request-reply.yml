@@ -109,7 +109,7 @@ channels:
           description: >
             We use the RecordNameStrategy to infer the messages schema.
             Use
-            `key.subject.name.strategy=io.confluent.kafka.serializers.subject.RecordNameStrategy`
+            `x-key.subject.name.strategy=io.confluent.kafka.serializers.subject.RecordNameStrategy`
             in your consumer configuration.
         x-value.subject.name.strategy:
           type: string
