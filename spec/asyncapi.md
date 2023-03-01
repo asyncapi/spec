@@ -862,7 +862,10 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     },
     "channel": {
       "$ref": "#/channels/userSignupReply"
-    }
+    },
+    "messages": [
+      { "$ref": "/components/messages/userSignedUpReply" }
+    ],
   }
 }
 ```
@@ -893,6 +896,8 @@ reply:
     location: '$message.header#/replyTo'
   channel:
     $ref: '#/channels/userSignupReply'
+  messages:
+    - $ref: '#/components/messages/userSignedUpReply'
 ```
 
 
@@ -950,6 +955,7 @@ Field Name | Type | Description
 ---|:---:|---
 <a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
 <a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
