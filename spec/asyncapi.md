@@ -95,6 +95,8 @@ Aside from the issues mentioned above, there may also be infrastructure configur
       - [Operations Object](#operationsObject)
       - [Operation Object](#operationObject)
       - [Operation Trait Object](#operationTraitObject)
+      - [Operation Reply Object](#operationReplyObject)
+      - [Operation Reply Address Object](#operationReplyAddressObject)
       - [Message Object](#messageObject)
       - [Message Trait Object](#messageTraitObject)
       - [Message Example Object](#messageExampleObject)
@@ -836,6 +838,8 @@ Field Name | Type | Description
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -870,7 +874,21 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   },
   "traits": [
     { "$ref": "#/components/operationTraits/kafka" }
-  ]
+  ],
+  "messages": [
+    { "$ref": "/components/messages/userSignedUp" }
+  ],
+  "reply": {
+    "address": {
+      "location": "$message.header#/replyTo"
+    },
+    "channel": {
+      "$ref": "#/channels/userSignupReply"
+    },
+    "messages": [
+      { "$ref": "/components/messages/userSignedUpReply" }
+    ],
+  }
 }
 ```
 
@@ -894,6 +912,15 @@ bindings:
     ack: false
 traits:
   - $ref: "#/components/operationTraits/kafka"
+messages:
+  - $ref: '#/components/messages/userSignedUp'
+reply:
+  address:
+    location: '$message.header#/replyTo'
+  channel:
+    $ref: '#/channels/userSignupReply'
+  messages:
+    - $ref: '#/components/messages/userSignedUpReply'
 ```
 
 
@@ -938,6 +965,51 @@ bindings:
 ```
 
 
+
+
+#### <a name="operationReplyObject"></a>Operation Reply Object
+
+Describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
+<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+#### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
+
+An object that specifies where an operation has to send the reply. 
+
+For specifying and computing the location of a reply address, a [runtime expression](#runtimeExpression) is used.
+
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---|---
+description | `string` | An optional description of the address. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+location | `string` | **REQUIRED.** A [runtime expression](#runtimeExpression) that specifies the location of the reply address.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Examples
+
+```json
+{
+  "description": "Consumer inbox",
+  "location": "$message.header#/replyTo"
+}
+```
+
+```yaml
+description: Consumer Inbox
+location: $message.header#/replyTo
+```
 
 
 #### <a name="parametersObject"></a>Parameters Object
@@ -1569,6 +1641,8 @@ Field Name | Type | Description
 <a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
+<a name="componentsReplies"></a>replies | Map[`string`, [Operation Reply Object](#operationReplyObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Objects](#operationReplyObject).
+<a name="componentsReplyAddresses"></a> replyAddresses | Map[`string`, [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Address Objects](#operationReplyAddressObject).
 <a name="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
 <a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
