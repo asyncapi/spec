@@ -1379,9 +1379,9 @@ payload:
   type: object
   properties:
     user:
-      ref: "#/components/schemas/userCreate"
+      $ref: "#/components/schemas/userCreate"
     signup:
-      ref: "#/components/schemas/signup"
+      $ref: "#/components/schemas/signup"
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
@@ -1757,10 +1757,10 @@ my.org.User
           "type": "object",
           "properties": {
             "user": {
-              "ref": "#/components/schemas/userCreate"
+              "$ref": "#/components/schemas/userCreate"
             },
             "signup": {
-              "ref": "#/components/schemas/signup"
+              "$ref": "#/components/schemas/signup"
             }
           }
         }
@@ -1859,9 +1859,9 @@ components:
         type: object
         properties:
           user:
-            ref: "#/components/schemas/userCreate"
+            $ref: "#/components/schemas/userCreate"
           signup:
-            ref: "#/components/schemas/signup"
+            $ref: "#/components/schemas/signup"
   parameters:
     userId:
       description: Id of the user.
@@ -1992,7 +1992,7 @@ format: email
       "type": "string"
     },
     "address": {
-      "ref": "#/components/schemas/Address"
+      "$ref": "#/components/schemas/Address"
     },
     "age": {
       "type": "integer",
@@ -2011,7 +2011,7 @@ properties:
   name:
     type: string
   address:
-    ref: '#/components/schemas/Address'
+    $ref: '#/components/schemas/Address'
   age:
     type: integer
     format: int32
@@ -2043,7 +2043,7 @@ For a string to model mapping:
 {
   "type": "object",
   "additionalProperties": {
-    "ref": "#/components/schemas/ComplexModel"
+    "$ref": "#/components/schemas/ComplexModel"
   }
 }
 ```
@@ -2051,7 +2051,7 @@ For a string to model mapping:
 ```yaml
 type: object
 additionalProperties:
-  ref: '#/components/schemas/ComplexModel'
+  $ref: '#/components/schemas/ComplexModel'
 ```
 
 ###### Model with Example
@@ -2144,7 +2144,7 @@ properties:
     "ExtendedErrorModel": {
       "allOf": [
         {
-          "ref": "#/components/schemas/ErrorModel"
+          "$ref": "#/components/schemas/ErrorModel"
         },
         {
           "type": "object",
@@ -2179,7 +2179,7 @@ schemas:
         maximum: 600
   ExtendedErrorModel:
     allOf:
-    - ref: '#/components/schemas/ErrorModel'
+    - $ref: '#/components/schemas/ErrorModel'
     - type: object
       required:
       - rootCause
@@ -2239,7 +2239,7 @@ schemas:
       "description": "A representation of a dog. Note that `Dog` will be used as the discriminator value.",
       "allOf": [
         {
-          "ref": "#/components/schemas/Pet"
+          "$ref": "#/components/schemas/Pet"
         },
         {
           "type": "object",
@@ -2261,7 +2261,7 @@ schemas:
       "description": "A representation of an Australian walking stick. Note that `StickBug` will be used as the discriminator value.",
       "allOf": [
         {
-          "ref": "#/components/schemas/Pet"
+          "$ref": "#/components/schemas/Pet"
         },
         {
           "type": "object",
@@ -2301,7 +2301,7 @@ schemas:
   Cat:
     description: A representation of a cat
     allOf:
-    - ref: '#/components/schemas/Pet'
+    - $ref: '#/components/schemas/Pet'
     - type: object
       properties:
         huntingSkill:
@@ -2319,7 +2319,7 @@ schemas:
   Dog:
     description: A representation of a dog
     allOf:
-    - ref: '#/components/schemas/Pet'
+    - $ref: '#/components/schemas/Pet'
     - type: object
       properties:
         packSize:
@@ -2335,7 +2335,7 @@ schemas:
   StickInsect:
     description: A representation of an Australian walking stick
     allOf:
-    - ref: '#/components/schemas/Pet'
+    - $ref: '#/components/schemas/Pet'
     - type: object
       properties:
         petType:
