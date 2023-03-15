@@ -31,7 +31,7 @@ operations:
   onUserSignedUp:
     action: receive
     channel:
-      $ref: "#/channels/userSignedUp"
+      ref: "#/channels/userSignedUp"
 ```
 
 It means that the [application](#definitionsApplication) will subscribe to the `userSignedUp` [channel](#definitionsChannel) to receive messages.
@@ -47,7 +47,7 @@ operations:
     description: Event received when a user signed up on the product.
     action: receive
     channel:
-      $ref: "#/channels/userSignedUp"
+      ref: "#/channels/userSignedUp"
 ```
 
 We can't automatically assume that an _opposite_ application exists by simply replacing `receive` with `send`:
@@ -59,7 +59,7 @@ operations:
     description: Event received when a user signed up on the product. # <-- This doesn't make sense now. Should speak about sending an event, not receiving it.
     action: send
     channel:
-      $ref: "#/channels/userSignedUp"
+      ref: "#/channels/userSignedUp"
 ```
 
 Aside from the issues mentioned above, there may also be infrastructure configuration that is not represented here. For instance, a system may use a read-only channel for receiving messages, a different one for sending them, and an intermediary process that will forward messages from one channel to the other.
@@ -602,7 +602,7 @@ Field Pattern | Type | Description
     "address": "user.signedup",
     "messages": {
       "userSignedUp": {
-        "$ref": "#/components/messages/userSignedUp"
+        "ref": "#/components/messages/userSignedUp"
       }
     }
   }
@@ -614,7 +614,7 @@ userSignedUp:
   address: 'user.signedup'
   messages:
     userSignedUp:
-      $ref: '#/components/messages/userSignedUp'
+      ref: '#/components/messages/userSignedUp'
 ```
 
 
@@ -633,7 +633,7 @@ Field Name | Type | Description
 <a name="channelObjectTitle"></a>title | `string` | A human-friendly title for the channel.
 <a name="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
@@ -651,20 +651,20 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "description": "This channel is used to exchange messages about user events.",
   "messages": {
     "userSignedUp": {
-      "$ref": "#/components/messages/userSignedUp"
+      "ref": "#/components/messages/userSignedUp"
     },
     "userCompletedOrder": {
-      "$ref": "#/components/messages/userCompletedOrder"
+      "ref": "#/components/messages/userCompletedOrder"
     }
   },
   "parameters": {
     "userId": {
-      "$ref": "#/components/parameters/userId"
+      "ref": "#/components/parameters/userId"
     }
   },
   "servers": [
-    { "$ref": "#/servers/rabbitmqInProd" },
-    { "$ref": "#/servers/rabbitmqInStaging" }
+    { "ref": "#/servers/rabbitmqInProd" },
+    { "ref": "#/servers/rabbitmqInStaging" }
   ],
   "bindings": {
     "amqp": {
@@ -691,15 +691,15 @@ title: Users channel
 description: This channel is used to exchange messages about user events.
 messages:
   userSignedUp:
-    $ref: '#/components/messages/userSignedUp'
+    ref: '#/components/messages/userSignedUp'
   userCompletedOrder:
-    $ref: '#/components/messages/userCompletedOrder'
+    ref: '#/components/messages/userCompletedOrder'
 parameters:
   userId:
-    $ref: '#/components/parameters/userId'
+    ref: '#/components/parameters/userId'
 servers:
-  - $ref: '#/servers/rabbitmqInProd'
-  - $ref: '#/servers/rabbitmqInStaging'
+  - ref: '#/servers/rabbitmqInProd'
+  - ref: '#/servers/rabbitmqInStaging'
 bindings:
   amqp:
     is: queue
@@ -742,19 +742,19 @@ Field Pattern | Type | Description
 ```json
 {
   "userSignedUp": {
-    "$ref": "#/components/messages/userSignedUp"
+    "ref": "#/components/messages/userSignedUp"
   },
   "userCompletedOrder": {
-    "$ref": "#/components/messages/userCompletedOrder"
+    "ref": "#/components/messages/userCompletedOrder"
   }
 }
 ```
 
 ```yaml
 userSignedUp:
-  $ref: '#/components/messages/userSignedUp'
+  ref: '#/components/messages/userSignedUp'
 userCompletedOrder:
-  $ref: '#/components/messages/userCompletedOrder'
+  ref: '#/components/messages/userCompletedOrder'
 ```
 
 
@@ -780,7 +780,7 @@ Field Pattern | Type | Description
     "summary": "Action to sign a user up.",
     "description": "A longer description",
     "channel": {
-      "$ref": "#/channels/userSignup"
+      "ref": "#/channels/userSignup"
     },
     "action": "send",
     "tags": [
@@ -794,7 +794,7 @@ Field Pattern | Type | Description
       }
     },
     "traits": [
-      { "$ref": "#/components/operationTraits/kafka" }
+      { "ref": "#/components/operationTraits/kafka" }
     ]
   }
 }
@@ -806,7 +806,7 @@ onUserSignUp:
   summary: Action to sign a user up.
   description: A longer description
   channel:
-    $ref: '#/channels/userSignup'
+    ref: '#/channels/userSignup'
   action: send
   tags:
     - name: user
@@ -816,7 +816,7 @@ onUserSignUp:
     amqp:
       ack: false
   traits:
-    - $ref: '#/components/operationTraits/kafka'
+    - ref: '#/components/operationTraits/kafka'
 ```
 
 
@@ -829,7 +829,7 @@ Describes a specific operation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="operationObjectAction"></a>action | `"send"` &#124; `"receive"` | **Required**. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
-<a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
@@ -838,7 +838,7 @@ Field Name | Type | Description
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
-<a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -851,7 +851,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "summary": "Action to sign a user up.",
   "description": "A longer description",
   "channel": {
-    "$ref": "#/channels/userSignup"
+    "ref": "#/channels/userSignup"
   },
   "action": "send",
   "security": [
@@ -873,20 +873,20 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     }
   },
   "traits": [
-    { "$ref": "#/components/operationTraits/kafka" }
+    { "ref": "#/components/operationTraits/kafka" }
   ],
   "messages": [
-    { "$ref": "/components/messages/userSignedUp" }
+    { "ref": "/components/messages/userSignedUp" }
   ],
   "reply": {
     "address": {
       "location": "$message.header#/replyTo"
     },
     "channel": {
-      "$ref": "#/channels/userSignupReply"
+      "ref": "#/channels/userSignupReply"
     },
     "messages": [
-      { "$ref": "/components/messages/userSignedUpReply" }
+      { "ref": "/components/messages/userSignedUpReply" }
     ],
   }
 }
@@ -897,7 +897,7 @@ title: User sign up
 summary: Action to sign a user up.
 description: A longer description
 channel:
-  $ref: '#/channels/userSignup'
+  ref: '#/channels/userSignup'
 action: send
 security:
   - petstore_auth:
@@ -911,16 +911,16 @@ bindings:
   amqp:
     ack: false
 traits:
-  - $ref: "#/components/operationTraits/kafka"
+  - ref: "#/components/operationTraits/kafka"
 messages:
-  - $ref: '#/components/messages/userSignedUp'
+  - ref: '#/components/messages/userSignedUp'
 reply:
   address:
     location: '$message.header#/replyTo'
   channel:
-    $ref: '#/channels/userSignupReply'
+    ref: '#/channels/userSignupReply'
   messages:
-    - $ref: '#/components/messages/userSignedUpReply'
+    - ref: '#/components/messages/userSignedUpReply'
 ```
 
 
@@ -976,8 +976,8 @@ Describes the reply part that MAY be applied to an Operation Object. If an opera
 Field Name | Type | Description
 ---|:---:|---
 <a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
-<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1039,7 +1039,7 @@ Field Pattern | Type | Description
     },
     "subscribe": {
       "message": {
-        "$ref": "#/components/messages/userSignedUp"
+        "ref": "#/components/messages/userSignedUp"
       }
     }
   }
@@ -1055,7 +1055,7 @@ user/{userId}/signup:
         type: string
   subscribe:
     message:
-      $ref: "#/components/messages/userSignedUp"
+      ref: "#/components/messages/userSignedUp"
 ```
 
 
@@ -1092,7 +1092,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     },
     "subscribe": {
       "message": {
-        "$ref": "#/components/messages/userSignedUp"
+        "ref": "#/components/messages/userSignedUp"
       }
     }
   }
@@ -1109,7 +1109,7 @@ user/{userId}/signup:
       location: $message.payload#/user/id
   subscribe:
     message:
-      $ref: "#/components/messages/userSignedUp"
+      ref: "#/components/messages/userSignedUp"
 ```
 
 
@@ -1256,7 +1256,7 @@ Field Name | Type | Description
 <a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). When the payload is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`.<br/><br/>Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
+<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). When the payload is defined using a `ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`.<br/><br/>Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -1320,10 +1320,10 @@ Name | Allowed values | Notes
     "type": "object",
     "properties": {
       "user": {
-        "$ref": "#/components/schemas/userCreate"
+        "ref": "#/components/schemas/userCreate"
       },
       "signup": {
-        "$ref": "#/components/schemas/signup"
+        "ref": "#/components/schemas/signup"
       }
     }
   },
@@ -1332,7 +1332,7 @@ Name | Allowed values | Notes
     "location": "$message.header#/correlationId"
   },
   "traits": [
-    { "$ref": "#/components/messageTraits/commonHeaders" }
+    { "ref": "#/components/messageTraits/commonHeaders" }
   ],
   "examples": [
     {
@@ -1379,14 +1379,14 @@ payload:
   type: object
   properties:
     user:
-      $ref: "#/components/schemas/userCreate"
+      ref: "#/components/schemas/userCreate"
     signup:
-      $ref: "#/components/schemas/signup"
+      ref: "#/components/schemas/signup"
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
 traits:
-  - $ref: "#/components/messageTraits/commonHeaders"
+  - ref: "#/components/messageTraits/commonHeaders"
 examples:
   - name: SimpleSignup
     summary: A simple UserSignup example message
@@ -1416,7 +1416,7 @@ Example using Avro to define the payload:
   ],
   "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "payload": {
-    "$ref": "path/to/user-create.avsc#/UserCreate"
+    "ref": "path/to/user-create.avsc#/UserCreate"
   }
 }
 ```
@@ -1433,7 +1433,7 @@ tags:
   - name: register
 schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 payload:
-  $ref: 'path/to/user-create.avsc/#UserCreate'
+  ref: 'path/to/user-create.avsc/#UserCreate'
 ```
 
 
@@ -1607,7 +1607,7 @@ For this specification, reference resolution is done as defined by the JSON Refe
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
+<a name="referenceRef"></a>ref | `string` | **REQUIRED.** The reference string.
 
 This object cannot be extended with additional properties and any properties added SHALL be ignored.
 
@@ -1615,12 +1615,12 @@ This object cannot be extended with additional properties and any properties add
 
 ```json
 {
-  "$ref": "#/components/schemas/Pet"
+  "ref": "#/components/schemas/Pet"
 }
 ```
 
 ```yaml
-  $ref: '#/components/schemas/Pet'
+  ref: '#/components/schemas/Pet'
 ```
 
 #### <a name="componentsObject"></a>Components Object
@@ -1705,10 +1705,10 @@ my.org.User
         "protocolVersion": "0-9-1",
         "variables": {
           "stage": {
-            "$ref": "#/components/serverVariables/stage"
+            "ref": "#/components/serverVariables/stage"
           },
           "port": {
-            "$ref": "#/components/serverVariables/port"
+            "ref": "#/components/serverVariables/port"
           }
         }
       }
@@ -1727,7 +1727,7 @@ my.org.User
       "user/signedup": {
         "subscribe": {
           "message": {
-            "$ref": "#/components/messages/userSignUp"
+            "ref": "#/components/messages/userSignUp"
           }
         }
       }
@@ -1757,10 +1757,10 @@ my.org.User
           "type": "object",
           "properties": {
             "user": {
-              "$ref": "#/components/schemas/userCreate"
+              "ref": "#/components/schemas/userCreate"
             },
             "signup": {
-              "$ref": "#/components/schemas/signup"
+              "ref": "#/components/schemas/signup"
             }
           }
         }
@@ -1825,9 +1825,9 @@ components:
       protocolVersion: 0-9-1
       variables:
         stage:
-          $ref: "#/components/serverVariables/stage"
+          ref: "#/components/serverVariables/stage"
         port:
-          $ref: "#/components/serverVariables/port"
+          ref: "#/components/serverVariables/port"
   serverVariables:
     stage:
       default: demo
@@ -1839,7 +1839,7 @@ components:
     user/signedup:
       subscribe:
         message:
-          $ref: "#/components/messages/userSignUp"
+          ref: "#/components/messages/userSignUp"
   messages:
     userSignUp:
       summary: Action to sign a user up.
@@ -1859,9 +1859,9 @@ components:
         type: object
         properties:
           user:
-            $ref: "#/components/schemas/userCreate"
+            ref: "#/components/schemas/userCreate"
           signup:
-            $ref: "#/components/schemas/signup"
+            ref: "#/components/schemas/signup"
   parameters:
     userId:
       description: Id of the user.
@@ -1934,7 +1934,7 @@ The following properties are taken from the JSON Schema definition but their def
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
-Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `$ref` keyword MUST follow the behavior described by [Reference Object](#referenceObject) instead of the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
+Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `ref` keyword MUST follow the behavior described by [Reference Object](#referenceObject) instead of the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
 
 In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
 
@@ -1992,7 +1992,7 @@ format: email
       "type": "string"
     },
     "address": {
-      "$ref": "#/components/schemas/Address"
+      "ref": "#/components/schemas/Address"
     },
     "age": {
       "type": "integer",
@@ -2011,7 +2011,7 @@ properties:
   name:
     type: string
   address:
-    $ref: '#/components/schemas/Address'
+    ref: '#/components/schemas/Address'
   age:
     type: integer
     format: int32
@@ -2043,7 +2043,7 @@ For a string to model mapping:
 {
   "type": "object",
   "additionalProperties": {
-    "$ref": "#/components/schemas/ComplexModel"
+    "ref": "#/components/schemas/ComplexModel"
   }
 }
 ```
@@ -2051,7 +2051,7 @@ For a string to model mapping:
 ```yaml
 type: object
 additionalProperties:
-  $ref: '#/components/schemas/ComplexModel'
+  ref: '#/components/schemas/ComplexModel'
 ```
 
 ###### Model with Example
@@ -2144,7 +2144,7 @@ properties:
     "ExtendedErrorModel": {
       "allOf": [
         {
-          "$ref": "#/components/schemas/ErrorModel"
+          "ref": "#/components/schemas/ErrorModel"
         },
         {
           "type": "object",
@@ -2179,7 +2179,7 @@ schemas:
         maximum: 600
   ExtendedErrorModel:
     allOf:
-    - $ref: '#/components/schemas/ErrorModel'
+    - ref: '#/components/schemas/ErrorModel'
     - type: object
       required:
       - rootCause
@@ -2213,7 +2213,7 @@ schemas:
       "description": "A representation of a cat. Note that `Cat` will be used as the discriminator value.",
       "allOf": [
         {
-          "$ref": "#/components/schemas/Pet"
+          "ref": "#/components/schemas/Pet"
         },
         {
           "type": "object",
@@ -2239,7 +2239,7 @@ schemas:
       "description": "A representation of a dog. Note that `Dog` will be used as the discriminator value.",
       "allOf": [
         {
-          "$ref": "#/components/schemas/Pet"
+          "ref": "#/components/schemas/Pet"
         },
         {
           "type": "object",
@@ -2261,7 +2261,7 @@ schemas:
       "description": "A representation of an Australian walking stick. Note that `StickBug` will be used as the discriminator value.",
       "allOf": [
         {
-          "$ref": "#/components/schemas/Pet"
+          "ref": "#/components/schemas/Pet"
         },
         {
           "type": "object",
@@ -2301,7 +2301,7 @@ schemas:
   Cat:
     description: A representation of a cat
     allOf:
-    - $ref: '#/components/schemas/Pet'
+    - ref: '#/components/schemas/Pet'
     - type: object
       properties:
         huntingSkill:
@@ -2319,7 +2319,7 @@ schemas:
   Dog:
     description: A representation of a dog
     allOf:
-    - $ref: '#/components/schemas/Pet'
+    - ref: '#/components/schemas/Pet'
     - type: object
       properties:
         packSize:
@@ -2335,7 +2335,7 @@ schemas:
   StickInsect:
     description: A representation of an Australian walking stick
     allOf:
-    - $ref: '#/components/schemas/Pet'
+    - ref: '#/components/schemas/Pet'
     - type: object
       properties:
         petType:
