@@ -90,7 +90,7 @@ _Breaking changes:_
 - Making a property required
 - Making a property optional
 - Removing a property
-- Changing the type of a property in any way
+- Changing the type of a property in backward incompatible way
 
 ## RFC Contribution Champions
 
