@@ -86,6 +86,7 @@ _Non-breaking changes:_
 - Adding a property
 
 _Breaking changes:_
+- Adding a new required property
 - Making a property required
 - Making a property optional
 - Removing a property
