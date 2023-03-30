@@ -106,6 +106,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
       - [Schema Object](#schemaObject)
+      - [Schema Reference Object](#schemaReferenceObject)
       - [Security Scheme Object](#securitySchemeObject)
       - [OAuth Flows Object](#oauth-flows-object)  
       - [OAuth Flow Object](#oauth-flow-object)
@@ -1071,7 +1072,7 @@ Describes a parameter included in a channel name.
 Field Name | Type | Description
 ---|:---:|---
 <a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the parameter.
+<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Schema Reference Object](#schemaReferenceObject) | Definition of the parameter.
 location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -1253,7 +1254,7 @@ Describes a message received on a given channel and operation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
-<a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
+<a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Schema Reference Object](#schemaReferenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). When the payload is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`.<br/><br/>Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
@@ -1453,7 +1454,7 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageTraitObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
-<a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
+<a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Schema Reference Object](#schemaReferenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
@@ -1595,14 +1596,44 @@ description: Find more info here
 url: https://example.com
 ```
 
+#### <a name="schemaReferenceObject"></a>Schema Reference Object
+
+A simple object to allow referencing schemas in the AsyncAPI document, internally and externally.
+
+The `$ref` string value contains a URI [RFC3986](https://tools.ietf.org/html/rfc3986), which identifies the location of the value being referenced. Reference resolution is done as defined by the [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
+
+If a URI of the reference contains a fragment identifier, then the fragment should be resolved per the fragment resolution mechanism of the referenced document. If the representation of the referenced document is JSON or YAML, then the fragment identifier SHOULD be interpreted as a JSON Pointer as per [RFC6901](https://www.rfc-editor.org/rfc/rfc6901).
+
+In the case of a YAML-formatted Schema, the JSON Reference SHALL be applied to the JSON representation of that schema. The JSON representation SHALL be made by applying the conversion described [here](#format).
+
+##### Fixed Fields
+Field Name | Type | Description
+---|:---:|---
+<a name="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions). Note that the possibility to extend Reference Object with more properties is what makes Reference Objects different from [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) that requires to ignore additional properties if `$ref` is in use.
+
+##### Schema Reference Object Example
+
+```json
+{
+  "$ref": "#/components/schemas/Sensor"
+}
+```
+
+```yaml
+  $ref: '#/components/schemas/Sensor'
+```
 
 #### <a name="referenceObject"></a>Reference Object
 
-A simple object to allow referencing other components in the specification, internally and externally.
+A simple object to allow referencing other components in the AsyncAPI document, internally and externally. Except for cases where [Schema Reference Object](#schemaReferenceObject) is used.
 
 The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) and follows the same structure, behavior and rules. A JSON Reference SHALL only be used to refer to a schema that is formatted in either JSON or YAML. In the case of a YAML-formatted Schema, the JSON Reference SHALL be applied to the JSON representation of that schema. The JSON representation SHALL be made by applying the conversion described [here](#format).
 
-For this specification, reference resolution is done as defined by the JSON Reference specification and not by the JSON Schema specification.
+For this specification, reference resolution is done as defined by the [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
+
+If a URI of the reference contains a fragment identifier, then the fragment should be resolved per the fragment resolution mechanism of the referenced document. If the representation of the referenced document is JSON or YAML, then the fragment identifier SHOULD be interpreted as a JSON Pointer as per [RFC6901](https://www.rfc-editor.org/rfc/rfc6901).
 
 ##### Fixed Fields
 Field Name | Type | Description
@@ -1615,12 +1646,12 @@ This object cannot be extended with additional properties and any properties add
 
 ```json
 {
-  "$ref": "#/components/schemas/Pet"
+  "$ref": "#/components/message/SensorState"
 }
 ```
 
 ```yaml
-  $ref: '#/components/schemas/Pet'
+  $ref: '#/components/message/SensorState'
 ```
 
 #### <a name="componentsObject"></a>Components Object
@@ -1632,7 +1663,7 @@ All objects defined within the components object will have no effect on the API 
 
 Field Name | Type | Description
 ---|:---|--- 
-<a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
+<a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Schema Reference Object](#schemaReferenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
 <a name="componentsOperations"></a> operations | Map[`string`, [Operation Item Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Item Objects](#operationObject).
@@ -1934,7 +1965,7 @@ The following properties are taken from the JSON Schema definition but their def
 - format - See [Data Type Formats](#dataTypeFormat) for further details. While relying on JSON Schema's defined formats, the AsyncAPI Specification offers a few additional predefined formats.
 - default - The default value represents what would be assumed by the consumer of the input as the value of the schema if one is not provided. Unlike JSON Schema, the value MUST conform to the defined type for the Schema Object defined at the same level. For example, of `type` is `string`, then `default` can be `"foo"` but cannot be `1`.
 
-Alternatively, any time a Schema Object can be used, a [Reference Object](#referenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `$ref` keyword MUST follow the behavior described by [Reference Object](#referenceObject) instead of the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
+Alternatively, any time a Schema Object can be used, a [Schema Reference Object](#schemaReferenceObject) can be used in its place. This allows referencing definitions in place of defining them inline. It is appropriate to clarify that the `$ref` keyword MUST follow the behavior described by [Schema Reference Object](#schemaReferenceObject) instead of the one in [JSON Schema definition](https://json-schema.org/understanding-json-schema/structuring.html#ref).
 
 In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
 
