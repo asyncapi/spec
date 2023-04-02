@@ -2627,43 +2627,30 @@ Message Payload Property | `$message.payload#/messageId` | Correlation ID is set
 
 Runtime expressions preserve the type of the referenced value.
 
-### <a name="traitsMergeMechanism"></a>Traits merge mechanism
+### <a name="traitsMergeMechanism"></a>Traits Merge Mechanism
 
-Traits MUST be merged into the corresponding object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined with the priority of fields defined on the main object.
+Traits MUST be merged with the main object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the main object.
 
-The object like (based on [Message Object](#message-object)):
+#### Example
+
+An object like the following:
 
 ```yaml
-messageId: userSignup
 description: A longer description.
-payload:
-  $ref: '#/components/schemas/userSignupPayload'
 traits:
   - name: UserSignup
-    title: User signup
-    summary: Action to sign a user up.
     description: Description from trait.
   - tags:
       - name: user
-      - name: signup
-      - name: register
 ```
 
-after trait merging should be defined as:
+Would look like the following after applying traits:
 
 ```yaml
-messageId: userSignup
 name: UserSignup
-title: User signup
-summary: Action to sign a user up.
 description: A longer description.
-payload:
-  $ref: '#/components/schemas/userSignupPayload'
 tags:
   - name: user
-  - name: signup
-  - name: register
-```
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
