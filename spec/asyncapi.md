@@ -1609,7 +1609,7 @@ In the case of a YAML-formatted Schema, the JSON Reference SHALL be applied to t
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
+<a name="schemaReferenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions). Note that the possibility to extend Reference Object with more properties is what makes Reference Objects different from [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03) that requires to ignore additional properties if `$ref` is in use.
 
