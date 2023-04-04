@@ -30,7 +30,7 @@ jobs:
           git config --global user.email info@asyncapi.io
       - name: Get latest release
         id: latest_version
-        uses: abatilo/release-info-action@v1.3.0
+        uses: abatilo/release-info-action@5774bec4e3eabad433b4ae8f625e83afa0e7bb22 # 1.3.2 release https://github.com/abatilo/release-info-action/releases/tag/v1.3.2
         with:
           owner: asyncapi
           repo: spec
