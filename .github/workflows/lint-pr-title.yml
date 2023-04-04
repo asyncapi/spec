@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Since this workflow is REQUIRED for a PR to be mergable, we have to have this 'if' statement in step level instead of job level.
-      - if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor) }}
+      - if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor) }}
         uses: amannn/action-semantic-pull-request@505e44b4f33b4c801f063838b3f053990ee46ea7 #version 4.6.0
         id: lint_pr_title
         env:
@@ -24,7 +24,7 @@ jobs:
             The subject "{subject}" found in the pull request title "{title}" should start with a lowercase character.
 
       # Comments the error message from the above lint_pr_title action
-      - if: ${{ always() && steps.lint_pr_title.outputs.error_message != null && !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors"]'), github.actor)}}
+      - if: ${{ always() && steps.lint_pr_title.outputs.error_message != null && !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor)}}
         name: Comment on PR
         uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 #version 2.2
         with:
