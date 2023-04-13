@@ -17,7 +17,7 @@ jobs:
     if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor) }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/github-script@v3
+    - uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
@@ -65,7 +65,7 @@ jobs:
           if (isIssue) {
               const issueNumber = context.payload.issue.number;
               console.log(`Adding message: ${message} to issue #${issueNumber}`);
-              await github.issues.createComment({
+              await github.rest.issues.createComment({
                   owner: context.payload.repository.owner.login,
                   repo: context.payload.repository.name,
                   issue_number: issueNumber,
@@ -75,7 +75,7 @@ jobs:
           else {
             const pullNumber = context.payload.pull_request.number;
               console.log(`Adding message: ${message} to pull request #${pullNumber}`);
-              await github.pulls.createReview({
+              await github.rest.pulls.createReview({
                   owner: context.payload.repository.owner.login,
                   repo: context.payload.repository.name,
                   pull_number: pullNumber,

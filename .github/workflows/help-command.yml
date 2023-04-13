@@ -13,32 +13,48 @@ jobs:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions-ecosystem/action-create-comment@v1
+      - name: Add comment to PR
+        uses: actions/github-script@v6
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          body: |
-            Hello, @${{ github.actor }}! 👋🏼 
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            //Yes to add comment to PR the same endpoint is use that we use to create a comment in issue
+            //For more details http://developer.github.com/v3/issues/comments/
+            //Also proved by this action https://github.com/actions-ecosystem/action-create-comment/blob/main/src/main.ts
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Hello, @${{ github.actor }}! 👋🏼 
 
-            I'm Genie from the magic lamp. Looks like somebody needs a hand! 🆘 
+                    I'm Genie from the magic lamp. Looks like somebody needs a hand! 🆘 
+        
+                    At the moment the following comments are supported in pull requests:
+        
+                    - `/ready-to-merge` or `/rtm` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
+                    - `/do-not-merge` or `/dnm` - This comment will block automerging even if all conditions are met and ready-to-merge label is added
+                    - `/autoupdate` or `/au` - This comment will add `autoupdate` label to the PR and keeps your PR up-to-date to the target branch's future changes. Unless there is a merge conflict or it is a draft PR.`
+            })
 
-            At the moment the following comments are supported in pull requests:
-
-            - `/ready-to-merge` or `/rtm` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
-            - `/do-not-merge` or `/dnm` - This comment will block automerging even if all conditions are met and ready-to-merge label is added
-            - `/autoupdate` or `/au` - This comment will add `autoupdate` label to the PR and keeps your PR up-to-date to the target branch's future changes. Unless there is a merge conflict or it is a draft PR.
   create_help_comment_issue:
     if: ${{ !github.event.issue.pull_request && contains(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions-ecosystem/action-create-comment@v1
+      - name: Add comment to Issue
+        uses: actions/github-script@v6
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          body: |
-            Hello, @${{ github.actor }}! 👋🏼 
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Hello, @${{ github.actor }}! 👋🏼 
 
-            I'm Genie from the magic lamp. Looks like somebody needs a hand! 🆘 
-
-            At the moment the following comments are supported in issues:
-
-            - `/good-first-issue {js | ts | java | go | docs | design | ci-cd} ` or `/gfi {js | ts | java | go | docs | design | ci-cd} ` - label an issue as a `good first issue`.
-            example: `/gfi js` or `/good-first-issue ci-cd`
+              I'm Genie from the magic lamp. Looks like somebody needs a hand! 🆘 
+  
+              At the moment the following comments are supported in issues:
+  
+              - `/good-first-issue {js | ts | java | go | docs | design | ci-cd} ` or `/gfi {js | ts | java | go | docs | design | ci-cd} ` - label an issue as a `good first issue`.
+              example: `/gfi js` or `/good-first-issue ci-cd`
+            })
