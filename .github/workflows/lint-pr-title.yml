@@ -14,7 +14,7 @@ jobs:
     steps:
       # Since this workflow is REQUIRED for a PR to be mergable, we have to have this 'if' statement in step level instead of job level.
       - if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor) }}
-        uses: amannn/action-semantic-pull-request@505e44b4f33b4c801f063838b3f053990ee46ea7 #version 4.6.0
+        uses: amannn/action-semantic-pull-request@c3cd5d1ea3580753008872425915e343e351ab54 #version 5.2.0 https://github.com/amannn/action-semantic-pull-request/releases/tag/v5.2.0
         id: lint_pr_title
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
@@ -26,7 +26,7 @@ jobs:
       # Comments the error message from the above lint_pr_title action
       - if: ${{ always() && steps.lint_pr_title.outputs.error_message != null && !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor)}}
         name: Comment on PR
-        uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 #version 2.2
+        uses: marocchino/sticky-pull-request-comment@3d60a5b2dae89d44e0c6ddc69dd7536aec2071cd #use 2.5.0 https://github.com/marocchino/sticky-pull-request-comment/releases/tag/v2.5.0
         with:
           header: pr-title-lint-error
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN}}
@@ -40,7 +40,7 @@ jobs:
         # deletes the error comment if the title is correct
       - if: ${{ steps.lint_pr_title.outputs.error_message == null }}
         name: delete the comment
-        uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 #version 2.2
+        uses: marocchino/sticky-pull-request-comment@3d60a5b2dae89d44e0c6ddc69dd7536aec2071cd #use 2.5.0 https://github.com/marocchino/sticky-pull-request-comment/releases/tag/v2.5.0
         with:
           header: pr-title-lint-error
           delete: true
