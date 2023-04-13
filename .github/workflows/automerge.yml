@@ -1,7 +1,7 @@
 # This action is centrally managed in https://github.com/asyncapi/.github/
 # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo.
 
-name: Automerge release bump PR
+name: Automerge PRs from bots
 
 on:
   pull_request_target:
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
-      uses: pascalgn/automerge-action@22948e0bc22f0aa673800da838595a3e7347e584 #v0.15.6 https://github.com/pascalgn/automerge-action/releases/tag/v0.15.6
+        uses: pascalgn/automerge-action@22948e0bc22f0aa673800da838595a3e7347e584 #v0.15.6 https://github.com/pascalgn/automerge-action/releases/tag/v0.15.6
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           GITHUB_LOGIN: asyncapi-bot
