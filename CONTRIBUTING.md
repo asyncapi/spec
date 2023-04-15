@@ -80,7 +80,7 @@ move forward.
 
 ## Breaking Change vs Non Breaking Change
 
-Specifications are not much different than software. Some changes provided in the spec can cause breaking changes for tools that support it. For example, if one of the properties that was `required` becomes `optional`, it is considered a breaking change because some tools might depend on that property and fail if all suddenly it is not provided. 
+Specifications are not much different than software. Some changes provided in the spec can cause breaking changes for tools that support it. For example, if one of the properties that was `required` becomes `optional`, it is considered a breaking change because some tools might depend on that property and fail if it is not provided. 
 
 _Non-breaking changes:_
 - Adding a new optional property
