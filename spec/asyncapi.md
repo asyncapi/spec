@@ -1397,7 +1397,10 @@ Example using Avro to define the payload:
     { "name": "register" }
   ],
   "payload": {
-    "$ref": "path/to/user-create.avsc#/UserCreate"
+    "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
+    "schema": {
+      "$ref": "path/to/user-create.avsc#/UserCreate"
+    }
   }
 }
 ```
@@ -1413,7 +1416,9 @@ tags:
   - name: signup
   - name: register
 payload:
-  $ref: 'path/to/user-create.avsc/#UserCreate'
+  schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+  schema:
+    $ref: 'path/to/user-create.avsc/#UserCreate'
 ```
 
 
@@ -1672,6 +1677,12 @@ my.org.User
             "type": "string"
           }
         }
+      },
+      "AvroExample": {
+        "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
+        "payload": {
+          "$ref": "path/to/user-create.avsc#/UserCreate"
+        }
       }
     },
     "servers": {
@@ -1794,6 +1805,10 @@ components:
           format: int64
         name:
           type: string
+    AvroExample:
+      schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+      schema:
+        $ref: 'path/to/user-create.avsc/#UserCreate'
   servers:
     development:
       url: "{stage}.in.mycompany.com:{port}"
