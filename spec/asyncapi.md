@@ -1876,7 +1876,7 @@ components:
 
 #### <a name="multiFormatSchemaObject"></a>Multi Format Schema Object
 
-The Multi Format Schema Object allows to define non AsyncApi schema.
+The Multi Format Schema Object allows to define non AsyncAPI schema.
 
 ##### Fixed Fields
 
