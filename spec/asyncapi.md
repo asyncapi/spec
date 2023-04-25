@@ -1680,7 +1680,7 @@ my.org.User
       },
       "AvroExample": {
         "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
-        "payload": {
+        "schema": {
           "$ref": "path/to/user-create.avsc#/UserCreate"
         }
       }
