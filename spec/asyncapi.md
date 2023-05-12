@@ -1876,7 +1876,7 @@ components:
 
 #### <a name="multiFormatSchemaObject"></a>Multiformat Schema Object
 
-The Multi Format Schema Object allows to define non AsyncAPI schema.
+The Multiformat Schema Object represents a schema definition. It differs from the [Schema Object](#schemaObject) in that it supports multiple schema formats or languages (e.g., JSON Schema, Avro, etc.).
 
 ##### Fixed Fields
 
