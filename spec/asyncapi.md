@@ -1874,7 +1874,7 @@ components:
             maximum: 100
 ```
 
-#### <a name="multiFormatSchemaObject"></a>Multi Format Schema Object
+#### <a name="multiFormatSchemaObject"></a>Multiformat Schema Object
 
 The Multi Format Schema Object allows to define non AsyncAPI schema.
 
