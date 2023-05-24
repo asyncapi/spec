@@ -2,7 +2,7 @@
  * This code is centrally managed in https://github.com/asyncapi/.github/
  * Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
  */
-module.exports = (link) => {
+module.exports = (link, title) => {
 
     return `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -386,7 +386,7 @@ There is a new topic at AsyncAPI Initiative that requires Technical Steering Com
 <br>
 Please have a look if it is just something you need to be aware of, or maybe your vote is needed.
 <br>
-<a href="${ link }" style="color:#007c89;font-weight:normal;text-decoration:underline" target="_blank">Click here to see more details on GitHub</a>.
+Topic: <a href="${ link }" style="color:#007c89;font-weight:normal;text-decoration:underline" target="_blank">${ title }</a>.
                         </td>
                     </tr>
                 </tbody></table>
