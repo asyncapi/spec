@@ -4,9 +4,9 @@ This version is not yet ready to be used. We're currently working on it. If you 
 
 # AsyncAPI Specification
 
-#### Disclaimer
+#### Attribution
 
-Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
+Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org).
 
 #### Version 3.0.0
 
