@@ -1014,48 +1014,34 @@ location: $message.header#/replyTo
 
 #### <a name="parametersObject"></a>Parameters Object
 
-Describes a map of parameters included in a channel name.
+Describes a map of parameters included in a channel address.
 
-This map MUST contain all the parameters used in the parent channel name.
+This map MUST contain all the parameters used in the parent channel address.
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel name.
+<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel address.
 
 ##### Parameters Object Example
 
 ```json
 {
-  "user/{userId}/signup": {
-    "parameters": {
-      "userId": {
-        "description": "Id of the user.",
-        "schema": {
-          "type": "string"
-        }
-      }
-    },
-    "subscribe": {
-      "message": {
-        "$ref": "#/components/messages/userSignedUp"
-      }
+  "address": "user/{userId}/signedup",
+  "parameters": {
+    "userId": {
+      "description": "Id of the user."
     }
   }
 }
 ```
 
 ```yaml
-user/{userId}/signup:
-  parameters:
-    userId:
-      description: Id of the user.
-      schema:
-        type: string
-  subscribe:
-    message:
-      $ref: "#/components/messages/userSignedUp"
+address: user/{userId}/signedup
+parameters:
+  userId:
+    description: Id of the user.
 ```
 
 
@@ -1064,15 +1050,17 @@ user/{userId}/signup:
 
 #### <a name="parameterObject"></a>Parameter Object
 
-Describes a parameter included in a channel name.
+Describes a parameter included in a channel address.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the parameter.
-location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
+<a name="parameterObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
+<a name="parameterObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
+<a name="parameterObjectDescription"></a>description | `string` | An optional description for the parameter. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="parameterObjectExamples"></a>examples | [`string`] | An array of examples of the parameter value.
+<a name="parameterObjectLocation"></a>location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1080,36 +1068,22 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "user/{userId}/signup": {
-    "parameters": {
-      "userId": {
-        "description": "Id of the user.",
-        "schema": {
-          "type": "string"
-        },
-        "location": "$message.payload#/user/id"
-      }
-    },
-    "subscribe": {
-      "message": {
-        "$ref": "#/components/messages/userSignedUp"
-      }
+  "address": "user/{userId}/signedup",
+  "parameters": {
+    "userId": {
+      "description": "Id of the user.",
+      "location": "$message.payload#/user/id"
     }
   }
 }
 ```
 
 ```yaml
-user/{userId}/signup:
-  parameters:
-    userId:
-      description: Id of the user.
-      schema:
-        type: string
-      location: $message.payload#/user/id
-  subscribe:
-    message:
-      $ref: "#/components/messages/userSignedUp"
+address: user/{userId}/signedup
+parameters:
+  userId:
+    description: Id of the user.
+    location: $message.payload#/user/id
 ```
 
 
