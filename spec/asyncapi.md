@@ -2650,6 +2650,7 @@ name: UserSignup
 description: A longer description.
 tags:
   - name: user
+```
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
