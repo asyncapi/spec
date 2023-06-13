@@ -4,9 +4,9 @@ This version is not yet ready to be used. We're currently working on it. If you 
 
 # AsyncAPI Specification
 
-#### Disclaimer
+#### Attribution
 
-Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org). Mainly because **it's a great work** and we want to keep as much compatibility as possible with the [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification).
+Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org).
 
 #### Version 3.0.0
 
@@ -105,6 +105,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
       - [External Documentation Object](#externalDocumentationObject)
       - [Components Object](#componentsObject)
       - [Reference Object](#referenceObject)
+      - [Multi Format Schema Object](#multiFormatSchemaObject)
       - [Schema Object](#schemaObject)
       - [Security Scheme Object](#securitySchemeObject)
       - [OAuth Flows Object](#oauth-flows-object)  
@@ -769,7 +770,7 @@ Holds a dictionary with all the [operations](#operationObject) this application 
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#channelObject) \| [Reference Object](#referenceObject) | The operation this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The operation this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Operations Object Example
 
@@ -1014,48 +1015,34 @@ location: $message.header#/replyTo
 
 #### <a name="parametersObject"></a>Parameters Object
 
-Describes a map of parameters included in a channel name.
+Describes a map of parameters included in a channel address.
 
-This map MUST contain all the parameters used in the parent channel name.
+This map MUST contain all the parameters used in the parent channel address.
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel name.
+<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel address.
 
 ##### Parameters Object Example
 
 ```json
 {
-  "user/{userId}/signup": {
-    "parameters": {
-      "userId": {
-        "description": "Id of the user.",
-        "schema": {
-          "type": "string"
-        }
-      }
-    },
-    "subscribe": {
-      "message": {
-        "$ref": "#/components/messages/userSignedUp"
-      }
+  "address": "user/{userId}/signedup",
+  "parameters": {
+    "userId": {
+      "description": "Id of the user."
     }
   }
 }
 ```
 
 ```yaml
-user/{userId}/signup:
-  parameters:
-    userId:
-      description: Id of the user.
-      schema:
-        type: string
-  subscribe:
-    message:
-      $ref: "#/components/messages/userSignedUp"
+address: user/{userId}/signedup
+parameters:
+  userId:
+    description: Id of the user.
 ```
 
 
@@ -1064,15 +1051,17 @@ user/{userId}/signup:
 
 #### <a name="parameterObject"></a>Parameter Object
 
-Describes a parameter included in a channel name.
+Describes a parameter included in a channel address.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="parameterObjectDescription"></a>description | `string` | A verbose explanation of the parameter. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="parameterObjectSchema"></a>schema | [Schema Object](#schemaObject) \| [Reference Object](#referenceObject) | Definition of the parameter.
-location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value. Even when a definition for the target field exists, it MUST NOT be used to validate this parameter but, instead, the `schema` property MUST be used.
+<a name="parameterObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
+<a name="parameterObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
+<a name="parameterObjectDescription"></a>description | `string` | An optional description for the parameter. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a name="parameterObjectExamples"></a>examples | [`string`] | An array of examples of the parameter value.
+<a name="parameterObjectLocation"></a>location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1080,36 +1069,22 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "user/{userId}/signup": {
-    "parameters": {
-      "userId": {
-        "description": "Id of the user.",
-        "schema": {
-          "type": "string"
-        },
-        "location": "$message.payload#/user/id"
-      }
-    },
-    "subscribe": {
-      "message": {
-        "$ref": "#/components/messages/userSignedUp"
-      }
+  "address": "user/{userId}/signedup",
+  "parameters": {
+    "userId": {
+      "description": "Id of the user.",
+      "location": "$message.payload#/user/id"
     }
   }
 }
 ```
 
 ```yaml
-user/{userId}/signup:
-  parameters:
-    userId:
-      description: Id of the user.
-      schema:
-        type: string
-      location: $message.payload#/user/id
-  subscribe:
-    message:
-      $ref: "#/components/messages/userSignedUp"
+address: user/{userId}/signedup
+parameters:
+  userId:
+    description: Id of the user.
+    location: $message.payload#/user/id
 ```
 
 
@@ -1253,10 +1228,9 @@ Describes a message received on a given channel and operation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
-<a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
-<a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
+<a name="messageObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
+<a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString). 
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). When the payload is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`.<br/><br/>Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -1269,24 +1243,6 @@ Field Name | Type | Description
 <a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-##### <a name="messageObjectSchemaFormatTable"></a>Schema formats table
-
-The following table contains a set of values that every implementation MUST support.
-
-Name | Allowed values | Notes
----|:---:|---
-[AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
-[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
-
-The following table contains a set of values that every implementation is RECOMMENDED to support.
-
-Name | Allowed values | Notes
----|:---:|---
-[Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
-[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
-[RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
-
 
 ##### Message Object Example
 
@@ -1414,9 +1370,11 @@ Example using Avro to define the payload:
     { "name": "signup" },
     { "name": "register" }
   ],
-  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "payload": {
-    "$ref": "path/to/user-create.avsc#/UserCreate"
+    "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
+    "schema": {
+      "$ref": "path/to/user-create.avsc#/UserCreate"
+    }
   }
 }
 ```
@@ -1431,9 +1389,10 @@ tags:
   - name: user
   - name: signup
   - name: register
-schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 payload:
-  $ref: 'path/to/user-create.avsc/#UserCreate'
+  schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
+  schema:
+    $ref: 'path/to/user-create.avsc/#UserCreate'
 ```
 
 
@@ -1453,9 +1412,8 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageTraitObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
-<a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
+<a name="messageTraitObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
@@ -1472,13 +1430,11 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-  "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
   "contentType": "application/json"
 }
 ```
 
 ```yaml
-schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
 contentType: application/json
 ```
 
@@ -1491,7 +1447,7 @@ Message Example Object represents an example of a [Message Object](#messageObjec
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
-<a name="messageExampleObjectPayload"></a>payload | `any` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
+<a name="messageExampleObjectPayload"></a>payload | `Map[string, any]` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
 <a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
 <a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
 
@@ -1632,7 +1588,7 @@ All objects defined within the components object will have no effect on the API 
 
 Field Name | Type | Description
 ---|:---|--- 
-<a name="componentsSchemas"></a> schemas | Map[`string`, [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Objects](#schemaObject).
+<a name="componentsSchemas"></a> schemas | Map[`string`, [Multi Format Schema Object](#multiFormatSchemaObject) \| [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Object](#schemaObject). If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
 <a name="componentsOperations"></a> operations | Map[`string`, [Operation Item Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Item Objects](#operationObject).
@@ -1694,6 +1650,12 @@ my.org.User
           "name": {
             "type": "string"
           }
+        }
+      },
+      "AvroExample": {
+        "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
+        "schema": {
+          "$ref": "path/to/user-create.avsc#/UserCreate"
         }
       }
     },
@@ -1817,6 +1779,10 @@ components:
           format: int64
         name:
           type: string
+    AvroExample:
+      schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+      schema:
+        $ref: 'path/to/user-create.avsc/#UserCreate'
   servers:
     development:
       url: "{stage}.in.mycompany.com:{port}"
@@ -1881,6 +1847,39 @@ components:
             minimum: 0
             maximum: 100
 ```
+
+#### <a name="multiFormatSchemaObject"></a>Multi Format Schema Object
+
+The Multi Format Schema Object represents a schema definition. It differs from the [Schema Object](#schemaObject) in that it supports multiple schema formats or languages (e.g., JSON Schema, Avro, etc.).
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="multiFormatSchemaObjectSchemaFormat"></a>schemaFormat | `string` | **Required**. A string containing the name of the schema format that is used to define the information. 
+If `schemaFormat` is missing, it MUST default to `application/vnd.aai.asyncapi+json;version={{asyncapi}}` where `{{version}}` matches the [AsyncAPI Version String](#A2SVersionString). In such a case, this would make the Multi Format Schema Object equivalent to the [Schema Object](#schemaObject). When using [Reference Object](#referenceObject) within the schema, the `schemaFormat` of the resource being referenced MUST match the `schemaFormat` of the schema that contains the initial reference. For example, if you reference Avro `schema`, then `schemaFormat` of referencing resource and the resource being reference MUST match. <br/><br/>Check out the [supported schema formats table](#multiFormatSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#multiFormatSchemaFormatTable).<br/><br/>When using [Reference Objects](#referenceObject) within the schema, the `schemaFormat` of the referenced resource MUST match the `schemaFormat` of the schema containing the reference.
+<a name="multiFormatSchemaObjectSchema"></a>schema | `any` | **Required**. Definition of the message payload. It can be of any type but defaults to [Schema Object](#schemaObject). It MUST match the schema format defined in [`schemaFormat`](#multiFormatSchemaObjectSchemaFormat), including the encoding type. E.g., Avro should be inlined as either a YAML or JSON object instead of as a string to be parsed as YAML or JSON. Non-JSON-based schemas (e.g., Protobuf or XSD) MUST be inlined as a string.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### <a name="multiFormatSchemaFormatTable"></a>Schema formats table
+
+The following table contains a set of values that every implementation MUST support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
+[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+
+The following table contains a set of values that every implementation is RECOMMENDED to support.
+
+Name | Allowed values | Notes
+---|:---:|---
+[Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
+[RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
+[Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` | 
+
 
 #### <a name="schemaObject"></a>Schema Object
 
