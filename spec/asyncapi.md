@@ -2628,7 +2628,7 @@ Runtime expressions preserve the type of the referenced value.
 
 ### <a name="traitsMergeMechanism"></a>Traits Merge Mechanism
 
-Traits MUST be merged with the target using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the main object.
+Traits MUST be merged with the target object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the main object.
 
 #### Example
 
