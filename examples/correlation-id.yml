@@ -1,15 +1,15 @@
-asyncapi: '2.5.0'
+asyncapi: 3.0.0
 info:
   title: Correlation ID Example
-  version: '1.0.0'
+  version: 1.0.0
   description: A cut of the Streetlights API to test Correlation ID
   license:
     name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
-
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+defaultContentType: application/json
 servers:
   production:
-    url: test.mosquitto.org:{port}
+    host: 'test.mosquitto.org:{port}'
     protocol: mqtt
     description: Test broker
     variables:
@@ -20,55 +20,97 @@ servers:
           - '1883'
           - '8883'
     security:
-      - apiKey: []
-      - supportedOauthFlows:
-        - streetlights:on
-        - streetlights:off
-        - streetlights:dim
-      - openIdConnectWellKnown: []
-
-defaultContentType: application/json
-
+      - $ref: '#/components/securitySchemes/apiKey'
+      - type: oauth2
+        description: Flows to support OAuth 2.0
+        flows:
+          implicit:
+            authorizationUrl: 'https://authserver.example/auth'
+            availableScopes:
+              'streetlights:on': Ability to switch lights on
+              'streetlights:off': Ability to switch lights off
+              'streetlights:dim': Ability to dim the lights
+          password:
+            tokenUrl: 'https://authserver.example/token'
+            availableScopes:
+              'streetlights:on': Ability to switch lights on
+              'streetlights:off': Ability to switch lights off
+              'streetlights:dim': Ability to dim the lights
+          clientCredentials:
+            tokenUrl: 'https://authserver.example/token'
+            availableScopes:
+              'streetlights:on': Ability to switch lights on
+              'streetlights:off': Ability to switch lights off
+              'streetlights:dim': Ability to dim the lights
+          authorizationCode:
+            authorizationUrl: 'https://authserver.example/auth'
+            tokenUrl: 'https://authserver.example/token'
+            refreshUrl: 'https://authserver.example/refresh'
+            availableScopes:
+              'streetlights:on': Ability to switch lights on
+              'streetlights:off': Ability to switch lights off
+              'streetlights:dim': Ability to dim the lights
+        scopes:
+          - 'streetlights:on'
+          - 'streetlights:off'
+          - 'streetlights:dim'
+      - $ref: '#/components/securitySchemes/openIdConnectWellKnown'
 channels:
-  smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured:
-    parameters:
-      streetlightId:
-        $ref: '#/components/parameters/streetlightId'
-    publish:
-      summary: Inform about environmental lighting conditions of a particular streetlight.
-      operationId: receiveLightMeasurement
-      message:
+  'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured':
+    address: 'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured'
+    messages:
+      receiveLightMeasurement.message:
         $ref: '#/components/messages/lightMeasured'
-
-  smartylighting/streetlights/1/0/action/{streetlightId}/dim:
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-    subscribe:
-      operationId: dimLight
-      message:
+  'smartylighting/streetlights/1/0/action/{streetlightId}/dim':
+    address: 'smartylighting/streetlights/1/0/action/{streetlightId}/dim'
+    messages:
+      dimLight.message:
         $ref: '#/components/messages/dimLight'
-
+    parameters:
+      streetlightId:
+        $ref: '#/components/parameters/streetlightId'
+operations:
+  receiveLightMeasurement:
+    action: receive
+    channel:
+      $ref: >-
+        #/channels/smartylighting~1streetlights~11~10~1event~1{streetlightId}~1lighting~1measured
+    summary: >-
+      Inform about environmental lighting conditions of a particular
+      streetlight.
+    messages:
+      - $ref: '#/components/messages/lightMeasured'
+  dimLight:
+    action: send
+    channel:
+      $ref: >-
+        #/channels/smartylighting~1streetlights~11~10~1action~1{streetlightId}~1dim
+    messages:
+      - $ref: '#/components/messages/dimLight'
 components:
   messages:
     lightMeasured:
       name: lightMeasured
       title: Light measured
-      summary: Inform about environmental lighting conditions of a particular streetlight.
+      summary: >-
+        Inform about environmental lighting conditions of a particular
+        streetlight.
       correlationId:
-        location: "$message.header#/MQMD/CorrelId"
+        location: $message.header#/MQMD/CorrelId
       contentType: application/json
       payload:
-        $ref: "#/components/schemas/lightMeasuredPayload"
+        $ref: '#/components/schemas/lightMeasuredPayload'
     dimLight:
       name: dimLight
       title: Dim light
       summary: Command a particular streetlight to dim the lights.
       correlationId:
-        $ref: "#/components/correlationIds/sentAtCorrelator"
+        $ref: '#/components/correlationIds/sentAtCorrelator'
       payload:
-        $ref: "#/components/schemas/dimLightPayload"
-
+        $ref: '#/components/schemas/dimLightPayload'
   schemas:
     lightMeasuredPayload:
       type: object
@@ -78,7 +120,7 @@ components:
           minimum: 0
           description: Light intensity measured in lumens.
         sentAt:
-          $ref: "#/components/schemas/sentAt"
+          $ref: '#/components/schemas/sentAt'
     dimLightPayload:
       type: object
       properties:
@@ -88,18 +130,16 @@ components:
           minimum: 0
           maximum: 100
         sentAt:
-          $ref: "#/components/schemas/sentAt"
+          $ref: '#/components/schemas/sentAt'
     sentAt:
       type: string
       format: date-time
       description: Date and time when the message was sent.
-
   parameters:
     streetlightId:
       description: The ID of the streetlight.
       schema:
         type: string
-
   correlationIds:
     sentAtCorrelator:
       description: Data from message payload used as correlation ID
@@ -115,19 +155,19 @@ components:
       flows:
         implicit:
           authorizationUrl: 'https://authserver.example/auth'
-          scopes:
+          availableScopes:
             'streetlights:on': Ability to switch lights on
             'streetlights:off': Ability to switch lights off
             'streetlights:dim': Ability to dim the lights
         password:
           tokenUrl: 'https://authserver.example/token'
-          scopes:
+          availableScopes:
             'streetlights:on': Ability to switch lights on
             'streetlights:off': Ability to switch lights off
             'streetlights:dim': Ability to dim the lights
         clientCredentials:
           tokenUrl: 'https://authserver.example/token'
-          scopes:
+          availableScopes:
             'streetlights:on': Ability to switch lights on
             'streetlights:off': Ability to switch lights off
             'streetlights:dim': Ability to dim the lights
@@ -135,7 +175,7 @@ components:
           authorizationUrl: 'https://authserver.example/auth'
           tokenUrl: 'https://authserver.example/token'
           refreshUrl: 'https://authserver.example/refresh'
-          scopes:
+          availableScopes:
             'streetlights:on': Ability to switch lights on
             'streetlights:off': Ability to switch lights off
             'streetlights:dim': Ability to dim the lights

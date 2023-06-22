@@ -64,9 +64,9 @@ channels:
       kafka:
         replicas: 3
         partitions: 3
-        topicConfiguration
-            cleanup.policy: delete
-            retention.ms: 7 days
+        topicConfiguration:
+          cleanup.policy: delete
+          retention.ms: 7 days
     messages:
       costingRequest:
         $ref: "#/components/messages/costingRequestV1"

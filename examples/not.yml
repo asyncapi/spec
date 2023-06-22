@@ -1,20 +1,25 @@
-asyncapi: '2.5.0'
+asyncapi: 3.0.0
 info:
   title: Not example
-  version: '1.0.0'
-
+  version: 1.0.0
 channels:
   test:
-    publish:
-      message:
+    address: test
+    messages:
+      publish.message:
         $ref: '#/components/messages/testMessages'
-
+operations:
+  test.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/test'
+    messages:
+      - $ref: '#/components/messages/testMessages'
 components:
   messages:
     testMessages:
       payload:
-        $ref: "#/components/schemas/testSchema"
-
+        $ref: '#/components/schemas/testSchema'
   schemas:
     testSchema:
       type: object

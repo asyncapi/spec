@@ -1,38 +1,49 @@
-asyncapi: '2.5.0'
+asyncapi: 3.0.0
 info:
   title: OneOf example
-  version: '1.0.0'
-
+  version: 1.0.0
 channels:
   test:
-    publish:
-      message:
+    address: test
+    messages:
+      publish.message:
         $ref: '#/components/messages/testMessages'
-
   test2:
-    subscribe:
-      message:
-        # Use oneOf here if different messages are published on test2 topic.
-        oneOf:
-          - payload:
-              $ref: "#/components/schemas/objectWithKey"
-          - payload:
-              $ref: "#/components/schemas/objectWithKey2"
-
+    address: test2
+    messages:
+      subscribe.message.0:
+        payload:
+          $ref: '#/components/schemas/objectWithKey'
+      subscribe.message.1:
+        payload:
+          $ref: '#/components/schemas/objectWithKey2'
+operations:
+  test.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/test'
+    messages:
+      - $ref: '#/components/messages/testMessages'
+  test2.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/test2'
+    messages:
+      - $ref: '#/channels/test2/messages/subscribe.message.0'
+      - $ref: '#/channels/test2/messages/subscribe.message.1'
 components:
   messages:
     testMessages:
       payload:
-        oneOf: # oneOf in payload schema
-          - $ref: "#/components/schemas/objectWithKey"
-          - $ref: "#/components/schemas/objectWithKey2"
+        oneOf:
+          - $ref: '#/components/schemas/objectWithKey'
+          - $ref: '#/components/schemas/objectWithKey2'
     testMessage1:
       payload:
-        $ref: "#/components/schemas/objectWithKey"
+        $ref: '#/components/schemas/objectWithKey'
     testMessage2:
       payload:
-        $ref: "#/components/schemas/objectWithKey2"
-
+        $ref: '#/components/schemas/objectWithKey2'
   schemas:
     objectWithKey:
       type: object
