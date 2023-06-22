@@ -1,29 +1,44 @@
-asyncapi: 2.5.0
+asyncapi: 3.0.0
 info:
   title: Notifications
   version: 1.0.0
   description: >-
-    This contract defines HTTP Push notification for 
-    application authorization revocation topic
+    This contract defines HTTP Push notification for  application authorization
+    revocation topic
 channels:
   AUTHORIZATION_REVOCATION:
-    subscribe:
-      message:
+    address: AUTHORIZATION_REVOCATION
+    messages:
+      subscribe.message:
         $ref: '#/components/messages/message'
-      bindings:
-        http:
-          type: request
-          method: POST
-          headers:
-            type: object
-            properties:
-              Content-Type:
-                type: string
-                enum:
-                  - application/json
-      security:
-        petstore_auth:
-          - subscribe:auth_revocations
+operations:
+  AUTHORIZATION_REVOCATION.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/AUTHORIZATION_REVOCATION'
+    security:
+      - type: oauth2
+        description: The oauth security descriptions
+        flows:
+          clientCredentials:
+            tokenUrl: 'https://example.com/api/oauth/dialog'
+            availableScopes:
+              'subscribe:auth_revocations': Scope required for authorization revocation topic
+        scopes:
+          - 'subscribe:auth_revocations'
+    bindings:
+      http:
+        type: request
+        method: POST
+        headers:
+          type: object
+          properties:
+            Content-Type:
+              type: string
+              enum:
+                - application/json
+    messages:
+      - $ref: '#/components/messages/message'
 components:
   messages:
     message:
@@ -102,5 +117,5 @@ components:
       flows:
         clientCredentials:
           tokenUrl: 'https://example.com/api/oauth/dialog'
-          scopes:
-            subscribe:auth_revocations: Scope required for authorization revocation topic
+          availableScopes:
+            'subscribe:auth_revocations': Scope required for authorization revocation topic

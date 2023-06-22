@@ -1,35 +1,19 @@
-asyncapi: '2.5.0'
+asyncapi: 3.0.0
 id: 'urn:example:rpcserver'
-defaultContentType: application/json
-
 info:
   title: RPC Server Example
+  version: 1.0.0
   description: This example demonstrates how to define an RPC server.
-  version: '1.0.0'
-
+defaultContentType: application/json
 servers:
   production:
-    url: rabbitmq.example.org
+    host: rabbitmq.example.org
     protocol: amqp
-
 channels:
   '{queue}':
-    parameters:
-      queue:
-        schema:
-          type: string
-          pattern: '^amq\\.gen\\-.+$'
-    bindings:
-      amqp:
-        is: queue
-        queue:
-          exclusive: true
-    subscribe:
-      operationId: sendSumResult
-      bindings:
-        amqp:
-          ack: true
-      message:
+    address: '{queue}'
+    messages:
+      sendSumResult.message:
         correlationId:
           location: $message.header#/correlation_id
         payload:
@@ -39,16 +23,20 @@ channels:
               type: number
               examples:
                 - 7
-
-  rpc_queue:
+    parameters:
+      queue:
+        schema:
+          type: string
+          pattern: ^amq\\.gen\\-.+$
     bindings:
       amqp:
         is: queue
         queue:
-          durable: false
-    publish:
-      operationId: sum
-      message:
+          exclusive: true
+  rpc_queue:
+    address: rpc_queue
+    messages:
+      sum.message:
         bindings:
           amqp:
             replyTo:
@@ -63,4 +51,26 @@ channels:
               items:
                 type: number
               examples:
-                - [4,3]
+                - - 4
+                  - 3
+    bindings:
+      amqp:
+        is: queue
+        queue:
+          durable: false
+operations:
+  sendSumResult:
+    action: send
+    channel:
+      $ref: '#/channels/{queue}'
+    bindings:
+      amqp:
+        ack: true
+    messages:
+      - $ref: '#/channels/{queue}/messages/sendSumResult.message'
+  sum:
+    action: receive
+    channel:
+      $ref: '#/channels/rpc_queue'
+    messages:
+      - $ref: '#/channels/rpc_queue/messages/sum.message'

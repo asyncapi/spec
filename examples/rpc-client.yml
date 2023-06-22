@@ -1,35 +1,19 @@
-asyncapi: '2.5.0'
+asyncapi: 3.0.0
 id: 'urn:example:rpcclient'
-defaultContentType: application/json
-
 info:
   title: RPC Client Example
+  version: 1.0.0
   description: This example demonstrates how to define an RPC client.
-  version: '1.0.0'
-
+defaultContentType: application/json
 servers:
   production:
-    url: rabbitmq.example.org
+    host: rabbitmq.example.org
     protocol: amqp
-
 channels:
   '{queue}':
-    parameters:
-      queue:
-        schema:
-          type: string
-          pattern: '^amq\\.gen\\-.+$'
-    bindings:
-      amqp:
-        is: queue
-        queue:
-          exclusive: true
-    publish:
-      operationId: receiveSumResult
-      bindings:
-        amqp:
-          ack: false
-      message:
+    address: '{queue}'
+    messages:
+      receiveSumResult.message:
         correlationId:
           location: $message.header#/correlation_id
         payload:
@@ -39,19 +23,20 @@ channels:
               type: number
               examples:
                 - 7
-
-  rpc_queue:
+    parameters:
+      queue:
+        schema:
+          type: string
+          pattern: ^amq\\.gen\\-.+$
     bindings:
       amqp:
         is: queue
         queue:
-          durable: false
-    subscribe:
-      operationId: requestSum
-      bindings:
-        amqp:
-          ack: true
-      message:
+          exclusive: true
+  rpc_queue:
+    address: rpc_queue
+    messages:
+      requestSum.message:
         bindings:
           amqp:
             replyTo:
@@ -66,4 +51,29 @@ channels:
               items:
                 type: number
               examples:
-                - [4,3]
+                - - 4
+                  - 3
+    bindings:
+      amqp:
+        is: queue
+        queue:
+          durable: false
+operations:
+  receiveSumResult:
+    action: receive
+    channel:
+      $ref: '#/channels/{queue}'
+    bindings:
+      amqp:
+        ack: false
+    messages:
+      - $ref: '#/channels/{queue}/messages/receiveSumResult.message'
+  requestSum:
+    action: send
+    channel:
+      $ref: '#/channels/rpc_queue'
+    bindings:
+      amqp:
+        ack: true
+    messages:
+      - $ref: '#/channels/rpc_queue/messages/requestSum.message'
