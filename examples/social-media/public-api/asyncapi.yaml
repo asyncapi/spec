@@ -1,28 +1,35 @@
-asyncapi: 2.2.0
-
+asyncapi: 3.0.0
 info:
-  title: Public API 
-  description: Public API for others to interact with the system
+  title: Public API
   version: 1.0.0
-
+  description: Public API for others to interact with the system
 servers:
   mosquitto:
-    url: mqtt://test.mosquitto.org
+    host: test.mosquitto.org
     protocol: mqtt
+    tags:
+      - name: 'env:production'
+        description: This environment is meant for production use case
+      - name: 'kind:remote'
+        description: This server is a remote server. Not exposed by the application
+      - name: 'visibility:public'
+        description: This resource is public and available to everyone
     bindings:
       mqtt:
         clientId: public-api
-    tags:
-      - name: "env:production"
-        description: "This environment is meant for production use case"
-      - name: "kind:remote"
-        description: "This server is a remote server. Not exposed by the application"
-      - name: "visibility:public"
-        description: "This resource is public and available to everyone"
-
 channels:
   comment/liked:
-    description: Others are publishing to you, whenever a comment is liked, for you to do react to such an event. 
-    publish: 
-      message:
-        $ref: '../common/messages.yaml#/commentLiked'
+    address: comment/liked
+    messages:
+      publish.message:
+        $ref: ../common/messages.yaml#/commentLiked
+    description: >-
+      Others are publishing to you, whenever a comment is liked, for you to do
+      react to such an event.
+operations:
+  comment/liked.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/comment~1liked'
+    messages:
+      - $ref: ../common/messages.yaml#/commentLiked
