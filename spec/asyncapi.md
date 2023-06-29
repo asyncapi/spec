@@ -17,7 +17,7 @@ The AsyncAPI Specification is a project used to describe and document message-dr
 The AsyncAPI Specification defines a set of files required to describe such an API.
 These files can then be used to create utilities, such as documentation, integration and/or testing tools.
 
-The file(s) MUST describe the operations an [application](#definitionsApplication) accepts. For instance, consider the following AsyncAPI definition snippet:
+The file(s) MUST describe the operations an [Application API](#definitionsApplication) accepts. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 user/signedup:
@@ -26,7 +26,7 @@ user/signedup:
       $ref: "#/components/messages/userSignUp"
 ```
 
-It means that the [application](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the application.
+It means that the [Application API](#definitionsApplication) allows [consumers](#definitionsConsumer) to subscribe to the `user/signedup` [channel](#definitionsChannel) to receive userSignUp [messages](#definitionsMessage) produced by the Application API.
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
@@ -35,7 +35,7 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 
 - [Definitions](#definitions)
   - [Server](#definitionsServer)
-  - [Application](#definitionsApplication)
+  - [Application API](#definitionsApplication)
   - [Producer](#definitionsProducer)
   - [Consumer](#definitionsConsumer)
   - [Message](#definitionsMessage)
@@ -89,23 +89,23 @@ It means that the [application](#definitionsApplication) allows [consumers](#def
 #### <a name="definitionsServer"></a>Server
 A server MAY be a message broker that is capable of sending and/or receiving between a [producer](#definitionsProducer) and [consumer](#definitionsConsumer). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
 
-#### <a name="definitionsApplication"></a>Application
-An application is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An application MAY be a microservice, IoT device (sensor), mainframe process, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
+#### <a name="definitionsApplication"></a>Application API
+An Application API is any kind of computer program or a group of them. It MUST be a [producer](#definitionsProducer), a [consumer](#definitionsConsumer) or both. An Application API MAY be a microservice, IoT device (sensor), mainframe process, etc. An Application API MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An Application API MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
 
 #### <a name="definitionsProducer"></a>Producer
-A producer is a type of application, connected to a [server](#definitionsServer), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
+A producer is a type of Application API, connected to a [server](#definitionsServer), that is creating [messages](#definitionsMessage) and addressing them to [channels](#definitionsChannel). A producer MAY be publishing to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
 
 #### <a name="definitionsConsumer"></a>Consumer
-A consumer is a type of application, connected to a [server](#definitionsServer) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern.
+A consumer is a type of Application API, connected to a [server](#definitionsServer) via a supported [protocol](#definitionsProtocol), that is consuming [messages](#definitionsMessage) from [channels](#definitionsChannel). A consumer MAY be consuming from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern.
 
 #### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and Application APIs. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the Application API which can act as supporting metadata. The payload contains the data, defined by the Application API, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 #### <a name="definitionsChannel"></a>Channel
-A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) applications send messages to channels and [consumer](#definitionsConsumer) applications consume messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
+A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Producer](#definitionsProducer) Application APIs send messages to channels and [consumer](#definitionsConsumer) Application APIs consume messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 #### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
+A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the Application API and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
 #### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
@@ -161,7 +161,7 @@ It combines resource listing and API declaration together into one document.
 Field Name | Type | Description
 ---|:---:|---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
-<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
+<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [Application API](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
@@ -185,9 +185,9 @@ In subsequent versions of the AsyncAPI Specification, care will be given such th
 
 #### <a name="A2SIdString"></a>Identifier
 
-This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](https://tools.ietf.org/html/rfc3986).
+This field represents a unique universal identifier of the [Application API](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](https://tools.ietf.org/html/rfc3986).
 
-It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the application during long periods of time, even after it becomes unavailable or ceases to exist.
+It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the Application API during long periods of time, even after it becomes unavailable or ceases to exist.
 
 ###### Examples
 
@@ -220,9 +220,9 @@ The metadata can be used by the clients if needed.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
-<a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
-<a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the Application API.
+<a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the Application API API (not to be confused with the specification version).
+<a name="infoObjectDescription"></a>description | `string` | A short description of the Application API. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of an absolute URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
@@ -328,7 +328,7 @@ The Servers Object is a map of [Server Objects](#serverObject).
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this Application API MAY connect to.
 
 ##### Servers Object Example
 
@@ -605,8 +605,8 @@ Field Name | Type | Description
 <a name="channelItemObjectRef"></a>$ref | `string` | Allows for a referenced definition of this channel item. The referenced structure MUST be in the form of a [Channel Item Object](#channelItemObject). In case a Channel Item Object field appears both in the defined object and the referenced object, the behavior is *undefined*. Resolution is done as defined by the [JSON Reference](https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03). <br/><br/>**Deprecated:** Usage of the `$ref` property has been deprecated.
 <a name="channelItemObjectDescription"></a>description | `string` | An optional description of this channel item. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="channelItemObjectServers"></a>servers | [`string`] | The servers on which this channel is available, specified as an optional unordered list of names (string keys) of [Server Objects](#serverObject) defined in the [Servers Object](#serversObject) (a map). If `servers` is absent or empty then this channel must be available on all servers defined in the [Servers Object](#serversObject).
-<a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the application and sent to the channel.
-<a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the application from the channel.
+<a name="channelItemObjectSubscribe"></a>subscribe | [Operation Object](#operationObject) | A definition of the SUBSCRIBE operation, which defines the messages produced by the Application API and sent to the channel.
+<a name="channelItemObjectPublish"></a>publish | [Operation Object](#operationObject) | A definition of the PUBLISH operation, which defines the messages consumed by the Application API from the channel.
 <a name="channelItemObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel name. It SHOULD be present only when using channels with expressions (as defined by [RFC 6570 section 2.2](https://tools.ietf.org/html/rfc6570#section-2.2)).
 <a name="channelItemObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
@@ -693,7 +693,7 @@ Using explicit by-name references to the servers on which the channel is availab
 
 ```json
 {
-  "description": "This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.",
+  "description": "This Application API publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.",
   "servers": [
     "rabbitmqBrokerInProd",
     "rabbitmqBrokerInStaging",
@@ -712,7 +712,7 @@ Using explicit by-name references to the servers on which the channel is availab
 ```
 
 ```yaml
-description: This application publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.
+description: This Application API publishes WebUICommand messages to an AMQP queue on RabbitMQ brokers in the Staging and Production environments.
 servers:
   - rabbitmqBrokerInProd
   - rabbitmqBrokerInStaging
@@ -732,7 +732,7 @@ bindings:
 
 Describes a publish or a subscribe operation. This provides a place to document how and why messages are sent and received.
 
-For example, an operation might describe a chat application use case where a user sends a text message to a group. A publish operation describes messages that are received by the chat application, whereas a subscribe operation describes messages that are sent by the chat application.
+For example, an operation might describe a chat Application API use case where a user sends a text message to a group. A publish operation describes messages that are received by the chat Application API, whereas a subscribe operation describes messages that are sent by the chat Application API.
 
 ##### Fixed Fields
 
@@ -775,7 +775,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
       "type": "object",
       "properties": {
         "applicationInstanceId": {
-          "description": "Unique identifier for a given instance of the publishing application",
+          "description": "Unique identifier for a given instance of the publishing Application API",
           "type": "string"
         }
       }
@@ -820,7 +820,7 @@ message:
     type: object
     properties:
       applicationInstanceId:
-        description: Unique identifier for a given instance of the publishing application
+        description: Unique identifier for a given instance of the publishing Application API
         type: string
   payload:
     type: object
@@ -1125,7 +1125,7 @@ Describes a message received on a given channel and operation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
-<a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
+<a name="messageObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the Application API headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageObjectPayload"></a>payload | `any` | Definition of the message payload. It can be of any type but defaults to [Schema object](#schemaObject). It must match the schema format, including encoding type - e.g Avro should be inlined as either a YAML or JSON object NOT a string to be parsed as YAML or JSON.
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject). When the payload is defined using a `$ref` to a remote file, it is RECOMMENDED the schema format includes the file encoding type to allow implementations to parse the file correctly. E.g., adding `+yaml` if content type is `application/vnd.apache.avro` results in `application/vnd.apache.avro+yaml`.<br/><br/>Check out the [supported schema formats table](#messageObjectSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#messageObjectSchemaFormatTable).
@@ -1179,11 +1179,11 @@ Name | Allowed values | Notes
     "type": "object",
     "properties": {
       "correlationId": {
-        "description": "Correlation ID set by application",
+        "description": "Correlation ID set by Application API",
         "type": "string"
       },
       "applicationInstanceId": {
-        "description": "Unique identifier for a given instance of the publishing application",
+        "description": "Unique identifier for a given instance of the publishing Application API",
         "type": "string"
       }
     }
@@ -1242,10 +1242,10 @@ headers:
   type: object
   properties:
     correlationId:
-      description: Correlation ID set by application
+      description: Correlation ID set by Application API
       type: string
-    applicationInstanceId:
-      description: Unique identifier for a given instance of the publishing application
+    Application APIInstanceId:
+      description: Unique identifier for a given instance of the publishing Application API
       type: string
 payload:
   type: object
@@ -1264,7 +1264,7 @@ examples:
     summary: A simple UserSignup example message
     headers:
       correlationId: my-correlation-id
-      applicationInstanceId: myInstanceId
+      Application APIInstanceId: myInstanceId
     payload:
       user:
         someUserKey: someUserValue
@@ -1325,7 +1325,7 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageTraitObjectMessageId"></a>messageId | `string` | Unique string used to identify the message. The id MUST be unique among all messages described in the API. The messageId value is **case-sensitive**. Tools and libraries MAY use the messageId to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
-<a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
+<a name="messageTraitObjectHeaders"></a>headers | [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the Application API headers. Schema MUST be of type "object". It **MUST NOT** define the protocol headers.
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectSchemaFormat"></a>schemaFormat | `string` | A string containing the name of the schema format/language used to define the message payload. If omitted, implementations should parse the payload as a [Schema object](#schemaObject).
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
@@ -1614,7 +1614,7 @@ my.org.User
           "type": "object",
           "properties": {
             "applicationInstanceId": {
-              "description": "Unique identifier for a given instance of the publishing application",
+              "description": "Unique identifier for a given instance of the publishing Application API",
               "type": "string"
             }
           }
@@ -1719,7 +1719,7 @@ components:
         type: object
         properties:
           applicationInstanceId:
-            description: Unique identifier for a given instance of the publishing application
+            description: Unique identifier for a given instance of the publishing Application API
             type: string
       payload:
         type: object
