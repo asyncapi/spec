@@ -838,7 +838,7 @@ Field Name | Type | Description
 <a name="operationObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
-<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged into the operation object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here.
+<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Operation Object](#operationObject).
 <a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
 
@@ -1240,7 +1240,7 @@ Field Name | Type | Description
 <a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this message.
 <a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
 <a name="messageObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
-<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged into the message object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined here. The resulting object MUST be a valid [Message Object](#messageObject).
+<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2624,6 +2624,32 @@ Message Header Property | `$message.header#/MQMD/CorrelId` | Correlation ID is s
 Message Payload Property | `$message.payload#/messageId` | Correlation ID is set using the `messageId` value from the message payload.
 
 Runtime expressions preserve the type of the referenced value.
+
+### <a name="traitsMergeMechanism"></a>Traits Merge Mechanism
+
+Traits MUST be merged with the target object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the target object.
+
+#### Example
+
+An object like the following:
+
+```yaml
+description: A longer description.
+traits:
+  - name: UserSignup
+    description: Description from trait.
+  - tags:
+      - name: user
+```
+
+Would look like the following after applying traits:
+
+```yaml
+name: UserSignup
+description: A longer description.
+tags:
+  - name: user
+```
 
 ### <a name="specificationExtensions"></a>Specification Extensions
 
