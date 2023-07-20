@@ -1,4 +1,4 @@
-asyncapi: 2.2.0
+asyncapi: 2.6.0
 
 info:
   title: Website Backend
@@ -13,6 +13,13 @@ servers:
     bindings:
       mqtt:
         clientId: websocketServer
+    tags:
+      - name: "env:production"
+        description: "This environment is meant for production use case"
+      - name: "kind:remote"
+        description: "This server is a remote server. Not exposed by the application"
+      - name: "visibility:public"
+        description: "This resource is public and available to everyone"
 
 channels:
   comment/liked:

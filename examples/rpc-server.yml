@@ -1,4 +1,4 @@
-asyncapi: '2.4.0'
+asyncapi: '2.6.0'
 id: 'urn:example:rpcserver'
 defaultContentType: application/json
 
