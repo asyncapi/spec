@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 18
       - name: Add plugin for conventional commits
-        run: npm install --save-dev conventional-changelog-conventionalcommits@5.0.0
+        run: npm install --save-dev conventional-changelog-conventionalcommits@6.1.0
       - name: Release to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
