@@ -138,8 +138,6 @@ components:
   parameters:
     streetlightId:
       description: The ID of the streetlight.
-      schema:
-        type: string
   correlationIds:
     sentAtCorrelator:
       description: Data from message payload used as correlation ID

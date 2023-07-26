@@ -22,17 +22,13 @@ channels:
     parameters:
       roomId:
         description: Id of the Gitter room.
-        schema:
-          type: string
-          examples:
-            - 53307860c3599d1de448e19d
+        examples:
+          - 53307860c3599d1de448e19d
       resource:
+        enum:
+          - chatMessages
+          - events
         description: The resource to consume.
-        schema:
-          type: string
-          enum:
-            - chatMessages
-            - events
 operations:
   '/rooms/{roomId}/{resource}.subscribe':
     action: send

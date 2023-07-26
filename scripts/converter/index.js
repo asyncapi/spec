@@ -16,8 +16,7 @@ function convertExample(exampleFile) {
   const loadedDocument = jsYaml.load(document);
   if(loadedDocument.asyncapi === undefined) {
     //Probably encountered a common file (used in other files), ignore
-    console.error(`
-___________________________________________________________________________________
+    console.error(`___________________________________________________________________________________
     !!!Manual change required!!! 
 
     ${exampleFile} is a shared resource among other AsyncAPI documents, make sure to manually inspect this!

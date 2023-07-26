@@ -24,10 +24,7 @@ channels:
               examples:
                 - 7
     parameters:
-      queue:
-        schema:
-          type: string
-          pattern: ^amq\\.gen\\-.+$
+      queue: {}
     bindings:
       amqp:
         is: queue

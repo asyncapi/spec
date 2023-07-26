@@ -22,9 +22,7 @@ channels:
       modified, a JSON-LD representation of the new version of this resource
       must be pushed in this Mercure topic.
     parameters:
-      id:
-        schema:
-          type: integer
+      id: {}
 operations:
   'https://example.com/books/{id}.publish':
     action: receive

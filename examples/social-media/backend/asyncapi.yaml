@@ -46,9 +46,7 @@ channels:
     servers:
       - $ref: '#/servers/mosquitto'
     parameters:
-      commentId:
-        schema:
-          $ref: ../common/schemas.yaml#/commentId
+      commentId: {}
   update/comment/likes:
     address: update/comment/likes
     messages:

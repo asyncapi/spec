@@ -35,9 +35,7 @@ channels:
       Sends the new count to the broker after it has been updated in the
       database.
     parameters:
-      commentId:
-        schema:
-          $ref: ../common/schemas.yaml#/commentId
+      commentId: {}
 operations:
   comment/liked.publish:
     action: receive
