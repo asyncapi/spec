@@ -26,4 +26,4 @@ jobs:
           GIT_AUTHOR_EMAIL: info@asyncapi.io
           GIT_COMMITTER_NAME: asyncapi-bot
           GIT_COMMITTER_EMAIL: info@asyncapi.io
-        run: npx semantic-release@17.4.3
+        run: npx semantic-release@21.0.7
