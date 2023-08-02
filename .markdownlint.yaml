@@ -1,6 +1,6 @@
 # MD013/line-length - Line length
 # We should keep it disabled as this line length limit do not maeke sense really
-#MD013: false
+MD013: false
 # MD033/no-inline-html - Inline HTML
 # We use HTML links in deadings all over the place. Probably this is why links in GitHub do not work, but that requires investingation if we can remove them really
 MD033: false
