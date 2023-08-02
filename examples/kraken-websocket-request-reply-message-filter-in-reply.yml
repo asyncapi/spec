@@ -47,7 +47,7 @@ operations:
       channel: 
         $ref: '#/channels/currencyExchange'
       messages:
-        $ref: '#/components/messages/ping'
+        - $ref: '#/components/messages/ping'
   heartbeat:
     action: receive
     channel: 
@@ -64,7 +64,7 @@ operations:
       channel: 
         $ref: '#/channels/currencyExchange'
       messages:
-        $ref: '#/components/messages/subscriptionStatus'
+        - $ref: '#/components/messages/subscriptionStatus'
   unsubscribe:
     action: send
     channel: 
@@ -73,7 +73,7 @@ operations:
       channel: 
         $ref: '#/channels/currencyExchange'   
       messages:
-        $ref: '#/components/messages/subscriptionStatus'
+        - $ref: '#/components/messages/subscriptionStatus'
        
        
 components:

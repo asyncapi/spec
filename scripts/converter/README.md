@@ -1,0 +1,1 @@
+This script converts the official examples to newer versions once released.

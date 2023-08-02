@@ -1,52 +1,82 @@
-asyncapi: 2.2.0
-
+asyncapi: 3.0.0
 info:
   title: Website Backend
   version: 1.0.0
-
 servers:
   websiteWebSocketServer:
-    $ref: '../common/servers.yaml#/websiteWebSocketServer'
+    $ref: ../common/servers.yaml#/websiteWebSocketServer
   mosquitto:
-    url: mqtt://test.mosquitto.org
+    host: test.mosquitto.org
     protocol: mqtt
+    tags:
+      - name: 'env:production'
+        description: This environment is meant for production use case
+      - name: 'kind:remote'
+        description: This server is a remote server. Not exposed by the application
+      - name: 'visibility:public'
+        description: This resource is public and available to everyone
     bindings:
       mqtt:
         clientId: websocketServer
-    tags:
-      - name: "env:production"
-        description: "This environment is meant for production use case"
-      - name: "kind:remote"
-        description: "This server is a remote server. Not exposed by the application"
-      - name: "visibility:public"
-        description: "This resource is public and available to everyone"
-
 channels:
   comment/liked:
+    address: comment/liked
+    messages:
+      subscribe.message:
+        $ref: ../common/messages.yaml#/commentLiked
     description: Notify all the services that a comment has been liked.
-    servers: ['mosquitto']
-    subscribe: 
-      message:
-        $ref: '../common/messages.yaml#/commentLiked'
+    servers:
+      - $ref: '#/servers/mosquitto'
   like/comment:
+    address: like/comment
+    messages:
+      publish.message:
+        $ref: ../common/messages.yaml#/likeComment
     description: When a comment like is received from the frontend.
-    servers: ['websiteWebSocketServer']
-    publish: 
-      message:
-        $ref: '../common/messages.yaml#/likeComment'
-  comment/{commentId}/changed:
-    description: When an event from the broker arrives telling us to update the comment likes count on the frontend.
-    parameters: 
-      commentId:
-        schema: 
-          $ref: '../common/schemas.yaml#/commentId'
-    servers: ['mosquitto']
-    publish: 
-      message:
-        $ref: '../common/messages.yaml#/commentChanged'
+    servers:
+      - $ref: '#/servers/websiteWebSocketServer'
+  'comment/{commentId}/changed':
+    address: 'comment/{commentId}/changed'
+    messages:
+      publish.message:
+        $ref: ../common/messages.yaml#/commentChanged
+    description: >-
+      When an event from the broker arrives telling us to update the comment
+      likes count on the frontend.
+    servers:
+      - $ref: '#/servers/mosquitto'
+    parameters:
+      commentId: {}
   update/comment/likes:
+    address: update/comment/likes
+    messages:
+      subscribe.message:
+        $ref: ../common/messages.yaml#/updateCommentLikes
     description: Update comment likes count in the frontend.
-    servers: ['websiteWebSocketServer']
-    subscribe: 
-      message:
-        $ref: '../common/messages.yaml#/updateCommentLikes'
+    servers:
+      - $ref: '#/servers/websiteWebSocketServer'
+operations:
+  comment/liked.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/comment~1liked'
+    messages:
+      - $ref: ../common/messages.yaml#/commentLiked
+  like/comment.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/like~1comment'
+    messages:
+      - $ref: ../common/messages.yaml#/likeComment
+  'comment/{commentId}/changed.publish':
+    action: receive
+    channel:
+      $ref: '#/channels/comment~1{commentId}~1changed'
+    messages:
+      - $ref: ../common/messages.yaml#/commentChanged
+  update/comment/likes.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/update~1comment~1likes'
+    messages:
+      - $ref: ../common/messages.yaml#/updateCommentLikes

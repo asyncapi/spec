@@ -1,0 +1,12 @@
+{
+  "name": "converter",
+  "description": "This script converts the official examples to newer versions once released.",
+  "dependencies": {
+    "@asyncapi/converter": "1.3.1",
+    "js-yaml": "^4.1.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "convert": "node index.js"
+  }
+}

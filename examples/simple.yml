@@ -1,13 +1,21 @@
-asyncapi: '2.5.0'
+asyncapi: 3.0.0
 info:
   title: Account Service
   version: 1.0.0
   description: This service is in charge of processing user signups
 channels:
   user/signedup:
-    subscribe:
-      message:
+    address: user/signedup
+    messages:
+      subscribe.message:
         $ref: '#/components/messages/UserSignedUp'
+operations:
+  user/signedup.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/user~1signedup'
+    messages:
+      - $ref: '#/components/messages/UserSignedUp'
 components:
   messages:
     UserSignedUp:
