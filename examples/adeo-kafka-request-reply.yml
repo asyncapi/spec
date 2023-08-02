@@ -7,40 +7,41 @@ info:
   contact:
     name: AsyncAPI team
     email: info@asyncapi.io
+  tags:
+    - name: costing
+      description: "Costing channels, used by Costing clients."
 servers:
   production:
-    url: "prod.url:9092"
+    host: "prod.url:9092"
     protocol: kafka-secure
     description: Kafka PRODUCTION cluster
     security:
-      - sasl-ssl: []
+      - $ref: '#/components/securitySchemes/sasl-ssl'
     bindings:
       kafka:
         schemaRegistryUrl: >-
           https://schema-registry.prod.url/
   staging:
-    url: "staging.url:9092"
+    host: "staging.url:9092"
     protocol: kafka-secure
     description: Kafka STAGING cluster for `uat` and `preprod` environments
     security:
-      - sasl-ssl: []
+      - $ref: '#/components/securitySchemes/sasl-ssl'
     bindings:
       kafka:
         schemaRegistryUrl: >-
           https://schema-registry.staging.url/
   dev:
-    url: "dev.url:9092"
+    host: "dev.url:9092"
     protocol: kafka-secure
     description: Kafka DEV cluster for `dev` and `sit` environments
     security:
-      - sasl-ssl: []
+      - $ref: '#/components/securitySchemes/sasl-ssl'
     bindings:
       kafka:
         schemaRegistryUrl: >-
           https://schema-registry.dev.url/
-tags:
-  - name: costing
-    description: "Costing channels, used by Costing clients."
+
 channels:
   costingRequest:
     address: "adeo-{env}-case-study-COSTING-REQUEST-{version}"
@@ -65,8 +66,8 @@ channels:
         replicas: 3
         partitions: 3
         topicConfiguration:
-          cleanup.policy: delete
-          retention.ms: 7 days
+          cleanup.policy: [ "delete" ]
+          retention.ms: 604800000
     messages:
       costingRequest:
         $ref: "#/components/messages/costingRequestV1"
@@ -98,12 +99,6 @@ channels:
         $ref: "#/components/parameters/Version"
     bindings:
       kafka:
-        groupId:
-          type: string
-          description: >
-            The groupId must be prefixed by your `svc` account, deliver by the
-            Adeo Kafka team.
-            This `svc` must have the read access to the topic.
         x-key.subject.name.strategy:
           type: string
           description: >
@@ -125,7 +120,6 @@ channels:
 
 
 
-
 operations:
     requestCosting:
       action: receive
@@ -135,7 +129,7 @@ operations:
         channel: 
           $ref: '#/channels/costingResponse'
         address:
-          locaton: '$message.header#/REPLY_TOPIC'
+          location: '$message.header#/REPLY_TOPIC'
       summary: |
         [COSTING] Request one or more Costing calculation for any product
       description: >
@@ -165,6 +159,14 @@ operations:
       summary: >
         [COSTING] Get the costing responses matching an initial Costing
         Request.
+      bindings:
+        kafka:
+          groupId:
+            type: string
+            description: >
+              The groupId must be prefixed by your `svc` account, deliver by the
+              Adeo Kafka team.
+              This `svc` must have the read access to the topic.
       tags:
         - name: costing
 
@@ -188,7 +190,6 @@ components:
       summary: Costing Request V1 inputs.
       tags:
         - name: costing
-      schemaFormat: application/vnd.apache.avro;version=1.9.0
       correlationId:
         $ref: "#/components/correlationIds/costingCorrelationId"
       headers:
@@ -208,7 +209,9 @@ components:
           REQUESTER_CODE:
             $ref: "#/components/schemas/RequesterCode"
       payload:
-        $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingRequestPayload.avsc"
+        schemaFormat: application/vnd.apache.avro;version=1.9.0
+        schema:
+          $ref: "https://www.asyncapi.com/resources/casestudies/adeo/CostingRequestPayload.avsc"
     costingResponse:
       name: CostingResponse
       title: Costing Response
@@ -219,7 +222,6 @@ components:
         Please refer to the `CostingResponseKey.avsc` schema, available on [our
         github
         project](https://github.url/).
-      schemaFormat: application/vnd.apache.avro;version=1.9.0
       correlationId:
         $ref: "#/components/correlationIds/costingCorrelationId"
       headers:
@@ -242,7 +244,9 @@ components:
           key:
             $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponseKey.avsc"
       payload:
-        $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponsePayload.avsc"
+        schemaFormat: application/vnd.apache.avro;version=1.9.0
+        schema: 
+          $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponsePayload.avsc"
   schemas:
     RequesterId:
       type: string
@@ -303,9 +307,7 @@ components:
   parameters:
     Env:
       description: Adeo Kafka Environement for messages publications.
-      schema:
-        type: string
-        enum:
+      enum:
           - dev
           - sit
           - uat1
@@ -313,10 +315,9 @@ components:
           - prod
     Version:
       description: the topic version you want to use
-      schema:
-        type: string
-        example: V1
-        default: V1
+      examples: 
+        - V1
+      default: V1
   securitySchemes:
     sasl-ssl:
       type: plain
