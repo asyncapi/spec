@@ -1,4 +1,4 @@
-name: Lint
+name: Lint specification markdown file
 
 on:
   pull_request:
