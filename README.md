@@ -134,6 +134,19 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
 
 </p>
 
+### Bronze
+
+<p align="center">
+
+<a href="https://ably.com/" target="_blank">
+    <img src="./assets/ably.png" alt="ably.png logo" height="70">
+  </a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="https://rviewer.io/" target="_blank">
+    <img src="./assets/rviewer.png" alt="rviewer.png logo" height="70">
+  </a>
+</p>
+
 
 ## Contributors
 
