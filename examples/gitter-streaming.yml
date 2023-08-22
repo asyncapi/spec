@@ -160,5 +160,7 @@ components:
     streamingHeaders:
       http:
         headers:
-          'Transfer-Encoding': 'chunked'
-          Trailer: '\r\n'
+          type: object
+          properties:
+            'Transfer-Encoding': 'chunked'
+            Trailer: '\r\n'
