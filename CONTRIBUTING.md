@@ -256,6 +256,14 @@ A pull request can be merged if all the following conditions are met:
 * There is, at least, a mininum of 3 approvals from the [repository code owners](./CODEOWNERS).
 * Sufficient time has passed to let all code owners review the pull request. As of now, it should be a minimum of 1 week. If all code owners have already approved a pull request, it's ok not to wait for this period of time.
 
+## Linting specification document
+
+Always make sure that the specification markdown file has no markdown-related errors.
+
+Instead of waiting for GitHub Actions workflow to check markdown file, you can do it locally by calling the following docker command:
+```bash
+docker run -v $PWD:/workdir ghcr.io/igorshubovych/markdownlint-cli:v0.35.0 "spec/asyncapi.md"
+```
 
 ## References
 This document was adapted from the [GraphQL Specification Contribution Guide](https://github.com/graphql/graphql-spec/blob/main/CONTRIBUTING.md).

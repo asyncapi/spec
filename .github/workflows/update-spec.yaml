@@ -15,11 +15,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout Current repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: spec
       - name: Checkout Another repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: asyncapi/website
           path: website
@@ -43,7 +43,7 @@ jobs:
         run: |
           cp ../spec/spec/asyncapi.md ./pages/docs/reference/specification/${{ steps.latest_version.outputs.latest_tag }}.md
       - name: Remove Table of Contents from Spec
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
