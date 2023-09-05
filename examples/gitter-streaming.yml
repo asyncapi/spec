@@ -162,5 +162,7 @@ components:
         headers:
           type: object
           properties:
-            'Transfer-Encoding': 'chunked'
-            Trailer: '\r\n'
+            'Transfer-Encoding':
+              const: 'chunked'
+            Trailer:
+              const: '\r\n'
