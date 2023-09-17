@@ -1730,10 +1730,7 @@ my.org.User
     },
     "parameters": {
       "userId": {
-        "description": "Id of the user.",
-        "schema": {
-          "type": "string"
-        }
+        "description": "Id of the user."
       }
     },
     "correlationIds": {
@@ -1785,7 +1782,7 @@ components:
         $ref: 'path/to/user-create.avsc/#UserCreate'
   servers:
     development:
-      url: "{stage}.in.mycompany.com:{port}"
+      host: "{stage}.in.mycompany.com:{port}"
       description: RabbitMQ broker
       protocol: amqp
       protocolVersion: 0-9-1
@@ -1799,8 +1796,8 @@ components:
       default: demo
       description: This value is assigned by the service provider, in this example `mycompany.com`
     port:
-      enum: [5671, 5672]
-      default: 5672
+      enum: ["5671", "5672"]
+      default: "5672"
   channels:
     user/signedup:
       subscribe:
@@ -1831,8 +1828,6 @@ components:
   parameters:
     userId:
       description: Id of the user.
-      schema:
-        type: string
   correlationIds:
     default:
       description: Default Correlation ID
