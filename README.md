@@ -102,10 +102,6 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
     <img src="./assets/ibm.png" alt="IBM logo" height="70">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://iqvia.com" target="_blank">
-    <img src="./assets/iqvia.png" alt="IQVIA logo" height="60">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://postman.com" target="_blank">
     <img src="./assets/postman.png" alt="Postman logo" height="90">
   </a>
@@ -131,9 +127,26 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
     <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh logo" height="70">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://www.svix.com/" target="_blank">
+    <img src="./assets/swix.png" alt="swix logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
 
 </p>
 
+### Bronze
+
+<p align="center">
+
+<a href="https://ably.com/" target="_blank">
+    <img src="./assets/ably.png" alt="ably.png logo" height="70">
+  </a>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://rviewer.io/" target="_blank">
+    <img src="./assets/rviewer.png" alt="rviewer.png logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+</p>
 
 ## Contributors
 

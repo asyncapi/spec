@@ -1,0 +1,9 @@
+# MD013/line-length - Line length
+# We should keep it disabled as this line length limit do not maeke sense really
+MD013: false
+# MD033/no-inline-html - Inline HTML
+# We use HTML links in deadings all over the place. Probably this is why links in GitHub do not work, but that requires investingation if we can remove them really
+MD033: false
+# MD024/no-duplicate-heading/no-duplicate-header - Multiple headings with the same content
+# For now hard to say how that should be fixed as we have such duplicates like Fixed Fields all over the place
+MD024: false

@@ -13,11 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - name: Add plugin for conventional commits
-        run: npm install conventional-changelog-conventionalcommits
+        run: npm install --save-dev conventional-changelog-conventionalcommits@5.0.0
       - name: Release to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
