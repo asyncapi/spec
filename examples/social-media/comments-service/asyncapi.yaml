@@ -35,7 +35,8 @@ channels:
       Sends the new count to the broker after it has been updated in the
       database.
     parameters:
-      commentId: {}
+      commentId:
+        $ref: '../common/parameters.yaml#/commentId'
 operations:
   receiveCommentLiked:
     action: receive
