@@ -20,7 +20,8 @@ channels:
       modified, a JSON-LD representation of the new version of this resource
       must be pushed in this Mercure topic.
     parameters:
-      id: {}
+      id:
+        description: ID of the book
 operations:
   ReceiveBooksInfo:
     action: receive
