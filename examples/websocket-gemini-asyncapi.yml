@@ -25,10 +25,10 @@ servers:
     host: api.gemini.com
     protocol: wss
 channels:
-  '/v1/marketdata/{symbol}':
+  marketDataV1:
     address: '/v1/marketdata/{symbol}'
     messages:
-      subscribe.message:
+      marketData:
         $ref: '#/components/messages/marketData'
     parameters:
       symbol:
@@ -149,10 +149,10 @@ channels:
               default: true
               description: Include auction events
 operations:
-  '/v1/marketdata/{symbol}.subscribe':
+  sendMarketData:
     action: send
     channel:
-      $ref: '#/channels/~1v1~1marketdata~1{symbol}'
+      $ref: '#/channels/marketDataV1'
     summary: Receive market updates on a given symbol
     messages:
       - $ref: '#/components/messages/marketData'

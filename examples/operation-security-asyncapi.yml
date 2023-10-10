@@ -28,15 +28,8 @@ operations:
           - 'subscribe:auth_revocations'
     bindings:
       http:
-        type: request
         method: POST
-        headers:
-          type: object
-          properties:
-            Content-Type:
-              type: string
-              enum:
-                - application/json
+            
     messages:
       - $ref: '#/components/messages/message'
 components:
@@ -48,6 +41,10 @@ components:
           X-SIGNATURE:
             description: ECC message signature
             type: string
+          Content-Type:
+              type: string
+              enum:
+                - application/json
       payload:
         type: object
         properties:

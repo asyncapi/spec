@@ -10,12 +10,10 @@ servers:
     pathname: /.well-known/mercure
     protocol: mercure
 channels:
-  'https://example.com/books/{id}':
+  books:
     address: 'https://example.com/books/{id}'
     messages:
-      publish.message:
-        $ref: '#/components/messages/book'
-      subscribe.message:
+      book:
         $ref: '#/components/messages/book'
     description: >-
       Every time a resource of type `http://schema.org/Book` is created or
@@ -24,16 +22,16 @@ channels:
     parameters:
       id: {}
 operations:
-  'https://example.com/books/{id}.publish':
+  ReceiveBooksInfo:
     action: receive
     channel:
-      $ref: '#/channels/https:~1~1example.com~1books~1{id}'
+      $ref: '#/channels/books'
     messages:
       - $ref: '#/components/messages/book'
-  'https://example.com/books/{id}.subscribe':
+  SendBooksInfo:
     action: send
     channel:
-      $ref: '#/channels/https:~1~1example.com~1books~1{id}'
+      $ref: '#/channels/books'
     messages:
       - $ref: '#/components/messages/book'
 components:

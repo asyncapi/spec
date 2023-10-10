@@ -17,18 +17,18 @@ servers:
       mqtt:
         clientId: notification-service
 channels:
-  comment/liked:
+  commentLiked:
     address: comment/liked
     messages:
-      publish.message:
-        $ref: ../common/messages.yaml#/commentLiked
+      commentLiked:
+        $ref: '../common/messages.yaml#/commentLiked'
     description: >-
       When a "comment has been liked" message is received, it sends an SMS or
       push notification to the author.
 operations:
-  comment/liked.publish:
+  receiveCommentLiked:
     action: receive
     channel:
-      $ref: '#/channels/comment~1liked'
+      $ref: '#/channels/commentLiked'
     messages:
-      - $ref: ../common/messages.yaml#/commentLiked
+      - $ref: '../common/messages.yaml#/commentLiked'

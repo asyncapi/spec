@@ -56,18 +56,18 @@ servers:
           - 'streetlights:dim'
       - $ref: '#/components/securitySchemes/openIdConnectWellKnown'
 channels:
-  'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured':
+  lightingMeasured:
     address: 'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured'
     messages:
-      receiveLightMeasurement.message:
+      lightMeasured:
         $ref: '#/components/messages/lightMeasured'
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting/streetlights/1/0/action/{streetlightId}/dim':
+  lightsDim:
     address: 'smartylighting/streetlights/1/0/action/{streetlightId}/dim'
     messages:
-      dimLight.message:
+      dimLight:
         $ref: '#/components/messages/dimLight'
     parameters:
       streetlightId:
@@ -76,8 +76,7 @@ operations:
   receiveLightMeasurement:
     action: receive
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1event~1{streetlightId}~1lighting~1measured
+      $ref: '#/channels/lightingMeasured'
     summary: >-
       Inform about environmental lighting conditions of a particular
       streetlight.
@@ -86,8 +85,7 @@ operations:
   dimLight:
     action: send
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1action~1{streetlightId}~1dim
+      $ref: '#/channels/lightsDim'
     messages:
       - $ref: '#/components/messages/dimLight'
 components:

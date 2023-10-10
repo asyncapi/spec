@@ -1,19 +1,19 @@
 asyncapi: 3.0.0
-id: 'urn:example:rpcclient'
+id: 'urn:example:rpcserver'
 info:
-  title: RPC Client Example
+  title: RPC Server Example
   version: 1.0.0
-  description: This example demonstrates how to define an RPC client.
+  description: This example demonstrates how to define an RPC server.
 defaultContentType: application/json
 servers:
   production:
     host: rabbitmq.example.org
     protocol: amqp
 channels:
-  '{queue}':
+  queue:
     address: '{queue}'
     messages:
-      receiveSumResult.message:
+      sendSumResult:
         correlationId:
           location: $message.header#/correlation_id
         payload:
@@ -33,11 +33,7 @@ channels:
   rpc_queue:
     address: rpc_queue
     messages:
-      requestSum.message:
-        bindings:
-          amqp:
-            replyTo:
-              type: string
+      sum:
         correlationId:
           location: $message.header#/correlation_id
         payload:
@@ -56,21 +52,18 @@ channels:
         queue:
           durable: false
 operations:
-  receiveSumResult:
-    action: receive
-    channel:
-      $ref: '#/channels/{queue}'
-    bindings:
-      amqp:
-        ack: false
-    messages:
-      - $ref: '#/channels/{queue}/messages/receiveSumResult.message'
-  requestSum:
+  sendSumResult:
     action: send
     channel:
-      $ref: '#/channels/rpc_queue'
+      $ref: '#/channels/queue'
     bindings:
       amqp:
         ack: true
     messages:
-      - $ref: '#/channels/rpc_queue/messages/requestSum.message'
+      - $ref: '#/channels/queue/messages/sendSumResult'
+  sum:
+    action: receive
+    channel:
+      $ref: '#/channels/rpc_queue'
+    messages:
+      - $ref: '#/channels/rpc_queue/messages/sum'

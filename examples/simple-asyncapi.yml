@@ -4,16 +4,16 @@ info:
   version: 1.0.0
   description: This service is in charge of processing user signups
 channels:
-  user/signedup:
+  userSignedup:
     address: user/signedup
     messages:
-      subscribe.message:
+      UserSignedUp:
         $ref: '#/components/messages/UserSignedUp'
 operations:
-  user/signedup.subscribe:
+  sendUserSignedup:
     action: send
     channel:
-      $ref: '#/channels/user~1signedup'
+      $ref: '#/channels/userSignedup'
     messages:
       - $ref: '#/components/messages/UserSignedUp'
 components:

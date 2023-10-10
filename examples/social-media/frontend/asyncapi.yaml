@@ -4,30 +4,30 @@ info:
   version: 1.0.0
 servers:
   websiteWebSocketServer:
-    $ref: ../common/servers.yaml#/websiteWebSocketServer
+    $ref: '../common/servers.yaml#/websiteWebSocketServer'
 channels:
-  like/comment:
+  likeComment:
     address: like/comment
     messages:
-      subscribe.message:
-        $ref: ../common/messages.yaml#/likeComment
+      likeComment:
+        $ref: '../common/messages.yaml#/likeComment'
     description: Notify the backend that a comment has been liked.
-  update/comment/likes:
+  updateCommentLike:
     address: update/comment/likes
     messages:
-      publish.message:
-        $ref: ../common/messages.yaml#/updateCommentLikes
+      updateCommentLikes:
+        $ref: '../common/messages.yaml#/updateCommentLikes'
     description: Update the UI when the comment likes count is updated.
 operations:
-  like/comment.subscribe:
+  sendLikeComment:
     action: send
     channel:
-      $ref: '#/channels/like~1comment'
+      $ref: '#/channels/likeComment'
     messages:
-      - $ref: ../common/messages.yaml#/likeComment
-  update/comment/likes.publish:
+      - $ref: '../common/messages.yaml#/likeComment'
+  receiveUpdateCommentLiked:
     action: receive
     channel:
-      $ref: '#/channels/update~1comment~1likes'
+      $ref: '#/channels/updateCommentLike'
     messages:
-      - $ref: ../common/messages.yaml#/updateCommentLikes
+      - $ref: '../common/messages.yaml#/updateCommentLikes'
