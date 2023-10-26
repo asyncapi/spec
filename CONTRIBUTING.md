@@ -78,6 +78,19 @@ move forward.
   The AsyncAPI spec, despite describing technical behavior, is intended to be
   read by people. Use natural tone and include motivation and examples.
 
+## Breaking Change vs Non Breaking Change
+
+Specifications are not much different than software. Some changes provided in the spec can cause breaking changes for tools that support it. For example, if one of the properties that was `required` becomes `optional`, it is considered a breaking change because some tools might depend on that property and fail if it is not provided. 
+
+_Non-breaking changes:_
+- Adding a new optional property
+
+_Breaking changes:_
+- Adding a new required property
+- Making a property required
+- Making a property optional
+- Removing a property
+- Changing the type of a property in backward incompatible way
 
 ## RFC Contribution Champions
 
