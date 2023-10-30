@@ -19,65 +19,102 @@ info:
 
 
 channels:
-  currencyExchange:
+  ping:
     address: /
     messages:
       ping:
         $ref: '#/components/messages/ping'
+  pong:
+    address: /
+    messages:
       pong:
         $ref: '#/components/messages/pong'
+
+  heartbeat:
+    address: /
+    messages:
       heartbeat:
         $ref: '#/components/messages/heartbeat'
+      
+  systemStatus:
+    address: /
+    messages:
       systemStatus:
         $ref: '#/components/messages/systemStatus'
+      
+  currencyInfo:
+    address: /
+    messages:
       subscriptionStatus:
         $ref: '#/components/messages/subscriptionStatus'
+      dummyCurrencyInfo:
+        $ref: '#/components/messages/dummyCurrencyInfo'
+
+  subscribe:
+    address: /
+    messages:
       subscribe:
         $ref: '#/components/messages/subscribe'
+
+  unsubscribe:
+    address: /
+    messages:
       unsubscribe:
         $ref: '#/components/messages/unsubscribe'
-
       
 operations:
-  pingPong:
-    action: send
+  receivePing:
+    action: receive
     channel: 
-      $ref: '#/channels/currencyExchange'
+      $ref: '#/channels/ping'
     reply:
       channel: 
-        $ref: '#/channels/currencyExchange'
-      messages:
-        - $ref: '#/components/messages/ping'
+        $ref: '#/channels/pong'
   heartbeat:
-    action: receive
+    action: send
     channel: 
-      $ref: '#/channels/currencyExchange' 
+      $ref: '#/channels/heartbeat' 
   systemStatus:
+    action: send
+    channel: 
+      $ref: '#/channels/systemStatus' 
+  subscribe:
     action: receive
     channel: 
-      $ref: '#/channels/currencyExchange' 
-  subscribe:
-    action: send
-    channel: 
-      $ref: '#/channels/currencyExchange'
+      $ref: '#/channels/subscribe'
     reply:
       channel: 
-        $ref: '#/channels/currencyExchange'
-      messages:
-        - $ref: '#/components/messages/subscriptionStatus'
+        $ref: '#/channels/currencyInfo'
   unsubscribe:
-    action: send
+    action: receive
     channel: 
-      $ref: '#/channels/currencyExchange'
+      $ref: '#/channels/unsubscribe'
     reply:
       channel: 
-        $ref: '#/channels/currencyExchange'   
+        $ref: '#/channels/currencyInfo'
       messages:
-        - $ref: '#/components/messages/subscriptionStatus'
+        - $ref: '#/components/messages/subscriptionStatus'   
        
        
 components:
   messages:
+    dummyCurrencyInfo:
+      summary: Dummy message with no real life details
+      description: It is here in this example to showcase that there is an additional message that normally is of a complex structure. It represents actually currency exchange value to show a reply to operation receiveSubscribeRequest with more than one possible message.
+      payload:
+        type: object
+        properties:
+          event:
+            type: string
+            const: currencyInfo
+          reqid:
+            $ref: '#/components/schemas/reqid'
+          data:
+            type: object
+        required:
+          - event
+      correlationId:
+        location: '$message.payload#/reqid'
     ping:
       summary: Ping server to determine whether connection is alive
       description: Client can ping server to determine whether connection is alive, server responds with pong. This is an application level ping as opposed to default ping in websockets standard which is server initiated

@@ -63,35 +63,35 @@ servers:
       - name: 'visibility:public'
         description: This resource is public and available to everyone
 channels:
-  'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured':
+  lightingMeasured:
     address: 'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured'
     messages:
-      receiveLightMeasurement.message:
+      lightMeasured:
         $ref: '#/components/messages/lightMeasured'
     description: The topic on which measured values may be produced and consumed.
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting/streetlights/1/0/action/{streetlightId}/turn/on':
+  lightTurnOn:
     address: 'smartylighting/streetlights/1/0/action/{streetlightId}/turn/on'
     messages:
-      turnOn.message:
+      turnOn:
         $ref: '#/components/messages/turnOnOff'
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting/streetlights/1/0/action/{streetlightId}/turn/off':
+  lightTurnOff:
     address: 'smartylighting/streetlights/1/0/action/{streetlightId}/turn/off'
     messages:
-      turnOff.message:
+      turnOff:
         $ref: '#/components/messages/turnOnOff'
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting/streetlights/1/0/action/{streetlightId}/dim':
+  lightsDim:
     address: 'smartylighting/streetlights/1/0/action/{streetlightId}/dim'
     messages:
-      dimLight.message:
+      dimLight:
         $ref: '#/components/messages/dimLight'
     parameters:
       streetlightId:
@@ -100,8 +100,7 @@ operations:
   receiveLightMeasurement:
     action: receive
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1event~1{streetlightId}~1lighting~1measured
+      $ref: '#/channels/lightingMeasured'
     summary: >-
       Inform about environmental lighting conditions of a particular
       streetlight.
@@ -112,8 +111,7 @@ operations:
   turnOn:
     action: send
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1action~1{streetlightId}~1turn~1on
+      $ref: '#/channels/lightTurnOn'
     traits:
       - $ref: '#/components/operationTraits/mqtt'
     messages:
@@ -121,8 +119,7 @@ operations:
   turnOff:
     action: send
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1action~1{streetlightId}~1turn~1off
+      $ref: '#/channels/lightTurnOff'
     traits:
       - $ref: '#/components/operationTraits/mqtt'
     messages:
@@ -130,8 +127,7 @@ operations:
   dimLight:
     action: send
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1action~1{streetlightId}~1dim
+      $ref: '#/channels/lightsDim'
     traits:
       - $ref: '#/components/operationTraits/mqtt'
     messages:

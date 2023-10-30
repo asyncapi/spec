@@ -31,10 +31,10 @@ servers:
           - 'streetlights:write'
           - 'streetlights:read'
 channels:
-  'smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured':
+  lightingMeasured:
     address: 'smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured'
     messages:
-      receiveLightMeasurement.message:
+      lightMeasured:
         $ref: '#/components/messages/lightMeasured'
     description: The topic on which measured values may be produced and consumed.
     servers:
@@ -42,30 +42,30 @@ channels:
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting.streetlights.1.0.action.{streetlightId}.turn.on':
+  lightTurnOn:
     address: 'smartylighting.streetlights.1.0.action.{streetlightId}.turn.on'
     messages:
-      turnOn.message:
+      turnOn:
         $ref: '#/components/messages/turnOnOff'
     servers:
       - $ref: '#/servers/test_oauth'
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting.streetlights.1.0.action.{streetlightId}.turn.off':
+  lightTurnOff:
     address: 'smartylighting.streetlights.1.0.action.{streetlightId}.turn.off'
     messages:
-      turnOff.message:
+      turnOff:
         $ref: '#/components/messages/turnOnOff'
     servers:
       - $ref: '#/servers/test_oauth'
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-  'smartylighting.streetlights.1.0.action.{streetlightId}.dim':
+  lightsDim:
     address: 'smartylighting.streetlights.1.0.action.{streetlightId}.dim'
     messages:
-      dimLight.message:
+      dimLight:
         $ref: '#/components/messages/dimLight'
     servers:
       - $ref: '#/servers/test_oauth'
@@ -76,8 +76,7 @@ operations:
   receiveLightMeasurement:
     action: receive
     channel:
-      $ref: >-
-        #/channels/smartylighting.streetlights.1.0.event.{streetlightId}.lighting.measured
+      $ref: '#/channels/lightingMeasured'
     summary: >-
       Inform about environmental lighting conditions of a particular
       streetlight.
@@ -88,8 +87,7 @@ operations:
   turnOn:
     action: send
     channel:
-      $ref: >-
-        #/channels/smartylighting.streetlights.1.0.action.{streetlightId}.turn.on
+      $ref: '#/channels/lightTurnOn'
     security:
       - type: oauth2
         description: The oauth security descriptions
@@ -108,8 +106,7 @@ operations:
   turnOff:
     action: send
     channel:
-      $ref: >-
-        #/channels/smartylighting.streetlights.1.0.action.{streetlightId}.turn.off
+      $ref: '#/channels/lightTurnOff'
     security:
       - type: oauth2
         description: The oauth security descriptions
@@ -128,7 +125,7 @@ operations:
   dimLight:
     action: send
     channel:
-      $ref: '#/channels/smartylighting.streetlights.1.0.action.{streetlightId}.dim'
+      $ref: '#/channels/lightsDim'
     security:
       - type: oauth2
         description: The oauth security descriptions

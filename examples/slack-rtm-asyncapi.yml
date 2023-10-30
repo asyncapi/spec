@@ -12,114 +12,114 @@ servers:
     security:
       - $ref: '#/components/securitySchemes/token'
 channels:
-  /:
+  root:
     address: /
     messages:
-      publish.message:
+      outgoingMessage:
         $ref: '#/components/messages/outgoingMessage'
-      subscribe.message.0:
+      hello:
         $ref: '#/components/messages/hello'
-      subscribe.message.1:
+      connectionError:
         $ref: '#/components/messages/connectionError'
-      subscribe.message.2:
+      accountsChanged:
         $ref: '#/components/messages/accountsChanged'
-      subscribe.message.3:
+      botAdded:
         $ref: '#/components/messages/botAdded'
-      subscribe.message.4:
+      botChanged:
         $ref: '#/components/messages/botChanged'
-      subscribe.message.5:
+      channelArchive:
         $ref: '#/components/messages/channelArchive'
-      subscribe.message.6:
+      channelCreated:
         $ref: '#/components/messages/channelCreated'
-      subscribe.message.7:
+      channelDeleted:
         $ref: '#/components/messages/channelDeleted'
-      subscribe.message.8:
+      channelHistoryChanged:
         $ref: '#/components/messages/channelHistoryChanged'
-      subscribe.message.9:
+      channelJoined:
         $ref: '#/components/messages/channelJoined'
-      subscribe.message.10:
+      channelLeft:
         $ref: '#/components/messages/channelLeft'
-      subscribe.message.11:
+      channelMarked:
         $ref: '#/components/messages/channelMarked'
-      subscribe.message.12:
+      channelRename:
         $ref: '#/components/messages/channelRename'
-      subscribe.message.13:
+      channelUnarchive:
         $ref: '#/components/messages/channelUnarchive'
-      subscribe.message.14:
+      commandsChanged:
         $ref: '#/components/messages/commandsChanged'
-      subscribe.message.15:
+      dndUpdated:
         $ref: '#/components/messages/dndUpdated'
-      subscribe.message.16:
+      dndUpdatedUser:
         $ref: '#/components/messages/dndUpdatedUser'
-      subscribe.message.17:
+      emailDomainChanged:
         $ref: '#/components/messages/emailDomainChanged'
-      subscribe.message.18:
+      emojiRemoved:
         $ref: '#/components/messages/emojiRemoved'
-      subscribe.message.19:
+      emojiAdded:
         $ref: '#/components/messages/emojiAdded'
-      subscribe.message.20:
+      fileChange:
         $ref: '#/components/messages/fileChange'
-      subscribe.message.21:
+      fileCommentAdded:
         $ref: '#/components/messages/fileCommentAdded'
-      subscribe.message.22:
+      fileCommentDeleted:
         $ref: '#/components/messages/fileCommentDeleted'
-      subscribe.message.23:
+      fileCommentEdited:
         $ref: '#/components/messages/fileCommentEdited'
-      subscribe.message.24:
+      fileCreated:
         $ref: '#/components/messages/fileCreated'
-      subscribe.message.25:
+      fileDeleted:
         $ref: '#/components/messages/fileDeleted'
-      subscribe.message.26:
+      filePublic:
         $ref: '#/components/messages/filePublic'
-      subscribe.message.27:
+      fileShared:
         $ref: '#/components/messages/fileShared'
-      subscribe.message.28:
+      fileUnshared:
         $ref: '#/components/messages/fileUnshared'
-      subscribe.message.29:
+      goodbye:
         $ref: '#/components/messages/goodbye'
-      subscribe.message.30:
+      groupArchive:
         $ref: '#/components/messages/groupArchive'
-      subscribe.message.31:
+      groupClose:
         $ref: '#/components/messages/groupClose'
-      subscribe.message.32:
+      groupHistoryChanged:
         $ref: '#/components/messages/groupHistoryChanged'
-      subscribe.message.33:
+      groupJoined:
         $ref: '#/components/messages/groupJoined'
-      subscribe.message.34:
+      groupLeft:
         $ref: '#/components/messages/groupLeft'
-      subscribe.message.35:
+      groupMarked:
         $ref: '#/components/messages/groupMarked'
-      subscribe.message.36:
+      groupOpen:
         $ref: '#/components/messages/groupOpen'
-      subscribe.message.37:
+      groupRename:
         $ref: '#/components/messages/groupRename'
-      subscribe.message.38:
+      groupUnarchive:
         $ref: '#/components/messages/groupUnarchive'
-      subscribe.message.39:
+      imClose:
         $ref: '#/components/messages/imClose'
-      subscribe.message.40:
+      imCreated:
         $ref: '#/components/messages/imCreated'
-      subscribe.message.41:
+      imMarked:
         $ref: '#/components/messages/imMarked'
-      subscribe.message.42:
+      imOpen:
         $ref: '#/components/messages/imOpen'
-      subscribe.message.43:
+      manualPresenceChange:
         $ref: '#/components/messages/manualPresenceChange'
-      subscribe.message.44:
+      memberJoinedChannel:
         $ref: '#/components/messages/memberJoinedChannel'
-      subscribe.message.45:
+      message:
         $ref: '#/components/messages/message'
 operations:
-  /.publish:
+  receiveOutgoingMessage:
     action: receive
     channel:
-      $ref: '#/channels/~1'
+      $ref: '#/channels/root'
     messages:
       - $ref: '#/components/messages/outgoingMessage'
-  /.subscribe:
+  sendMessages:
     action: send
     channel:
-      $ref: '#/channels/~1'
+      $ref: '#/channels/root'
     messages:
       - $ref: '#/components/messages/hello'
       - $ref: '#/components/messages/connectionError'

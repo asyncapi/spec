@@ -4,7 +4,7 @@ info:
   version: 1.0.0
 servers:
   websiteWebSocketServer:
-    $ref: ../common/servers.yaml#/websiteWebSocketServer
+    $ref: '../common/servers.yaml#/websiteWebSocketServer'
   mosquitto:
     host: test.mosquitto.org
     protocol: mqtt
@@ -19,64 +19,65 @@ servers:
       mqtt:
         clientId: websocketServer
 channels:
-  comment/liked:
+  notifyAllCommentLiked:
     address: comment/liked
     messages:
       subscribe.message:
-        $ref: ../common/messages.yaml#/commentLiked
+        $ref: '../common/messages.yaml#/commentLiked'
     description: Notify all the services that a comment has been liked.
     servers:
       - $ref: '#/servers/mosquitto'
-  like/comment:
+  newLikeComment:
     address: like/comment
     messages:
       publish.message:
-        $ref: ../common/messages.yaml#/likeComment
+        $ref: '../common/messages.yaml#/likeComment'
     description: When a comment like is received from the frontend.
     servers:
       - $ref: '#/servers/websiteWebSocketServer'
-  'comment/{commentId}/changed':
+  commentsCountChange:
     address: 'comment/{commentId}/changed'
     messages:
       publish.message:
-        $ref: ../common/messages.yaml#/commentChanged
+        $ref: '../common/messages.yaml#/commentChanged'
     description: >-
       When an event from the broker arrives telling us to update the comment
       likes count on the frontend.
     servers:
       - $ref: '#/servers/mosquitto'
     parameters:
-      commentId: {}
-  update/comment/likes:
+      commentId:
+        $ref: '../common/parameters.yaml#/commentId'
+  updateCommentsCount:
     address: update/comment/likes
     messages:
       subscribe.message:
-        $ref: ../common/messages.yaml#/updateCommentLikes
+        $ref: '../common/messages.yaml#/updateCommentLikes'
     description: Update comment likes count in the frontend.
     servers:
       - $ref: '#/servers/websiteWebSocketServer'
 operations:
-  comment/liked.subscribe:
+  sendCommentLiked:
     action: send
     channel:
-      $ref: '#/channels/comment~1liked'
+      $ref: '#/channels/notifyAllCommentLiked'
     messages:
-      - $ref: ../common/messages.yaml#/commentLiked
-  like/comment.publish:
+      - $ref: '../common/messages.yaml#/commentLiked'
+  receiveCommentLike:
     action: receive
     channel:
-      $ref: '#/channels/like~1comment'
+      $ref: '#/channels/newLikeComment'
     messages:
-      - $ref: ../common/messages.yaml#/likeComment
-  'comment/{commentId}/changed.publish':
+      - $ref: '../common/messages.yaml#/likeComment'
+  receiveCommentChange:
     action: receive
     channel:
-      $ref: '#/channels/comment~1{commentId}~1changed'
+      $ref: '#/channels/commentsCountChange'
     messages:
-      - $ref: ../common/messages.yaml#/commentChanged
-  update/comment/likes.subscribe:
+      - $ref: '../common/messages.yaml#/commentChanged'
+  sendCommentLikeUpdate:
     action: send
     channel:
-      $ref: '#/channels/update~1comment~1likes'
+      $ref: '#/channels/updateCommentsCount'
     messages:
-      - $ref: ../common/messages.yaml#/updateCommentLikes
+      - $ref: '../common/messages.yaml#/updateCommentLikes'

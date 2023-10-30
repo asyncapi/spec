@@ -20,10 +20,10 @@ servers:
           - '1883'
           - '8883'
 channels:
-  'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured':
+  lightingMeasured:
     address: 'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured'
     messages:
-      receiveLightMeasurement.message:
+      lightMeasured:
         $ref: '#/components/messages/lightMeasured'
     parameters:
       streetlightId:
@@ -32,8 +32,7 @@ operations:
   receiveLightMeasurement:
     action: receive
     channel:
-      $ref: >-
-        #/channels/smartylighting~1streetlights~11~10~1event~1{streetlightId}~1lighting~1measured
+      $ref: '#/channels/lightingMeasured'
     summary: >-
       Inform about environmental lighting conditions of a particular
       streetlight.

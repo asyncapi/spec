@@ -12,12 +12,12 @@ servers:
     security:
       - $ref: '#/components/securitySchemes/httpBearerToken'
 channels:
-  '/rooms/{roomId}/{resource}':
+  rooms:
     address: '/rooms/{roomId}/{resource}'
     messages:
-      subscribe.message.0:
+      chatMessage:
         $ref: '#/components/messages/chatMessage'
-      subscribe.message.1:
+      heartbeat:
         $ref: '#/components/messages/heartbeat'
     parameters:
       roomId:
@@ -30,10 +30,10 @@ channels:
           - events
         description: The resource to consume.
 operations:
-  '/rooms/{roomId}/{resource}.subscribe':
+  sendRoomInfo:
     action: send
     channel:
-      $ref: '#/channels/~1rooms~1{roomId}~1{resource}'
+      $ref: '#/channels/rooms'
     bindings:
       http:
         type: response
@@ -148,7 +148,15 @@ components:
               description: Stands for "Gravatar version" and is used for cache busting.
       bindings:
         http:
-          $ref: '#/components/messageBindings/streamingHeaders'
+          headers:
+            type: object
+            properties:
+              Transfer-Encoding: 
+                type: string
+                const: chunked
+              Trailer: 
+                type: string
+                const: \r\n
     heartbeat:
       summary: Its purpose is to keep the connection alive.
       payload:
@@ -159,10 +167,12 @@ components:
             - "\r\n"
       bindings:
         http:
-          $ref: '#/components/messageBindings/streamingHeaders'
-  messageBindings:
-    streamingHeaders:
-      http:
-        headers:
-          Transfer-Encoding: chunked
-          Trailer: \r\n
+          headers:
+            type: object
+            properties:
+              Transfer-Encoding: 
+                type: string
+                const: chunked
+              Trailer: 
+                type: string
+                const: \r\n

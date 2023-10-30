@@ -18,18 +18,18 @@ servers:
       mqtt:
         clientId: public-api
 channels:
-  comment/liked:
+  commentLiked:
     address: comment/liked
     messages:
-      publish.message:
-        $ref: ../common/messages.yaml#/commentLiked
+      commentLiked:
+        $ref: '../common/messages.yaml#/commentLiked'
     description: >-
       Others are publishing to you, whenever a comment is liked, for you to do
       react to such an event.
 operations:
-  comment/liked.publish:
+  receiveCommentLiked:
     action: receive
     channel:
-      $ref: '#/channels/comment~1liked'
+      $ref: '#/channels/commentLiked'
     messages:
-      - $ref: ../common/messages.yaml#/commentLiked
+      - $ref: '../common/messages.yaml#/commentLiked'
