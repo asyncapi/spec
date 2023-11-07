@@ -90,24 +90,6 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
 
 ## Our Sponsors
 
-### Platinum
-
-<p align="center">
-  
-<a href="https://solace.com" target="_blank">
-    <img src="./assets/solace.png" alt="Solace logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://ibm.com" target="_blank">
-    <img src="./assets/ibm.png" alt="IBM logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://postman.com" target="_blank">
-    <img src="./assets/postman.png" alt="Postman logo" height="90">
-  </a>
-</p>
-
-
 ### Gold
 
 <p align="center">
