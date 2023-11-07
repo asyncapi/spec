@@ -629,7 +629,7 @@ Describes a shared communication channel.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions).
+<a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
 <a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
 <a name="channelObjectTitle"></a>title | `string` | A human-friendly title for the channel.
 <a name="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
