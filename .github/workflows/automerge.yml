@@ -45,7 +45,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           GITHUB_LOGIN: asyncapi-bot
-          MERGE_LABELS: ""
+          MERGE_LABELS: "!do-not-merge"
           MERGE_METHOD: "squash"
           MERGE_COMMIT_MESSAGE: "{pullRequest.title} (#{pullRequest.number})"
           MERGE_RETRIES: "20"
