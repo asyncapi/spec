@@ -36,7 +36,7 @@ operations:
       $ref: '#/channels/rooms'
     bindings:
       http:
-        type: response
+        method: POST
     messages:
       - $ref: '#/components/messages/chatMessage'
       - $ref: '#/components/messages/heartbeat'
