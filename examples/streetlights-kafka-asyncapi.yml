@@ -81,7 +81,7 @@ operations:
     traits:
       - $ref: '#/components/operationTraits/kafka'
     messages:
-      - $ref: '#/components/messages/lightMeasured'
+      - $ref: '#/channels/lightingMeasured/messages/lightMeasured'
   turnOn:
     action: send
     channel:
@@ -89,7 +89,7 @@ operations:
     traits:
       - $ref: '#/components/operationTraits/kafka'
     messages:
-      - $ref: '#/components/messages/turnOnOff'
+      - $ref: '#/channels/lightTurnOn/messages/turnOn'
   turnOff:
     action: send
     channel:
@@ -97,7 +97,7 @@ operations:
     traits:
       - $ref: '#/components/operationTraits/kafka'
     messages:
-      - $ref: '#/components/messages/turnOnOff'
+      - $ref: '#/channels/lightTurnOff/messages/turnOff'
   dimLight:
     action: send
     channel:
@@ -105,7 +105,7 @@ operations:
     traits:
       - $ref: '#/components/operationTraits/kafka'
     messages:
-      - $ref: '#/components/messages/dimLight'
+      - $ref: '#/channels/lightsDim/messages/dimLight'
 components:
   messages:
     lightMeasured:

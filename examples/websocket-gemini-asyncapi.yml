@@ -155,7 +155,7 @@ operations:
       $ref: '#/channels/marketDataV1'
     summary: Receive market updates on a given symbol
     messages:
-      - $ref: '#/components/messages/marketData'
+      - $ref: '#/channels/marketDataV1/messages/marketData'
 components:
   messages:
     marketData:

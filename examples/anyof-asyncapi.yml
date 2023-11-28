@@ -6,15 +6,15 @@ channels:
   test:
     address: test
     messages:
-      publish.message:
+      testMessages:
         $ref: '#/components/messages/testMessages'
 operations:
-  test.publish:
+  test:
     action: receive
     channel:
       $ref: '#/channels/test'
     messages:
-      - $ref: '#/components/messages/testMessages'
+      - $ref: '#/channels/test/messages/testMessages'
 components:
   messages:
     testMessages:

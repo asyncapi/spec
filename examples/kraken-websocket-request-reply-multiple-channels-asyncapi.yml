@@ -93,7 +93,7 @@ operations:
       channel: 
         $ref: '#/channels/currencyInfo'
       messages:
-        - $ref: '#/components/messages/subscriptionStatus'   
+        - $ref: '#/channels/currencyInfo/messages/subscriptionStatus'   
        
        
 components:
