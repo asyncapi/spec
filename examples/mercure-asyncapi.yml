@@ -28,13 +28,13 @@ operations:
     channel:
       $ref: '#/channels/books'
     messages:
-      - $ref: '#/components/messages/book'
+      - $ref: '#/channels/books/messages/book'
   SendBooksInfo:
     action: send
     channel:
       $ref: '#/channels/books'
     messages:
-      - $ref: '#/components/messages/book'
+      - $ref: '#/channels/books/messages/book'
 components:
   messages:
     book:

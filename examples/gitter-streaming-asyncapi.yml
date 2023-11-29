@@ -38,8 +38,8 @@ operations:
       http:
         method: POST
     messages:
-      - $ref: '#/components/messages/chatMessage'
-      - $ref: '#/components/messages/heartbeat'
+      - $ref: '#/channels/rooms/messages/chatMessage'
+      - $ref: '#/channels/rooms/messages/heartbeat'
 components:
   securitySchemes:
     httpBearerToken:
