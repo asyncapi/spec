@@ -131,6 +131,9 @@ A sender is a type of application, that is sending [messages](#definitionsMessag
 ### <a name="definitionsReceiver"></a>Receiver
 A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
+### <a name="definitionsOperation"></a>Operation
+An operation describes a specific action an [application](#definitionsApplication) can take to interact with the message-driven API. Operations are performed by sending (or receiving) [messages](#definitionsMessage) to (or from) [channels](#definitionsChannel).
+
 ### <a name="definitionsMessage"></a>Message
 A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
