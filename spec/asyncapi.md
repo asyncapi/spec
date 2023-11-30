@@ -17,7 +17,7 @@ The AsyncAPI Specification is a project used to describe message-driven APIs in 
 The AsyncAPI Specification defines a set of files required to describe the API of an [application](#definitionsApplication).
 These files can be used to create utilities, such as documentation, code, integration, or testing tools.
 
-The file(s) SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
+The file(s) SHOULD describe the [operations](#definitionsOperation) an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 channels:
@@ -34,7 +34,7 @@ It means that the [application](#definitionsApplication) will receive messages f
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
-It's NOT RECOMMENDED to derive a [receiver](#definitionsReceiver) AsyncAPI document from a [sender](#definitionsSender) one or vice versa. There are no guarantees that the channel used by an application to receive messages will be the same channel where another application is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the operation might stop making sense. For instance, given the following receiver snippet:
+It's NOT RECOMMENDED to derive a [receiver](#definitionsReceiver) AsyncAPI document from a [sender](#definitionsSender) one or vice versa. There are no guarantees that the channel used by an application to receive messages will be the same channel where another application is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the [operation](#definitionsOperation) might stop making sense. For instance, given the following receiver snippet:
 
 ```yaml
 operations:
@@ -138,7 +138,7 @@ An operation describes a specific action an [application](#definitionsApplicatio
 A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 ### <a name="definitionsChannel"></a>Channel
-A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
+A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels to perform an [operation](#definitionsOperation). [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 ### <a name="definitionsProtocol"></a>Protocol
 A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
@@ -204,7 +204,7 @@ Field Name | Type | Description
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
 <a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
-<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
+<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The [operations](#definitionsOperation) this [application](#definitionsApplication) MUST implement.
 <a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -469,7 +469,7 @@ Field Name | Type | Description
 <a name="serverObjectTitle"></a>title | `string` | A human-friendly title for the server.
 <a name="serverObjectSummary"></a>summary | `string` | A short summary of the server.
 <a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` and `pathname` template.
-<a name="serverObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | A declaration of which security schemes can be used with this server. The list of values includes alternative [security scheme objects](#securitySchemeObject) that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or operation.
+<a name="serverObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | A declaration of which security schemes can be used with this server. The list of values includes alternative [security scheme objects](#securitySchemeObject) that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or [operation](#definitionsOperation).
 <a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
 <a name="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this server.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
@@ -769,7 +769,7 @@ Holds a dictionary with all the [operations](#operationObject) this application 
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The operation this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The [operation](#definitionsOperation) this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Operations Object Example
 
@@ -822,7 +822,7 @@ onUserSignUp:
 
 #### <a name="operationObject"></a>Operation Object
 
-Describes a specific operation.
+Describes a specific [operation](#definitionsOperation).
 
 ##### Fixed Fields
 
@@ -969,7 +969,7 @@ bindings:
 
 #### <a name="operationReplyObject"></a>Operation Reply Object
 
-Describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
+Describes the reply part that MAY be applied to an Operation Object. If an [operation](#definitionsOperation) implements the request/reply pattern, the reply object represents the response message.
 
 ##### Fixed Fields
 
@@ -983,7 +983,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 #### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
 
-An object that specifies where an operation has to send the reply. 
+An object that specifies where an [operation](#definitionsOperation) has to send the reply.
 
 For specifying and computing the location of a reply address, a [runtime expression](#runtimeExpression) is used.
 
