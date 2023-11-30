@@ -1224,7 +1224,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 #### <a name="messageObject"></a>Message Object
 
-Describes a message received on a given channel and operation.
+Describes a [message](#definitionsMessage) that can be sent to or received from a given [channel](#definitionsChannel) to perform an [operation](#definitionsOperation).
 
 ##### Fixed Fields
 
