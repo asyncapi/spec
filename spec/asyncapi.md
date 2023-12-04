@@ -1943,7 +1943,7 @@ While composition offers model extensibility, it does not imply a hierarchy betw
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
 When used, the `discriminator` will be the name of the property used to decide which schema definition is used to validate the structure of the model.
 As such, the `discriminator` field MUST be a required field.
-There are are two ways to define the value of a discriminator for an inheriting instance.
+There are two ways to define the value of a discriminator for an inheriting instance.
 
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
