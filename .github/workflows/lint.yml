@@ -1,15 +1,16 @@
-name: Lint
+name: Lint specification markdown file
 
 on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
+    paths:
+      - 'spec/asyncapi.md'
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run linter
-        run: npx mdv spec/*.md
-      
+        run: docker run -v $PWD:/workdir ghcr.io/igorshubovych/markdownlint-cli:v0.35.0 "spec/asyncapi.md"

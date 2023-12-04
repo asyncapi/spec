@@ -15,11 +15,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout Current repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: spec
       - name: Checkout Another repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: asyncapi/website
           path: website
@@ -30,7 +30,7 @@ jobs:
           git config --global user.email info@asyncapi.io
       - name: Get latest release
         id: latest_version
-        uses: abatilo/release-info-action@v1.3.0
+        uses: abatilo/release-info-action@5774bec4e3eabad433b4ae8f625e83afa0e7bb22 # 1.3.2 release https://github.com/abatilo/release-info-action/releases/tag/v1.3.2
         with:
           owner: asyncapi
           repo: spec
@@ -43,7 +43,7 @@ jobs:
         run: |
           cp ../spec/spec/asyncapi.md ./pages/docs/reference/specification/${{ steps.latest_version.outputs.latest_tag }}.md
       - name: Remove Table of Contents from Spec
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
