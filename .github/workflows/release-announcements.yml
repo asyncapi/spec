@@ -14,11 +14,13 @@ jobs:
     name: Slack - notify on every release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Convert markdown to slack markdown for issue
-        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: markdown
         with:
-            text: "[${{github.event.release.tag_name}}](${{github.event.release.html_url}}) \n ${{ github.event.release.body }}"
+          markdown: "[${{github.event.release.tag_name}}](${{github.event.release.html_url}}) \n ${{ github.event.release.body }}"
       - name: Send info about release to Slack
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -32,9 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Get version of last and previous release
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         id: versions
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -60,15 +62,15 @@ jobs:
       - name: Identify release type
         id: releasetype
         # if previousver is not provided then this steps just logs information about missing version, no errors
-        run: echo "::set-output name=type::$(npx -q -p semver-diff-cli semver-diff ${{steps.versions.outputs.previousver}} ${{steps.versions.outputs.lastver}})"
+        run: echo "type=$(npx -q -p semver-diff-cli semver-diff ${{steps.versions.outputs.previousver}} ${{steps.versions.outputs.lastver}})" >> $GITHUB_OUTPUT
       - name: Get name of the person that is behind the newly released version
         id: author
-        run: echo "::set-output name=name::$(git log -1 --pretty=format:'%an')"
+        run: echo "name=$(git log -1 --pretty=format:'%an')" >> $GITHUB_OUTPUT
       - name: Publish information about the release to Twitter # tweet only if detected version change is not a patch
         # tweet goes out even if the type is not major or minor but "You need provide version number to compare."
         # it is ok, it just means we did not identify previous version as we are tweeting out information about the release for the first time
         if: steps.releasetype.outputs.type != 'null' && steps.releasetype.outputs.type != 'patch' # null means that versions are the same
-        uses: m1ner79/Github-Twittction@v1.0.1
+        uses: m1ner79/Github-Twittction@d1e508b6c2170145127138f93c49b7c46c6ff3a7   # using 2.0.0 https://github.com/m1ner79/Github-Twittction/releases/tag/v2.0.0
         with:
           twitter_status: "Release ${{github.event.release.tag_name}} for ${{github.repository}} is out in the wild 😱💪🍾🎂\n\nThank you for the contribution ${{ steps.author.outputs.name }} ${{github.event.release.html_url}}"
           twitter_consumer_key: ${{ secrets.TWITTER_CONSUMER_KEY }} 

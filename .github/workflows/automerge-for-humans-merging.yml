@@ -43,7 +43,7 @@ jobs:
                 | join("\n")'
           multiline: true
       - name: Automerge PR
-        uses: pascalgn/automerge-action@v0.14.3
+        uses: pascalgn/automerge-action@22948e0bc22f0aa673800da838595a3e7347e584 #v0.15.6 https://github.com/pascalgn/automerge-action/releases/tag/v0.15.6
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           MERGE_LABELS: "!do-not-merge,ready-to-merge"

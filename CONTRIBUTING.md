@@ -78,6 +78,19 @@ move forward.
   The AsyncAPI spec, despite describing technical behavior, is intended to be
   read by people. Use natural tone and include motivation and examples.
 
+## Breaking Change vs Non Breaking Change
+
+Specifications are not much different than software. Some changes provided in the spec can cause breaking changes for tools that support it. For example, if one of the properties that was `required` becomes `optional`, it is considered a breaking change because some tools might depend on that property and fail if it is not provided. 
+
+_Non-breaking changes:_
+- Adding a new optional property
+
+_Breaking changes:_
+- Adding a new required property
+- Making a property required
+- Making a property optional
+- Removing a property
+- Changing the type of a property in backward incompatible way
 
 ## RFC Contribution Champions
 
@@ -243,6 +256,14 @@ A pull request can be merged if all the following conditions are met:
 * There is, at least, a mininum of 3 approvals from the [repository code owners](./CODEOWNERS).
 * Sufficient time has passed to let all code owners review the pull request. As of now, it should be a minimum of 1 week. If all code owners have already approved a pull request, it's ok not to wait for this period of time.
 
+## Linting specification document
+
+Always make sure that the specification markdown file has no markdown-related errors.
+
+Instead of waiting for GitHub Actions workflow to check markdown file, you can do it locally by calling the following docker command:
+```bash
+docker run -v $PWD:/workdir ghcr.io/igorshubovych/markdownlint-cli:v0.35.0 "spec/asyncapi.md"
+```
 
 ## References
 This document was adapted from the [GraphQL Specification Contribution Guide](https://github.com/graphql/graphql-spec/blob/main/CONTRIBUTING.md).

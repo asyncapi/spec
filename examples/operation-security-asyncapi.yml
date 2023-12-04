@@ -29,7 +29,6 @@ operations:
     bindings:
       http:
         method: POST
-            
     messages:
       - $ref: '#/channels/authRevoke/messages/message'
 components:

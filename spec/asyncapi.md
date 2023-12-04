@@ -1,7 +1,3 @@
-# ATTENTION: Work in progress
-
-This version is not yet ready to be used. We're currently working on it. If you want to join the effort and participate in the development of the next major version of AsyncAPI, head over to [GitHub Issue that we use for tracking 3.0 development progress](https://github.com/asyncapi/spec/issues/691).
-
 # AsyncAPI Specification
 
 #### Attribution
@@ -76,48 +72,48 @@ Aside from the issues mentioned above, there may also be infrastructure configur
   - [Channel](#definitionsChannel)
   - [Protocol](#definitionsProtocol)
 - [Specification](#specification)
-    - [Format](#format)
-    - [File Structure](#file-structure)
-    - [Absolute URLs](#absolute-urls)
-    - [Schema](#schema)
-      - [AsyncAPI Object](#A2SObject)
-      - [AsyncAPI Version String](#A2SVersionString)
-      - [Identifier](#A2SIdString)
-      - [Info Object](#infoObject)
-      - [Contact Object](#contactObject)
-      - [License Object](#licenseObject)
-      - [Servers Object](#serversObject)
-      - [Server Object](#serverObject)
-      - [Server Variable Object](#serverVariableObject)
-      - [Default Content Type](#defaultContentTypeString)
-      - [Channels Object](#channelsObject)
-      - [Channel Object](#channelObject)
-      - [Operations Object](#operationsObject)
-      - [Operation Object](#operationObject)
-      - [Operation Trait Object](#operationTraitObject)
-      - [Operation Reply Object](#operationReplyObject)
-      - [Operation Reply Address Object](#operationReplyAddressObject)
-      - [Message Object](#messageObject)
-      - [Message Trait Object](#messageTraitObject)
-      - [Message Example Object](#messageExampleObject)
-      - [Tags Object](#tagsObject)
-      - [Tag Object](#tag-object)
-      - [External Documentation Object](#externalDocumentationObject)
-      - [Components Object](#componentsObject)
-      - [Reference Object](#referenceObject)
-      - [Multi Format Schema Object](#multiFormatSchemaObject)
-      - [Schema Object](#schemaObject)
-      - [Security Scheme Object](#securitySchemeObject)
-      - [OAuth Flows Object](#oauth-flows-object)  
-      - [OAuth Flow Object](#oauth-flow-object)
-      - [Server Bindings Object](#serverBindingsObject)
-      - [Parameters Object](#parametersObject)
-      - [Parameter Object](#parameterObject)
-      - [Channel Bindings Object](#channelBindingsObject)
-      - [Operation Bindings Object](#operationBindingsObject)
-      - [Message Bindings Object](#messageBindingsObject)
-      - [Correlation ID Object](#correlationIdObject)
-      - [Specification Extensions](#specificationExtensions)
+  - [Format](#format)
+  - [File Structure](#file-structure)
+  - [Absolute URLs](#absolute-urls)
+  - [Schema](#schema)
+    - [AsyncAPI Object](#A2SObject)
+    - [AsyncAPI Version String](#A2SVersionString)
+    - [Identifier](#A2SIdString)
+    - [Info Object](#infoObject)
+    - [Contact Object](#contactObject)
+    - [License Object](#licenseObject)
+    - [Servers Object](#serversObject)
+    - [Server Object](#serverObject)
+    - [Server Variable Object](#serverVariableObject)
+    - [Default Content Type](#defaultContentTypeString)
+    - [Channels Object](#channelsObject)
+    - [Channel Object](#channelObject)
+    - [Operations Object](#operationsObject)
+    - [Operation Object](#operationObject)
+    - [Operation Trait Object](#operationTraitObject)
+    - [Operation Reply Object](#operationReplyObject)
+    - [Operation Reply Address Object](#operationReplyAddressObject)
+    - [Message Object](#messageObject)
+    - [Message Trait Object](#messageTraitObject)
+    - [Message Example Object](#messageExampleObject)
+    - [Tags Object](#tagsObject)
+    - [Tag Object](#tag-object)
+    - [External Documentation Object](#externalDocumentationObject)
+    - [Components Object](#componentsObject)
+    - [Reference Object](#referenceObject)
+    - [Multi Format Schema Object](#multiFormatSchemaObject)
+    - [Schema Object](#schemaObject)
+    - [Security Scheme Object](#securitySchemeObject)
+    - [OAuth Flows Object](#oauth-flows-object)  
+    - [OAuth Flow Object](#oauth-flow-object)
+    - [Server Bindings Object](#serverBindingsObject)
+    - [Parameters Object](#parametersObject)
+    - [Parameter Object](#parameterObject)
+    - [Channel Bindings Object](#channelBindingsObject)
+    - [Operation Bindings Object](#operationBindingsObject)
+    - [Message Bindings Object](#messageBindingsObject)
+    - [Correlation ID Object](#correlationIdObject)
+    - [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
 
@@ -136,13 +132,13 @@ A sender is a type of application, that is sending [messages](#definitionsMessag
 A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
 ### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 ### <a name="definitionsChannel"></a>Channel
 A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 ### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket.  
+A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
 ### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
@@ -1116,6 +1112,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectMercure"></a>`mercure` | [Mercure Server Binding](https://github.com/asyncapi/bindings/blob/master/mercure#server) | Protocol-specific information for a Mercure server.
 <a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
 <a name="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
+<a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1147,6 +1144,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectMercure"></a>`mercure` | [Mercure Channel Binding](https://github.com/asyncapi/bindings/blob/master/mercure#channel) | Protocol-specific information for a Mercure channel.
 <a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
 <a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
+<a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1178,6 +1176,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectMercure"></a>`mercure` | [Mercure Operation Binding](https://github.com/asyncapi/bindings/blob/master/mercure#operation) | Protocol-specific information for a Mercure operation.
 <a name="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
 <a name="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
+<a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1210,6 +1209,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectMercure"></a>`mercure` | [Mercure Message Binding](https://github.com/asyncapi/bindings/blob/master/mercure#message) | Protocol-specific information for a Mercure message.
 <a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
 <a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
+<a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1943,7 +1943,7 @@ While composition offers model extensibility, it does not imply a hierarchy betw
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
 When used, the `discriminator` will be the name of the property used to decide which schema definition is used to validate the structure of the model.
 As such, the `discriminator` field MUST be a required field.
-There are are two ways to define the value of a discriminator for an inheriting instance.
+There are two ways to define the value of a discriminator for an inheriting instance.
 
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
