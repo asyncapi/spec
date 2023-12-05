@@ -1,21 +1,33 @@
-asyncapi: 2.6.0
-
+asyncapi: 3.0.0
 info:
   title: Website WebSocket Client
   version: 1.0.0
-
 servers:
   websiteWebSocketServer:
     $ref: '../common/servers.yaml#/websiteWebSocketServer'
-
 channels:
-  like/comment:
-    description: Notify the backend that a comment has been liked.
-    subscribe: 
-      message:
+  likeComment:
+    address: like/comment
+    messages:
+      likeComment:
         $ref: '../common/messages.yaml#/likeComment'
-  update/comment/likes:
-    description: Update the UI when the comment likes count is updated.
-    publish: 
-      message:
+    description: Notify the backend that a comment has been liked.
+  updateCommentLike:
+    address: update/comment/likes
+    messages:
+      updateCommentLikes:
         $ref: '../common/messages.yaml#/updateCommentLikes'
+    description: Update the UI when the comment likes count is updated.
+operations:
+  sendLikeComment:
+    action: send
+    channel:
+      $ref: '#/channels/likeComment'
+    messages:
+      - $ref: '#/channels/likeComment/messages/likeComment'
+  receiveUpdateCommentLiked:
+    action: receive
+    channel:
+      $ref: '#/channels/updateCommentLike'
+    messages:
+      - $ref: '#/channels/updateCommentLike/messages/updateCommentLikes'

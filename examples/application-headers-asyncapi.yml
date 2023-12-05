@@ -1,15 +1,15 @@
-asyncapi: '2.6.0'
+asyncapi: 3.0.0
 info:
   title: Application Headers example
-  version: '1.0.0'
-  description: A cut of the Streetlights API to test application header changes supporting #112
+  version: 1.0.0
+  description: A cut of the Streetlights API to test application header changes supporting
   license:
     name: Apache 2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
-
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+defaultContentType: application/json
 servers:
   production:
-    url: test.mosquitto.org:{port}
+    host: 'test.mosquitto.org:{port}'
     protocol: mqtt
     description: Test broker
     variables:
@@ -19,28 +19,35 @@ servers:
         enum:
           - '1883'
           - '8883'
-
-defaultContentType: application/json
-
 channels:
-  smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured:
+  lightingMeasured:
+    address: 'smartylighting/streetlights/1/0/event/{streetlightId}/lighting/measured'
+    messages:
+      lightMeasured:
+        $ref: '#/components/messages/lightMeasured'
     parameters:
       streetlightId:
         $ref: '#/components/parameters/streetlightId'
-    publish:
-      summary: Inform about environmental lighting conditions of a particular streetlight.
-      operationId: receiveLightMeasurement
-      message:
-        $ref: '#/components/messages/lightMeasured'
-
+operations:
+  receiveLightMeasurement:
+    action: receive
+    channel:
+      $ref: '#/channels/lightingMeasured'
+    summary: >-
+      Inform about environmental lighting conditions of a particular
+      streetlight.
+    messages:
+      - $ref: '#/channels/lightingMeasured/messages/lightMeasured'
 components:
   messages:
     lightMeasured:
       name: lightMeasured
       title: Light measured
-      summary: Inform about environmental lighting conditions of a particular streetlight.
+      summary: >-
+        Inform about environmental lighting conditions of a particular
+        streetlight.
       correlationId:
-        location: "$message.header#/MQMD/CorrelId"
+        location: $message.header#/MQMD/CorrelId
       contentType: application/json
       headers:
         type: object
@@ -54,10 +61,9 @@ components:
                 maxLength: 24
                 format: binary
           applicationInstanceId:
-            $ref: "#/components/schemas/applicationInstanceId"
+            $ref: '#/components/schemas/applicationInstanceId'
       payload:
-        $ref: "#/components/schemas/lightMeasuredPayload"
-
+        $ref: '#/components/schemas/lightMeasuredPayload'
   schemas:
     lightMeasuredPayload:
       type: object
@@ -67,7 +73,7 @@ components:
           minimum: 0
           description: Light intensity measured in lumens.
         sentAt:
-          $ref: "#/components/schemas/sentAt"
+          $ref: '#/components/schemas/sentAt'
     sentAt:
       type: string
       format: date-time
@@ -75,9 +81,6 @@ components:
     applicationInstanceId:
       description: Unique identifier for a given instance of the publishing application
       type: string
-
   parameters:
     streetlightId:
       description: The ID of the streetlight.
-      schema:
-        type: string

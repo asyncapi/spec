@@ -1,0 +1,36 @@
+asyncapi: 3.0.0
+info:
+  title: AnyOf example
+  version: 1.0.0
+channels:
+  test:
+    address: test
+    messages:
+      testMessages:
+        $ref: '#/components/messages/testMessages'
+operations:
+  test:
+    action: receive
+    channel:
+      $ref: '#/channels/test'
+    messages:
+      - $ref: '#/channels/test/messages/testMessages'
+components:
+  messages:
+    testMessages:
+      payload:
+        anyOf:
+          - $ref: '#/components/schemas/objectWithKey'
+          - $ref: '#/components/schemas/objectWithKey2'
+  schemas:
+    objectWithKey:
+      type: object
+      properties:
+        key:
+          type: string
+          additionalProperties: false
+    objectWithKey2:
+      type: object
+      properties:
+        key2:
+          type: string

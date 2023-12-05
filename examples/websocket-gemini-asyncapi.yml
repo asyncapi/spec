@@ -1,0 +1,301 @@
+asyncapi: 3.0.0
+info:
+  title: Gemini Market Data Websocket API
+  version: 1.0.0
+  description: >
+    Market data is a public API that streams all the market data on a given
+    symbol.
+
+
+    You can quickly play with the API using
+    [websocat](https://github.com/vi/websocat#installation) like this:
+
+    ```bash
+
+    websocat wss://api.gemini.com/v1/marketdata/btcusd?heartbeat=true -S
+
+    ```
+  contact:
+    name: Gemini
+    url: 'https://www.gemini.com/'
+  externalDocs:
+    url: 'https://docs.sandbox.gemini.com/websocket-api/#market-data'
+servers:
+  public:
+    host: api.gemini.com
+    protocol: wss
+channels:
+  marketDataV1:
+    address: '/v1/marketdata/{symbol}'
+    messages:
+      marketData:
+        $ref: '#/components/messages/marketData'
+    parameters:
+      symbol:
+        enum:
+          - btcusd
+          - ethbtc
+          - ethusd
+          - zecusd
+          - zecbtc
+          - zeceth
+          - zecbch
+          - zecltc
+          - bchusd
+          - bchbtc
+          - bcheth
+          - ltcusd
+          - ltcbtc
+          - ltceth
+          - ltcbch
+          - batusd
+          - daiusd
+          - linkusd
+          - oxtusd
+          - batbtc
+          - linkbtc
+          - oxtbtc
+          - bateth
+          - linketh
+          - oxteth
+          - ampusd
+          - compusd
+          - paxgusd
+          - mkrusd
+          - zrxusd
+          - kncusd
+          - manausd
+          - storjusd
+          - snxusd
+          - crvusd
+          - balusd
+          - uniusd
+          - renusd
+          - umausd
+          - yfiusd
+          - btcdai
+          - ethdai
+          - aaveusd
+          - filusd
+          - btceur
+          - btcgbp
+          - etheur
+          - ethgbp
+          - btcsgd
+          - ethsgd
+          - sklusd
+          - grtusd
+          - bntusd
+          - 1inchusd
+          - enjusd
+          - lrcusd
+          - sandusd
+          - cubeusd
+          - lptusd
+          - bondusd
+          - maticusd
+          - injusd
+          - sushiusd
+        description: >
+          Symbols are formatted as CCY1CCY2 where prices are in CCY2 and
+          quantities are in CCY1. To read more click
+          [here](https://docs.sandbox.gemini.com/websocket-api/#symbols-and-minimums).
+    bindings:
+      ws:
+        bindingVersion: 0.1.0
+        query:
+          type: object
+          description: >
+            The semantics of entry type filtering is:
+
+
+            If any entry type is specified as true or false, all of them must be
+            explicitly flagged true to show up in the response
+
+            If no entry types filtering parameters are included in the url, then
+            all entry types will appear in the response
+
+
+            NOTE: top_of_book has no meaning and initial book events are empty
+            when only trades is specified
+          properties:
+            heartbeat:
+              type: boolean
+              default: false
+              description: >-
+                Optionally add this parameter and set to true to receive a
+                heartbeat every 5 seconds
+            top_of_book:
+              type: boolean
+              default: false
+              description: >-
+                If absent or false, receive full order book depth; if present
+                and true, receive top of book only. Only applies to bids and
+                offers.
+            bids:
+              type: boolean
+              default: true
+              description: Include bids in change events
+            offers:
+              type: boolean
+              default: true
+              description: Include asks in change events
+            trades:
+              type: boolean
+              default: true
+              description: Include trade events
+            auctions:
+              type: boolean
+              default: true
+              description: Include auction events
+operations:
+  sendMarketData:
+    action: send
+    channel:
+      $ref: '#/channels/marketDataV1'
+    summary: Receive market updates on a given symbol
+    messages:
+      - $ref: '#/channels/marketDataV1/messages/marketData'
+components:
+  messages:
+    marketData:
+      summary: Message with marked data information.
+      description: >
+        The initial response message will show the existing state of the order
+        book. Subsequent messages will show all executed trades, as well as all
+        other changes to the order book from orders placed or canceled.
+      payload:
+        $ref: '#/components/schemas/market'
+      examples:
+        - name: updateMessage
+          summary: >-
+            Example of an update message that contains a change in price
+            information.
+          payload:
+            type: update
+            eventId: 36902233362
+            timestamp: 1619769673
+            timestampms: 1619769673527
+            socket_sequence: 661
+            events:
+              - type: change
+                side: bid
+                price: 54350.40
+                remaining: 0.002
+                delta: 0.002
+                reason: place
+        - name: heartbeatMessage
+          summary: Example of additional heartbeat message when you enable them.
+          payload:
+            type: heartbeat
+            socket_sequence: 1656
+  schemas:
+    market:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/heartbeat'
+        - $ref: '#/components/schemas/update'
+    heartbeat:
+      allOf:
+        - properties:
+            type:
+              type: string
+              const: heartbeat
+          required:
+            - type
+        - $ref: '#/components/schemas/default'
+    update:
+      allOf:
+        - properties:
+            type:
+              type: string
+              const: update
+            eventId:
+              type: integer
+              description: >-
+                A monotonically increasing sequence number indicating when this
+                change occurred. These numbers are persistent and consistent
+                between market data connections.
+            events:
+              $ref: '#/components/schemas/events'
+            timestamp:
+              type: number
+              description: >-
+                The timestamp in seconds for this group of events (included for
+                compatibility reasons). We recommend using the timestampms field
+                instead.
+            timestampms:
+              type: number
+              description: The timestamp in milliseconds for this group of events.
+          required:
+            - type
+            - eventId
+            - events
+            - timestamp
+            - timestampms
+        - $ref: '#/components/schemas/default'
+    default:
+      type: object
+      description: >-
+        This object is always part of the payload. In case of type=heartbeat,
+        these are the only fields.
+      required:
+        - type
+        - socket_sequence
+      properties:
+        socket_sequence:
+          type: integer
+          description: >-
+            zero-indexed monotonic increasing sequence number attached to each
+            message sent - if there is a gap in this sequence, you have missed a
+            message. If you choose to enable heartbeats, then heartbeat and
+            update messages will share a single increasing sequence. See
+            [Sequence
+            Numbers](https://docs.sandbox.gemini.com/websocket-api/#sequence-numbers)
+            for more information.
+    events:
+      type: array
+      description: >-
+        Either a change to the order book, or the indication that a trade has
+        occurred.
+      items:
+        type: object
+        additionalProperties: false
+        properties:
+          type:
+            type: string
+            enum:
+              - trade
+              - change
+              - 'auction, block_trade'
+          price:
+            type: number
+            multipleOf: 0.01
+            description: The price of this order book entry.
+          side:
+            type: string
+            enum:
+              - bid
+              - side
+          reason:
+            type: string
+            enum:
+              - place
+              - trade
+              - cancel
+              - initial
+            description: >-
+              Indicates why the change has occurred. initial is for the initial
+              response message, which will show the entire existing state of the
+              order book.
+          remaining:
+            type: number
+            description: >-
+              The quantity remaining at that price level after this change
+              occurred. May be zero if all orders at this price level have been
+              filled or canceled.
+          delta:
+            type: number
+            description: >-
+              The quantity changed. May be negative, if an order is filled or
+              canceled. For initial messages, delta will equal remaining.

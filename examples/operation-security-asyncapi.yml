@@ -1,29 +1,36 @@
-asyncapi: 2.6.0
+asyncapi: 3.0.0
 info:
   title: Notifications
   version: 1.0.0
   description: >-
-    This contract defines HTTP Push notification for 
-    application authorization revocation topic
+    This contract defines HTTP Push notification for  application authorization
+    revocation topic
 channels:
-  AUTHORIZATION_REVOCATION:
-    subscribe:
+  authRevoke:
+    address: AUTHORIZATION_REVOCATION
+    messages:
       message:
         $ref: '#/components/messages/message'
-      bindings:
-        http:
-          type: request
-          method: POST
-          headers:
-            type: object
-            properties:
-              Content-Type:
-                type: string
-                enum:
-                  - application/json
-      security:
-        - petstore_auth:
-            - subscribe:auth_revocations
+operations:
+  sendAuthRevoke:
+    action: send
+    channel:
+      $ref: '#/channels/authRevoke'
+    security:
+      - type: oauth2
+        description: The oauth security descriptions
+        flows:
+          clientCredentials:
+            tokenUrl: 'https://example.com/api/oauth/dialog'
+            availableScopes:
+              'subscribe:auth_revocations': Scope required for authorization revocation topic
+        scopes:
+          - 'subscribe:auth_revocations'
+    bindings:
+      http:
+        method: POST
+    messages:
+      - $ref: '#/channels/authRevoke/messages/message'
 components:
   messages:
     message:
@@ -33,6 +40,10 @@ components:
           X-SIGNATURE:
             description: ECC message signature
             type: string
+          Content-Type:
+              type: string
+              enum:
+                - application/json
       payload:
         type: object
         properties:
@@ -102,5 +113,5 @@ components:
       flows:
         clientCredentials:
           tokenUrl: 'https://example.com/api/oauth/dialog'
-          scopes:
-            subscribe:auth_revocations: Scope required for authorization revocation topic
+          availableScopes:
+            'subscribe:auth_revocations': Scope required for authorization revocation topic

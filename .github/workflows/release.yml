@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 18
       - name: Add plugin for conventional commits
-        run: npm install --save-dev conventional-changelog-conventionalcommits@5.0.0
+        run: npm install --save-dev conventional-changelog-conventionalcommits@6.1.0
       - name: Release to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -27,4 +27,4 @@ jobs:
           GIT_AUTHOR_EMAIL: info@asyncapi.io
           GIT_COMMITTER_NAME: asyncapi-bot
           GIT_COMMITTER_EMAIL: info@asyncapi.io
-        run: npx semantic-release@17.4.3
+        run: npx semantic-release@21.0.7

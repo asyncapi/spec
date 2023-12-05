@@ -1,0 +1,72 @@
+asyncapi: 3.0.0
+id: 'urn:example:rpcclient'
+info:
+  title: RPC Client Example
+  version: 1.0.0
+  description: This example demonstrates how to define an RPC client.
+defaultContentType: application/json
+servers:
+  production:
+    host: rabbitmq.example.org
+    protocol: amqp
+channels:
+  queue:
+    address: '{queue}'
+    messages:
+      receiveSumResult:
+        correlationId:
+          location: $message.header#/correlation_id
+        payload:
+          type: object
+          properties:
+            result:
+              type: number
+              examples:
+                - 7
+    parameters:
+      queue: {}
+    bindings:
+      amqp:
+        is: queue
+        queue:
+          exclusive: true
+  rpc_queue:
+    address: rpc_queue
+    messages:
+      requestSum:
+        correlationId:
+          location: $message.header#/correlation_id
+        payload:
+          type: object
+          properties:
+            numbers:
+              type: array
+              items:
+                type: number
+              examples:
+                - - 4
+                  - 3
+    bindings:
+      amqp:
+        is: queue
+        queue:
+          durable: false
+operations:
+  receiveSumResult:
+    action: receive
+    channel:
+      $ref: '#/channels/queue'
+    bindings:
+      amqp:
+        ack: false
+    messages:
+      - $ref: '#/channels/queue/messages/receiveSumResult'
+  requestSum:
+    action: send
+    channel:
+      $ref: '#/channels/rpc_queue'
+    bindings:
+      amqp:
+        ack: true
+    messages:
+      - $ref: '#/channels/rpc_queue/messages/requestSum'

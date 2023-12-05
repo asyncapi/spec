@@ -1,0 +1,29 @@
+asyncapi: 3.0.0
+info:
+  title: Not example
+  version: 1.0.0
+channels:
+  test:
+    address: test
+    messages:
+      testMessages:
+        $ref: '#/components/messages/testMessages'
+operations:
+  onTestMsg:
+    action: receive
+    channel:
+      $ref: '#/channels/test'
+    messages:
+      - $ref: '#/channels/test/messages/testMessages'
+components:
+  messages:
+    testMessages:
+      payload:
+        $ref: '#/components/schemas/testSchema'
+  schemas:
+    testSchema:
+      type: object
+      properties:
+        key:
+          not:
+            type: integer

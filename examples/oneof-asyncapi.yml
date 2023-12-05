@@ -1,0 +1,57 @@
+asyncapi: 3.0.0
+info:
+  title: OneOf example
+  version: 1.0.0
+channels:
+  test:
+    address: test
+    messages:
+      testMessages:
+        $ref: '#/components/messages/testMessages'
+  test2:
+    address: test2
+    messages:
+      objectWithKey:
+        payload:
+          $ref: '#/components/schemas/objectWithKey'
+      objectWithKey2:
+        payload:
+          $ref: '#/components/schemas/objectWithKey2'
+operations:
+  onTestMsg:
+    action: receive
+    channel:
+      $ref: '#/channels/test'
+    messages:
+      - $ref: '#/channels/test/messages/testMessages'
+  sendTest:
+    action: send
+    channel:
+      $ref: '#/channels/test2'
+    messages:
+      - $ref: '#/channels/test2/messages/objectWithKey'
+      - $ref: '#/channels/test2/messages/objectWithKey2'
+components:
+  messages:
+    testMessages:
+      payload:
+        oneOf:
+          - $ref: '#/components/schemas/objectWithKey'
+          - $ref: '#/components/schemas/objectWithKey2'
+    testMessage1:
+      payload:
+        $ref: '#/components/schemas/objectWithKey'
+    testMessage2:
+      payload:
+        $ref: '#/components/schemas/objectWithKey2'
+  schemas:
+    objectWithKey:
+      type: object
+      properties:
+        key:
+          type: string
+    objectWithKey2:
+      type: object
+      properties:
+        key2:
+          type: string

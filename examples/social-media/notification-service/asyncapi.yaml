@@ -1,27 +1,34 @@
-asyncapi: 2.6.0
-
+asyncapi: 3.0.0
 info:
   title: Notifications Service
   version: 1.0.0
-
 servers:
   mosquitto:
-    url: mqtt://test.mosquitto.org
+    host: test.mosquitto.org
     protocol: mqtt
+    tags:
+      - name: 'env:production'
+        description: This environment is meant for production use case
+      - name: 'kind:remote'
+        description: This server is a remote server. Not exposed by the application
+      - name: 'visibility:public'
+        description: This resource is public and available to everyone
     bindings:
       mqtt:
         clientId: notification-service
-    tags:
-      - name: "env:production"
-        description: "This environment is meant for production use case"
-      - name: "kind:remote"
-        description: "This server is a remote server. Not exposed by the application"
-      - name: "visibility:public"
-        description: "This resource is public and available to everyone"
-
 channels:
-  comment/liked:
-    description: When a "comment has been liked" message is received, it sends an SMS or push notification to the author.
-    publish: 
-      message:
+  commentLiked:
+    address: comment/liked
+    messages:
+      commentLiked:
         $ref: '../common/messages.yaml#/commentLiked'
+    description: >-
+      When a "comment has been liked" message is received, it sends an SMS or
+      push notification to the author.
+operations:
+  receiveCommentLiked:
+    action: receive
+    channel:
+      $ref: '#/channels/commentLiked'
+    messages:
+      - $ref: '#/channels/commentLiked/messages/commentLiked'

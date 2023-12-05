@@ -1,0 +1,388 @@
+asyncapi: 3.0.0
+
+info:
+  title: Kraken Websockets API
+  version: '1.8.0'
+  description: |
+    WebSockets API offers real-time market data updates. WebSockets is a bidirectional protocol offering fastest real-time data, helping you build real-time applications. The public message types presented below do not require authentication. Private-data messages can be subscribed on a separate authenticated endpoint. 
+
+    ### General Considerations
+
+    - TLS with SNI (Server Name Indication) is required in order to establish a Kraken WebSockets API connection. See Cloudflare's [What is SNI?](https://www.cloudflare.com/learning/ssl/what-is-sni/) guide for more details.
+    - All messages sent and received via WebSockets are encoded in JSON format
+    - All decimal fields (including timestamps) are quoted to preserve precision.
+    - Timestamps should not be considered unique and not be considered as aliases for transaction IDs. Also, the granularity of timestamps is not representative of transaction rates.
+    - At least one private message should be subscribed to keep the authenticated client connection open.
+    - Please use REST API endpoint [AssetPairs](https://www.kraken.com/features/api#get-tradable-pairs) to fetch the list of pairs which can be subscribed via WebSockets API. For example, field 'wsname' gives the supported pairs name which can be used to subscribe.
+    - Cloudflare imposes a connection/re-connection rate limit (per IP address) of approximately 150 attempts per rolling 10 minutes. If this is exceeded, the IP is banned for 10 minutes.
+    - Recommended reconnection behaviour is to (1) attempt reconnection instantly up to a handful of times if the websocket is dropped randomly during normal operation but (2) after maintenance or extended downtime, attempt to reconnect no more quickly than once every 5 seconds. There is no advantage to reconnecting more rapidly after maintenance during cancel_only mode.
+
+
+channels:
+  currencyExchange:
+    address: /
+    messages:
+      ping:
+        $ref: '#/components/messages/ping'
+      pong:
+        $ref: '#/components/messages/pong'
+      heartbeat:
+        $ref: '#/components/messages/heartbeat'
+      systemStatus:
+        $ref: '#/components/messages/systemStatus'
+      subscriptionStatus:
+        $ref: '#/components/messages/subscriptionStatus'
+      subscribe:
+        $ref: '#/components/messages/subscribe'
+      unsubscribe:
+        $ref: '#/components/messages/unsubscribe'
+      dummyCurrencyInfo:
+        $ref: '#/components/messages/dummyCurrencyInfo'
+
+      
+operations:
+  receivePing:
+    action: receive
+    channel: 
+      $ref: '#/channels/currencyExchange'
+    reply:
+      channel: 
+        $ref: '#/channels/currencyExchange'
+      messages:
+        - $ref: '#/channels/currencyExchange/messages/pong'
+    messages:
+      - $ref: '#/channels/currencyExchange/messages/ping'
+  sendHeartbeat:
+    action: send
+    channel: 
+      $ref: '#/channels/currencyExchange'
+    messages:
+      - $ref: '#/channels/currencyExchange/messages/heartbeat'
+  systemStatus:
+    action: send
+    channel: 
+      $ref: '#/channels/currencyExchange'
+    messages:
+      - $ref: '#/channels/currencyExchange/messages/systemStatus'
+  receiveSubscribeRequest:
+    action: receive
+    channel: 
+      $ref: '#/channels/currencyExchange'
+    reply:
+      channel: 
+        $ref: '#/channels/currencyExchange'
+      messages:
+        - $ref: '#/channels/currencyExchange/messages/subscriptionStatus'
+        - $ref: '#/channels/currencyExchange/messages/dummyCurrencyInfo'
+    messages:
+      - $ref: '#/channels/currencyExchange/messages/subscribe'
+  receiveUnsubscribeRequest:
+    action: receive
+    channel: 
+      $ref: '#/channels/currencyExchange'
+    reply:
+      channel: 
+        $ref: '#/channels/currencyExchange'   
+      messages:
+        - $ref: '#/channels/currencyExchange/messages/subscriptionStatus'
+    messages:
+      - $ref: '#/channels/currencyExchange/messages/unsubscribe'
+       
+       
+components:
+  messages:
+    dummyCurrencyInfo:
+      summary: Dummy message with no real life details
+      description: It is here in this example to showcase that there is an additional message that normally is of a complex structure. It represents actually currency exchange value to show a reply to operation receiveSubscribeRequest with more than one possible message.
+      payload:
+        type: object
+        properties:
+          event:
+            type: string
+            const: currencyInfo
+          reqid:
+            $ref: '#/components/schemas/reqid'
+          data:
+            type: object
+        required:
+          - event
+      correlationId:
+        location: '$message.payload#/reqid'
+
+    ping:
+      summary: Ping server to determine whether connection is alive
+      description: Client can ping server to determine whether connection is alive, server responds with pong. This is an application level ping as opposed to default ping in websockets standard which is server initiated
+      payload:
+        $ref: '#/components/schemas/ping'
+      correlationId:
+        location: '$message.payload#/reqid'
+        
+    pong:
+      summary: Pong is a response to ping message
+      description: Server pong response to a ping to determine whether connection is alive. This is an application level pong as opposed to default pong in websockets standard which is sent by client in response to a ping
+      payload:
+        $ref: '#/components/schemas/pong' 
+      correlationId:
+        location: '$message.payload#/reqid'
+
+    subscribe:
+      description: Subscribe to a topic on a single or multiple currency pairs.
+      payload:
+        $ref: '#/components/schemas/subscribe'
+      correlationId:
+        location: '$message.payload#/reqid'
+    unsubscribe:
+      description: Unsubscribe, can specify a channelID or multiple currency pairs.
+      payload:
+        $ref: '#/components/schemas/unsubscribe'
+      correlationId:
+        location: '$message.payload#/reqid'
+    subscriptionStatus:
+      description: Subscription status response to subscribe, unsubscribe or exchange initiated unsubscribe.
+      payload:
+        $ref: '#/components/schemas/subscriptionStatus'
+      examples:
+        - payload:
+            channelID: 10001
+            channelName: ohlc-5
+            event: subscriptionStatus
+            pair: XBT/EUR
+            reqid: 42
+            status: unsubscribed
+            subscription:
+              interval: 5
+              name: ohlc
+        - payload:
+            errorMessage: Subscription depth not supported
+            event: subscriptionStatus
+            pair: XBT/USD
+            status: error
+            subscription:
+              depth: 42
+              name: book
+
+    systemStatus:
+      description: Status sent on connection or system status changes.
+      payload:
+        $ref: '#/components/schemas/systemStatus' 
+        
+    heartbeat:
+      description: Server heartbeat sent if no subscription traffic within 1 second (approximately)
+      payload:
+        $ref: '#/components/schemas/heartbeat' 
+        
+        
+  schemas:
+    ping:
+      type: object
+      properties:
+        event:
+          type: string
+          const: ping
+        reqid:
+          $ref: '#/components/schemas/reqid'
+      required:
+        - event
+    heartbeat:
+      type: object
+      properties:
+        event:
+          type: string
+          const: heartbeat
+    pong:
+      type: object
+      properties:
+        event:
+          type: string
+          const: pong
+        reqid:
+          $ref: '#/components/schemas/reqid'
+    systemStatus:
+      type: object
+      properties:
+        event:
+          type: string
+          const: systemStatus
+        connectionID:
+          type: integer
+          description: The ID of the connection
+        status:
+          $ref: '#/components/schemas/status'
+        version:
+          type: string
+    status:
+      type: string
+      enum:
+        - online
+        - maintenance
+        - cancel_only
+        - limit_only
+        - post_only
+    subscribe:
+      type: object
+      properties:
+        event:
+          type: string
+          const: subscribe
+        reqid:
+          $ref: '#/components/schemas/reqid'
+        pair:
+          $ref: '#/components/schemas/pair'
+        subscription:
+          type: object
+          properties:
+            depth:
+              $ref: '#/components/schemas/depth'
+            interval:
+              $ref: '#/components/schemas/interval'
+            name:
+              $ref: '#/components/schemas/name'
+            ratecounter:
+              $ref: '#/components/schemas/ratecounter'
+            snapshot:
+              $ref: '#/components/schemas/snapshot'
+            token:
+              $ref: '#/components/schemas/token'
+          required:
+            - name
+      required:
+        - event
+    unsubscribe:
+      type: object
+      properties:
+        event:
+          type: string
+          const: unsubscribe
+        reqid:
+          $ref: '#/components/schemas/reqid'
+        pair:
+          $ref: '#/components/schemas/pair'
+        subscription:
+          type: object
+          properties:
+            depth:
+              $ref: '#/components/schemas/depth'
+            interval:
+              $ref: '#/components/schemas/interval'
+            name:
+              $ref: '#/components/schemas/name'
+            token:
+              $ref: '#/components/schemas/token'
+          required:
+            - name
+      required:
+        - event
+    subscriptionStatus:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/subscriptionStatusError'
+        - $ref: '#/components/schemas/subscriptionStatusSuccess'
+    subscriptionStatusError:
+      allOf:
+        - properties:
+            errorMessage:
+              type: string
+          required:
+            - errorMessage
+        - $ref: '#/components/schemas/subscriptionStatusCommon'
+    subscriptionStatusSuccess:
+      allOf:
+        - properties:
+            channelID:
+              type: integer
+              description: ChannelID on successful subscription, applicable to public messages only.
+            channelName:
+              type: string
+              description: Channel Name on successful subscription. For payloads 'ohlc' and 'book', respective interval or depth will be added as suffix.
+          required:
+            - channelID
+            - channelName
+        - $ref: '#/components/schemas/subscriptionStatusCommon'
+    subscriptionStatusCommon:
+      type: object
+      required:
+         - event
+      properties:
+        event:
+          type: string
+          const: subscriptionStatus
+        reqid:
+          $ref: '#/components/schemas/reqid'
+        pair:
+          $ref: '#/components/schemas/pair'
+        status:
+          $ref: '#/components/schemas/status'
+        subscription:
+          required:
+            - name
+          type: object
+          properties:
+            depth:
+              $ref: '#/components/schemas/depth'
+            interval:
+              $ref: '#/components/schemas/interval'
+            maxratecount:
+              $ref: '#/components/schemas/maxratecount'
+            name:
+              $ref: '#/components/schemas/name'
+            token:
+              $ref: '#/components/schemas/token'
+    interval:
+      type: integer
+      description: Time interval associated with ohlc subscription in minutes.
+      default: 1
+      enum:
+        - 1
+        - 5
+        - 15
+        - 30
+        - 60
+        - 240
+        - 1440
+        - 10080
+        - 21600
+    name:
+      type: string
+      description: The name of the channel you subscribe too.
+      enum:
+        - book
+        - ohlc
+        - openOrders
+        - ownTrades
+        - spread
+        - ticker
+        - trade
+    token:
+      type: string
+      description: base64-encoded authentication token for private-data endpoints.
+    depth:
+      type: integer
+      default: 10
+      enum:
+        - 10
+        - 25
+        - 100
+        - 500
+        - 1000
+      description: Depth associated with book subscription in number of levels each side.
+    maxratecount:
+      type: integer
+      description: Max rate-limit budget. Compare to the ratecounter field in the openOrders updates to check whether you are approaching the rate limit.
+    ratecounter:
+      type: boolean
+      default: false
+      description: Whether to send rate-limit counter in updates (supported only for openOrders subscriptions)
+    snapshot:
+      type: boolean
+      default: true
+      description: Whether to send historical feed data snapshot upon subscription (supported only for ownTrades subscriptions)
+    reqid:
+      type: integer
+      description: client originated ID reflected in response message.
+    pair:
+      type: array
+      description: Array of currency pairs.
+      items:
+        type: string
+        description: Format of each pair is "A/B", where A and B are ISO 4217-A3 for standardized assets and popular unique symbol if not standardized.
+        pattern: '[A-Z\s]+\/[A-Z\s]+'
