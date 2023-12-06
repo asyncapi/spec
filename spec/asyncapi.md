@@ -925,7 +925,7 @@ reply:
 
 #### <a name="operationTraitObject"></a>Operation Trait Object
 
-Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel` and `traits` ones.
+Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel`, `messages` and `traits` ones.
 
 If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
 
