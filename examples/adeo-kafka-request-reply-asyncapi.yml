@@ -242,7 +242,9 @@ components:
       bindings:
         kafka:
           key:
-            $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponseKey.avsc"
+            schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
+            schema: 
+              $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponseKey.avsc"
       payload:
         schemaFormat: application/vnd.apache.avro;version=1.9.0
         schema: 
