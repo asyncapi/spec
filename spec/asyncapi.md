@@ -16,7 +16,7 @@ The AsyncAPI Specification is a project used to describe message-driven APIs in 
 
 The AsyncAPI Specification defines a set of fields that can be used in an AsyncAPI document to describe an [application](#definitionsApplication)'s API. The document may reference other files for additional details or shared fields, but it is typically a single, primary document that encapsulates the API description.
 
-The file(s) SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
+The AsyncAPI document SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 channels:
