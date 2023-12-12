@@ -244,11 +244,11 @@ components:
           key:
             schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
             schema: 
-              $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponseKey.avsc"
+              $ref: "https://asyncapi.com/resources/casestudies/adeo/CostingResponseKey.avsc"
       payload:
         schemaFormat: application/vnd.apache.avro;version=1.9.0
         schema: 
-          $ref: "https://deploy-preview-921--asyncapi-website.netlify.app/resources/casestudies/adeo/CostingResponsePayload.avsc"
+          $ref: "https://asyncapi.com/resources/casestudies/adeo/CostingResponsePayload.avsc"
   schemas:
     RequesterId:
       type: string
