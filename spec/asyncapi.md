@@ -14,8 +14,7 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 The AsyncAPI Specification is a project used to describe message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, Mercure, etc).
 
-The AsyncAPI Specification defines a set of files required to describe the API of an [application](#definitionsApplication).
-These files can be used to create utilities, such as documentation, code, integration, or testing tools.
+The AsyncAPI Specification defines a set of fields that can be used in an AsyncAPI document to describe an [application](#definitionsApplication)'s API. The document may reference other files for additional details or shared fields, but it is typically a single, primary document that encapsulates the API description.
 
 The file(s) SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
 
