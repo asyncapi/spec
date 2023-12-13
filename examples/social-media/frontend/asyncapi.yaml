@@ -24,10 +24,10 @@ operations:
     channel:
       $ref: '#/channels/likeComment'
     messages:
-      - $ref: '../common/messages.yaml#/likeComment'
+      - $ref: '#/channels/likeComment/messages/likeComment'
   receiveUpdateCommentLiked:
     action: receive
     channel:
       $ref: '#/channels/updateCommentLike'
     messages:
-      - $ref: '../common/messages.yaml#/updateCommentLikes'
+      - $ref: '#/channels/updateCommentLike/messages/updateCommentLikes'

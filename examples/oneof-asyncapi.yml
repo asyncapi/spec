@@ -6,31 +6,31 @@ channels:
   test:
     address: test
     messages:
-      publish.message:
+      testMessages:
         $ref: '#/components/messages/testMessages'
   test2:
     address: test2
     messages:
-      subscribe.message.0:
+      objectWithKey:
         payload:
           $ref: '#/components/schemas/objectWithKey'
-      subscribe.message.1:
+      objectWithKey2:
         payload:
           $ref: '#/components/schemas/objectWithKey2'
 operations:
-  test.publish:
+  onTestMsg:
     action: receive
     channel:
       $ref: '#/channels/test'
     messages:
-      - $ref: '#/components/messages/testMessages'
-  test2.subscribe:
+      - $ref: '#/channels/test/messages/testMessages'
+  sendTest:
     action: send
     channel:
       $ref: '#/channels/test2'
     messages:
-      - $ref: '#/channels/test2/messages/subscribe.message.0'
-      - $ref: '#/channels/test2/messages/subscribe.message.1'
+      - $ref: '#/channels/test2/messages/objectWithKey'
+      - $ref: '#/channels/test2/messages/objectWithKey2'
 components:
   messages:
     testMessages:

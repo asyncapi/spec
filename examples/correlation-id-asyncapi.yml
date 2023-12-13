@@ -81,13 +81,13 @@ operations:
       Inform about environmental lighting conditions of a particular
       streetlight.
     messages:
-      - $ref: '#/components/messages/lightMeasured'
+      - $ref: '#/channels/lightingMeasured/messages/lightMeasured'
   dimLight:
     action: send
     channel:
       $ref: '#/channels/lightsDim'
     messages:
-      - $ref: '#/components/messages/dimLight'
+      - $ref: '#/channels/lightsDim/messages/dimLight'
 components:
   messages:
     lightMeasured:

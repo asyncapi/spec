@@ -49,21 +49,21 @@ operations:
       channel: 
         $ref: '#/channels/currencyExchange'
       messages:
-        - $ref: '#/components/messages/pong'
+        - $ref: '#/channels/currencyExchange/messages/pong'
     messages:
-      - $ref: '#/components/messages/ping'
+      - $ref: '#/channels/currencyExchange/messages/ping'
   sendHeartbeat:
     action: send
     channel: 
       $ref: '#/channels/currencyExchange'
     messages:
-      - $ref: '#/components/messages/heartbeat'
+      - $ref: '#/channels/currencyExchange/messages/heartbeat'
   systemStatus:
     action: send
     channel: 
       $ref: '#/channels/currencyExchange'
     messages:
-      - $ref: '#/components/messages/systemStatus'
+      - $ref: '#/channels/currencyExchange/messages/systemStatus'
   receiveSubscribeRequest:
     action: receive
     channel: 
@@ -72,10 +72,10 @@ operations:
       channel: 
         $ref: '#/channels/currencyExchange'
       messages:
-        - $ref: '#/components/messages/subscriptionStatus'
-        - $ref: '#/components/messages/dummyCurrencyInfo'
+        - $ref: '#/channels/currencyExchange/messages/subscriptionStatus'
+        - $ref: '#/channels/currencyExchange/messages/dummyCurrencyInfo'
     messages:
-      - $ref: '#/components/messages/subscribe'
+      - $ref: '#/channels/currencyExchange/messages/subscribe'
   receiveUnsubscribeRequest:
     action: receive
     channel: 
@@ -84,9 +84,9 @@ operations:
       channel: 
         $ref: '#/channels/currencyExchange'   
       messages:
-        - $ref: '#/components/messages/subscriptionStatus'
+        - $ref: '#/channels/currencyExchange/messages/subscriptionStatus'
     messages:
-      - $ref: '#/components/messages/unsubscribe'
+      - $ref: '#/channels/currencyExchange/messages/unsubscribe'
        
        
 components:

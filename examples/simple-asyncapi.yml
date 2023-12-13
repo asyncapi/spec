@@ -15,7 +15,7 @@ operations:
     channel:
       $ref: '#/channels/userSignedup'
     messages:
-      - $ref: '#/components/messages/UserSignedUp'
+      - $ref: '#/channels/userSignedup/messages/UserSignedUp'
 components:
   messages:
     UserSignedUp:

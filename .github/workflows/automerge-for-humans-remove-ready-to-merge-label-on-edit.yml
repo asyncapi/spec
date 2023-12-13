@@ -16,20 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Remove label
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const labelToRemove = 'ready-to-merge';
             const labels = context.payload.pull_request.labels;
-            
             const isLabelPresent = labels.some(label => label.name === labelToRemove)
-            
             if(!isLabelPresent) return;
-            
             github.rest.issues.removeLabel({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: labelToRemove
-            }) 
+            })

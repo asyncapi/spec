@@ -1,7 +1,3 @@
-# ATTENTION: Work in progress
-
-This version is not yet ready to be used. We're currently working on it. If you want to join the effort and participate in the development of the next major version of AsyncAPI, head over to [GitHub Issue that we use for tracking 3.0 development progress](https://github.com/asyncapi/spec/issues/691).
-
 # AsyncAPI Specification
 
 #### Attribution
@@ -76,48 +72,48 @@ Aside from the issues mentioned above, there may also be infrastructure configur
   - [Channel](#definitionsChannel)
   - [Protocol](#definitionsProtocol)
 - [Specification](#specification)
-    - [Format](#format)
-    - [File Structure](#file-structure)
-    - [Absolute URLs](#absolute-urls)
-    - [Schema](#schema)
-      - [AsyncAPI Object](#A2SObject)
-      - [AsyncAPI Version String](#A2SVersionString)
-      - [Identifier](#A2SIdString)
-      - [Info Object](#infoObject)
-      - [Contact Object](#contactObject)
-      - [License Object](#licenseObject)
-      - [Servers Object](#serversObject)
-      - [Server Object](#serverObject)
-      - [Server Variable Object](#serverVariableObject)
-      - [Default Content Type](#defaultContentTypeString)
-      - [Channels Object](#channelsObject)
-      - [Channel Object](#channelObject)
-      - [Operations Object](#operationsObject)
-      - [Operation Object](#operationObject)
-      - [Operation Trait Object](#operationTraitObject)
-      - [Operation Reply Object](#operationReplyObject)
-      - [Operation Reply Address Object](#operationReplyAddressObject)
-      - [Message Object](#messageObject)
-      - [Message Trait Object](#messageTraitObject)
-      - [Message Example Object](#messageExampleObject)
-      - [Tags Object](#tagsObject)
-      - [Tag Object](#tag-object)
-      - [External Documentation Object](#externalDocumentationObject)
-      - [Components Object](#componentsObject)
-      - [Reference Object](#referenceObject)
-      - [Multi Format Schema Object](#multiFormatSchemaObject)
-      - [Schema Object](#schemaObject)
-      - [Security Scheme Object](#securitySchemeObject)
-      - [OAuth Flows Object](#oauth-flows-object)  
-      - [OAuth Flow Object](#oauth-flow-object)
-      - [Server Bindings Object](#serverBindingsObject)
-      - [Parameters Object](#parametersObject)
-      - [Parameter Object](#parameterObject)
-      - [Channel Bindings Object](#channelBindingsObject)
-      - [Operation Bindings Object](#operationBindingsObject)
-      - [Message Bindings Object](#messageBindingsObject)
-      - [Correlation ID Object](#correlationIdObject)
-      - [Specification Extensions](#specificationExtensions)
+  - [Format](#format)
+  - [File Structure](#file-structure)
+  - [Absolute URLs](#absolute-urls)
+  - [Schema](#schema)
+    - [AsyncAPI Object](#A2SObject)
+    - [AsyncAPI Version String](#A2SVersionString)
+    - [Identifier](#A2SIdString)
+    - [Info Object](#infoObject)
+    - [Contact Object](#contactObject)
+    - [License Object](#licenseObject)
+    - [Servers Object](#serversObject)
+    - [Server Object](#serverObject)
+    - [Server Variable Object](#serverVariableObject)
+    - [Default Content Type](#defaultContentTypeString)
+    - [Channels Object](#channelsObject)
+    - [Channel Object](#channelObject)
+    - [Operations Object](#operationsObject)
+    - [Operation Object](#operationObject)
+    - [Operation Trait Object](#operationTraitObject)
+    - [Operation Reply Object](#operationReplyObject)
+    - [Operation Reply Address Object](#operationReplyAddressObject)
+    - [Message Object](#messageObject)
+    - [Message Trait Object](#messageTraitObject)
+    - [Message Example Object](#messageExampleObject)
+    - [Tags Object](#tagsObject)
+    - [Tag Object](#tag-object)
+    - [External Documentation Object](#externalDocumentationObject)
+    - [Components Object](#componentsObject)
+    - [Reference Object](#referenceObject)
+    - [Multi Format Schema Object](#multiFormatSchemaObject)
+    - [Schema Object](#schemaObject)
+    - [Security Scheme Object](#securitySchemeObject)
+    - [OAuth Flows Object](#oauth-flows-object)  
+    - [OAuth Flow Object](#oauth-flow-object)
+    - [Server Bindings Object](#serverBindingsObject)
+    - [Parameters Object](#parametersObject)
+    - [Parameter Object](#parameterObject)
+    - [Channel Bindings Object](#channelBindingsObject)
+    - [Operation Bindings Object](#operationBindingsObject)
+    - [Message Bindings Object](#messageBindingsObject)
+    - [Correlation ID Object](#correlationIdObject)
+    - [Specification Extensions](#specificationExtensions)
 
 <!-- /TOC -->
 
@@ -136,7 +132,7 @@ A sender is a type of application, that is sending [messages](#definitionsMessag
 A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
 ### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MUST contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or reply.
+A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or reply.
 
 #### <a name="definitionsReplyMessage"></a>Reply message
 A reply is a special type of message used in the request-reply interaction pattern and can only be used in combination with a request message. In the request-reply interaction pattern, messages are defined as follows: [Sender](#definitionsSender) sends a request message and waits for a reply message, while [Receiver](#definitionsReceiver) receives the request message and responds with a reply message.
@@ -145,7 +141,7 @@ A reply is a special type of message used in the request-reply interaction patte
 A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 ### <a name="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket.  
+A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
 ### <a name="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
@@ -637,7 +633,7 @@ Field Name | Type | Description
 <a name="channelObjectTitle"></a>title | `string` | A human-friendly title for the channel.
 <a name="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If the channel is located in the [root Channels Object](#channelsObject), it MUST point to a subset of server definitions located in the [root Servers Object](#serversObject), and MUST NOT point to a subset of server definitions located in the [Components Object](#componentsObject) or anywhere else. If the channel is located in the [Components Object](#componentsObject), it MAY point to a [Server Objects](#serverObject) in any location. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
@@ -833,7 +829,7 @@ Describes a specific operation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="operationObjectAction"></a>action | `"send"` &#124; `"receive"` | **Required**. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
-<a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. If the operation is located in the [root Operations Object](#operationsObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation is located in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
 <a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
@@ -842,7 +838,7 @@ Field Name | Type | Description
 <a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
 <a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Operation Object](#operationObject).
-<a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Messages Object](#componentsMessages) in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply part in a request-reply interaction.  When this property is defined, the [messages](#operationObjectMessages) represent request messages in a request-reply interaction.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -980,8 +976,8 @@ Describes the reply part that MAY be applied to an Operation Object. If an opera
 Field Name | Type | Description
 ---|:---:|---
 <a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
-<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel). **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. If the operation reply is located inside a [root Operation Object](#operationObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation reply is located inside an [Operation Object] in the [Components Object](#componentsObject) or in the [Replies Object](#componentsReplies) in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1119,6 +1115,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectMercure"></a>`mercure` | [Mercure Server Binding](https://github.com/asyncapi/bindings/blob/master/mercure#server) | Protocol-specific information for a Mercure server.
 <a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
 <a name="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
+<a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1150,6 +1147,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectMercure"></a>`mercure` | [Mercure Channel Binding](https://github.com/asyncapi/bindings/blob/master/mercure#channel) | Protocol-specific information for a Mercure channel.
 <a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
 <a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
+<a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1181,6 +1179,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectMercure"></a>`mercure` | [Mercure Operation Binding](https://github.com/asyncapi/bindings/blob/master/mercure#operation) | Protocol-specific information for a Mercure operation.
 <a name="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
 <a name="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
+<a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1213,6 +1212,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectMercure"></a>`mercure` | [Mercure Message Binding](https://github.com/asyncapi/bindings/blob/master/mercure#message) | Protocol-specific information for a Mercure message.
 <a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
 <a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
+<a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1946,7 +1946,7 @@ While composition offers model extensibility, it does not imply a hierarchy betw
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
 When used, the `discriminator` will be the name of the property used to decide which schema definition is used to validate the structure of the model.
 As such, the `discriminator` field MUST be a required field.
-There are are two ways to define the value of a discriminator for an inheriting instance.
+There are two ways to define the value of a discriminator for an inheriting instance.
 
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.

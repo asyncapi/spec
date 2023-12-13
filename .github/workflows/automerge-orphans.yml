@@ -13,8 +13,10 @@ jobs:
     name: Find orphans and notify
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Get list of orphans
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         id: orphans
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,10 +52,10 @@ jobs:
             }
       - if: steps.orphans.outputs.found == 'true'
         name: Convert markdown to slack markdown
-        uses: LoveToKnow/slackify-markdown-action@v1.0.0
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: issuemarkdown
         with:
-          text: "-> [${{steps.orphans.outputs.title}}](${{steps.orphans.outputs.url}})"
+          markdown: "-> [${{steps.orphans.outputs.title}}](${{steps.orphans.outputs.url}})"
       - if: steps.orphans.outputs.found == 'true'
         name: Send info about orphan to slack
         uses: rtCamp/action-slack-notify@v2

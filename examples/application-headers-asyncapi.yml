@@ -37,7 +37,7 @@ operations:
       Inform about environmental lighting conditions of a particular
       streetlight.
     messages:
-      - $ref: '#/components/messages/lightMeasured'
+      - $ref: '#/channels/lightingMeasured/messages/lightMeasured'
 components:
   messages:
     lightMeasured:

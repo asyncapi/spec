@@ -43,10 +43,10 @@ operations:
     channel:
       $ref: '#/channels/commentLiked'
     messages:
-      - $ref: '../common/messages.yaml#/commentLiked'
+      - $ref: '#/channels/commentLiked/messages/commentLiked'
   sendCommentChange:
     action: send
     channel:
       $ref: '#/channels/commentCountChange'
     messages:
-      - $ref: '../common/messages.yaml#/commentChanged'
+      - $ref: '#/channels/commentCountChange/messages/commentChanged'

@@ -6,16 +6,16 @@ info:
     This contract defines HTTP Push notification for  application authorization
     revocation topic
 channels:
-  AUTHORIZATION_REVOCATION:
+  authRevoke:
     address: AUTHORIZATION_REVOCATION
     messages:
-      subscribe.message:
+      message:
         $ref: '#/components/messages/message'
 operations:
-  AUTHORIZATION_REVOCATION.subscribe:
+  sendAuthRevoke:
     action: send
     channel:
-      $ref: '#/channels/AUTHORIZATION_REVOCATION'
+      $ref: '#/channels/authRevoke'
     security:
       - type: oauth2
         description: The oauth security descriptions
@@ -29,9 +29,8 @@ operations:
     bindings:
       http:
         method: POST
-            
     messages:
-      - $ref: '#/components/messages/message'
+      - $ref: '#/channels/authRevoke/messages/message'
 components:
   messages:
     message:

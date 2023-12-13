@@ -22,7 +22,7 @@ channels:
   notifyAllCommentLiked:
     address: comment/liked
     messages:
-      subscribe.message:
+      commentLiked:
         $ref: '../common/messages.yaml#/commentLiked'
     description: Notify all the services that a comment has been liked.
     servers:
@@ -30,7 +30,7 @@ channels:
   newLikeComment:
     address: like/comment
     messages:
-      publish.message:
+      likeComment:
         $ref: '../common/messages.yaml#/likeComment'
     description: When a comment like is received from the frontend.
     servers:
@@ -38,7 +38,7 @@ channels:
   commentsCountChange:
     address: 'comment/{commentId}/changed'
     messages:
-      publish.message:
+      commentChanged:
         $ref: '../common/messages.yaml#/commentChanged'
     description: >-
       When an event from the broker arrives telling us to update the comment
@@ -51,7 +51,7 @@ channels:
   updateCommentsCount:
     address: update/comment/likes
     messages:
-      subscribe.message:
+      updateCommentLikes:
         $ref: '../common/messages.yaml#/updateCommentLikes'
     description: Update comment likes count in the frontend.
     servers:
@@ -62,22 +62,22 @@ operations:
     channel:
       $ref: '#/channels/notifyAllCommentLiked'
     messages:
-      - $ref: '../common/messages.yaml#/commentLiked'
+      - $ref: '#/channels/notifyAllCommentLiked/messages/commentLiked'
   receiveCommentLike:
     action: receive
     channel:
       $ref: '#/channels/newLikeComment'
     messages:
-      - $ref: '../common/messages.yaml#/likeComment'
+      - $ref: '#/channels/newLikeComment/messages/likeComment'
   receiveCommentChange:
     action: receive
     channel:
       $ref: '#/channels/commentsCountChange'
     messages:
-      - $ref: '../common/messages.yaml#/commentChanged'
+      - $ref: '#/channels/commentsCountChange/messages/commentChanged'
   sendCommentLikeUpdate:
     action: send
     channel:
       $ref: '#/channels/updateCommentsCount'
     messages:
-      - $ref: '../common/messages.yaml#/updateCommentLikes'
+      - $ref: '#/channels/updateCommentsCount/messages/updateCommentLikes'

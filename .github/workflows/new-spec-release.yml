@@ -13,12 +13,12 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout Current repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: spec
           ref: ${{ github.event.release.target_commitish }}
       - name: Checkout Another repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: asyncapi/website
           path: website
@@ -32,7 +32,7 @@ jobs:
         run: |
           git checkout -b spec-release-${{github.event.release.tag_name}}
       - name: Check for previous spec file and remove it
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
@@ -53,14 +53,14 @@ jobs:
         run: |
           cp ../spec/spec/asyncapi.md ./pages/docs/reference/specification/${{github.event.release.tag_name}}.md
       - name: Remove Table of Contents from Spec
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
             const script = require('./spec/.github/scripts/remove-toc');
             script(`${{github.event.release.tag_name}}`);
       - name: Change the redirect file to point to latest spec
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         if: ${{github.event.release.prerelease == false}}
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
@@ -90,7 +90,7 @@ jobs:
 
             fs.writeFileSync("./website/public/_redirects", newRedirect);
       - name: Remove previous pre-release redirects in case of a new release
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
@@ -125,7 +125,7 @@ jobs:
 
             fs.writeFileSync("./website/public/_redirects", newRedirect);
       - name: Change the redirect file to point to specs
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
