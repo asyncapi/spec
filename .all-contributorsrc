@@ -441,6 +441,16 @@
         "maintenance",
         "infra"
       ]
+    },
+    {
+      "login": "nickshoe",
+      "name": "nickshoe",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32668766?v=4",
+      "profile": "https://github.com/nickshoe",
+      "contributions": [
+        "bug",
+        "doc"
+      ]
     }
   ],
   "commitConvention": "none",
