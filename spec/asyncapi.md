@@ -1874,7 +1874,7 @@ The Schema Object allows the definition of input and output data types.
 These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](https://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
 
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
-Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here. Other formats, that are not representable with JSON Schema (e.g., Avro or protobuf) can be included as [Multi Format Schema Object](#multiFormatSchemaObject).
+Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here. For other formats (e.g., Avro, RAML, etc) see [Multi Format Schema Object](#multiFormatSchemaObject).
 
 ##### Properties
 
