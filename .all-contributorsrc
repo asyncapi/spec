@@ -463,6 +463,17 @@
         "maintenance",
         "talk"
       ]
+    },
+    {
+      "login": "AnimeshKumar923",
+      "name": "Animesh Kumar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/99868037?v=4",
+      "profile": "https://github.com/AnimeshKumar923",
+      "contributions": [
+        "content",
+        "doc",
+        "maintenance"
+      ]
     }
   ],
   "commitConvention": "none",
