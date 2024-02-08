@@ -451,6 +451,18 @@
         "bug",
         "doc"
       ]
+    },
+    {
+      "login": "AceTheCreator",
+      "name": "Ace ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40604284?v=4",
+      "profile": "https://github.com/AceTheCreator",
+      "contributions": [
+        "eventOrganizing",
+        "ideas",
+        "maintenance",
+        "talk"
+      ]
     }
   ],
   "commitConvention": "none",
