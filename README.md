@@ -203,6 +203,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="11.11%"><a href="https://github.com/nickshoe"><img src="https://avatars.githubusercontent.com/u/32668766?v=4?s=100" width="100px;" alt="nickshoe"/><br /><sub><b>nickshoe</b></sub></a><br /><a href="https://github.com/asyncapi/spec/issues?q=author%3Anickshoe" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/spec/commits?author=nickshoe" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="11.11%"><a href="https://github.com/AceTheCreator"><img src="https://avatars.githubusercontent.com/u/40604284?v=4?s=100" width="100px;" alt="Ace "/><br /><sub><b>Ace </b></sub></a><br /><a href="#eventOrganizing-AceTheCreator" title="Event Organizing">📋</a> <a href="#ideas-AceTheCreator" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-AceTheCreator" title="Maintenance">🚧</a> <a href="#talk-AceTheCreator" title="Talks">📢</a></td>
     </tr>
   </tbody>
 </table>
