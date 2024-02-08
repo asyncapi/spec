@@ -418,6 +418,19 @@
         "content",
         "doc"
       ]
+    },
+    {
+      "login": "Amzani",
+      "name": "samz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/554438?v=4",
+      "profile": "https://amzani.com/",
+      "contributions": [
+        "bug",
+        "content",
+        "doc",
+        "example",
+        "projectManagement"
+      ]
     }
   ],
   "commitConvention": "none",
