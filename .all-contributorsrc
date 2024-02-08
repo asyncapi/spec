@@ -379,7 +379,21 @@
         "example",
         "ideas"
       ]
+    },
+    {
+      "login": "alequetzalli",
+      "name": "Quetzalli ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19964402?v=4",
+      "profile": "http://www.docsasecosystem.com",
+      "contributions": [
+        "content",
+        "doc",
+        "example",
+        "ideas",
+        "review"
+      ]
     }
   ],
-  "commitConvention": "none"
+  "commitConvention": "none",
+  "commitType": "docs"
 }
