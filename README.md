@@ -201,6 +201,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="11.11%"><a href="https://amzani.com/"><img src="https://avatars.githubusercontent.com/u/554438?v=4?s=100" width="100px;" alt="samz"/><br /><sub><b>samz</b></sub></a><br /><a href="https://github.com/asyncapi/spec/issues?q=author%3AAmzani" title="Bug reports">🐛</a> <a href="#content-Amzani" title="Content">🖋</a> <a href="https://github.com/asyncapi/spec/commits?author=Amzani" title="Documentation">📖</a> <a href="#example-Amzani" title="Examples">💡</a> <a href="#projectManagement-Amzani" title="Project Management">📆</a></td>
       <td align="center" valign="top" width="11.11%"><a href="http://rishikaushik.com"><img src="https://avatars.githubusercontent.com/u/52498617?v=4?s=100" width="100px;" alt="Rishi"/><br /><sub><b>Rishi</b></sub></a><br /><a href="#maintenance-kaushik-rishi" title="Maintenance">🚧</a> <a href="#infra-kaushik-rishi" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="11.11%"><a href="https://github.com/nickshoe"><img src="https://avatars.githubusercontent.com/u/32668766?v=4?s=100" width="100px;" alt="nickshoe"/><br /><sub><b>nickshoe</b></sub></a><br /><a href="https://github.com/asyncapi/spec/issues?q=author%3Anickshoe" title="Bug reports">🐛</a> <a href="https://github.com/asyncapi/spec/commits?author=nickshoe" title="Documentation">📖</a></td>
+    </tr>
   </tbody>
 </table>
 
