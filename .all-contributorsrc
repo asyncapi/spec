@@ -379,7 +379,24 @@
         "example",
         "ideas"
       ]
+    },
+    {
+      "login": "GreenRover",
+      "name": "Heiko Henning",
+      "avatar_url": "https://avatars.githubusercontent.com/u/512850?v=4",
+      "profile": "https://github.com/GreenRover",
+      "contributions": [
+        "bug",
+        "code",
+        "content",
+        "doc",
+        "example",
+        "ideas",
+        "maintenance",
+        "review"
+      ]
     }
   ],
-  "commitConvention": "none"
+  "commitConvention": "none",
+  "commitType": "docs"
 }
