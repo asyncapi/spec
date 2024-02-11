@@ -1,8 +1,3 @@
 node_modules
 .vscode
 .github/.DS_Store
-.idea/asyncapi-spec.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-spec/asyncapi.md
