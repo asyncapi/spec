@@ -116,35 +116,35 @@ Aside from the issues mentioned above, there may also be infrastructure configur
 
 <!-- /TOC -->
 
-## <a name="definitions"></a>Definitions
+## <a id="definitions"></a>Definitions
 
-### <a name="definitionsServer"></a>Server
+### <a id="definitionsServer"></a>Server
 A server MAY be a message broker that is capable of sending and/or receiving between a [sender](#definitionsSender) and [receiver](#definitionsReceiver). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
 
-### <a name="definitionsApplication"></a>Application
+### <a id="definitionsApplication"></a>Application
 An application is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
 
-### <a name="definitionsSender"></a>Sender
+### <a id="definitionsSender"></a>Sender
 A sender is a type of application, that is sending [messages](#definitionsMessage) to [channels](#definitionsChannel). A sender MAY send to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
 
-### <a name="definitionsReceiver"></a>Receiver
+### <a id="definitionsReceiver"></a>Receiver
 A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
-### <a name="definitionsMessage"></a>Message
+### <a id="definitionsMessage"></a>Message
 A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
-### <a name="definitionsChannel"></a>Channel
+### <a id="definitionsChannel"></a>Channel
 A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
-### <a name="definitionsProtocol"></a>Protocol
+### <a id="definitionsProtocol"></a>Protocol
 A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
-### <a name="definitionsBindings"></a>Bindings
+### <a id="definitionsBindings"></a>Bindings
 A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
 
-## <a name="specification"></a>Specification
+## <a id="specification"></a>Specification
 
-### <a name="format"></a>Format
+### <a id="format"></a>Format
 
 The files describing the message-driven API in accordance with the AsyncAPI Specification are represented as JSON objects and conform to the JSON standards.
 YAML, being a superset of JSON, can be used as well to represent a A2S (AsyncAPI Specification) file.
@@ -170,7 +170,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 - Tags MUST be limited to those allowed by the [JSON Schema ruleset](https://www.yaml.org/spec/1.2/spec.html#id2803231)
 - Keys used in YAML maps MUST be limited to a scalar string, as defined by the YAML Failsafe schema ruleset
 
-### <a name="file-structure"></a>File Structure
+### <a id="file-structure"></a>File Structure
 
 An AsyncAPI document MAY be made up of a single document or be divided into multiple,
 connected parts at the discretion of the author. In the latter case, [Reference Objects](#referenceObject) are used.
@@ -179,13 +179,13 @@ It is important to note that everything that is defined in an AsyncAPI document 
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
-### <a name="absolute-urls"></a>Absolute URLs
+### <a id="absolute-urls"></a>Absolute URLs
 
 Unless specified otherwise, all properties that are absolute URLs are defined by [RFC3986, section 4.3](https://datatracker.ietf.org/doc/html/rfc3986#section-4.3).
 
-### <a name="schema"></a>Schema
+### <a id="schema"></a>Schema
 
-#### <a name="A2SObject"></a>AsyncAPI Object
+#### <a id="A2SObject"></a>AsyncAPI Object
 
 This is the root document object for the API specification.
 It combines resource listing and API declaration together into one document.
@@ -194,18 +194,18 @@ It combines resource listing and API declaration together into one document.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
-<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
-<a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
-<a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
-<a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
-<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
-<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
-<a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
+<a id="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
+<a id="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
+<a id="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
+<a id="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
+<a id="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
+<a id="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
+<a id="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
+<a id="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-#### <a name="A2SVersionString"></a>AsyncAPI Version String
+#### <a id="A2SVersionString"></a>AsyncAPI Version String
 
 The version string signifies the version of the AsyncAPI Specification that the document complies to.
 The format for this string _must_ be `major`.`minor`.`patch`.  The `patch` _may_ be suffixed by a hyphen and extra alphanumeric characters.
@@ -215,7 +215,7 @@ The patch version will not be considered by tooling, making no distinction betwe
 
 In subsequent versions of the AsyncAPI Specification, care will be given such that increments of the `minor` version should not interfere with operations of tooling developed to a lower minor version. Thus a hypothetical `1.1.0` specification should be usable with tooling designed for `1.0.0`.
 
-#### <a name="A2SIdString"></a>Identifier
+#### <a id="A2SIdString"></a>Identifier
 
 This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](https://tools.ietf.org/html/rfc3986).
 
@@ -243,7 +243,7 @@ id: 'urn:example:com:smartylighting:streetlights:server'
 id: 'https://github.com/smartylighting/streetlights-server'
 ```
 
-#### <a name="infoObject"></a>Info Object
+#### <a id="infoObject"></a>Info Object
 
 The object provides metadata about the API.
 The metadata can be used by the clients if needed.
@@ -252,14 +252,14 @@ The metadata can be used by the clients if needed.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
-<a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
-<a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of an absolute URL.
-<a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
-<a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
-<a name="infoObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for application API documentation control. Tags can be used for logical grouping of applications.
-<a name="infoObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation of the exposed API.
+<a id="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
+<a id="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
+<a id="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of an absolute URL.
+<a id="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
+<a id="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
+<a id="infoObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for application API documentation control. Tags can be used for logical grouping of applications.
+<a id="infoObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation of the exposed API.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -311,7 +311,7 @@ tags:
   - name: e-commerce
 ```
 
-#### <a name="contactObject"></a>Contact Object
+#### <a id="contactObject"></a>Contact Object
 
 Contact information for the exposed API.
 
@@ -319,9 +319,9 @@ Contact information for the exposed API.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="contactObjectName"></a>name | `string` | The identifying name of the contact person/organization.
-<a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. This MUST be in the form of an absolute URL.
-<a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
+<a id="contactObjectName"></a>name | `string` | The identifying name of the contact person/organization.
+<a id="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. This MUST be in the form of an absolute URL.
+<a id="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -341,7 +341,7 @@ url: https://www.example.com/support
 email: support@example.com
 ```
 
-#### <a name="licenseObject"></a>License Object
+#### <a id="licenseObject"></a>License Object
 
 License information for the exposed API.
 
@@ -349,8 +349,8 @@ License information for the exposed API.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="licenseObjectName"></a>name | `string` | **REQUIRED.** The license name used for the API.
-<a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. This MUST be in the form of an absolute URL.
+<a id="licenseObjectName"></a>name | `string` | **REQUIRED.** The license name used for the API.
+<a id="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. This MUST be in the form of an absolute URL.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -368,7 +368,7 @@ name: Apache 2.0
 url: https://www.apache.org/licenses/LICENSE-2.0.html
 ```
 
-#### <a name="serversObject"></a>Servers Object
+#### <a id="serversObject"></a>Servers Object
 
 The Servers Object is a map of [Server Objects](#serverObject).
 
@@ -376,7 +376,7 @@ The Servers Object is a map of [Server Objects](#serverObject).
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
+<a id="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
 
 ##### Servers Object Example
 
@@ -449,7 +449,7 @@ production:
 ```
 
 
-#### <a name="serverObject"></a>Server Object
+#### <a id="serverObject"></a>Server Object
 
 An object representing a message broker, a server or any other kind of computer program capable of sending and/or receiving data. This object is used to capture details such as URIs, protocols and security configuration. Variable substitution can be used so that some details, for example usernames and passwords, can be injected by code generation tools.
 
@@ -457,18 +457,18 @@ An object representing a message broker, a server or any other kind of computer 
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="serverObjectHost"></a>host | `string` | **REQUIRED**. The server host name. It MAY include the port. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
-<a name="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this server supports for connection.
-<a name="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
-<a name="serverObjectPathname"></a>pathname | `string` | The path to a resource in the host. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
-<a name="serverObjectDescription"></a>description | `string` | An optional string describing the server. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="serverObjectTitle"></a>title | `string` | A human-friendly title for the server.
-<a name="serverObjectSummary"></a>summary | `string` | A short summary of the server.
-<a name="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` and `pathname` template.
-<a name="serverObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | A declaration of which security schemes can be used with this server. The list of values includes alternative [security scheme objects](#securitySchemeObject) that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or operation.
-<a name="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
-<a name="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this server.
-<a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
+<a id="serverObjectHost"></a>host | `string` | **REQUIRED**. The server host name. It MAY include the port. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
+<a id="serverObjectProtocol"></a>protocol | `string` | **REQUIRED**. The protocol this server supports for connection.
+<a id="serverObjectProtocolVersion"></a>protocolVersion | `string` | The version of the protocol used for connection. For instance: AMQP `0.9.1`, HTTP `2.0`, Kafka `1.0.0`, etc.
+<a id="serverObjectPathname"></a>pathname | `string` | The path to a resource in the host. This field supports [Server Variables](#serverObjectVariables). Variable substitutions will be made when a variable is named in `{`braces`}`.
+<a id="serverObjectDescription"></a>description | `string` | An optional string describing the server. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a id="serverObjectTitle"></a>title | `string` | A human-friendly title for the server.
+<a id="serverObjectSummary"></a>summary | `string` | A short summary of the server.
+<a id="serverObjectVariables"></a>variables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)]] | A map between a variable name and its value.  The value is used for substitution in the server's `host` and `pathname` template.
+<a id="serverObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | A declaration of which security schemes can be used with this server. The list of values includes alternative [security scheme objects](#securitySchemeObject) that can be used. Only one of the security scheme objects need to be satisfied to authorize a connection or operation.
+<a id="serverObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of servers.
+<a id="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this server.
+<a id="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
 
 ##### Server Object Example
 
@@ -508,7 +508,7 @@ protocol: amqp
 description: Production RabbitMQ broker (uses the `production` vhost).
 ```
 
-#### <a name="serverVariableObject"></a>Server Variable Object
+#### <a id="serverVariableObject"></a>Server Variable Object
 
 An object representing a Server Variable for server URL template substitution.
 
@@ -516,10 +516,10 @@ An object representing a Server Variable for server URL template substitution.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
-<a name="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
-<a name="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
+<a id="serverVariableObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
+<a id="serverVariableObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
+<a id="serverVariableObjectDescription"></a>description | `string` | An optional description for the server variable. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a id="serverVariableObjectExamples"></a>examples | [`string`] | An array of examples of the server variable.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -557,7 +557,7 @@ variables:
 ```
 
 
-#### <a name="defaultContentTypeString"></a>Default Content Type
+#### <a id="defaultContentTypeString"></a>Default Content Type
 
 A string representing the default content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). This value MUST be used by schema parsers when the [contentType](#messageObjectContentType) property is omitted.
 
@@ -580,7 +580,7 @@ defaultContentType: application/json
 
 
 
-#### <a name="channelsObject"></a>Channels Object
+#### <a id="channelsObject"></a>Channels Object
 
 An object containing all the [Channel Object](#channelObject) definitions the [Application](#definitionsApplication) MUST use during runtime.
 
@@ -588,7 +588,7 @@ An object containing all the [Channel Object](#channelObject) definitions the [A
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="channelsObjectChannel"></a>{channelId} | [Channel Object](#channelObject) \| [Reference Object](#referenceObject) | An identifier for the described channel. The `channelId` value is **case-sensitive**. Tools and libraries MAY use the `channelId` to uniquely identify a channel, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a id="channelsObjectChannel"></a>{channelId} | [Channel Object](#channelObject) \| [Reference Object](#referenceObject) | An identifier for the described channel. The `channelId` value is **case-sensitive**. Tools and libraries MAY use the `channelId` to uniquely identify a channel, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Channels Object Example
 
@@ -616,7 +616,7 @@ userSignedUp:
 
 
 
-#### <a name="channelObject"></a>Channel Object
+#### <a id="channelObject"></a>Channel Object
 
 Describes a shared communication channel.
 
@@ -624,16 +624,16 @@ Describes a shared communication channel.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
-<a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
-<a name="channelObjectTitle"></a>title | `string` | A human-friendly title for the channel.
-<a name="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
-<a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If the channel is located in the [root Channels Object](#channelsObject), it MUST point to a subset of server definitions located in the [root Servers Object](#serversObject), and MUST NOT point to a subset of server definitions located in the [Components Object](#componentsObject) or anywhere else. If the channel is located in the [Components Object](#componentsObject), it MAY point to a [Server Objects](#serverObject) in any location. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
-<a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
-<a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
-<a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+<a id="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
+<a id="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
+<a id="channelObjectTitle"></a>title | `string` | A human-friendly title for the channel.
+<a id="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
+<a id="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="channelObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available. If the channel is located in the [root Channels Object](#channelsObject), it MUST point to a subset of server definitions located in the [root Servers Object](#serversObject), and MUST NOT point to a subset of server definitions located in the [Components Object](#componentsObject) or anywhere else. If the channel is located in the [Components Object](#componentsObject), it MAY point to a [Server Objects](#serverObject) in any location. If `servers` is absent or empty, this channel MUST be available on all the servers defined in the [Servers Object](#serversObject). Please note the `servers` property value MUST be an array of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain an array of [Server Objects](#serverObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a id="channelObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address. It MUST be present only when the address contains [Channel Address Expressions](#channelAddressExpressions).
+<a id="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
+<a id="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
+<a id="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
 
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -713,7 +713,7 @@ externalDocs:
 
 
 
-#### <a name="channelAddressExpressions"></a>Channel Address Expressions
+#### <a id="channelAddressExpressions"></a>Channel Address Expressions
 
 Channel addresses MAY contain expressions that can be used to define dynamic values.
 
@@ -723,7 +723,7 @@ Expressions MUST be composed by a name enclosed in curly braces (`{` and `}`). E
 
 
 
-#### <a name="messagesObject"></a>Messages Object
+#### <a id="messagesObject"></a>Messages Object
 
 Describes a map of messages included in a channel.
 
@@ -731,7 +731,7 @@ Describes a map of messages included in a channel.
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="messagesObjectId"></a>`{messageId}` | [Message Object](#messageObject) \| [Reference Object](#referenceObject) | The key represents the message identifier. The `messageId` value is **case-sensitive**. Tools and libraries MAY use the `messageId` value to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a id="messagesObjectId"></a>`{messageId}` | [Message Object](#messageObject) \| [Reference Object](#referenceObject) | The key represents the message identifier. The `messageId` value is **case-sensitive**. Tools and libraries MAY use the `messageId` value to uniquely identify a message, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Messages Object Example
 
@@ -755,7 +755,7 @@ userCompletedOrder:
 
 
 
-#### <a name="operationsObject"></a>Operations Object
+#### <a id="operationsObject"></a>Operations Object
 
 Holds a dictionary with all the [operations](#operationObject) this application MUST implement.
 
@@ -765,7 +765,7 @@ Holds a dictionary with all the [operations](#operationObject) this application 
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The operation this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a id="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The operation this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Operations Object Example
 
@@ -816,7 +816,7 @@ onUserSignUp:
 ```
 
 
-#### <a name="operationObject"></a>Operation Object
+#### <a id="operationObject"></a>Operation Object
 
 Describes a specific operation.
 
@@ -824,18 +824,18 @@ Describes a specific operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationObjectAction"></a>action | `"send"` &#124; `"receive"` | **Required**. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
-<a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. If the operation is located in the [root Operations Object](#operationsObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation is located in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
-<a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
-<a name="operationObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)]| A declaration of which security schemes are associated with this operation. Only one of the [security scheme objects](#securitySchemeObject) MUST be satisfied to authorize an operation. In cases where [Server Security](#serverObjectSecurity) also applies, it MUST also be satisfied.
-<a name="operationObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
-<a name="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
-<a name="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
-<a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Operation Object](#operationObject).
-<a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Messages Object](#componentsMessages) in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
+<a id="operationObjectAction"></a>action | `"send"` &#124; `"receive"` | **Required**. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
+<a id="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. If the operation is located in the [root Operations Object](#operationsObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation is located in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a id="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
+<a id="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a id="operationObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](http://spec.commonmark.org/) can be used for rich text representation.
+<a id="operationObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)]| A declaration of which security schemes are associated with this operation. Only one of the [security scheme objects](#securitySchemeObject) MUST be satisfied to authorize an operation. In cases where [Server Security](#serverObjectSecurity) also applies, it MUST also be satisfied.
+<a id="operationObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
+<a id="operationObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
+<a id="operationObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+<a id="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Operation Object](#operationObject).
+<a id="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Messages Object](#componentsMessages) in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a id="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -922,7 +922,7 @@ reply:
 
 
 
-#### <a name="operationTraitObject"></a>Operation Trait Object
+#### <a id="operationTraitObject"></a>Operation Trait Object
 
 Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel`, `messages` and `traits` ones.
 
@@ -932,13 +932,13 @@ If you're looking to apply traits to a message, see the [Message Trait Object](#
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationTraitObjectTitle"></a>title | `string` | A human-friendly title for the operation.
-<a name="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
-<a name="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="operationTraitObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)]| A declaration of which security schemes are associated with this operation. Only one of the [security scheme objects](#securitySchemeObject) MUST be satisfied to authorize an operation. In cases where [Server Security](#serverObjectSecurity) also applies, it MUST also be satisfied.
-<a name="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
-<a name="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
-<a name="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
+<a id="operationTraitObjectTitle"></a>title | `string` | A human-friendly title for the operation.
+<a id="operationTraitObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
+<a id="operationTraitObjectDescription"></a>description | `string` | A verbose explanation of the operation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="operationTraitObjectSecurity"></a>security | [[Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)]| A declaration of which security schemes are associated with this operation. Only one of the [security scheme objects](#securitySchemeObject) MUST be satisfied to authorize an operation. In cases where [Server Security](#serverObjectSecurity) also applies, it MUST also be satisfied.
+<a id="operationTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of operations.
+<a id="operationTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this operation.
+<a id="operationTraitObjectBindings"></a>bindings | [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -963,7 +963,7 @@ bindings:
 
 
 
-#### <a name="operationReplyObject"></a>Operation Reply Object
+#### <a id="operationReplyObject"></a>Operation Reply Object
 
 Describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
 
@@ -971,13 +971,13 @@ Describes the reply part that MAY be applied to an Operation Object. If an opera
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
-<a name="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. If the operation reply is located inside a [root Operation Object](#operationObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation reply is located inside an [Operation Object] in the [Components Object](#componentsObject) or in the [Replies Object](#componentsReplies) in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
-<a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a id="operationReplyObjectAddress"></a>address | [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject) | Definition of the address that implementations MUST use for the reply.
+<a id="operationReplyObjectChannel"></a>channel | [Reference Object](#referenceObject) | A `$ref` pointer to the definition of the channel in which this operation is performed. When [address](#operationReplyAddressObject) is specified, the [`address` property](#channelObjectAddress) of the channel referenced by this property MUST be either `null` or not defined. If the operation reply is located inside a [root Operation Object](#operationObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation reply is located inside an [Operation Object] in the [Components Object](#componentsObject) or in the [Replies Object](#componentsReplies) in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
+<a id="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-#### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
+#### <a id="operationReplyAddressObject"></a>Operation Reply Address Object
 
 An object that specifies where an operation has to send the reply. 
 
@@ -1008,7 +1008,7 @@ location: $message.header#/replyTo
 ```
 
 
-#### <a name="parametersObject"></a>Parameters Object
+#### <a id="parametersObject"></a>Parameters Object
 
 Describes a map of parameters included in a channel address.
 
@@ -1018,7 +1018,7 @@ This map MUST contain all the parameters used in the parent channel address.
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel address.
+<a id="parametersObjectName"></a>`^[A-Za-z0-9_\-]+$` | [Parameter Object](#parameterObject) &#124; [Reference Object](#referenceObject) | The key represents the name of the parameter. It MUST match the parameter name used in the parent channel address.
 
 ##### Parameters Object Example
 
@@ -1044,7 +1044,7 @@ parameters:
 
 
 
-#### <a name="parameterObject"></a>Parameter Object
+#### <a id="parameterObject"></a>Parameter Object
 
 Describes a parameter included in a channel address.
 
@@ -1052,11 +1052,11 @@ Describes a parameter included in a channel address.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="parameterObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
-<a name="parameterObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
-<a name="parameterObjectDescription"></a>description | `string` | An optional description for the parameter. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="parameterObjectExamples"></a>examples | [`string`] | An array of examples of the parameter value.
-<a name="parameterObjectLocation"></a>location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value.
+<a id="parameterObjectEnum"></a>enum | [`string`] | An enumeration of string values to be used if the substitution options are from a limited set.
+<a id="parameterObjectDefault"></a>default | `string` | The default value to use for substitution, and to send, if an alternate value is _not_ supplied.
+<a id="parameterObjectDescription"></a>description | `string` | An optional description for the parameter. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a id="parameterObjectExamples"></a>examples | [`string`] | An array of examples of the parameter value.
+<a id="parameterObjectLocation"></a>location | `string` | A [runtime expression](#runtimeExpression) that specifies the location of the parameter value.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1085,7 +1085,7 @@ parameters:
 
 
 
-#### <a name="serverBindingsObject"></a>Server Bindings Object
+#### <a id="serverBindingsObject"></a>Server Bindings Object
 
 Map describing protocol-specific definitions for a server.
 
@@ -1093,31 +1093,31 @@ Map describing protocol-specific definitions for a server.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="serverBindingsObjectHTTP"></a>`http` | [HTTP Server Binding](https://github.com/asyncapi/bindings/blob/master/http#server) | Protocol-specific information for an HTTP server.
-<a name="serverBindingsObjectWebSockets"></a>`ws` | [WebSockets Server Binding](https://github.com/asyncapi/bindings/blob/master/websockets#server) | Protocol-specific information for a WebSockets server.
-<a name="serverBindingsObjectKafka"></a>`kafka` | [Kafka Server Binding](https://github.com/asyncapi/bindings/blob/master/kafka#server) | Protocol-specific information for a Kafka server.
-<a name="serverBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq#server) | Protocol-specific information for an Anypoint MQ server.
-<a name="serverBindingsObjectAMQP"></a>`amqp` | [AMQP Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp#server) | Protocol-specific information for an AMQP 0-9-1 server.
-<a name="serverBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp1#server) | Protocol-specific information for an AMQP 1.0 server.
-<a name="serverBindingsObjectMQTT"></a>`mqtt` | [MQTT Server Binding](https://github.com/asyncapi/bindings/blob/master/mqtt#server) | Protocol-specific information for an MQTT server.
-<a name="serverBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Server Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5#server) | Protocol-specific information for an MQTT 5 server.
-<a name="serverBindingsObjectNATS"></a>`nats` | [NATS Server Binding](https://github.com/asyncapi/bindings/blob/master/nats#server) | Protocol-specific information for a NATS server.
-<a name="serverBindingsObjectJMS"></a>`jms` | [JMS Server Binding](https://github.com/asyncapi/bindings/blob/master/jms#server) | Protocol-specific information for a JMS server.
-<a name="serverBindingsObjectSNS"></a>`sns` | [SNS Server Binding](https://github.com/asyncapi/bindings/blob/master/sns#server) | Protocol-specific information for an SNS server.
-<a name="serverBindingsObjectSolace"></a>`solace` | [Solace Server Binding](https://github.com/asyncapi/bindings/blob/master/solace#server) | Protocol-specific information for a Solace server.
-<a name="serverBindingsObjectSQS"></a>`sqs` | [SQS Server Binding](https://github.com/asyncapi/bindings/blob/master/sqs#server) | Protocol-specific information for an SQS server.
-<a name="serverBindingsObjectSTOMP"></a>`stomp` | [STOMP Server Binding](https://github.com/asyncapi/bindings/blob/master/stomp#server) | Protocol-specific information for a STOMP server.
-<a name="serverBindingsObjectRedis"></a>`redis` | [Redis Server Binding](https://github.com/asyncapi/bindings/blob/master/redis#server) | Protocol-specific information for a Redis server.
-<a name="serverBindingsObjectMercure"></a>`mercure` | [Mercure Server Binding](https://github.com/asyncapi/bindings/blob/master/mercure#server) | Protocol-specific information for a Mercure server.
-<a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
-<a name="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
-<a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
+<a id="serverBindingsObjectHTTP"></a>`http` | [HTTP Server Binding](https://github.com/asyncapi/bindings/blob/master/http#server) | Protocol-specific information for an HTTP server.
+<a id="serverBindingsObjectWebSockets"></a>`ws` | [WebSockets Server Binding](https://github.com/asyncapi/bindings/blob/master/websockets#server) | Protocol-specific information for a WebSockets server.
+<a id="serverBindingsObjectKafka"></a>`kafka` | [Kafka Server Binding](https://github.com/asyncapi/bindings/blob/master/kafka#server) | Protocol-specific information for a Kafka server.
+<a id="serverBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq#server) | Protocol-specific information for an Anypoint MQ server.
+<a id="serverBindingsObjectAMQP"></a>`amqp` | [AMQP Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp#server) | Protocol-specific information for an AMQP 0-9-1 server.
+<a id="serverBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Server Binding](https://github.com/asyncapi/bindings/blob/master/amqp1#server) | Protocol-specific information for an AMQP 1.0 server.
+<a id="serverBindingsObjectMQTT"></a>`mqtt` | [MQTT Server Binding](https://github.com/asyncapi/bindings/blob/master/mqtt#server) | Protocol-specific information for an MQTT server.
+<a id="serverBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Server Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5#server) | Protocol-specific information for an MQTT 5 server.
+<a id="serverBindingsObjectNATS"></a>`nats` | [NATS Server Binding](https://github.com/asyncapi/bindings/blob/master/nats#server) | Protocol-specific information for a NATS server.
+<a id="serverBindingsObjectJMS"></a>`jms` | [JMS Server Binding](https://github.com/asyncapi/bindings/blob/master/jms#server) | Protocol-specific information for a JMS server.
+<a id="serverBindingsObjectSNS"></a>`sns` | [SNS Server Binding](https://github.com/asyncapi/bindings/blob/master/sns#server) | Protocol-specific information for an SNS server.
+<a id="serverBindingsObjectSolace"></a>`solace` | [Solace Server Binding](https://github.com/asyncapi/bindings/blob/master/solace#server) | Protocol-specific information for a Solace server.
+<a id="serverBindingsObjectSQS"></a>`sqs` | [SQS Server Binding](https://github.com/asyncapi/bindings/blob/master/sqs#server) | Protocol-specific information for an SQS server.
+<a id="serverBindingsObjectSTOMP"></a>`stomp` | [STOMP Server Binding](https://github.com/asyncapi/bindings/blob/master/stomp#server) | Protocol-specific information for a STOMP server.
+<a id="serverBindingsObjectRedis"></a>`redis` | [Redis Server Binding](https://github.com/asyncapi/bindings/blob/master/redis#server) | Protocol-specific information for a Redis server.
+<a id="serverBindingsObjectMercure"></a>`mercure` | [Mercure Server Binding](https://github.com/asyncapi/bindings/blob/master/mercure#server) | Protocol-specific information for a Mercure server.
+<a id="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
+<a id="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
+<a id="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
-#### <a name="channelBindingsObject"></a>Channel Bindings Object
+#### <a id="channelBindingsObject"></a>Channel Bindings Object
 
 Map describing protocol-specific definitions for a channel.
 
@@ -1125,31 +1125,31 @@ Map describing protocol-specific definitions for a channel.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="channelBindingsObjectHTTP"></a>`http` | [HTTP Channel Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#channel) | Protocol-specific information for an HTTP channel.
-<a name="channelBindingsObjectWebSockets"></a>`ws` | [WebSockets Channel Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#channel) | Protocol-specific information for a WebSockets channel.
-<a name="channelBindingsObjectKafka"></a>`kafka` | [Kafka Channel Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#channel) | Protocol-specific information for a Kafka channel.
-<a name="channelBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Channel Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#channel) | Protocol-specific information for an Anypoint MQ channel.
-<a name="channelBindingsObjectAMQP"></a>`amqp` | [AMQP Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#channel) | Protocol-specific information for an AMQP 0-9-1 channel.
-<a name="channelBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#channel) | Protocol-specific information for an AMQP 1.0 channel.
-<a name="channelBindingsObjectMQTT"></a>`mqtt` | [MQTT Channel Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#channel) | Protocol-specific information for an MQTT channel.
-<a name="channelBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Channel Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5#channel) | Protocol-specific information for an MQTT 5 channel.
-<a name="channelBindingsObjectNATS"></a>`nats` | [NATS Channel Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#channel) | Protocol-specific information for a NATS channel.
-<a name="channelBindingsObjectJMS"></a>`jms` | [JMS Channel Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#channel) | Protocol-specific information for a JMS channel.
-<a name="channelBindingsObjectSNS"></a>`sns` | [SNS Channel Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#channel) | Protocol-specific information for an SNS channel.
-<a name="channelBindingsObjectSolace"></a>`solace` | [Solace Channel Binding](https://github.com/asyncapi/bindings/blob/master/solace#channel) | Protocol-specific information for a Solace channel.
-<a name="channelBindingsObjectSQS"></a>`sqs` | [SQS Channel Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#channel) | Protocol-specific information for an SQS channel.
-<a name="channelBindingsObjectSTOMP"></a>`stomp` | [STOMP Channel Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#channel) | Protocol-specific information for a STOMP channel.
-<a name="channelBindingsObjectRedis"></a>`redis` | [Redis Channel Binding](https://github.com/asyncapi/bindings/blob/master/redis#channel) | Protocol-specific information for a Redis channel.
-<a name="channelBindingsObjectMercure"></a>`mercure` | [Mercure Channel Binding](https://github.com/asyncapi/bindings/blob/master/mercure#channel) | Protocol-specific information for a Mercure channel.
-<a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
-<a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
-<a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
+<a id="channelBindingsObjectHTTP"></a>`http` | [HTTP Channel Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#channel) | Protocol-specific information for an HTTP channel.
+<a id="channelBindingsObjectWebSockets"></a>`ws` | [WebSockets Channel Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#channel) | Protocol-specific information for a WebSockets channel.
+<a id="channelBindingsObjectKafka"></a>`kafka` | [Kafka Channel Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#channel) | Protocol-specific information for a Kafka channel.
+<a id="channelBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Channel Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#channel) | Protocol-specific information for an Anypoint MQ channel.
+<a id="channelBindingsObjectAMQP"></a>`amqp` | [AMQP Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#channel) | Protocol-specific information for an AMQP 0-9-1 channel.
+<a id="channelBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Channel Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#channel) | Protocol-specific information for an AMQP 1.0 channel.
+<a id="channelBindingsObjectMQTT"></a>`mqtt` | [MQTT Channel Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#channel) | Protocol-specific information for an MQTT channel.
+<a id="channelBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Channel Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5#channel) | Protocol-specific information for an MQTT 5 channel.
+<a id="channelBindingsObjectNATS"></a>`nats` | [NATS Channel Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#channel) | Protocol-specific information for a NATS channel.
+<a id="channelBindingsObjectJMS"></a>`jms` | [JMS Channel Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#channel) | Protocol-specific information for a JMS channel.
+<a id="channelBindingsObjectSNS"></a>`sns` | [SNS Channel Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#channel) | Protocol-specific information for an SNS channel.
+<a id="channelBindingsObjectSolace"></a>`solace` | [Solace Channel Binding](https://github.com/asyncapi/bindings/blob/master/solace#channel) | Protocol-specific information for a Solace channel.
+<a id="channelBindingsObjectSQS"></a>`sqs` | [SQS Channel Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#channel) | Protocol-specific information for an SQS channel.
+<a id="channelBindingsObjectSTOMP"></a>`stomp` | [STOMP Channel Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#channel) | Protocol-specific information for a STOMP channel.
+<a id="channelBindingsObjectRedis"></a>`redis` | [Redis Channel Binding](https://github.com/asyncapi/bindings/blob/master/redis#channel) | Protocol-specific information for a Redis channel.
+<a id="channelBindingsObjectMercure"></a>`mercure` | [Mercure Channel Binding](https://github.com/asyncapi/bindings/blob/master/mercure#channel) | Protocol-specific information for a Mercure channel.
+<a id="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
+<a id="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
+<a id="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
-#### <a name="operationBindingsObject"></a>Operation Bindings Object
+#### <a id="operationBindingsObject"></a>Operation Bindings Object
 
 Map describing protocol-specific definitions for an operation.
 
@@ -1157,32 +1157,32 @@ Map describing protocol-specific definitions for an operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationBindingsObjectHTTP"></a>`http` | [HTTP Operation Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#operation) | Protocol-specific information for an HTTP operation.
-<a name="operationBindingsObjectWebSockets"></a>`ws` | [WebSockets Operation Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#operation) | Protocol-specific information for a WebSockets operation.
-<a name="operationBindingsObjectKafka"></a>`kafka` | [Kafka Operation Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#operation) | Protocol-specific information for a Kafka operation.
-<a name="operationBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#operation) | Protocol-specific information for an Anypoint MQ operation.
-<a name="operationBindingsObjectAMQP"></a>`amqp` | [AMQP Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#operation) | Protocol-specific information for an AMQP 0-9-1 operation.
-<a name="operationBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#operation) | Protocol-specific information for an AMQP 1.0 operation.
-<a name="operationBindingsObjectMQTT"></a>`mqtt` | [MQTT Operation Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#operation) | Protocol-specific information for an MQTT operation.
-<a name="operationBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Operation Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5/README.md#operation) | Protocol-specific information for an MQTT 5 operation.
-<a name="operationBindingsObjectNATS"></a>`nats` | [NATS Operation Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#operation) | Protocol-specific information for a NATS operation.
-<a name="operationBindingsObjectJMS"></a>`jms` | [JMS Operation Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#operation) | Protocol-specific information for a JMS operation.
-<a name="operationBindingsObjectSNS"></a>`sns` | [SNS Operation Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#operation) | Protocol-specific information for an SNS operation.
-<a name="operationBindingsObjectSolace"></a>`solace` | [Solace Operation Binding](https://github.com/asyncapi/bindings/blob/master/solace#operation) | Protocol-specific information for a Solace operation.
-<a name="operationBindingsObjectSQS"></a>`sqs` | [SQS Operation Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#operation) | Protocol-specific information for an SQS operation.
-<a name="operationBindingsObjectSTOMP"></a>`stomp` | [STOMP Operation Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#operation) | Protocol-specific information for a STOMP operation.
-<a name="operationBindingsObjectRedis"></a>`redis` | [Redis Operation Binding](https://github.com/asyncapi/bindings/blob/master/redis#operation) | Protocol-specific information for a Redis operation.
-<a name="operationBindingsObjectMercure"></a>`mercure` | [Mercure Operation Binding](https://github.com/asyncapi/bindings/blob/master/mercure#operation) | Protocol-specific information for a Mercure operation.
-<a name="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
-<a name="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
-<a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
+<a id="operationBindingsObjectHTTP"></a>`http` | [HTTP Operation Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#operation) | Protocol-specific information for an HTTP operation.
+<a id="operationBindingsObjectWebSockets"></a>`ws` | [WebSockets Operation Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#operation) | Protocol-specific information for a WebSockets operation.
+<a id="operationBindingsObjectKafka"></a>`kafka` | [Kafka Operation Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#operation) | Protocol-specific information for a Kafka operation.
+<a id="operationBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#operation) | Protocol-specific information for an Anypoint MQ operation.
+<a id="operationBindingsObjectAMQP"></a>`amqp` | [AMQP Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#operation) | Protocol-specific information for an AMQP 0-9-1 operation.
+<a id="operationBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Operation Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#operation) | Protocol-specific information for an AMQP 1.0 operation.
+<a id="operationBindingsObjectMQTT"></a>`mqtt` | [MQTT Operation Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#operation) | Protocol-specific information for an MQTT operation.
+<a id="operationBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Operation Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5/README.md#operation) | Protocol-specific information for an MQTT 5 operation.
+<a id="operationBindingsObjectNATS"></a>`nats` | [NATS Operation Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#operation) | Protocol-specific information for a NATS operation.
+<a id="operationBindingsObjectJMS"></a>`jms` | [JMS Operation Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#operation) | Protocol-specific information for a JMS operation.
+<a id="operationBindingsObjectSNS"></a>`sns` | [SNS Operation Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#operation) | Protocol-specific information for an SNS operation.
+<a id="operationBindingsObjectSolace"></a>`solace` | [Solace Operation Binding](https://github.com/asyncapi/bindings/blob/master/solace#operation) | Protocol-specific information for a Solace operation.
+<a id="operationBindingsObjectSQS"></a>`sqs` | [SQS Operation Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#operation) | Protocol-specific information for an SQS operation.
+<a id="operationBindingsObjectSTOMP"></a>`stomp` | [STOMP Operation Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#operation) | Protocol-specific information for a STOMP operation.
+<a id="operationBindingsObjectRedis"></a>`redis` | [Redis Operation Binding](https://github.com/asyncapi/bindings/blob/master/redis#operation) | Protocol-specific information for a Redis operation.
+<a id="operationBindingsObjectMercure"></a>`mercure` | [Mercure Operation Binding](https://github.com/asyncapi/bindings/blob/master/mercure#operation) | Protocol-specific information for a Mercure operation.
+<a id="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
+<a id="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
+<a id="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 
 
 
-#### <a name="messageBindingsObject"></a>Message Bindings Object
+#### <a id="messageBindingsObject"></a>Message Bindings Object
 
 Map describing protocol-specific definitions for a message.
 
@@ -1190,25 +1190,25 @@ Map describing protocol-specific definitions for a message.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageBindingsObjectHTTP"></a>`http` | [HTTP Message Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#message) | Protocol-specific information for an HTTP message, i.e., a request or a response.
-<a name="messageBindingsObjectWebSockets"></a>`ws` | [WebSockets Message Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#message) | Protocol-specific information for a WebSockets message.
-<a name="messageBindingsObjectKafka"></a>`kafka` | [Kafka Message Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#message) | Protocol-specific information for a Kafka message.
-<a name="messageBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Message Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#message) | Protocol-specific information for an Anypoint MQ message.
-<a name="messageBindingsObjectAMQP"></a>`amqp` | [AMQP Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#message) | Protocol-specific information for an AMQP 0-9-1 message.
-<a name="messageBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#message) | Protocol-specific information for an AMQP 1.0 message.
-<a name="messageBindingsObjectMQTT"></a>`mqtt` | [MQTT Message Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#message) | Protocol-specific information for an MQTT message.
-<a name="messageBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Message Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5/README.md#message) | Protocol-specific information for an MQTT 5 message.
-<a name="messageBindingsObjectNATS"></a>`nats` | [NATS Message Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#message) | Protocol-specific information for a NATS message.
-<a name="messageBindingsObjectJMS"></a>`jms` | [JMS Message Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#message) | Protocol-specific information for a JMS message.
-<a name="messageBindingsObjectSNS"></a>`sns` | [SNS Message Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#message) | Protocol-specific information for an SNS message.
-<a name="messageBindingsObjectSolace"></a>`solace` | [Solace Server Binding](https://github.com/asyncapi/bindings/blob/master/solace#message) | Protocol-specific information for a Solace message.
-<a name="messageBindingsObjectSQS"></a>`sqs` | [SQS Message Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#message) | Protocol-specific information for an SQS message.
-<a name="messageBindingsObjectSTOMP"></a>`stomp` | [STOMP Message Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#message) | Protocol-specific information for a STOMP message.
-<a name="messageBindingsObjectRedis"></a>`redis` | [Redis Message Binding](https://github.com/asyncapi/bindings/blob/master/redis#message) | Protocol-specific information for a Redis message.
-<a name="messageBindingsObjectMercure"></a>`mercure` | [Mercure Message Binding](https://github.com/asyncapi/bindings/blob/master/mercure#message) | Protocol-specific information for a Mercure message.
-<a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
-<a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
-<a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
+<a id="messageBindingsObjectHTTP"></a>`http` | [HTTP Message Binding](https://github.com/asyncapi/bindings/blob/master/http/README.md#message) | Protocol-specific information for an HTTP message, i.e., a request or a response.
+<a id="messageBindingsObjectWebSockets"></a>`ws` | [WebSockets Message Binding](https://github.com/asyncapi/bindings/blob/master/websockets/README.md#message) | Protocol-specific information for a WebSockets message.
+<a id="messageBindingsObjectKafka"></a>`kafka` | [Kafka Message Binding](https://github.com/asyncapi/bindings/blob/master/kafka/README.md#message) | Protocol-specific information for a Kafka message.
+<a id="messageBindingsObjectAnypointMQ"></a>`anypointmq` | [Anypoint MQ Message Binding](https://github.com/asyncapi/bindings/blob/master/anypointmq/README.md#message) | Protocol-specific information for an Anypoint MQ message.
+<a id="messageBindingsObjectAMQP"></a>`amqp` | [AMQP Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp/README.md#message) | Protocol-specific information for an AMQP 0-9-1 message.
+<a id="messageBindingsObjectAMQP1"></a>`amqp1` | [AMQP 1.0 Message Binding](https://github.com/asyncapi/bindings/blob/master/amqp1/README.md#message) | Protocol-specific information for an AMQP 1.0 message.
+<a id="messageBindingsObjectMQTT"></a>`mqtt` | [MQTT Message Binding](https://github.com/asyncapi/bindings/blob/master/mqtt/README.md#message) | Protocol-specific information for an MQTT message.
+<a id="messageBindingsObjectMQTT5"></a>`mqtt5` | [MQTT 5 Message Binding](https://github.com/asyncapi/bindings/blob/master/mqtt5/README.md#message) | Protocol-specific information for an MQTT 5 message.
+<a id="messageBindingsObjectNATS"></a>`nats` | [NATS Message Binding](https://github.com/asyncapi/bindings/blob/master/nats/README.md#message) | Protocol-specific information for a NATS message.
+<a id="messageBindingsObjectJMS"></a>`jms` | [JMS Message Binding](https://github.com/asyncapi/bindings/blob/master/jms/README.md#message) | Protocol-specific information for a JMS message.
+<a id="messageBindingsObjectSNS"></a>`sns` | [SNS Message Binding](https://github.com/asyncapi/bindings/blob/master/sns/README.md#message) | Protocol-specific information for an SNS message.
+<a id="messageBindingsObjectSolace"></a>`solace` | [Solace Server Binding](https://github.com/asyncapi/bindings/blob/master/solace#message) | Protocol-specific information for a Solace message.
+<a id="messageBindingsObjectSQS"></a>`sqs` | [SQS Message Binding](https://github.com/asyncapi/bindings/blob/master/sqs/README.md#message) | Protocol-specific information for an SQS message.
+<a id="messageBindingsObjectSTOMP"></a>`stomp` | [STOMP Message Binding](https://github.com/asyncapi/bindings/blob/master/stomp/README.md#message) | Protocol-specific information for a STOMP message.
+<a id="messageBindingsObjectRedis"></a>`redis` | [Redis Message Binding](https://github.com/asyncapi/bindings/blob/master/redis#message) | Protocol-specific information for a Redis message.
+<a id="messageBindingsObjectMercure"></a>`mercure` | [Mercure Message Binding](https://github.com/asyncapi/bindings/blob/master/mercure#message) | Protocol-specific information for a Mercure message.
+<a id="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
+<a id="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
+<a id="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1218,7 +1218,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 
 
-#### <a name="messageObject"></a>Message Object
+#### <a id="messageObject"></a>Message Object
 
 Describes a message received on a given channel and operation.
 
@@ -1226,19 +1226,19 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
-<a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString). 
-<a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
-<a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
-<a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
-<a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
-<a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of messages.
-<a name="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this message.
-<a name="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
-<a name="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Message Object](#messageObject).
+<a id="messageObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
+<a id="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString). 
+<a id="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
+<a id="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
+<a id="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
+<a id="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
+<a id="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
+<a id="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="messageObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of messages.
+<a id="messageObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this message.
+<a id="messageObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a id="messageObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
+<a id="messageObjectTraits"></a>traits | [[Message Trait Object](#messageTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the message object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Message Object](#messageObject).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1395,7 +1395,7 @@ payload:
 
 
 
-#### <a name="messageTraitObject"></a>Message Trait Object
+#### <a id="messageTraitObject"></a>Message Trait Object
 
 Describes a trait that MAY be applied to a [Message Object](#messageObject). This object MAY contain any property from the [Message Object](#messageObject), except `payload` and `traits`.
 
@@ -1405,17 +1405,17 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageTraitObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
-<a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
-<a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
-<a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
-<a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
-<a name="messageTraitObjectSummary"></a>summary | `string` | A short summary of what the message is about.
-<a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of messages.
-<a name="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this message.
-<a name="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
-<a name="messageTraitObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
+<a id="messageTraitObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
+<a id="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
+<a id="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
+<a id="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
+<a id="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
+<a id="messageTraitObjectSummary"></a>summary | `string` | A short summary of what the message is about.
+<a id="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="messageTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping and categorization of messages.
+<a id="messageTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this message.
+<a id="messageTraitObjectBindings"></a>bindings | [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the message.
+<a id="messageTraitObjectExamples"></a>examples | [[Message Example Object](#messageExampleObject)] | List of examples.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1431,7 +1431,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 contentType: application/json
 ```
 
-#### <a name="messageExampleObject"></a> Message Example Object
+#### <a id="messageExampleObject"></a> Message Example Object
 
 Message Example Object represents an example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields. 
 
@@ -1439,10 +1439,10 @@ Message Example Object represents an example of a [Message Object](#messageObjec
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
-<a name="messageExampleObjectPayload"></a>payload | `Map[string, any]` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
-<a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
-<a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
+<a id="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
+<a id="messageExampleObjectPayload"></a>payload | `Map[string, any]` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
+<a id="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
+<a id="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1480,20 +1480,20 @@ payload:
     someSignupKey: someSignupValue
 ```
 
-#### <a name="tagsObject"></a>Tags Object
+#### <a id="tagsObject"></a>Tags Object
 
 A Tags object is a list of [Tag Objects](#tagObject). An [Tag Object](#tagObject) in a list can be referenced by [Reference Object](#referenceObject).
 
-#### <a name="tagObject"></a>Tag Object
+#### <a id="tagObject"></a>Tag Object
 
 Allows adding meta data to a single tag.
 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="tagObjectName"></a>name | `string` | **REQUIRED.** The name of the tag.
-<a name="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this tag.
+<a id="tagObjectName"></a>name | `string` | **REQUIRED.** The name of the tag.
+<a id="tagObjectDescription"></a>description | `string` | A short description for the tag. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="tagObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this tag.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1517,7 +1517,7 @@ description: User-related messages
 
 
 
-#### <a name="externalDocumentationObject"></a>External Documentation Object
+#### <a id="externalDocumentationObject"></a>External Documentation Object
 
 Allows referencing an external resource for extended documentation.
 
@@ -1525,8 +1525,8 @@ Allows referencing an external resource for extended documentation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
-<a name="externalDocUrl"></a>url | `string` | **REQUIRED.** The URL for the target documentation. This MUST be in the form of an absolute URL.
+<a id="externalDocDescription"></a>description | `string` | A short description of the target documentation. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a id="externalDocUrl"></a>url | `string` | **REQUIRED.** The URL for the target documentation. This MUST be in the form of an absolute URL.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1545,7 +1545,7 @@ url: https://example.com
 ```
 
 
-#### <a name="referenceObject"></a>Reference Object
+#### <a id="referenceObject"></a>Reference Object
 
 A simple object to allow referencing other components in the specification, internally and externally.
 
@@ -1556,7 +1556,7 @@ For this specification, reference resolution is done as defined by the JSON Refe
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
+<a id="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
 
 This object cannot be extended with additional properties and any properties added SHALL be ignored.
 
@@ -1572,7 +1572,7 @@ This object cannot be extended with additional properties and any properties add
   $ref: '#/components/schemas/Pet'
 ```
 
-#### <a name="componentsObject"></a>Components Object
+#### <a id="componentsObject"></a>Components Object
 
 Holds a set of reusable objects for different aspects of the AsyncAPI specification.
 All objects defined within the components object will have no effect on the API unless they are explicitly referenced from properties outside the components object.
@@ -1581,25 +1581,25 @@ All objects defined within the components object will have no effect on the API 
 
 Field Name | Type | Description
 ---|:---|--- 
-<a name="componentsSchemas"></a> schemas | Map[`string`, [Multi Format Schema Object](#multiFormatSchemaObject) \| [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Object](#schemaObject). If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
-<a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
-<a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
-<a name="componentsOperations"></a> operations | Map[`string`, [Operation Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Objects](#operationObject).
-<a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
-<a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
-<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
-<a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
-<a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
-<a name="componentsReplies"></a>replies | Map[`string`, [Operation Reply Object](#operationReplyObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Objects](#operationReplyObject).
-<a name="componentsReplyAddresses"></a> replyAddresses | Map[`string`, [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Address Objects](#operationReplyAddressObject).
-<a name="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
-<a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
-<a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
-<a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
-<a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Bindings Objects](#serverBindingsObject).
-<a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
-<a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
-<a name="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
+<a id="componentsSchemas"></a> schemas | Map[`string`, [Multi Format Schema Object](#multiFormatSchemaObject) \| [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Object](#schemaObject). If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
+<a id="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
+<a id="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
+<a id="componentsOperations"></a> operations | Map[`string`, [Operation Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Objects](#operationObject).
+<a id="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
+<a id="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
+<a id="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
+<a id="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
+<a id="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
+<a id="componentsReplies"></a>replies | Map[`string`, [Operation Reply Object](#operationReplyObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Objects](#operationReplyObject).
+<a id="componentsReplyAddresses"></a> replyAddresses | Map[`string`, [Operation Reply Address Object](#operationReplyAddressObject) &#124; [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Address Objects](#operationReplyAddressObject).
+<a id="componentsExternalDocs"></a> externalDocs | Map[`string`, [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [External Documentation Objects](#externalDocumentationObject).
+<a id="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
+<a id="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
+<a id="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
+<a id="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Bindings Objects](#serverBindingsObject).
+<a id="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
+<a id="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
+<a id="componentsMessageBindings"></a> messageBindings | Map[`string`, [Message Bindings Object](#messageBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Bindings Objects](#messageBindingsObject).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1836,7 +1836,7 @@ components:
             maximum: 100
 ```
 
-#### <a name="multiFormatSchemaObject"></a>Multi Format Schema Object
+#### <a id="multiFormatSchemaObject"></a>Multi Format Schema Object
 
 The Multi Format Schema Object represents a schema definition. It differs from the [Schema Object](#schemaObject) in that it supports multiple schema formats or languages (e.g., JSON Schema, Avro, etc.).
 
@@ -1844,12 +1844,12 @@ The Multi Format Schema Object represents a schema definition. It differs from t
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="multiFormatSchemaObjectSchemaFormat"></a>schemaFormat | `string` | **Required**. A string containing the name of the schema format that is used to define the information. If `schemaFormat` is missing, it MUST default to `application/vnd.aai.asyncapi+json;version={{asyncapi}}` where `{{asyncapi}}` matches the [AsyncAPI Version String](#A2SVersionString). In such a case, this would make the Multi Format Schema Object equivalent to the [Schema Object](#schemaObject). When using [Reference Object](#referenceObject) within the schema, the `schemaFormat` of the resource being referenced MUST match the `schemaFormat` of the schema that contains the initial reference. For example, if you reference Avro `schema`, then `schemaFormat` of referencing resource and the resource being reference MUST match. <br/><br/>Check out the [supported schema formats table](#multiFormatSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#multiFormatSchemaFormatTable).<br/><br/>When using [Reference Objects](#referenceObject) within the schema, the `schemaFormat` of the referenced resource MUST match the `schemaFormat` of the schema containing the reference.
-<a name="multiFormatSchemaObjectSchema"></a>schema | `any` | **Required**. Definition of the message payload. It can be of any type but defaults to [Schema Object](#schemaObject). It MUST match the schema format defined in [`schemaFormat`](#multiFormatSchemaObjectSchemaFormat), including the encoding type. E.g., Avro should be inlined as either a YAML or JSON object instead of as a string to be parsed as YAML or JSON. Non-JSON-based schemas (e.g., Protobuf or XSD) MUST be inlined as a string.
+<a id="multiFormatSchemaObjectSchemaFormat"></a>schemaFormat | `string` | **Required**. A string containing the name of the schema format that is used to define the information. If `schemaFormat` is missing, it MUST default to `application/vnd.aai.asyncapi+json;version={{asyncapi}}` where `{{asyncapi}}` matches the [AsyncAPI Version String](#A2SVersionString). In such a case, this would make the Multi Format Schema Object equivalent to the [Schema Object](#schemaObject). When using [Reference Object](#referenceObject) within the schema, the `schemaFormat` of the resource being referenced MUST match the `schemaFormat` of the schema that contains the initial reference. For example, if you reference Avro `schema`, then `schemaFormat` of referencing resource and the resource being reference MUST match. <br/><br/>Check out the [supported schema formats table](#multiFormatSchemaFormatTable) for more information. Custom values are allowed but their implementation is OPTIONAL. A custom value MUST NOT refer to one of the schema formats listed in the [table](#multiFormatSchemaFormatTable).<br/><br/>When using [Reference Objects](#referenceObject) within the schema, the `schemaFormat` of the referenced resource MUST match the `schemaFormat` of the schema containing the reference.
+<a id="multiFormatSchemaObjectSchema"></a>schema | `any` | **Required**. Definition of the message payload. It can be of any type but defaults to [Schema Object](#schemaObject). It MUST match the schema format defined in [`schemaFormat`](#multiFormatSchemaObjectSchemaFormat), including the encoding type. E.g., Avro should be inlined as either a YAML or JSON object instead of as a string to be parsed as YAML or JSON. Non-JSON-based schemas (e.g., Protobuf or XSD) MUST be inlined as a string.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### <a name="multiFormatSchemaFormatTable"></a>Schema formats table
+##### <a id="multiFormatSchemaFormatTable"></a>Schema formats table
 
 The following table contains a set of values that every implementation MUST support.
 
@@ -1868,7 +1868,7 @@ Name | Allowed values | Notes
 [Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` | 
 
 
-#### <a name="schemaObject"></a>Schema Object
+#### <a id="schemaObject"></a>Schema Object
 
 The Schema Object allows the definition of input and output data types.
 These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](https://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
@@ -1927,13 +1927,13 @@ In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
-<a name="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this schema.
-<a name="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
+<a id="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
+<a id="schemaObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this schema.
+<a id="schemaObjectDeprecated"></a> deprecated | `boolean` | Specifies that a schema is deprecated and SHOULD be transitioned out of usage. Default value is `false`.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-###### <a name="schemaComposition"></a>Composition and Inheritance (Polymorphism)
+###### <a id="schemaComposition"></a>Composition and Inheritance (Polymorphism)
 
 The AsyncAPI Specification allows combining and extending model definitions using the `allOf` property of JSON Schema, in effect offering model composition.
 `allOf` takes in an array of object definitions that are validated *independently* but together compose a single object.
@@ -2336,7 +2336,7 @@ schemas:
 
 
 
-#### <a name="securitySchemeObject"></a>Security Scheme Object
+#### <a id="securitySchemeObject"></a>Security Scheme Object
 
 Defines a security scheme that can be used by the operations. Supported schemes are:
 
@@ -2353,15 +2353,15 @@ Defines a security scheme that can be used by the operations. Supported schemes 
 ##### Fixed Fields
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
-<a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`, `"oauth2"`, `"openIdConnect"`, `"plain"`, `"scramSha256"`, `"scramSha512"`, and `"gssapi"`.
-<a name="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
-<a name="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
-<a name="securitySchemeObjectIn"></a>in | `string` | `apiKey` \| `httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
-<a name="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
-<a name="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
-<a name="securitySchemeFlows"></a>flows | [OAuth Flows Object](#oauthFlowsObject) | `oauth2` | **REQUIRED**. An object containing configuration information for the flow types supported.
-<a name="securitySchemeOpenIdConnectUrl"></a>openIdConnectUrl | `string` | `openIdConnect` | **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This MUST be in the form of an absolute URL.
-<a name="securitySchemeScopes"></a>scopes | [`string`] | `oauth2` \| `openIdConnect` | List of the needed scope names. An empty array means no scopes are needed.
+<a id="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`, `"oauth2"`, `"openIdConnect"`, `"plain"`, `"scramSha256"`, `"scramSha512"`, and `"gssapi"`.
+<a id="securitySchemeObjectDescription"></a>description | `string` | Any | A short description for security scheme. [CommonMark syntax](https://spec.commonmark.org/) MAY be used for rich text representation.
+<a id="securitySchemeObjectName"></a>name | `string` | `httpApiKey` | **REQUIRED**. The name of the header, query or cookie parameter to be used.
+<a id="securitySchemeObjectIn"></a>in | `string` | `apiKey` \| `httpApiKey` | **REQUIRED**. The location of the API key. Valid values are `"user"` and `"password"` for `apiKey` and `"query"`, `"header"` or `"cookie"` for `httpApiKey`.
+<a id="securitySchemeObjectScheme"></a>scheme | `string` | `http` | **REQUIRED**. The name of the HTTP Authorization scheme to be used in the [Authorization header as defined in RFC7235](https://tools.ietf.org/html/rfc7235#section-5.1).
+<a id="securitySchemeObjectBearerFormat"></a>bearerFormat | `string` | `http` (`"bearer"`) | A hint to the client to identify how the bearer token is formatted.  Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes.
+<a id="securitySchemeFlows"></a>flows | [OAuth Flows Object](#oauthFlowsObject) | `oauth2` | **REQUIRED**. An object containing configuration information for the flow types supported.
+<a id="securitySchemeOpenIdConnectUrl"></a>openIdConnectUrl | `string` | `openIdConnect` | **REQUIRED**. OpenId Connect URL to discover OAuth2 configuration values. This MUST be in the form of an absolute URL.
+<a id="securitySchemeScopes"></a>scopes | [`string`] | `oauth2` \| `openIdConnect` | List of the needed scope names. An empty array means no scopes are needed.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2507,31 +2507,31 @@ scopes:
 type: scramSha512
 ```
 
-#### <a name="oauthFlowsObject"></a>OAuth Flows Object
+#### <a id="oauthFlowsObject"></a>OAuth Flows Object
 
 Allows configuration of the supported OAuth Flows.
 
 ##### Fixed Fields
 Field Name | Type | Description
 ---|:---:|---
-<a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow.
-<a name="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow.
-<a name="oauthFlowsClientCredentials"></a>clientCredentials| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Client Credentials flow.
-<a name="oauthFlowsAuthorizationCode"></a>authorizationCode| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Authorization Code flow.
+<a id="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow.
+<a id="oauthFlowsPassword"></a>password| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Resource Owner Protected Credentials flow.
+<a id="oauthFlowsClientCredentials"></a>clientCredentials| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Client Credentials flow.
+<a id="oauthFlowsAuthorizationCode"></a>authorizationCode| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Authorization Code flow.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-#### <a name="oauthFlowObject"></a>OAuth Flow Object
+#### <a id="oauthFlowObject"></a>OAuth Flow Object
 
 Configuration details for a supported OAuth Flow
 
 ##### Fixed Fields
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
-<a name="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of an absolute URL.
-<a name="oauthFlowTokenUrl"></a>tokenUrl | `string` | `oauth2` (`"password"`, `"clientCredentials"`, `"authorizationCode"`) | **REQUIRED**. The token URL to be used for this flow. This MUST be in the form of an absolute URL.
-<a name="oauthFlowRefreshUrl"></a>refreshUrl | `string` | `oauth2` | The URL to be used for obtaining refresh tokens. This MUST be in the form of an absolute URL.
-<a name="oauthFlowScopes"></a>availableScopes | Map[`string`, `string`] | `oauth2` | **REQUIRED**. The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
+<a id="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of an absolute URL.
+<a id="oauthFlowTokenUrl"></a>tokenUrl | `string` | `oauth2` (`"password"`, `"clientCredentials"`, `"authorizationCode"`) | **REQUIRED**. The token URL to be used for this flow. This MUST be in the form of an absolute URL.
+<a id="oauthFlowRefreshUrl"></a>refreshUrl | `string` | `oauth2` | The URL to be used for obtaining refresh tokens. This MUST be in the form of an absolute URL.
+<a id="oauthFlowScopes"></a>availableScopes | Map[`string`, `string`] | `oauth2` | **REQUIRED**. The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -2558,7 +2558,7 @@ availableScopes:
 
 
 
-### <a name="correlationIdObject"></a>Correlation ID Object
+### <a id="correlationIdObject"></a>Correlation ID Object
 
 An object that specifies an identifier at design time that can used for message tracing and correlation. 
 
@@ -2587,7 +2587,7 @@ description: Default Correlation ID
 location: $message.header#/correlationId
 ```
 
-### <a name="runtimeExpression"></a>Runtime Expression
+### <a id="runtimeExpression"></a>Runtime Expression
 
 A runtime expression allows values to be defined based on information that will be available within the message.
 This mechanism is used by [Correlation ID Object](#correlationIdObject) and [Operation Reply Address Object](#operationReplyAddressObject).
@@ -2604,7 +2604,7 @@ The runtime expression is defined by the following [ABNF](https://tools.ietf.org
 
 The table below provides examples of runtime expressions and examples of their use in a value:
 
-##### <a name="runtimeExpressionExamples"></a>Examples
+##### <a id="runtimeExpressionExamples"></a>Examples
 
 Source Location | Example expression  | Notes
 ---|:---|:---|
@@ -2613,7 +2613,7 @@ Message Payload Property | `$message.payload#/messageId` | Correlation ID is set
 
 Runtime expressions preserve the type of the referenced value.
 
-### <a name="traitsMergeMechanism"></a>Traits Merge Mechanism
+### <a id="traitsMergeMechanism"></a>Traits Merge Mechanism
 
 Traits MUST be merged with the target object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the target object.
 
@@ -2639,7 +2639,7 @@ tags:
   - name: user
 ```
 
-### <a name="specificationExtensions"></a>Specification Extensions
+### <a id="specificationExtensions"></a>Specification Extensions
 
 While the AsyncAPI Specification tries to accommodate most use cases, additional data can be added to extend the specification at certain points.
 
@@ -2647,11 +2647,11 @@ The extensions properties are implemented as patterned fields that are always pr
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="infoExtensions"></a>`^x-[\w\d\-\_]+$` | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
+<a id="infoExtensions"></a>`^x-[\w\d\-\_]+$` | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
 
 The extensions may or may not be supported by the available tooling, but those may be extended as well to add requested support (if tools are internal or open-sourced).
 
-### <a name="dataTypeFormat"></a>Data Type Formats
+### <a id="dataTypeFormat"></a>Data Type Formats
 
 Primitives have an optional modifier property: `format`.
 The AsyncAPI specification uses several known formats to more finely define the data type being used.
