@@ -474,6 +474,15 @@
         "doc",
         "maintenance"
       ]
+    },
+    {
+      "login": "Lazzaretti",
+      "name": "Fabrizio Lazzaretti",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7142819?v=4",
+      "profile": "https://lazzaretti.me/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "commitConvention": "none",
