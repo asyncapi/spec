@@ -379,7 +379,103 @@
         "example",
         "ideas"
       ]
+    },
+    {
+      "login": "GreenRover",
+      "name": "Heiko Henning",
+      "avatar_url": "https://avatars.githubusercontent.com/u/512850?v=4",
+      "profile": "https://github.com/GreenRover",
+      "contributions": [
+        "bug",
+        "code",
+        "content",
+        "doc",
+        "example",
+        "ideas",
+        "maintenance",
+        "review"
+      ]
+    },
+    {
+      "login": "alequetzalli",
+      "name": "Quetzalli ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/19964402?v=4",
+      "profile": "http://www.docsasecosystem.com",
+      "contributions": [
+        "content",
+        "doc",
+        "example",
+        "ideas",
+        "review"
+      ]
+    },
+    {
+      "login": "akkshitgupta",
+      "name": "Akshit Gupta",
+      "avatar_url": "https://avatars.githubusercontent.com/u/96991785?v=4",
+      "profile": "https://github.com/akkshitgupta",
+      "contributions": [
+        "content",
+        "doc"
+      ]
+    },
+    {
+      "login": "Amzani",
+      "name": "samz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/554438?v=4",
+      "profile": "https://amzani.com/",
+      "contributions": [
+        "bug",
+        "content",
+        "doc",
+        "example",
+        "projectManagement"
+      ]
+    },
+    {
+      "login": "kaushik-rishi",
+      "name": "Rishi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/52498617?v=4",
+      "profile": "http://rishikaushik.com",
+      "contributions": [
+        "maintenance",
+        "infra"
+      ]
+    },
+    {
+      "login": "nickshoe",
+      "name": "nickshoe",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32668766?v=4",
+      "profile": "https://github.com/nickshoe",
+      "contributions": [
+        "bug",
+        "doc"
+      ]
+    },
+    {
+      "login": "AceTheCreator",
+      "name": "Ace ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/40604284?v=4",
+      "profile": "https://github.com/AceTheCreator",
+      "contributions": [
+        "eventOrganizing",
+        "ideas",
+        "maintenance",
+        "talk"
+      ]
+    },
+    {
+      "login": "AnimeshKumar923",
+      "name": "Animesh Kumar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/99868037?v=4",
+      "profile": "https://github.com/AnimeshKumar923",
+      "contributions": [
+        "content",
+        "doc",
+        "maintenance"
+      ]
     }
   ],
-  "commitConvention": "none"
+  "commitConvention": "none",
+  "commitType": "docs"
 }
