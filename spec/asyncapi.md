@@ -14,10 +14,9 @@ The AsyncAPI Specification is licensed under [The Apache License, Version 2.0](h
 
 The AsyncAPI Specification is a project used to describe message-driven APIs in a machine-readable format. It’s protocol-agnostic, so you can use it for APIs that work over any protocol (e.g., AMQP, MQTT, WebSockets, Kafka, STOMP, HTTP, Mercure, etc).
 
-The AsyncAPI Specification defines a set of files required to describe the API of an [application](#definitionsApplication).
-These files can be used to create utilities, such as documentation, code, integration, or testing tools.
+The AsyncAPI Specification defines a set of fields that can be used in an AsyncAPI document to describe an [application](#definitionsApplication)'s API. The document may reference other files for additional details or shared fields, but it is typically a single, primary document that encapsulates the API description.
 
-The file(s) SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
+The AsyncAPI document SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 channels:
@@ -908,7 +907,7 @@ reply:
 
 #### <a name="operationTraitObject"></a>Operation Trait Object
 
-Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel` and `traits` ones.
+Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel`, `messages` and `traits` ones.
 
 If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
 
@@ -1821,7 +1820,7 @@ The Schema Object allows the definition of input and output data types.
 These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Specification Draft 07](https://json-schema.org/). The empty schema (which allows any instance to validate) MAY be represented by the `boolean` value `true` and a schema which allows no instance to validate MAY be represented by the `boolean` value `false`.
 
 Further information about the properties can be found in [JSON Schema Core](https://tools.ietf.org/html/draft-handrews-json-schema-01) and [JSON Schema Validation](https://tools.ietf.org/html/draft-handrews-json-schema-validation-01).
-Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here.
+Unless stated otherwise, the property definitions follow the JSON Schema specification as referenced here. For other formats (e.g., Avro, RAML, etc) see [Multi Format Schema Object](#multiFormatSchemaObject).
 
 ##### Properties
 
