@@ -206,36 +206,42 @@ components:
     RequesterId:
       type: string
       description: The Costing requester service account used to produce costing request.
-      example: svc-ecollect-app
+      examples:
+        - svc-ecollect-app
     RequesterCode:
       type: string
       description: >-
         The Costing requester code (generally the BU Code). The requester code
         is useful to get the dedicated context (tenant).
-      example: 1
+      examples:
+        - 1
     MessageId:
       type: string
       format: uuid
       description: A unique Message ID.
-      example: 1fa6ef40-8f47-40a8-8cf6-f8607d0066ef
+      examples:
+        - 1fa6ef40-8f47-40a8-8cf6-f8607d0066ef
     RequestId:
       type: string
       format: uuid
       description: >-
         A unique Request ID needed to define a `CORRELATION_ID` for exchanges,
         which will be sent back in the Costing Responses.
-      example: 1fa6ef40-8f47-40a8-8cf6-f8607d0066ef
+      examples:
+        - 1fa6ef40-8f47-40a8-8cf6-f8607d0066ef
     CorrelationId:
       type: string
       format: uuid
       description: >-
         A unique Correlation ID defined from the `REQUEST_ID` or the
         `MESSAGE_ID` provided in the Costing Request.
-      example: 1fa6ef40-8f47-40a8-8cf6-f8607d0066ef
+      examples:
+        - 1fa6ef40-8f47-40a8-8cf6-f8607d0066ef
     BuCode:
       type: string
       description: The Business Unit code for which data are applicable.
-      example: 1
+      examples:
+        - 1
     ReplyTopic:
       type: string
       description: >
@@ -243,22 +249,26 @@ components:
         the [Return Address EIP
         pattern](https://www.enterpriseintegrationpatterns.com/patterns/messaging/ReturnAddress.html).
         **You must grant WRITE access to our `svc-ccr-app` service account.**
-      example: adeo-case-study-COSTING-RESPONSE-V1
+      examples:
+        - adeo-case-study-COSTING-RESPONSE-V1
     ErrorStep:
       type: string
       description: |
         The woker that has thrown the error.
-      example: EXPOSE_RESULT
+      examples:
+        - EXPOSE_RESULT
     ErrorMessage:
       type: string
       description: |
         The error message describing the error.
-      example: Error message
+      examples:
+        - Error message
     ErrorCode:
       type: string
       description: |
         The error code.
-      example: CURRENCY_NOT_FOUND
+      examples:
+        - CURRENCY_NOT_FOUND
   parameters:
     Env:
       description: Adeo Kafka Environement for messages publications.
