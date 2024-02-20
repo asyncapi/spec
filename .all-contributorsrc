@@ -483,6 +483,18 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Pakisan",
+      "name": "Pavel Bodiachevskii",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3388414?v=4",
+      "profile": "https://www.linkedin.com/in/pavel-bo/",
+      "contributions": [
+        "doc",
+        "bug",
+        "ideas",
+        "question"
+      ]
     }
   ],
   "commitConvention": "none",
