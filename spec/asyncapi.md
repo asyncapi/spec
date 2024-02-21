@@ -1,10 +1,10 @@
 # AsyncAPI Specification
 
-#### Attribution
+## Attribution
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org).
 
-#### Version 3.0.0
+### Version 3.0.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -119,28 +119,36 @@ Aside from the issues mentioned above, there may also be infrastructure configur
 ## <a name="definitions"></a>Definitions
 
 ### <a name="definitionsServer"></a>Server
+
 A server MAY be a message broker that is capable of sending and/or receiving between a [sender](#definitionsSender) and [receiver](#definitionsReceiver). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
 
 ### <a name="definitionsApplication"></a>Application
-An application is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage). 
+
+An application is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage).
 
 ### <a name="definitionsSender"></a>Sender
+
 A sender is a type of application, that is sending [messages](#definitionsMessage) to [channels](#definitionsChannel). A sender MAY send to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
 
 ### <a name="definitionsReceiver"></a>Receiver
+
 A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
 ### <a name="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
+
+A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response.
 
 ### <a name="definitionsChannel"></a>Channel
+
 A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 ### <a name="definitionsProtocol"></a>Protocol
+
 A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
 ### <a name="definitionsBindings"></a>Bindings
-A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
+
+A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only.
 
 ## <a name="specification"></a>Specification
 
@@ -221,7 +229,7 @@ This field represents a unique universal identifier of the [application](#defini
 
 It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the application during long periods of time, even after it becomes unavailable or ceases to exist.
 
-###### Examples
+##### Examples
 
 ```json
 {
@@ -263,7 +271,7 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### Info Object Example:
+##### Info Object Example
 
 ```json
 {
@@ -325,7 +333,7 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### Contact Object Example:
+##### Contact Object Example
 
 ```json
 {
@@ -354,7 +362,7 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-##### License Object Example:
+##### License Object Example
 
 ```json
 {
@@ -447,7 +455,6 @@ production:
     - name: "env:production"
       description: "This environment is the live environment available for final users."
 ```
-
 
 #### <a name="serverObject"></a>Server Object
 
@@ -556,7 +563,6 @@ variables:
       - staging
 ```
 
-
 #### <a name="defaultContentTypeString"></a>Default Content Type
 
 A string representing the default content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). This value MUST be used by schema parsers when the [contentType](#messageObjectContentType) property is omitted.
@@ -574,11 +580,6 @@ In case a message can't be encoded/decoded using this value, schema parsers MUST
 ```yaml
 defaultContentType: application/json
 ```
-
-
-
-
-
 
 #### <a name="channelsObject"></a>Channels Object
 
@@ -613,9 +614,6 @@ userSignedUp:
       $ref: '#/components/messages/userSignedUp'
 ```
 
-
-
-
 #### <a name="channelObject"></a>Channel Object
 
 Describes a shared communication channel.
@@ -634,7 +632,6 @@ Field Name | Type | Description
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
 <a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
-
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -709,19 +706,11 @@ externalDocs:
   url: 'https://example.com'
 ```
 
-
-
-
-
 #### <a name="channelAddressExpressions"></a>Channel Address Expressions
 
 Channel addresses MAY contain expressions that can be used to define dynamic values.
 
 Expressions MUST be composed by a name enclosed in curly braces (`{` and `}`). E.g., `{userId}`.
-
-
-
-
 
 #### <a name="messagesObject"></a>Messages Object
 
@@ -752,8 +741,6 @@ userSignedUp:
 userCompletedOrder:
   $ref: '#/components/messages/userCompletedOrder'
 ```
-
-
 
 #### <a name="operationsObject"></a>Operations Object
 
@@ -814,7 +801,6 @@ onUserSignUp:
   traits:
     - $ref: '#/components/operationTraits/kafka'
 ```
-
 
 #### <a name="operationObject"></a>Operation Object
 
@@ -919,9 +905,6 @@ reply:
     - $ref: '#/components/messages/userSignedUpReply'
 ```
 
-
-
-
 #### <a name="operationTraitObject"></a>Operation Trait Object
 
 Describes a trait that MAY be applied to an [Operation Object](#operationObject). This object MAY contain any property from the [Operation Object](#operationObject), except the `action`, `channel`, `messages` and `traits` ones.
@@ -960,9 +943,6 @@ bindings:
     ack: false
 ```
 
-
-
-
 #### <a name="operationReplyObject"></a>Operation Reply Object
 
 Describes the reply part that MAY be applied to an Operation Object. If an operation implements the request/reply pattern, the reply object represents the response message.
@@ -979,10 +959,9 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 #### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
 
-An object that specifies where an operation has to send the reply. 
+An object that specifies where an operation has to send the reply.
 
 For specifying and computing the location of a reply address, a [runtime expression](#runtimeExpression) is used.
-
 
 ##### Fixed Fields
 
@@ -1006,7 +985,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 description: Consumer Inbox
 location: $message.header#/replyTo
 ```
-
 
 #### <a name="parametersObject"></a>Parameters Object
 
@@ -1039,10 +1017,6 @@ parameters:
   userId:
     description: Id of the user.
 ```
-
-
-
-
 
 #### <a name="parameterObject"></a>Parameter Object
 
@@ -1082,9 +1056,6 @@ parameters:
     location: $message.payload#/user/id
 ```
 
-
-
-
 #### <a name="serverBindingsObject"></a>Server Bindings Object
 
 Map describing protocol-specific definitions for a server.
@@ -1114,8 +1085,6 @@ Field Name | Type | Description
 <a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-
 
 #### <a name="channelBindingsObject"></a>Channel Bindings Object
 
@@ -1147,8 +1116,6 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-
-
 #### <a name="operationBindingsObject"></a>Operation Bindings Object
 
 Map describing protocol-specific definitions for an operation.
@@ -1178,9 +1145,6 @@ Field Name | Type | Description
 <a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
-
-
-
 
 #### <a name="messageBindingsObject"></a>Message Bindings Object
 
@@ -1212,12 +1176,6 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-
-
-
-
-
-
 #### <a name="messageObject"></a>Message Object
 
 Describes a message received on a given channel and operation.
@@ -1227,7 +1185,7 @@ Describes a message received on a given channel and operation.
 Field Name | Type | Description
 ---|:---:|---
 <a name="messageObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
-<a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString). 
+<a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
@@ -1389,12 +1347,6 @@ payload:
     $ref: 'path/to/user-create.avsc/#UserCreate'
 ```
 
-
-
-
-
-
-
 #### <a name="messageTraitObject"></a>Message Trait Object
 
 Describes a trait that MAY be applied to a [Message Object](#messageObject). This object MAY contain any property from the [Message Object](#messageObject), except `payload` and `traits`.
@@ -1433,13 +1385,13 @@ contentType: application/json
 
 #### <a name="messageExampleObject"></a> Message Example Object
 
-Message Example Object represents an example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields. 
+Message Example Object represents an example of a [Message Object](#messageObject) and MUST contain either **headers** and/or **payload** fields.
 
 ##### Fixed Fields
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field. 
+<a name="messageExampleObjectHeaders"></a>headers | `Map[string, any]` | The value of this field MUST validate against the [Message Object's headers](#messageObjectHeaders) field.
 <a name="messageExampleObjectPayload"></a>payload | `Map[string, any]` | The value of this field MUST validate against the [Message Object's payload](#messageObjectPayload) field.
 <a name="messageExampleObjectName"></a>name | `string` | A machine-friendly name.
 <a name="messageExampleObjectSummary"></a>summary | `string` |  A short summary of what the example is about.
@@ -1489,6 +1441,7 @@ A Tags object is a list of [Tag Objects](#tagObject). An [Tag Object](#tagObject
 Allows adding meta data to a single tag.
 
 ##### Fixed Fields
+
 Field Name | Type | Description
 ---|:---:|---
 <a name="tagObjectName"></a>name | `string` | **REQUIRED.** The name of the tag.
@@ -1501,8 +1454,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ```json
 {
-	"name": "user",
-	"description": "User-related messages"
+ "name": "user",
+ "description": "User-related messages"
 }
 ```
 
@@ -1510,12 +1463,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 name: user
 description: User-related messages
 ```
-
-
-
-
-
-
 
 #### <a name="externalDocumentationObject"></a>External Documentation Object
 
@@ -1544,7 +1491,6 @@ description: Find more info here
 url: https://example.com
 ```
 
-
 #### <a name="referenceObject"></a>Reference Object
 
 A simple object to allow referencing other components in the specification, internally and externally.
@@ -1554,6 +1500,7 @@ The Reference Object is defined by [JSON Reference](https://tools.ietf.org/html/
 For this specification, reference resolution is done as defined by the JSON Reference specification and not by the JSON Schema specification.
 
 ##### Fixed Fields
+
 Field Name | Type | Description
 ---|:---:|---
 <a name="referenceRef"></a>$ref | `string` | **REQUIRED.** The reference string.
@@ -1580,14 +1527,14 @@ All objects defined within the components object will have no effect on the API 
 ##### Fixed Fields
 
 Field Name | Type | Description
----|:---|--- 
+---|:---|---
 <a name="componentsSchemas"></a> schemas | Map[`string`, [Multi Format Schema Object](#multiFormatSchemaObject) \| [Schema Object](#schemaObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Schema Object](#schemaObject). If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="componentsServers"></a> servers | Map[`string`, [Server Object](#serverObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Objects](#serverObject).
 <a name="componentsChannels"></a> channels | Map[`string`, [Channel Object](#channelObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Channel Objects](#channelObject).
 <a name="componentsOperations"></a> operations | Map[`string`, [Operation Object](#operationObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Objects](#operationObject).
 <a name="componentsMessages"></a> messages | Map[`string`, [Message Object](#messageObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Message Objects](#messageObject).
 <a name="componentsSecuritySchemes"></a> securitySchemes| Map[`string`, [Security Scheme Object](#securitySchemeObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Security Scheme Objects](#securitySchemeObject).
-<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject). 
+<a name="componentsServerVariables"></a> serverVariables | Map[`string`, [Server Variable Object](#serverVariableObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Server Variable Objects](#serverVariableObject).
 <a name="componentsParameters"></a> parameters | Map[`string`, [Parameter Object](#parameterObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Parameter Objects](#parameterObject).
 <a name="componentsCorrelationIDs"></a> correlationIds | Map[`string`, [Correlation ID Object](#correlationIdObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Correlation ID Objects](#correlationIdObject).
 <a name="componentsReplies"></a>replies | Map[`string`, [Operation Reply Object](#operationReplyObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Operation Reply Objects](#operationReplyObject).
@@ -1607,7 +1554,7 @@ All the fixed fields declared above are objects that MUST use keys that match th
 
 Field Name Examples:
 
-```
+```text
 User
 User_1
 User_Name
@@ -1856,17 +1803,16 @@ The following table contains a set of values that every implementation MUST supp
 Name | Allowed values | Notes
 ---|:---:|---
 [AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
-[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
+[JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` |
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
 
 Name | Allowed values | Notes
 ---|:---:|---
 [Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
-[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` |
 [RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
-[Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` | 
-
+[Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` |
 
 #### <a name="schemaObject"></a>Schema Object
 
@@ -1925,6 +1871,7 @@ Alternatively, any time a Schema Object can be used, a [Reference Object](#refer
 In addition to the JSON Schema fields, the following AsyncAPI vocabulary fields MAY be used for further schema documentation:
 
 ##### Fixed Fields
+
 Field Name | Type | Description
 ---|:---:|---
 <a name="schemaObjectDiscriminator"></a>discriminator | `string` | Adds support for polymorphism. The discriminator is the schema property name that is used to differentiate between other schema that inherit this schema. The property name used MUST be defined at this schema and it MUST be in the `required` property list. When used, the value MUST be the name of this schema or any schema that inherits it. See [Composition and Inheritance](#schemaComposition) for more details.
@@ -1936,7 +1883,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ###### <a name="schemaComposition"></a>Composition and Inheritance (Polymorphism)
 
 The AsyncAPI Specification allows combining and extending model definitions using the `allOf` property of JSON Schema, in effect offering model composition.
-`allOf` takes in an array of object definitions that are validated *independently* but together compose a single object.
+`allOf` takes in an array of object definitions that are validated _independently_ but together compose a single object.
 
 While composition offers model extensibility, it does not imply a hierarchy between the models.
 To support polymorphism, AsyncAPI Specification adds the support of the `discriminator` field.
@@ -1947,7 +1894,7 @@ There are two ways to define the value of a discriminator for an inheriting inst
 - Use the schema's name.
 - Override the schema's name by overriding the property with a new value. If exists, this takes precedence over the schema's name.
 
-As such, inline schema definitions, which do not have a given id, *cannot* be used in polymorphism.
+As such, inline schema definitions, which do not have a given id, _cannot_ be used in polymorphism.
 
 ##### Schema Object Examples
 
@@ -2332,25 +2279,22 @@ schemas:
       - color
 ```
 
-
-
-
-
 #### <a name="securitySchemeObject"></a>Security Scheme Object
 
 Defines a security scheme that can be used by the operations. Supported schemes are:
 
-* User/Password.
-* API key (either as user or as password).
-* X.509 certificate.
-* End-to-end encryption (either symmetric or asymmetric).
-* HTTP authentication.
-* HTTP API key.
-* OAuth2's common flows (Implicit, Resource Owner Protected Credentials, Client Credentials and Authorization Code) as defined in [RFC6749](https://tools.ietf.org/html/rfc6749).
-* [OpenID Connect Discovery](https://tools.ietf.org/html/draft-ietf-oauth-discovery-06).
-* SASL (Simple Authentication and Security Layer) as defined in [RFC4422](https://tools.ietf.org/html/rfc4422).
+- User/Password.
+- API key (either as user or as password).
+- X.509 certificate.
+- End-to-end encryption (either symmetric or asymmetric).
+- HTTP authentication.
+- HTTP API key.
+- OAuth2's common flows (Implicit, Resource Owner Protected Credentials, Client Credentials and Authorization Code) as defined in [RFC6749](https://tools.ietf.org/html/rfc6749).
+- [OpenID Connect Discovery](https://tools.ietf.org/html/draft-ietf-oauth-discovery-06).
+- SASL (Simple Authentication and Security Layer) as defined in [RFC4422](https://tools.ietf.org/html/rfc4422).
 
 ##### Fixed Fields
+
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
 <a name="securitySchemeObjectType"></a>type | `string` | Any | **REQUIRED**. The type of the security scheme. Valid values are `"userPassword"`, `"apiKey"`, `"X509"`, `"symmetricEncryption"`, `"asymmetricEncryption"`, `"httpApiKey"`, `"http"`, `"oauth2"`, `"openIdConnect"`, `"plain"`, `"scramSha256"`, `"scramSha512"`, and `"gssapi"`.
@@ -2512,6 +2456,7 @@ type: scramSha512
 Allows configuration of the supported OAuth Flows.
 
 ##### Fixed Fields
+
 Field Name | Type | Description
 ---|:---:|---
 <a name="oauthFlowsImplicit"></a>implicit| [OAuth Flow Object](#oauthFlowObject) | Configuration for the OAuth Implicit flow.
@@ -2526,6 +2471,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 Configuration details for a supported OAuth Flow
 
 ##### Fixed Fields
+
 Field Name | Type | Applies To | Description
 ---|:---:|---|---
 <a name="oauthFlowAuthorizationUrl"></a>authorizationUrl | `string` | `oauth2` (`"implicit"`, `"authorizationCode"`) | **REQUIRED**. The authorization URL to be used for this flow. This MUST be in the form of an absolute URL.
@@ -2556,15 +2502,13 @@ availableScopes:
   read:pets: read your pets
 ```
 
-
-
 ### <a name="correlationIdObject"></a>Correlation ID Object
 
-An object that specifies an identifier at design time that can used for message tracing and correlation. 
+An object that specifies an identifier at design time that can used for message tracing and correlation.
 
 For specifying and computing the location of a Correlation ID, a [runtime expression](#runtimeExpression) is used.
 
-##### Fixed Fields
+#### Fixed Fields
 
 Field Name | Type | Description
 ---|:---|---
@@ -2594,7 +2538,7 @@ This mechanism is used by [Correlation ID Object](#correlationIdObject) and [Ope
 
 The runtime expression is defined by the following [ABNF](https://tools.ietf.org/html/rfc5234) syntax:
 
-```
+```text
       expression = ( "$message" "." source )
       source = ( header-reference | payload-reference )
       header-reference = "header" ["#" fragment]
@@ -2604,7 +2548,7 @@ The runtime expression is defined by the following [ABNF](https://tools.ietf.org
 
 The table below provides examples of runtime expressions and examples of their use in a value:
 
-##### <a name="runtimeExpressionExamples"></a>Examples
+#### <a name="runtimeExpressionExamples"></a>Examples
 
 Source Location | Example expression  | Notes
 ---|:---|:---|
@@ -2661,7 +2605,6 @@ Types that are not accompanied by a `format` property follow their definition fr
 Tools that do not recognize a specific `format` MAY default back to the `type` alone, as if the `format` was not specified.
 
 The formats defined by the AsyncAPI Specification are:
-
 
 Common Name | `type` | [`format`](#dataTypeFormat) | Comments
 ----------- | ------ | -------- | --------
