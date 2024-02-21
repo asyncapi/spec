@@ -2591,7 +2591,7 @@ The extensions properties are implemented as patterned fields that are always pr
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="infoExtensions"></a>`^x-[\w\d\-\_]+$` | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
+<a name="infoExtensions"></a>`^x-[\w\d\.\x2d_]+$` | Any | Allows extensions to the AsyncAPI Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. Can have any valid JSON format value.
 
 The extensions may or may not be supported by the available tooling, but those may be extended as well to add requested support (if tools are internal or open-sourced).
 
