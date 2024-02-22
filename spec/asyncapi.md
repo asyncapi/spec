@@ -1814,6 +1814,29 @@ Name | Allowed values | Notes
 [RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
 [Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` |
 
+##### Multi Format Schema Object Examples
+
+###### Multi Format Schema Object Example with Avro
+
+```yaml
+channels:
+  example:
+    messages:
+      myMessage:
+        payload:
+          schemaFormat: 'application/vnd.apache.avro;version=1.9.0'
+          schema:
+            type: record
+            name: User
+            namespace: com.company
+            doc: User information
+            fields:
+              - name: displayName
+                type: string
+              - name: age
+                type: int
+```
+
 #### <a name="schemaObject"></a>Schema Object
 
 The Schema Object allows the definition of input and output data types.
