@@ -103,7 +103,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
     - [Multi Format Schema Object](#multi-format-schema-object)
     - [Schema Object](#schema-object)
     - [Security Scheme Object](#security-scheme-object)
-    - [OAuth Flows Object](#user-content-oauth-flows-object)
+    - [OAuth Flows Object](#user-content-oauth-flows-object)  
     - [OAuth Flow Object](#user-content-oauth-flow-object)
     - [Server Bindings Object](#server-bindings-object)
     - [Parameters Object](#parameters-object)
@@ -122,7 +122,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
 A server MAY be a message broker that is capable of sending and/or receiving between a [sender](#user-content-definitionsSender) and [receiver](#receiver). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
 
 ### <a id="definitionsApplication"></a>Application
-An application is any kind of computer program or a group of them. It MUST be a [sender](#user-content-definitionsSender), a [receiver](#user-content-definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#user-content-definitionsProtocol). An application MUST also use a protocol supported by the [server](#user-content-definitionsServer) in order to connect and exchange [messages](#message).
+An application is any kind of computer program or a group of them. It MUST be a [sender](#user-content-definitionsSender), a [receiver](#user-content-definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#user-content-definitionsProtocol). An application MUST also use a protocol supported by the [server](#user-content-definitionsServer) in order to connect and exchange [messages](#message). 
 
 ### <a id="definitionsSender"></a>Sender
 A sender is a type of application, that is sending [messages](#user-content-definitionsMessage) to [channels](#user-content-definitionsChannel). A sender MAY send to multiple channels depending on the [server](#server), protocol, and use-case pattern.
@@ -131,16 +131,16 @@ A sender is a type of application, that is sending [messages](#user-content-defi
 A receiver is a type of application that is receiving [messages](#user-content-definitionsMessage) from [channels](#user-content-definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#server), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
 ### <a id="definitionsMessage"></a>Message
-A message is the mechanism by which information is exchanged via a channel between [servers](#user-content-definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#protocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response.
+A message is the mechanism by which information is exchanged via a channel between [servers](#user-content-definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#protocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response. 
 
 ### <a id="definitionsChannel"></a>Channel
 A channel is an addressable component, made available by the [server](#server), for the organization of [messages](#user-content-definitionsMessage). [Sender](#user-content-definitionsSender) applications send messages to channels and [receiver](#user-content-definitionsReceiver) applications receive messages from channels. [Servers](#server) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#server) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 ### <a id="definitionsProtocol"></a>Protocol
-A protocol is the mechanism (wireline protocol or API) by which [messages](#user-content-definitionsMessage) are exchanged between the application and the [channel](#channel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.
+A protocol is the mechanism (wireline protocol or API) by which [messages](#user-content-definitionsMessage) are exchanged between the application and the [channel](#channel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
 
 ### <a id="definitionsBindings"></a>Bindings
-A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only.
+A "binding" (or "protocol binding") is a mechanism to define protocol-specific information. Therefore, a protocol binding MUST define protocol-specific information only. 
 
 ## <a id="specification"></a>Specification
 
@@ -979,7 +979,7 @@ This object MAY be extended with [Specification Extensions](#specification-exten
 
 #### <a id="operationReplyAddressObject"></a>Operation Reply Address Object
 
-An object that specifies where an operation has to send the reply.
+An object that specifies where an operation has to send the reply. 
 
 For specifying and computing the location of a reply address, a [runtime expression](#runtime-expression) is used.
 
@@ -1433,7 +1433,7 @@ contentType: application/json
 
 #### <a id="messageExampleObject"></a> Message Example Object
 
-Message Example Object represents an example of a [Message Object](#message-object) and MUST contain either **headers** and/or **payload** fields.
+Message Example Object represents an example of a [Message Object](#message-object) and MUST contain either **headers** and/or **payload** fields. 
 
 ##### Fixed Fields
 
@@ -1856,16 +1856,16 @@ The following table contains a set of values that every implementation MUST supp
 Name | Allowed values | Notes
 ---|:---:|---
 [AsyncAPI 3.0.0 Schema Object](#schema-object) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
-[JSON Schema Draft 07](https://json-schema.org/specification-links.html#user-content-draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` |
+[JSON Schema Draft 07](https://json-schema.org/specification-links.html#user-content-draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` | 
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.
 
 Name | Allowed values | Notes
 ---|:---:|---
 [Avro 1.9.0 schema](https://avro.apache.org/docs/1.9.0/spec.html#user-content-schemas) | `application/vnd.apache.avro;version=1.9.0`, `application/vnd.apache.avro+json;version=1.9.0`, `application/vnd.apache.avro+yaml;version=1.9.0` |
-[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#user-content-schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` |
+[OpenAPI 3.0.0 Schema Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#user-content-schemaObject) | `application/vnd.oai.openapi;version=3.0.0`, `application/vnd.oai.openapi+json;version=3.0.0`, `application/vnd.oai.openapi+yaml;version=3.0.0` | 
 [RAML 1.0 data type](https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md/) | `application/raml+yaml;version=1.0` |
-[Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` |
+[Protocol Buffers](https://protobuf.dev/) | `application/vnd.google.protobuf;version=2`, `application/vnd.google.protobuf;version=3` | 
 
 
 #### <a id="schemaObject"></a>Schema Object
@@ -2560,7 +2560,7 @@ availableScopes:
 
 ### <a id="correlationIdObject"></a>Correlation ID Object
 
-An object that specifies an identifier at design time that can used for message tracing and correlation.
+An object that specifies an identifier at design time that can used for message tracing and correlation. 
 
 For specifying and computing the location of a Correlation ID, a [runtime expression](#runtime-expression) is used.
 
