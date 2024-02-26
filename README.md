@@ -1,49 +1,15 @@
 [![AsyncAPI Logo](./assets/logo.png)](https://www.asyncapi.com)
 
-<hr/>
-
-<!--
-<p align="center">
-  <a href="https://iqvia.com" target="_blank">
-    <img src="./assets/iqvia.png" alt="IQVIA logo" height="40">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://mulesoft.com" target="_blank">
-    <img src="./assets/mulesoft.png" alt="Mulesoft logo" height="40">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://salesforce.com" target="_blank">
-    <img src="./assets/salesforce.png" alt="Salesforce logo" height="40">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://sap.com" target="_blank">
-    <img src="./assets/sap.svg" alt="SAP logo" height="40">
-  </a>
-  &nbsp;
-  <a href="https://slack.com" target="_blank">
-    <img src="./assets/slack.svg" alt="Slack logo" height="40">
-  </a>
-  &nbsp;
-  <a href="https://solace.com" target="_blank">
-    <img src="./assets/solace.png" alt="Solace logo" height="40">
-  </a>
-  &nbsp;
-  <a href="https://tibco.com" target="_blank">
-    <img src="./assets/tibco.png" alt="TIBCO logo" height="40">
-  </a>
-</p>
-
-<p align="center">
-  :raised_hands: Platinum sponsors. <a href="https://opencollective.com/asyncapi">Join them!</a> :raised_hands:
-</p>
--->
-
 ## Read the specification
 
 The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncapi.md) which tracks the latest commit to the master branch in this repository.
-The human-readable markdown file is the source of truth for the specification.
 
-- [Version 3.0.0](https://github.com/asyncapi/spec/blob/v3.0.0/spec/asyncapi.md) (latest)
+**The human-readable markdown file is the source of truth for the specification.**
+
+- [Version 3.0.0](https://github.com/asyncapi/spec/blob/v3.0.0/spec/asyncapi.md) (latest) ([website](https://www.asyncapi.com/docs/reference/specification/latest))
+<details>
+  <summary>Click to see reference links to older versions of the specification.</summary>
+
 - [Version 2.6.0](https://github.com/asyncapi/spec/blob/v2.6.0/spec/asyncapi.md)
 - [Version 2.5.0](https://github.com/asyncapi/spec/blob/v2.5.0/spec/asyncapi.md)
 - [Version 2.4.0](https://github.com/asyncapi/spec/blob/v2.4.0/spec/asyncapi.md)
@@ -54,40 +20,21 @@ The human-readable markdown file is the source of truth for the specification.
 - [Version 1.2.0](https://github.com/asyncapi/spec/blob/1.2.0/README.md) (deprecated)
 - [Version 1.1.0](https://github.com/asyncapi/spec/blob/1.1.0/README.md) (deprecated)
 - [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
+</details>
 
-**Looking for the JSON Schema files?** Check out our [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repo.
+</br>
 
-**Feel like contributing?** Check out our [community repo](https://www.github.com/asyncapi/community).
+Looking for the JSON Schema files? Check out our [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repo.
+
+Feel like contributing? Check out our [contributor's guide](./CONTRIBUTING.md).
 
 ## Examples
 
-#### :bulb: Streetlights
+Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for examples.
 
-Demonstrates how to use AsyncAPI to define an API that controls city streetlights.
+## Case Studies and Adopters
 
-> :point_right: [See more](./examples/streetlights-mqtt.yml)
-
-#### <img src="./assets/slack.png" width="15" alt="Slack icon">&nbsp;&nbsp; Slack Events API
-
-Partial definition of the Slack Events API. Find the official one [here](https://github.com/slackapi/slack-api-specs/blob/master/events-api/slack_events_api_async_v1.json).
-
-> :point_right: [See more](./examples/slack-rtm.yml)
-
-#### <img src="./assets/gitter.png" width="15" alt="Gitter icon">&nbsp;&nbsp; Gitter Streaming API
-
-Definition of the Gitter streaming API.
-
-> :point_right: [See more](./examples/gitter-streaming.yml)
-
-#### <img src="./assets/gemini.svg" width="15" alt="Gemini icon">&nbsp;&nbsp; Gemini WebSocket API
-
-Definition of the Gemini Websocket API.
-
-> :point_right: [See more](./examples/websocket-gemini.yml)
-
-#### :heavy_plus_sign: and more...
-
-Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for more examples.
+Check out the [AsyncAPI website](https://www.asyncapi.com/casestudies) to see the list of AsyncAPI adopters and their use cases.
 
 ## Our Sponsors
 
@@ -95,17 +42,15 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
 
 <p align="center">
   
+<a href="https://ibm.com" target="_blank">
+    <img src="./assets/ibm.png" alt="IBM logo" height="70">
+  </a>
 <a href="https://solace.com" target="_blank">
     <img src="./assets/solace.png" alt="Solace logo" height="70">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://ibm.com" target="_blank">
-    <img src="./assets/ibm.png" alt="IBM logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://postman.com" target="_blank">
-    <img src="./assets/postman.png" alt="Postman logo" height="90">
-  </a>
+
+
 </p>
 
 
@@ -113,8 +58,8 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
 
 <p align="center">
   
-<a href="https://redhat.com" target="_blank">
-    <img src="./assets/redhat.png" alt="RedHat logo" height="70">
+<a href="https://postman.com" target="_blank">
+    <img src="./assets/postman.png" alt="Postman logo" height="90">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -129,20 +74,19 @@ Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/exampl
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://www.svix.com/" target="_blank">
-    <img src="./assets/swix.png" alt="swix logo" height="70">
+    <img src="./assets/svix.png" alt="svix logo" height="70">
   </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
-
+  <a href="https://www.hivemq.com/" target="_blank">
+    <img src="./assets/hivemq.png" alt="hivemq logo" height="70">
+  </a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
 ### Bronze
 
 <p align="center">
 
-<a href="https://ably.com/" target="_blank">
-    <img src="./assets/ably.png" alt="ably.png logo" height="70">
-  </a>
-    &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://rviewer.io/" target="_blank">
     <img src="./assets/rviewer.png" alt="rviewer.png logo" height="70">
   </a>
