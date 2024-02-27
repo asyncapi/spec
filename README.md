@@ -89,9 +89,9 @@ Want to become a sponsor? Learn [what we do with sponsors` money](https://www.as
 
 <p align="center">
 
-<a href="https://rviewer.io/" target="_blank">
-    <img src="./assets/rviewer.png" alt="rviewer.png logo" height="70">
-  </a>
+<a href="https://redhat.com" target="_blank">
+    <img src="./assets/redhat.png" alt="RedHat logo" height="70">
+    </a>
   &nbsp;&nbsp;&nbsp;&nbsp;
 </p>
 
