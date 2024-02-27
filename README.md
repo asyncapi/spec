@@ -42,58 +42,39 @@ Want to become a sponsor? Learn [what we do with sponsors` money](https://www.as
 
 ### Platinum
 
-<p align="center">
-  
 <a href="https://ibm.com" target="_blank">
-    <img src="./assets/ibm.png" alt="IBM logo" height="70">
-  </a>
+  <img src="./assets/ibm.png" alt="IBM logo" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://solace.com" target="_blank">
-    <img src="./assets/solace.png" alt="Solace logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-
-
-</p>
-
+  <img src="./assets/solace.png" alt="Solace logo" height="70">
+</a>
 
 ### Gold
-
-<p align="center">
   
 <a href="https://postman.com" target="_blank">
-    <img src="./assets/postman.png" alt="Postman logo" height="90">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-
-</p>
+  <img src="./assets/postman.png" alt="Postman logo" height="90">
+</a>
 
 ### Silver
 
-<p align="center">
-  
 <a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
-    <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.svix.com/" target="_blank">
-    <img src="./assets/svix.png" alt="svix logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <a href="https://www.hivemq.com/" target="_blank">
-    <img src="./assets/hivemq.png" alt="hivemq logo" height="70">
-  </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-</p>
+  <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh logo" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.svix.com/" target="_blank">
+  <img src="./assets/svix.png" alt="svix logo" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.hivemq.com/" target="_blank">
+  <img src="./assets/hivemq.png" alt="hivemq logo" height="70">
+</a>
 
 ### Bronze
 
-<p align="center">
-
 <a href="https://redhat.com" target="_blank">
-    <img src="./assets/redhat.png" alt="RedHat logo" height="70">
-    </a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-</p>
+  <img src="./assets/redhat.png" alt="RedHat logo" height="70">
+</a>
 
 ## Contributors
 
