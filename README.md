@@ -67,7 +67,7 @@ Want to become a sponsor? Learn [what we do with sponsors` money](https://www.as
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.hivemq.com/" target="_blank">
-  <img src="./assets/hivemq.png" alt="hivemq logo" height="70">
+  <img src="./assets/hivemq-white-bg.png" alt="hivemq logo" height="70">
 </a>
 
 ### Bronze
