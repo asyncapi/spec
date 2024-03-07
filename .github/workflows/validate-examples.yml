@@ -1,0 +1,18 @@
+name: Validate AsyncAPI Examples
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate_examples:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate AsyncAPI Examples
+        uses: asyncapi/github-action-for-cli@default
+        with:
+          args: "validate ./examples/*.yaml"
