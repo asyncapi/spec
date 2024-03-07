@@ -38,7 +38,7 @@ Check out the [AsyncAPI website](https://www.asyncapi.com/casestudies) to see th
 
 ## Our Sponsors
 
-Want to become a sponsor? Learn [what we do with sponsors` money](https://www.asyncapi.com/finance) and [join the club](https://opencollective.com/asyncapi).
+Want to become a sponsor? Learn [what we do with sponsors' money](https://www.asyncapi.com/finance) and [join the club](https://opencollective.com/asyncapi).
 
 ### Platinum
 
