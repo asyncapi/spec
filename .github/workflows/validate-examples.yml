@@ -15,4 +15,4 @@ jobs:
       - name: Validate AsyncAPI Examples
         uses: asyncapi/github-action-for-cli@default
         with:
-          args: "validate ./examples/*.yaml"
+          args: "validate ./examples/*.(yml,yaml}"
