@@ -13,7 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Validate AsyncAPI Examples
-        uses: asyncapi/github-action-for-cli@v3
+      - name: Generator, Validator, Converter and others - all in one for your AsyncAPI docs
+        uses: asyncapi/github-action-for-cli@v3.1.1
+            
         with:
           args: "validate ./examples/*.(yml,yaml}"
