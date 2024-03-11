@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - script-ci-spec-validation
 
 jobs:
   validate_examples:
