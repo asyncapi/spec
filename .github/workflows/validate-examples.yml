@@ -13,8 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Validating Examples spec files
+      - name: Validate example spec files
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
           command: validate
-          filepath: ./examples/*.(yml,yaml}
+          filepath: examples/*.(yml,yaml}
