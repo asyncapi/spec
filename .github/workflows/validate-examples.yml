@@ -17,4 +17,4 @@ jobs:
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
           command: validate
-          filepath: examples/*.(yml,yaml}
+          filepath: examples/*.yml
