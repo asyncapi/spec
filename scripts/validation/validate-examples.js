@@ -10,10 +10,10 @@ let validationErrors = []; // Array to store validation errors
 files.forEach((file) => {
   filesCount++;
   try {
-    console.log(`Validating: ${file}`);
+    console.log(`\nValidating: ${file}`);
     execSync(`npx asyncapi validate ${file}`, { stdio: 'inherit' });
   } catch (error) {
-    console.error(`Validation failed for: ${file}`);
+    console.error(`Validation failed for: ${file}\n`);
     // process.exit(1);
   }
 
