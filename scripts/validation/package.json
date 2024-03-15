@@ -4,7 +4,6 @@
   "description": "validation",
   "main": "validate-examples.js",
   "scripts": {
-    "test": "test",
     "validate:examples": "node validate-examples.js"
   },
   "author": "Animesh Kumar",
