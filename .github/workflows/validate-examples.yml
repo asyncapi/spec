@@ -10,6 +10,10 @@ on:
     types: [opened, reopened, synchronize, edited, ready_for_review]
   
   workflow_dispatch:
+    inputs:
+      name:
+        description: 'Enter something'
+        required: true
 
 jobs:
   validate-examples:
@@ -47,7 +51,7 @@ jobs:
       - if: steps.should_run.outputs.shouldrun == 'true' 
         name: Check if Node.js project and has package.json
         id: packagejson
-        run: test -e ./scripts/validation/package.json && echo "exists=true" >> $GITHUB_OUTPUT || echo "exists=false" >> $GITHUB_OUTPUT
+        run: test -e ./package.json && echo "exists=true" >> $GITHUB_OUTPUT || echo "exists=false" >> $GITHUB_OUTPUT
         shell: bash
       - if: steps.packagejson.outputs.exists == 'true'
         name: Check package-lock version
