@@ -1,0 +1,90 @@
+# This workflow is centrally managed at https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repository, as they will be overwritten with
+# changes made to the same file in the abovementioned repository.
+
+# The purpose of this workflow is to allow Bounty Team members
+# (https://github.com/orgs/asyncapi/teams/bounty_team) to issue commands to the
+# organization's global AsyncAPI bot related to the Bounty Program, while at the
+# same time preventing unauthorized users from misusing them.
+
+name: Bounty Program commands
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  guard-against-unauthorized-use:
+    if: >
+      github.actor != ('aeworxet' || 'thulieblack') &&
+      (
+        contains(github.event.comment.body, '/bounty' )
+      )
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ❌ @${{github.actor}} made an unauthorized attempt to use a Bounty Program's command
+        uses: actions/github-script@v6
+
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const commentText = `❌ @${{github.actor}} is not authorized to use the Bounty Program's commands.
+            These commands can only be used by members of the [Bounty Team](https://github.com/orgs/asyncapi/teams/bounty_team).`;
+
+            console.log(`❌ @${{github.actor}} made an unauthorized attempt to use a Bounty Program's command.`);
+            github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentText
+              })
+
+  add-label-bounty:
+    if: >
+      github.actor == ('aeworxet' || 'thulieblack') &&
+      (
+        contains(github.event.comment.body, '/bounty' )
+      )
+
+    runs-on: ubuntu-latest
+    env:
+      BOUNTY_PROGRAM_LABELS_JSON: |
+        [
+          {"name": "bounty", "color": "0e8a16", "description": "Participation in the Bounty Program"}
+        ]
+
+    steps:
+      - name: Add label `bounty`
+        uses: actions/github-script@v6
+
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const BOUNTY_PROGRAM_LABELS = JSON.parse(process.env.BOUNTY_PROGRAM_LABELS_JSON);
+            let LIST_OF_LABELS_FOR_REPO = await github.rest.issues.listLabelsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                });
+                
+            LIST_OF_LABELS_FOR_REPO = LIST_OF_LABELS_FOR_REPO.data.map(key => key.name);
+
+            if (!LIST_OF_LABELS_FOR_REPO.includes(BOUNTY_PROGRAM_LABELS[0].name)) {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: BOUNTY_PROGRAM_LABELS[0].name,
+                color: BOUNTY_PROGRAM_LABELS[0].color,
+                description: BOUNTY_PROGRAM_LABELS[0].description
+              });
+            }
+
+            console.log('Adding label `bounty`...');
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [BOUNTY_PROGRAM_LABELS[0].name]
+            })
