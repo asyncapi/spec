@@ -32,5 +32,4 @@ if (filesWithErrors.length > 0) {
   process.exit(1);
 } else {
   console.log('\nAll files validated successfully.');
-  process.exit(1);
 }
