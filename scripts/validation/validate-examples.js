@@ -17,7 +17,6 @@ files.forEach((file) => {
     console.error(`Validation failed for: ${file}\n`);
     errorFilesCount++;
     filesWithErrors.push(file);
-    // process.exit(1);
   }
 
 });
@@ -30,6 +29,8 @@ if (filesWithErrors.length > 0) {
   filesWithErrors.forEach((file) => {
     console.log(file);
   });
+  process.exit(1);
 } else {
   console.log('\nAll files validated successfully.');
+  process.exit(1);
 }
