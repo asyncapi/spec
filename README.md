@@ -65,9 +65,15 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 <a href="https://www.svix.com/" target="_blank">
   <img src="./assets/svix.png" alt="svix logo" height="70">
 </a>
-&nbsp;&nbsp;&nbsp;&nbsp;
+
+<br/>
+
 <a href="https://www.hivemq.com/" target="_blank">
   <img src="./assets/hivemq-white-bg.png" alt="hivemq logo" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.aklivity.io/" target="_blank">
+  <img src="./assets/aklivity.png" alt="aklivity logo" height="70">
 </a>
 
 ### Bronze
