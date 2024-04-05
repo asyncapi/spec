@@ -21,8 +21,6 @@ jobs:
         run: |
           files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
           echo "FILES_FOUND=$files" >> $GITHUB_ENV
-        env: # Set the environment variable for the entire job
-          FILES_FOUND: ${{ steps.find_yaml.outputs.files }}
       - name: Validate AsyncAPI documents
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
