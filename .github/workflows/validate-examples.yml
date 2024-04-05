@@ -11,7 +11,7 @@ on:
 
 jobs:
   validate-examples:
-  - name: Validate Spec Examples
+    name: Validate Spec Examples
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
