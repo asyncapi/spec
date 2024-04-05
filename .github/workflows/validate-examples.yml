@@ -8,27 +8,21 @@ on:
 
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
-  
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Enter something'
-        required: true
 
 jobs:
   validate-examples:
-    name: Validate Spec Examples - ${{ matrix.os }}
+  - name: Validate Spec Examples
     runs-on: ubuntu-latest
-    steps:
-        name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Find YAML files
-        run: |
-          files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
-          echo "::set-output name=files::$files"
-      - name: Validate AsyncAPI documents
-        uses: asyncapi/github-action-for-cli@v3.1.1
-        with:
-          command: custom
-          arguments: |
-            validate ${{ steps.FindYAMLFiles.outputs.files }}
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+        - name: Find YAML files
+          run: |
+            files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
+            echo "::set-output name=files::$files"
+        - name: Validate AsyncAPI documents
+          uses: asyncapi/github-action-for-cli@v3.1.1
+          with:
+            command: custom
+            arguments: |
+              validate ${{ steps.FindYAMLFiles.outputs.files }}
