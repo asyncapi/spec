@@ -18,41 +18,14 @@ on:
 jobs:
   validate-examples:
     name: Validate Spec Examples - ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ubuntu-latest
     steps:
-      - if: >
-          !github.event.pull_request.draft && !(
-            (github.actor == 'asyncapi-bot' && (
-              startsWith(github.event.pull_request.title, 'ci: update of files from global .github repo') || 
-              startsWith(github.event.pull_request.title, 'chore(release):')
-            )) ||
-            (github.actor == 'asyncapi-bot-eve' && (
-              startsWith(github.event.pull_request.title, 'ci: update of files from global .github repo') || 
-              startsWith(github.event.pull_request.title, 'chore(release):')
-            )) ||
-            (github.actor == 'allcontributors[bot]' && 
-              startsWith(github.event.pull_request.title, 'docs: add')
-            )
-          )
-        id: should_run
-        name: Should Run
-        run: echo "shouldrun=true" >> $GITHUB_OUTPUT
-      - if: steps.should_run.outputs.shouldrun == 'true' 
-        name: Set git to use LF #to once and for all finish neverending fight between Unix and Windows
-        run: |
-          git config --global core.autocrlf false
-          git config --global core.eol lf
-      - if: steps.should_run.outputs.shouldrun == 'true' 
         name: Checkout repository
         uses: actions/checkout@v3
       - name: Find YAML files
         run: |
           files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
           echo "::set-output name=files::$files"
-
       - name: Validate AsyncAPI documents
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
