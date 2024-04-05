@@ -22,11 +22,6 @@ jobs:
           node-version: '20'
       - name: Install AsyncAPI CLI
         run: npm install -g @asyncapi/cli
-      - name: Find YAML files
-        run: |
-          find examples/ -type f \( ! -path "examples/social-media/*" \) \( -name "*.yml" -o -name "*.yaml" \) > files.txt
       - name: Validate AsyncAPI documents
         run: |
-          while IFS= read -r file; do
-            asyncapi validate "$file" || exit 1
-          done < files.txt
+          find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \) -exec asyncapi validate {} \;
