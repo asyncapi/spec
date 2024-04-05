@@ -19,10 +19,8 @@ jobs:
       - name: Find YAML files
         run: |
           files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
-          echo "::set-output name=files::$files"
+          echo "FILES_FOUND=$files" >> $GITHUB_ENV
       - name: Validate AsyncAPI documents
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
-          custom_command: validate ${{ steps.FindYAMLFiles.outputs.files }}
-          # arguments: |
-          #   ${{ steps.FindYAMLFiles.outputs.files }}
+          custom_command: validate $FILES_FOUND
