@@ -2,8 +2,8 @@
 # Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
 
 # It uses Github actions to listen for comments on issues and pull requests and 
-# if the comment contains /ping-for-attention or /pfa it will add a comment pinging 
-# the code-owners who have not yet reviewed the pull request
+# if the comment contains /please-take-a-look or /ptal it will add a comment pinging 
+# the code-owners who are reviewers for PR
 
 name: Please take a Look
 
@@ -44,7 +44,7 @@ jobs:
             const reviewersWhoHaveNotReviewed = reviewers.filter(reviewer => !reviewersWhoHaveReviewed.includes(reviewer));
 
             if (reviewersWhoHaveNotReviewed.length > 0) {
-              const comment = reviewersWhoHaveNotReviewed.map(reviewer => `@${reviewer}`).join(' ');
+              const comment = reviewersWhoHaveNotReviewed.filter(reviewer => reviewer !== 'asyncapi-bot-eve' ).map(reviewer => `@${reviewer}`).join(' ');
               await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
