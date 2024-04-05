@@ -19,4 +19,8 @@ jobs:
       - name: Validate AsyncAPI documents
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
-          custom_command: validate $(find examples/ -type f \( ! -path "examples/social-media/*" \) -name "*.yml" -o -name "*.yaml")
+          custom_command: |
+            find examples/ -type f \( ! -path "examples/social-media/*" \) \( -name "*.yml" -o -name "*.yaml" \) -print0 |
+                while IFS= read -r -d '' file; do
+                  validate "$file" || exit 1
+                done
