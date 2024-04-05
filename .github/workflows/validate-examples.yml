@@ -13,10 +13,13 @@ jobs:
   validate-examples:
     name: Validate Spec Examples
     runs-on: ubuntu-latest
+    env: # Set the environment variable for the entire job
+      FILES_FOUND: ${{ steps.find_yaml.outputs.files }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Find YAML files
+        id: find_yaml
         run: |
           files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
           echo "FILES_FOUND=$files" >> $GITHUB_ENV
