@@ -23,6 +23,6 @@ jobs:
       - name: Validate AsyncAPI documents
         uses: asyncapi/github-action-for-cli@v3.1.1
         with:
-          custom_command: validate 
-          arguments: |
-            ${{ steps.FindYAMLFiles.outputs.files }}
+          custom_command: validate ${{ steps.FindYAMLFiles.outputs.files }}
+          # arguments: |
+          #   ${{ steps.FindYAMLFiles.outputs.files }}
