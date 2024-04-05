@@ -16,11 +16,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Validate AsyncAPI documents
-        uses: asyncapi/github-action-for-cli@v3.1.1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          custom_command: |
-            find examples/ -type f \( ! -path "examples/social-media/*" \) \( -name "*.yml" -o -name "*.yaml" \) -print0 |
-                while IFS= read -r -d '' file; do
-                  validate "$file" || exit 1
-                done
+          node-version: '20'
+      - name: Install AsyncAPI CLI
+        run: npm install -g @asyncapi/cli
+      - name: Find YAML files
+        run: |
+          find examples/ -type f \( ! -path "examples/social-media/*" \) \( -name "*.yml" -o -name "*.yaml" \) > files.txt
+      - name: Validate AsyncAPI documents
+        run: |
+          while IFS= read -r file; do
+            asyncapi validate "$file" || exit 1
+          done < files.txt
