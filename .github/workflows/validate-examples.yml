@@ -3,8 +3,8 @@ name: Validate AsyncAPI Examples
 on:
   push:
     branches:
-      - master
       - script-ci-spec-validation # added temporarily for testing purpose
+      # - master
 
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
@@ -48,32 +48,14 @@ jobs:
       - if: steps.should_run.outputs.shouldrun == 'true' 
         name: Checkout repository
         uses: actions/checkout@v3
-      - if: steps.should_run.outputs.shouldrun == 'true' 
-        name: Check if Node.js project and has package.json
-        id: packagejson
-        run: test -e ./package.json && echo "exists=true" >> $GITHUB_OUTPUT || echo "exists=false" >> $GITHUB_OUTPUT
-        shell: bash
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Check package-lock version
-        uses: asyncapi/.github/.github/actions/get-node-version-from-package-lock@master
-        id: lockversion
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Find YAML files
+        run: |
+          files=$(find examples/ \( -path 'examples/social-media/*' -prune \) -o -type f \( -name "*.yml" -o -name "*.yaml" \))
+          echo "::set-output name=files::$files"
+
+      - name: Validate AsyncAPI documents
+        uses: asyncapi/github-action-for-cli@v3.1.1
         with:
-          node-version: "${{ steps.lockversion.outputs.version }}"
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Install dependencies
-        id: first-installation
-        run: npm install --loglevel verbose
-        continue-on-error: true
-      - if: steps.first-installation.outputs.status == 'failure' && steps.packagejson.outputs.exists == 'true'
-        name: Clear NPM cache and install deps again
-        run: | 
-          npm cache clean --force
-          npm install --loglevel verbose
-      - if: steps.packagejson.outputs.exists == 'true'
-        name: Validate examples
-        run: npm run validate:examples
+          command: custom
+          arguments: |
+            validate ${{ steps.FindYAMLFiles.outputs.files }}
