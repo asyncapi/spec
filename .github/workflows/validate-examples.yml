@@ -24,5 +24,5 @@ jobs:
         run: npm install -g @asyncapi/cli
       - name: Validate AsyncAPI documents
         run: |
-# NOTE: we've excluded the files inside `examples/social-media/common` folder because it contains partial documents which don't comply with the asyncapi document format, hence these files give error during the validation.
           find examples -type f \( -name "*.yml" -o -name "*.yaml" \) -not -path 'examples/social-media/common/*' | xargs -P 10 -L 1 asyncapi validate 
+# NOTE: we've excluded the files inside `examples/social-media/common` folder because it contains partial documents which don't comply with the asyncapi document format, hence these files give error during the validation.
