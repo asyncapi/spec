@@ -19,9 +19,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '18'
+          cache: 'npm'
       - name: Install AsyncAPI CLI
-        run: npm install -g @asyncapi/cli
+        run: npm install @asyncapi/cli
       - name: Validate AsyncAPI documents
         run: |
           find examples -type f \( -name "*.yml" -o -name "*.yaml" \) -not -path 'examples/social-media/common/*' | xargs -P 10 -L 1 asyncapi validate 
