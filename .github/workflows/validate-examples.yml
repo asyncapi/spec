@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '20'
       - name: Install AsyncAPI CLI
-        run: npm install @asyncapi/cli
+        run: npm install -g @asyncapi/cli
       - name: Validate AsyncAPI documents
         run: |
           find examples -type f \( -name "*.yml" -o -name "*.yaml" \) -not -path 'examples/social-media/common/*' | xargs -P 10 -L 1 asyncapi validate 
