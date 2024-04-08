@@ -19,8 +19,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: '20'
       - name: Install AsyncAPI CLI
         run: npm install @asyncapi/cli
       - name: Validate AsyncAPI documents
