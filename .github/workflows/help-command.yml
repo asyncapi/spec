@@ -31,7 +31,7 @@ jobs:
         
                     At the moment the following comments are supported in pull requests:
         
-                    - \`/please-take-a-look` or \`/ptal\` - This comment will add a comment to the PR asking for attention from the reviewrs who have not reviewed the PR yet.
+                    - \`/please-take-a-look\` or \`/ptal\` - This comment will add a comment to the PR asking for attention from the reviewrs who have not reviewed the PR yet.
                     - \`/ready-to-merge\` or \`/rtm\` - This comment will trigger automerge of PR in case all required checks are green, approvals in place and do-not-merge label is not added
                     - \`/do-not-merge\` or \`/dnm\` - This comment will block automerging even if all conditions are met and ready-to-merge label is added
                     - \`/autoupdate\` or \`/au\` - This comment will add \`autoupdate\` label to the PR and keeps your PR up-to-date to the target branch's future changes. Unless there is a merge conflict or it is a draft PR.`
