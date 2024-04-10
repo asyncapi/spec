@@ -68,6 +68,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
   - [Application](#definitionsApplication)
   - [Sender](#definitionsSender)
   - [Receiver](#definitionsReceiver)
+  - [Operation](#definitionsOperation)
   - [Message](#definitionsMessage)
   - [Channel](#definitionsChannel)
   - [Protocol](#definitionsProtocol)
