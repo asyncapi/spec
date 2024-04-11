@@ -1,11 +1,6 @@
 name: Validate AsyncAPI Examples
 
 on:
-  push:
-    branches:
-      - script-ci-spec-validation # added temporarily for testing purpose
-      # - master
-
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
 
