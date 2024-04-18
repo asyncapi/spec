@@ -1,0 +1,102 @@
+# This workflow is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+# This workflow will run on every comment with /update or /u. And will create merge-commits for the PR.
+# This also works with forks, not only with branches in the same repository/organization.
+# Currently, does not work with forks in different organizations.
+
+# This workflow will be distributed to all repositories in the AsyncAPI organization
+
+name: Update PR branches from fork
+
+on:
+  issue_comment: 
+    types: [created]
+
+jobs:
+  update-pr:
+    if: >
+      startsWith(github.repository, 'asyncapi/') &&
+      github.event.issue.pull_request && 
+      github.event.issue.state != 'closed' && (
+        contains(github.event.comment.body, '/update') ||
+        contains(github.event.comment.body, '/u')
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Pull Request Details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          previews: 'merge-info-preview' # https://docs.github.com/en/graphql/overview/schema-previews#merge-info-preview-more-detailed-information-about-a-pull-requests-merge-state-preview
+          script: |
+            const prNumber = context.payload.issue.number;
+            core.debug(`PR Number: ${prNumber}`);
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            });
+
+            // If the PR has conflicts, we don't want to update it
+            const updateable = ['behind', 'blocked', 'unknown', 'draft', 'clean'].includes(pr.mergeable_state);
+            console.log(`PR #${prNumber} is ${pr.mergeable_state} and is ${updateable ? 'updateable' : 'not updateable'}`);
+            core.setOutput('updateable', updateable);
+
+            core.debug(`Updating PR #${prNumber} with head ${pr.head.sha}`);
+
+            return {
+              id: pr.node_id,
+              number: prNumber,
+              head: pr.head.sha,
+            }
+      - name: Update the Pull Request
+        if: steps.pr.outputs.updateable == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          script: |
+            const mutation = `mutation update($input: UpdatePullRequestBranchInput!) {
+              updatePullRequestBranch(input: $input) {
+                pullRequest {
+                  mergeable
+                }
+              }
+            }`;
+
+            const pr_details = ${{ steps.pr.outputs.result }};
+
+            try {
+              const { data } = await github.graphql(mutation, {
+                input: {
+                  pullRequestId: pr_details.id,
+                  expectedHeadOid: pr_details.head,
+                }
+              });
+            } catch (GraphQLError) {
+              core.debug(GraphQLError);
+              if (
+                GraphQLError.name === 'GraphqlResponseError' &&
+                GraphQLError.errors.some(
+                  error => error.type === 'FORBIDDEN' || error.type === 'UNAUTHORIZED'
+                )
+              ) {
+                // Add comment to PR if the bot doesn't have permissions to update the PR
+                const comment = `Hi @${context.actor}. Update of PR has failed. It can be due to one of the following reasons:
+                -  I don't have permissions to update this PR. To update your fork with upstream using bot you need to enable [Allow edits from maintainers](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) option in the PR. 
+                -  The fork is located in an organization, not under your personal profile. No solution for that. You are on your own with manual update.
+                -  There may be a conflict in the PR. Please resolve the conflict and try again.`;
+
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: comment
+                });
+
+                core.setFailed('Bot does not have permissions to update the PR');
+              } else {
+                core.setFailed(GraphQLError.message);
+              }
+            }
