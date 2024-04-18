@@ -59,7 +59,9 @@ jobs:
                 body: `Hello, @${{ github.actor }}! 👋🏼
                        This PR is not up to date with the base branch and can't be merged.
                        Please update your branch manually with the latest version of the base branch.
-                       PRO-TIP: Add a comment to your PR with the text: \`/au\` or \`/autoupdate\` and our bot will take care of updating the branch in the future. The only requirement for this to work is to enable [Allow edits from maintainers](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) option in your PR.
+                       PRO-TIP: To request an update from the upstream branch, simply comment \`/u\` or \`/update\` and our bot will handle the update operation promptly.
+                       
+                       The only requirement for this to work is to enable [Allow edits from maintainers](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork) option in your PR. Also the update will not work if your fork is located in an organization, not under your personal profile.
                        Thanks 😄`
               })
             }
