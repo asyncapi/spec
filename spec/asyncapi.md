@@ -136,6 +136,7 @@ A sender is a type of application, that is sending [messages](#definitionsMessag
 A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
 ### <a name="definitionsOperation"></a>Operation
+
 An operation describes a specific action an [application](#definitionsApplication) can take to interact with other [sender](#definitionsSender) or [receiver](#definitionsReceiver) applications. Operations are performed by sending (or receiving) [messages](#definitionsMessage) to (or from) [channels](#definitionsChannel).
 
 ### <a name="definitionsMessage"></a>Message
