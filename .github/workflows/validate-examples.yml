@@ -1,0 +1,23 @@
+name: Validate AsyncAPI Examples
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+
+jobs:
+  validate-examples:
+    name: Validate Spec Examples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install AsyncAPI CLI
+        run: npm install -g @asyncapi/cli
+      - name: Validate AsyncAPI documents
+        run: |
+          find examples -type f \( -name "*.yml" -o -name "*.yaml" \) -not -path 'examples/social-media/common/*' | xargs -P 10 -L 1 asyncapi validate 
+# NOTE: we've excluded the files inside `examples/social-media/common` folder because it contains partial documents which don't comply with the asyncapi document format, hence these files give error during the validation.
