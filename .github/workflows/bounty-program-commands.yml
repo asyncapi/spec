@@ -14,12 +14,18 @@ on:
     types:
       - created
 
+env:
+  BOUNTY_PROGRAM_LABELS_JSON: |
+    [
+      {"name": "bounty", "color": "0e8a16", "description": "Participation in the Bounty Program"}
+    ]
+
 jobs:
   guard-against-unauthorized-use:
     if: >
       github.actor != ('aeworxet' || 'thulieblack') &&
       (
-        contains(github.event.comment.body, '/bounty' )
+        startsWith(github.event.comment.body, '/bounty' )
       )
 
     runs-on: ubuntu-latest
@@ -46,15 +52,10 @@ jobs:
     if: >
       github.actor == ('aeworxet' || 'thulieblack') &&
       (
-        contains(github.event.comment.body, '/bounty' )
+        startsWith(github.event.comment.body, '/bounty' )
       )
 
     runs-on: ubuntu-latest
-    env:
-      BOUNTY_PROGRAM_LABELS_JSON: |
-        [
-          {"name": "bounty", "color": "0e8a16", "description": "Participation in the Bounty Program"}
-        ]
 
     steps:
       - name: Add label `bounty`
@@ -88,3 +89,38 @@ jobs:
               repo: context.repo.repo,
               labels: [BOUNTY_PROGRAM_LABELS[0].name]
             })
+
+  remove-label-bounty:
+    if: >
+      github.actor == ('aeworxet' || 'thulieblack') &&
+      (
+        startsWith(github.event.comment.body, '/unbounty' )
+      )
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Remove label `bounty`
+        uses: actions/github-script@v6
+
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const BOUNTY_PROGRAM_LABELS = JSON.parse(process.env.BOUNTY_PROGRAM_LABELS_JSON);
+            let LIST_OF_LABELS_FOR_ISSUE = await github.rest.issues.listLabelsOnIssue({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                });
+
+            LIST_OF_LABELS_FOR_ISSUE = LIST_OF_LABELS_FOR_ISSUE.data.map(key => key.name);
+
+            if (LIST_OF_LABELS_FOR_ISSUE.includes(BOUNTY_PROGRAM_LABELS[0].name)) {
+              console.log('Removing label `bounty`...');
+              github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: [BOUNTY_PROGRAM_LABELS[0].name]
+              })
+            }
