@@ -1,0 +1,17 @@
+{
+  "name": "validation",
+  "version": "1.0.0",
+  "description": "for example validation files",
+  "main": "validate-embedded-examples.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Animesh Kumar",
+  "license": "ISC",
+  "devDependencies": {
+    "@asyncapi/parser": "^3.0.14",
+    "js-yaml": "^4.1.0",
+    "jsonpath-plus": "^9.0.0",
+    "marked": "^12.0.2"
+  }
+}

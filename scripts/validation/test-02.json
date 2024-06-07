@@ -1,0 +1,68 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "Sample API",
+    "version": "1.0.0",
+    "description": "This is a sample AsyncAPI document."
+  },
+  "servers": {
+    "production": {
+      "host": "production.example.com",
+      "protocol": "amqp"
+    }
+  },
+  "channels": {
+    "user/signedup": {
+      "address": "user/signedup",
+      "messages": {
+        "subscribe.message": {
+          "contentType": "application/json",
+          "payload": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "description": "This channel is used to send user signed up events."
+    }
+  },
+  "operations": {
+    "user/signedup.subscribe": {
+      "action": "send",
+      "channel": {
+        "$ref": "#/channels/user~1signedup"
+      },
+      "summary": "Subscribe to user signed up events.",
+      "messages": [
+        {
+          "$ref": "#/channels/user~1signedup/messages/subscribe.message"
+        }
+      ]
+    }
+  },
+  "components": {
+    "messages": {
+      "UserSignedUp": {
+        "contentType": "application/json",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

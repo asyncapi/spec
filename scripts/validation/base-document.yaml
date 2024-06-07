@@ -1,0 +1,336 @@
+asyncapi: 3.0.0
+info:
+  title: My Event-Driven API
+  version: 1.0.0
+  description: This API provides real-time event streaming capabilities.
+  termsOfService: https://example.com/terms-of-service
+  contact:
+    name: Rohit
+    email: rohitwashere@asyncapi.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  tags:
+    - name: Events
+      description: APIs related to event streaming
+    - name: Authentication
+      description: APIs for authentication and authorization
+  externalDocs:
+    description: Additional documentation 
+    url: https://example.com/docs
+servers:
+  production:
+    host: rabbitmq.in.mycompany.com:5672
+    pathname: /v1
+    protocol: amqp
+    protocolVersion: "1.0"
+    description: Production RabbitMQ broker (uses the `production` vhost).
+    title: Production Server
+    summary: Production environment server
+    security:
+      - type: http
+        scheme: bearer
+    tags:
+      - name: production
+        description: Production environment
+    externalDocs:
+      description: Additional documentation for the production server
+      url: https://example.com/docs/production
+    bindings:
+      amqp:
+        exchange: my-exchange
+        queue: my-queue
+  staging:
+    host: rabbitmq.in.mycompany.com:5672
+    pathname: /v1
+    protocol: amqp
+    protocolVersion: "1.0"
+    description: Staging RabbitMQ broker (uses the `staging` vhost).
+    title: Staging Server
+    summary: Staging environment server
+    security:
+      - type: apiKey
+        in: user
+        description: Provide your API key as the user and leave the password empty.
+    tags:
+      - name: staging
+        description: Staging environment
+    externalDocs:
+      description: Additional documentation for the staging server
+      url: https://example.com/docs/staging
+    bindings:
+      amqp:
+        exchange: my-exchange
+        queue: my-queue
+channels:
+  user:
+    address: 'users.{userId}'
+    title: Users channel
+    description: This channel is used to exchange messages about user events.
+    messages:
+      userSignedUp:
+        $ref: '#/components/messages/userSignedUp'
+      userCompletedOrder:
+        $ref: '#/components/messages/userCompletedOrder'
+    parameters:
+      userId:
+        $ref: '#/components/parameters/userId'
+    servers:
+      - $ref: '#/servers/production'
+    bindings:
+      amqp:
+        is: queue
+        queue:
+          exclusive: true
+    tags:
+      - name: user
+        description: User-related messages
+    externalDocs:
+      description: 'Find more info here'
+      url: 'https://example.com'
+  userSignupReply:
+    address: 'users.signup.reply'
+    description: Channel for user signup replies
+    messages:
+      userSignedUpReply:
+        summary: User signup reply message
+        payload:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Status of the signup process
+            message:
+              type: string
+              description: Additional information
+
+
+operations:
+  sendUserSignUp:
+    action: send
+    title: User sign up
+    summary: Action to sign a user up.
+    description: A longer description
+    channel:
+      $ref: '#/channels/user'
+    security:
+      - type: oauth2
+        description: The oauth security descriptions
+        flows:
+          clientCredentials:
+            tokenUrl: 'https://example.com/api/oauth/dialog'
+            availableScopes:
+              'subscribe:auth_revocations': Scope required for authorization revocation topic
+        scopes:
+          - 'subscribe:auth_revocations'
+    tags:
+      - name: user
+      - name: signup
+      - name: register
+    bindings:
+      amqp:
+        ack: false
+    messages:
+      - $ref: '#/channels/user/messages/userSignedUp'
+    reply:
+      address:
+        location: '$message.header#/replyTo'
+      channel:
+        $ref: '#/channels/userSignupReply'
+      messages:
+        - $ref: '#/channels/userSignupReply/messages/userSignedUpReply'
+        
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    AvroExample:
+      schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+      schema:
+        type: record
+        name: UserCreate
+        namespace: com.example
+        fields:
+          - name: id
+            type: int
+          - name: name
+            type: string
+
+  servers:
+    development:
+      host: '{stage}.in.mycompany.com'
+      protocol: amqp
+      description: RabbitMQ broker
+      bindings:
+        $ref: '#/components/serverBindings/devAmqp'
+      variables:
+        stage:
+          $ref: '#/components/serverVariables/stage'
+      security:
+        - $ref: '#/components/securitySchemes/oauth'
+
+  serverVariables:
+    stage:
+      default: demo
+      description: This value is assigned by the service provider in this example of `mycompany.com`
+
+  channels:
+    user:
+      address: 'users.{userId}'
+      title: Users channel
+      description: This channel is used to exchange messages about user events.
+      messages:
+        userSignedUp:
+          $ref: '#/components/messages/userSignUp'
+      parameters:
+        userId:
+          $ref: '#/components/parameters/userId'
+      servers:
+        - $ref: '#/components/servers/development'
+      bindings:
+        $ref: '#/components/channelBindings/user'
+      tags:
+        - $ref: '#/components/tags/user'
+      externalDocs:
+        $ref: '#/components/externalDocs/infoDocs'
+
+  messages:
+    userSignUp:
+      summary: Action to sign a user up.
+      traits:
+        - $ref: '#/components/messageTraits/commonHeaders'
+      payload:
+        $ref: '#/components/schemas/Category'
+      correlationId:
+          $ref: '#/components/correlationIds/default'
+      bindings:
+        $ref: '#/components/messageBindings/user'
+    userSignedUp:
+      summary: User signed up event
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+            description: The ID of the user
+          email:
+            type: string
+            description: The email of the user
+    userCompletedOrder:
+      summary: User completed order event
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          orderId:
+            type: string
+            description: The ID of the order
+          userId:
+            type: string
+            description: The ID of the user
+          amount:
+            type: number
+            description: The total amount of the order
+
+
+  parameters:
+    userId:
+      description: Id of the user.
+
+  correlationIds:
+    default:
+      description: Default Correlation ID
+      location: '$message.header#/correlationId'
+
+  operations:
+    sendUserSignUp:
+      action: send
+      title: User sign up
+      channel:
+        $ref: '#/channels/user'
+      bindings:
+        $ref: '#/components/operationBindings/sendUser'
+      traits:
+        - $ref: '#/components/operationTraits/binding'
+      reply:
+        $ref: '#/components/replies/signupReply'  
+
+  replies:
+    signupReply:
+      address:
+        $ref: '#/components/replyAddresses/signupReply'
+      channel:
+        $ref: '#/channels/userSignupReply'
+
+  replyAddresses:
+    signupReply:
+      location: '$message.header#/replyTo'
+
+
+  securitySchemes:
+    oauth:
+      type: oauth2
+      description: The oauth security descriptions
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://example.com/api/oauth/dialog'
+          availableScopes:
+            'subscribe:auth_revocations': Scope required for authorization revocation topic
+      scopes:
+        - 'subscribe:auth_revocations'
+
+  operationTraits:
+    binding:
+      bindings:
+        amqp:
+          ack: false
+
+  messageTraits:
+    commonHeaders:
+      headers:
+        type: object
+        properties:
+          my-app-header:
+            type: integer
+            minimum: 0
+            maximum: 100
+
+  tags:
+    user:
+      name: user
+      description: User-related messages
+
+  externalDocs:
+    infoDocs:
+      url: https://example.com/docs
+      description: 'Find more info here'
+
+  serverBindings:
+    devAmqp:
+      amqp:
+        exchange: my-exchange
+        queue: my-queue
+
+  channelBindings:
+    user:
+      amqp:
+        is: queue
+        queue:
+          exclusive: true
+
+  operationBindings:
+    sendUser:
+      amqp:
+        ack: false
+
+  messageBindings:
+    user:
+      amqp:
+        contentEncoding: gzip
+        messageType: 'user.signup'
+        bindingVersion: '0.3.0'
