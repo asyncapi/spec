@@ -161,7 +161,7 @@
       "summary": "Action to sign a user up.",
       "description": "A longer description",
       "channel": {
-        "$ref": "#/channels/userSignup"
+        "$ref": "#/channels/user"
       },
       "security": [
         {
@@ -177,10 +177,6 @@
           },
           "scopes": [
             "subscribe:auth_revocations"
-          ],
-          "petstore_auth": [
-            "write:pets",
-            "read:pets"
           ]
         }
       ],
@@ -202,7 +198,7 @@
       },
       "messages": [
         {
-          "$ref": "/components/messages/userSignedUp"
+          "$ref": "#/channels/user/messages/userSignedUp"
         }
       ],
       "reply": {
@@ -214,15 +210,10 @@
         },
         "messages": [
           {
-            "$ref": "/components/messages/userSignedUpReply"
+            "$ref": "#/channels/userSignupReply/messages/userSignedUpReply"
           }
         ]
-      },
-      "traits": [
-        {
-          "$ref": "#/components/operationTraits/kafka"
-        }
-      ]
+      }
     }
   },
   "components": {
