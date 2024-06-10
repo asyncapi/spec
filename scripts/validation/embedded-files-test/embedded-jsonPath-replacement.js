@@ -31,7 +31,11 @@ function extractExamples(content) {
   const examples = [];
   
   while ((match = exampleRegex.exec(content)) !== null) {
-    examples.push(JSON.parse(match[1]));
+    try {
+      examples.push(JSON.parse(match[1]));
+    } catch (e) {
+      console.error("Failed to parse example JSON:", match[1], e);
+    }
   }
   
   return examples;
@@ -43,6 +47,18 @@ const examples = extractExamples(markdownContent);
 // Read the base AsyncAPI document for v3
 const baseDoc = JSON.parse(fs.readFileSync('ex-base-doc.json', 'utf8'));
 
+// Function to deeply merge two objects without overwriting existing nested structures
+function deepMerge(target, source) {
+  for (const key of Object.keys(source)) {
+    if (source[key] instanceof Object && key in target) {
+      target[key] = deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
 // Function to set a value in a JSON object using JSONPath, creating missing fields if necessary
 function setValueByPath(obj, path, value) {
   const pathParts = path.replace(/\$/g, '').split('.').slice(1); // Remove the root "$" and split path
@@ -50,7 +66,11 @@ function setValueByPath(obj, path, value) {
 
   pathParts.forEach((part, index) => {
     if (index === pathParts.length - 1) {
-      current[part] = value; // Set value at the end of the path
+      if (current[part] === undefined) {
+        current[part] = value; // Set the new value if the path does not exist
+      } else {
+        current[part] = deepMerge(current[part], value); // Deep merge if the path exists
+      }
     } else {
       if (!current[part]) {
         current[part] = {}; // Create object if it doesn't exist
@@ -69,19 +89,33 @@ const updates = comments.map((comment, index) => ({
 
 // Apply updates
 updates.forEach(update => {
-  const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
+  try {
+    const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
 
-  if (results.length === 0) {
-    setValueByPath(baseDoc, update.json_path, update.data); // Create the path if it doesn't exist
-  } else {
-    results.forEach(result => {
-      const parent = result.parent;
-      const parentProperty = result.parentProperty;
-      parent[parentProperty] = {
-        ...parent[parentProperty],
-        ...update.data // Merge the existing data with the new data
-      };
-    });
+    console.log(`Processing update for test: ${update.test} at path: ${update.json_path}`);
+
+    const pathParts = update.json_path.split('.');
+    const targetKey = pathParts[pathParts.length - 1];
+
+    // Check if the top-level key of the example JSON matches the target key
+    let dataToMerge = update.data;
+    if (dataToMerge.hasOwnProperty(targetKey)) {
+      dataToMerge = dataToMerge[targetKey];
+    }
+
+    if (results.length === 0) {
+      console.log(`Path not found, creating path: ${update.json_path}`);
+      setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
+    } else {
+      results.forEach(result => {
+        const parent = result.parent;
+        const parentProperty = result.parentProperty;
+        console.log(`Merging data at path: ${update.json_path}`);
+        parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge); // Deep merge the existing data with the new data
+      });
+    }
+  } catch (e) {
+    console.error(`Error processing update for test: ${update.test} at path: ${update.json_path}`, e);
   }
 });
 
