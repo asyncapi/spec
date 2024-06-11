@@ -20,8 +20,6 @@ jobs:
     name: Notify slack on every new issue
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
       - name: Convert markdown to slack markdown for issue
         uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: issuemarkdown
@@ -40,8 +38,6 @@ jobs:
     name: Notify slack on every new pull request
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
       - name: Convert markdown to slack markdown for pull request
         uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: prmarkdown
@@ -60,8 +56,6 @@ jobs:
     name: Notify slack on every new pull request
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
       - name: Convert markdown to slack markdown for pull request
         uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: discussionmarkdown
