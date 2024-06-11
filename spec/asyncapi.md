@@ -1368,7 +1368,7 @@ Example using Avro to define the payload:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Message Object',json_path:'$.components.messages.userSignedUp'} -->
+<!-- asyncapi-example-tester:{"test":"Message Object","json_path":"$.components.messages.userSignedUp"} -->
 ```yaml
 name: UserSignup
 title: User signup
@@ -1408,7 +1408,7 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-<!-- asyncapi-example-tester:{test:'Message Trait Object',json_path:'$.components.messageTraits.commonHeaders'} -->
+<!-- asyncapi-example-tester:{"test":"Message Trait Object","json_path":"$.components.messageTraits.commonHeaders"} -->
 ##### Message Trait Object Example
 
 ```json
@@ -1417,7 +1417,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Message Trait Object',json_path:'$.components.messageTraits.commonHeaders'} -->
+<!-- asyncapi-example-tester:{"test":"Message Trait Object","json_path":"$.components.messageTraits.commonHeaders"} -->
 ```yaml
 contentType: application/json
 ```
@@ -1439,7 +1439,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Message Example Object Example
 
-<!-- asyncapi-example-tester:{test:'Message Example Object',json_path:'$.components.messages.userSignUp.examples[0]'} -->
+<!-- asyncapi-example-tester:{"test":"Message Example Object","json_path":"$.components.messages.userSignUp.examples[0]"} -->
 ```json
 {
   "name": "SimpleSignup",
@@ -1459,7 +1459,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Message Example Object',json_path:'$.components.messages.userSignUp.examples[0]'} -->
+<!-- asyncapi-example-tester:{"test":"Message Example Object","json_path":"$.components.messages.userSignUp.examples[0]"} -->
 ```yaml
 name: SimpleSignup
 summary: A simple UserSignup example message
@@ -1493,7 +1493,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Tag Object Example
 
-<!-- asyncapi-example-tester:{test:'Tag Object',json_path:'$.components.tags.user'} -->
+<!-- asyncapi-example-tester:{"test":"Tag Object","json_path":"$.components.tags.user"} -->
 ```json
 {
  "name": "user",
@@ -1501,7 +1501,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Tag Object',json_path:'$.components.tags.user'} -->
+<!-- asyncapi-example-tester:{"test":"Tag Object","json_path":"$.components.tags.user"} -->
 ```yaml
 name: user
 description: User-related messages
@@ -1522,7 +1522,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### External Documentation Object Example
 
-<!-- asyncapi-example-tester:{test:'External Docs Object',json_path:'$.components.externalDocs.infoDocs'} -->
+<!-- asyncapi-example-tester:{"test":"External Docs Object","json_path":"$.components.externalDocs.infoDocs"} -->
 ```json
 {
   "description": "Find more info here",
@@ -1530,7 +1530,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'External Docs Object',json_path:'$.components.externalDocs.infoDocs'} -->
+<!-- asyncapi-example-tester:{"test":"External Docs Object","json_path":"$.components.externalDocs.infoDocs"} -->
 ```yaml
 description: Find more info here
 url: https://example.com
@@ -1554,14 +1554,14 @@ This object cannot be extended with additional properties and any properties add
 
 ##### Reference Object Example
 
-<!-- asyncapi-example-tester:{test:'Reference Object',json_path:'$.components.messages.userSignUp.payload'} -->
+<!-- asyncapi-example-tester:{"test":"Reference Object","json_path":"$.components.messages.userSignUp.payload"} -->
 ```json
 {
   "$ref": "#/components/schemas/Pet"
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Reference Object',json_path:'$.components.messages.userSignUp.payload'} -->
+<!-- asyncapi-example-tester:{"test":"Reference Object","json_path":"$.components.messages.userSignUp.payload"} -->
 ```yaml
   $ref: '#/components/schemas/Pet'
 ```
@@ -1611,7 +1611,7 @@ my.org.User
 
 ##### Components Object Example
 
-<!-- asyncapi-example-tester:{test:'Components Object',json_path:'$.components'} -->
+<!-- asyncapi-example-tester:{"test":"Components Object","json_path":"$.components"} -->
 ```json
 {
   "components": {
@@ -1745,7 +1745,7 @@ my.org.User
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Components Object',json_path:'$.components'} -->
+<!-- asyncapi-example-tester:{"test":"Components Object","json_path":"$.components"} -->
 ```yaml
 components:
   schemas:
@@ -1867,7 +1867,40 @@ Name | Allowed values | Notes
 
 ###### Multi Format Schema Object Example with Avro
 
-<!-- asyncapi-example-tester:{test:'Muti Format Schema Object - Avro',json_path:'$.channels'} -->
+<!-- asyncapi-example-tester:{"test":"Muti Format Schema Object - Avro","json_path":"$.channels"} -->
+
+```json
+"channels":{
+  "example": {
+    "messages": {
+      "myMessage": {
+        "payload": {
+          "schemaFormat": "application/vnd.apache.avro;version=1.9.0",
+          "schema": {
+            "type": "record",
+            "name": "User",
+            "namespace": "com.company",
+            "doc": "User information",
+            "fields": [
+              {
+                "name": "displayName",
+                "type": "string"
+              },
+              {
+                "name": "age",
+                "type": "int"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+<!-- asyncapi-example-tester:{"test":"Muti Format Schema Object - Avro","json_path":"$.channels"} -->
+
 ```yaml
 channels:
   example:
@@ -1973,7 +2006,7 @@ As such, inline schema definitions, which do not have a given id, _cannot_ be us
 
 ###### Primitive Sample
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Primitive',json_path:'$.components.schemas.Email'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Primitive","json_path":"$.components.schemas.Email"} -->
 ```json
 {
   "type": "string",
@@ -1981,13 +2014,13 @@ As such, inline schema definitions, which do not have a given id, _cannot_ be us
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Primitive',json_path:'$.components.schemas.Email'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Primitive","json_path":"$.components.schemas.Email"} -->
 ```yaml
 type: string
 format: email
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Simple model',json_path:'$.components.schemas.Person'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Simple model","json_path":"$.components.schemas.Person"} -->
 ###### Simple Model
 
 ```json
@@ -2012,7 +2045,7 @@ format: email
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Simple model',json_path:'$.components.schemas.Person'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Simple model","json_path":"$.components.schemas.Person"} -->
 ```yaml
 type: object
 required:
@@ -2032,7 +2065,7 @@ properties:
 
 For a simple string to string mapping:
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Map/Dictionary model',json_path:'$.components.schemas.Additional'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Map/Dictionary model","json_path":"$.components.schemas.Additional"} -->
 ```json
 {
   "type": "object",
@@ -2042,7 +2075,7 @@ For a simple string to string mapping:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Map/Dictionary model',json_path:'$.components.schemas.Additional'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Map/Dictionary model","json_path":"$.components.schemas.Additional"} -->
 ```yaml
 type: object
 additionalProperties:
@@ -2051,7 +2084,7 @@ additionalProperties:
 
 For a string to model mapping:
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Allowing Complex model',json_path:'$.components.schemas.WithComplex'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Allowing Complex model","json_path":"$.components.schemas.WithComplex"} -->
 ```json
 {
   "type": "object",
@@ -2061,7 +2094,7 @@ For a string to model mapping:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - Allowing Complex model',json_path:'$.components.schemas.WithComplex'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - Allowing Complex model","json_path":"$.components.schemas.WithComplex"} -->
 ```yaml
 type: object
 additionalProperties:
@@ -2070,7 +2103,7 @@ additionalProperties:
 
 ###### Model with Example
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With examples model',json_path:'$.components.schemas.WithExamples'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With examples model","json_path":"$.components.schemas.WithExamples"} -->
 ```json
 {
   "type": "object",
@@ -2095,7 +2128,7 @@ additionalProperties:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With examples model',json_path:'$.components.schemas.WithExamples'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With examples model","json_path":"$.components.schemas.WithExamples"} -->
 ```yaml
 type: object
 properties:
@@ -2113,7 +2146,7 @@ examples:
 
 ###### Model with Boolean Schemas
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With boolean model',json_path:'$.components.schemas.WithBoolean'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With boolean model","json_path":"$.components.schemas.WithBoolean"} -->
 ```json
 {
   "type": "object",
@@ -2127,7 +2160,7 @@ examples:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With boolean model',json_path:'$.components.schemas.WithBoolean'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With boolean model","json_path":"$.components.schemas.WithBoolean"} -->
 ```yaml
 type: object
 required:
@@ -2139,7 +2172,7 @@ properties:
 
 ###### Models with Composition
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With composition model',json_path:'$.components.schemas.WithComposition'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With composition model","json_path":"$.components.schemas.WithComposition"} -->
 ```json
 {
   "schemas": {
@@ -2182,7 +2215,7 @@ properties:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With composition model',json_path:'$.components.schemas.WithComposition'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With composition model","json_path":"$.components.schemas.WithComposition"} -->
 ```yaml
 schemas:
   ErrorModel:
@@ -2210,7 +2243,7 @@ schemas:
 
 ###### Models with Polymorphism Support
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With polymorphism model',json_path:'$.components.schemas.WithPolymorphism'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With polymorphism model","json_path":"$.components.schemas.WithPolymorphism"} -->
 ```json
 {
   "schemas": {
@@ -2304,7 +2337,7 @@ schemas:
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Schema Object - With polymorphism model',json_path:'$.components.schemas.WithPolymorphism'} -->
+<!-- asyncapi-example-tester:{"test":"Schema Object - With polymorphism model","json_path":"$.components.schemas.WithPolymorphism"} -->
 ```yaml
 schemas:
   Pet:
@@ -2402,21 +2435,21 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ###### User/Password Authentication Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - user/pass',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - user/pass","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "userPassword"
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - user/pass',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - user/pass","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: userPassword
 ```
 
 ###### API Key Authentication Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - API key auth',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - API key auth","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "apiKey",
@@ -2424,7 +2457,7 @@ type: userPassword
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - API key auth',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - API key auth","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: apiKey
 in: user
@@ -2432,35 +2465,35 @@ in: user
 
 ###### X.509 Authentication Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - X.509',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - X.509","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "X509"
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - X.509',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - X.509","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: X509
 ```
 
 ###### End-to-end Encryption Authentication Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - end to end encryption',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - end to end encryption","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "symmetricEncryption"
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - end to end encryption',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - end to end encryption","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: symmetricEncryption
 ```
 
 ###### Basic Authentication Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - basic',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - basic","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "http",
@@ -2468,7 +2501,7 @@ type: symmetricEncryption
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - basic',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - basic","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: http
 scheme: basic
@@ -2476,7 +2509,7 @@ scheme: basic
 
 ###### API Key Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - API key',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - API key","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "httpApiKey",
@@ -2485,7 +2518,7 @@ scheme: basic
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - API key',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - API key","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: httpApiKey
 name: api_key
@@ -2494,7 +2527,7 @@ in: header
 
 ###### JWT Bearer Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - JWT',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - JWT","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "http",
@@ -2503,7 +2536,7 @@ in: header
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - JWT',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - JWT","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: http
 scheme: bearer
@@ -2512,7 +2545,7 @@ bearerFormat: JWT
 
 ###### Implicit OAuth2 Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - implicity OAuth2',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - implicity OAuth2","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "oauth2",
@@ -2531,7 +2564,7 @@ bearerFormat: JWT
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - implicity OAuth2',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - implicity OAuth2","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: oauth2
 flows:
@@ -2546,14 +2579,14 @@ scopes:
 
 ###### SASL Sample
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - SASL',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - SASL","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "scramSha512"
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme Object - SASL',json_path:'$.components.securitySchemes.oauth'} -->
+<!-- asyncapi-example-tester:{"test":"Security Scheme Object - SASL","json_path":"$.components.securitySchemes.oauth"} -->
 ```yaml
 type: scramSha512
 ```
@@ -2590,8 +2623,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### OAuth Flow Object Examples
 
-<!-- asyncapi-example-tester:{test:'Security Scheme OAuth Flow Object',json_path:'$.components.securitySchemes.oauth.flows.clientCredentials'} -->
-```JSON
+<!-- asyncapi-example-tester:{"test":"Security Scheme OAuth Flow Object","json_path":"$.components.securitySchemes.oauth.flows.clientCredentials"} -->
+```json
 {
   "authorizationUrl": "https://example.com/api/oauth/dialog",
   "tokenUrl": "https://example.com/api/oauth/token",
@@ -2602,8 +2635,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Security Scheme OAuth Flow Object',json_path:'$.components.securitySchemes.oauth.flows.clientCredentials'} -->
-```YAML
+<!-- asyncapi-example-tester:{"test":"Security Scheme OAuth Flow Object","json_path":"$.components.securitySchemes.oauth.flows.clientCredentials"} -->
+```yaml
 authorizationUrl: https://example.com/api/oauth/dialog
 tokenUrl: https://example.com/api/oauth/token
 availableScopes:
@@ -2628,7 +2661,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Examples
 
-<!-- asyncapi-example-tester:{test:'Message Correlation ID Object',json_path:'$.components.correlationIds.default'} -->
+<!-- asyncapi-example-tester:{"test":"Message Correlation ID Object","json_path":"$.components.correlationIds.default"} -->
 ```json
 {
   "description": "Default Correlation ID",
@@ -2636,7 +2669,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{test:'Message Correlation ID Object',json_path:'$.components.correlationIds.default'} -->
+<!-- asyncapi-example-tester:{"test":"Message Correlation ID Object","json_path":"$.components.correlationIds.default"} -->
 ```yaml
 description: Default Correlation ID
 location: $message.header#/correlationId
@@ -2676,7 +2709,27 @@ Traits MUST be merged with the target object using the [JSON Merge Patch](https:
 
 An object like the following:
 
-<!-- asyncapi-example-tester:{test:'Message Traits Object - merge mechanism',json_path:'$.components.messages.userSignUp'} -->
+<!-- asyncapi-example-tester:{"test":"Message Traits Object - merge mechanism","json_path":"$.components.messages.userSignUp"} -->
+```json
+{
+  "description": "A longer description.",
+  "traits": [
+    {
+      "name": "UserSignup",
+      "description": "Description from trait."
+    },
+    {
+      "tags": [
+        {
+          "name": "user"
+        }
+      ]
+    }
+  ]
+}
+```
+
+
 ```yaml
 description: A longer description.
 traits:
@@ -2688,7 +2741,20 @@ traits:
 
 Would look like the following after applying traits:
 
-<!-- asyncapi-example-tester:{test:'Message Traits Object - merge mechanism',json_path:'$.components.messages.userSignUp'} -->
+<!-- asyncapi-example-tester:{"test":"Message Traits Object - merge mechanism","json_path":"$.components.messages.userSignUp"} -->
+```json
+{
+  "name": "UserSignup",
+  "description": "A longer description.",
+  "tags": [
+    {
+      "name": "user"
+    }
+  ]
+}
+```
+
+
 ```yaml
 name: UserSignup
 description: A longer description.

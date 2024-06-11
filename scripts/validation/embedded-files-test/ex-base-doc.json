@@ -2,8 +2,8 @@
   "asyncapi": "3.0.0",
   "info": {
     "title": "AsyncAPI",
-    "version": "1.9.5",
-    "description": "This is a very good doc, probably.",
+    "version": "1.x.x",
+    "description": "This is a very good base doc, probably.",
     "termsOfService": "https://asyncapi.org/terms/",
     "license": {
       "name": "Apache 2.0",
@@ -273,6 +273,62 @@
           }
         },
         "required": ["timestamp", "source"]
+      },
+      "ComplexModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Pet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
       }
     },
     "servers": {
@@ -494,7 +550,9 @@
           }
         },
         "scopes": [
-          "subscribe:auth_revocations"
+          "subscribe:auth_revocations",
+          "write:pets",
+          "read:pets"
         ]
       }
     },
