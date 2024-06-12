@@ -42,18 +42,22 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 ### Platinum
 
-<a href="https://ibm.com" target="_blank">
-  <img src="./assets/ibm.png" alt="IBM logo" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://solace.com" target="_blank">
   <img src="./assets/solace.png" alt="Solace logo" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.gravitee.io" target="_blank">
+  <img src="./assets/gravitee.png" alt="Gravitee logo" height="70">
 </a>
 
 ### Gold
   
 <a href="https://postman.com" target="_blank">
   <img src="./assets/postman.png" alt="Postman logo" height="90">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://ibm.com" target="_blank">
+  <img src="./assets/ibm.png" alt="IBM logo" height="70">
 </a>
 
 ### Silver
@@ -63,17 +67,23 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.svix.com/" target="_blank">
-  <img src="./assets/svix.png" alt="svix logo" height="70">
+  <img src="./assets/svix.png" alt="Svix logo" height="70">
 </a>
 
 <br/>
 
 <a href="https://www.hivemq.com/" target="_blank">
-  <img src="./assets/hivemq-white-bg.png" alt="hivemq logo" height="70">
+  <img src="./assets/hivemq-white-bg.png" alt="HiveMQ logo" height="70">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.aklivity.io/" target="_blank">
-  <img src="./assets/aklivity.png" alt="aklivity logo" height="70">
+  <img src="./assets/aklivity.png" alt="Aklivity logo" height="70">
+</a>
+
+<br/>
+
+<a href="https://smartbear.com" target="_blank">
+  <img src="./assets/smartbear.png" alt="SmartBear logo" height="70">
 </a>
 
 ### Bronze
