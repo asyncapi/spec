@@ -1869,38 +1869,6 @@ Name | Allowed values | Notes
 
 <!-- asyncapi-example-tester:{"test":"Muti Format Schema Object - Avro","json_path":"$.channels"} -->
 
-```json
-"channels":{
-  "example": {
-    "messages": {
-      "myMessage": {
-        "payload": {
-          "schemaFormat": "application/vnd.apache.avro;version=1.9.0",
-          "schema": {
-            "type": "record",
-            "name": "User",
-            "namespace": "com.company",
-            "doc": "User information",
-            "fields": [
-              {
-                "name": "displayName",
-                "type": "string"
-              },
-              {
-                "name": "age",
-                "type": "int"
-              }
-            ]
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-<!-- asyncapi-example-tester:{"test":"Muti Format Schema Object - Avro","json_path":"$.channels"} -->
-
 ```yaml
 channels:
   example:
@@ -2709,27 +2677,6 @@ Traits MUST be merged with the target object using the [JSON Merge Patch](https:
 
 An object like the following:
 
-<!-- asyncapi-example-tester:{"test":"Message Traits Object - merge mechanism","json_path":"$.components.messages.userSignUp"} -->
-```json
-{
-  "description": "A longer description.",
-  "traits": [
-    {
-      "name": "UserSignup",
-      "description": "Description from trait."
-    },
-    {
-      "tags": [
-        {
-          "name": "user"
-        }
-      ]
-    }
-  ]
-}
-```
-
-
 ```yaml
 description: A longer description.
 traits:
@@ -2740,20 +2687,6 @@ traits:
 ```
 
 Would look like the following after applying traits:
-
-<!-- asyncapi-example-tester:{"test":"Message Traits Object - merge mechanism","json_path":"$.components.messages.userSignUp"} -->
-```json
-{
-  "name": "UserSignup",
-  "description": "A longer description.",
-  "tags": [
-    {
-      "name": "user"
-    }
-  ]
-}
-```
-
 
 ```yaml
 name: UserSignup
