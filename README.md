@@ -47,7 +47,7 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.gravitee.io" target="_blank">
-  <img src="./assets/gravitee.png" alt="Gravitee logo" height="70">
+  <img src="./assets/Gravitee.png" alt="Gravitee logo" height="70">
 </a>
 
 ### Gold
