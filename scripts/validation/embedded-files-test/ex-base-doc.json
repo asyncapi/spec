@@ -126,6 +126,15 @@
         "url": "https://example.com"
       }
     },
+    "userSignup": {
+      "address": "users.signup",
+      "description": "Channel for user signups",
+      "messages": {
+        "userSignedUp": {
+          "$ref": "#/components/messages/userSignedUp"
+        }
+      }
+    },
     "userSignupReply": {
       "address": "users.signup.reply",
       "description": "Channel for user signup replies",
@@ -561,6 +570,13 @@
         "bindings": {
           "amqp": {
             "ack": false
+          }
+        }
+      },
+      "kafka": {
+        "bindings": {
+          "kafka": {
+            "groupId": false
           }
         }
       }

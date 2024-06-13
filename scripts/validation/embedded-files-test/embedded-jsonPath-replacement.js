@@ -2,8 +2,8 @@ const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
 
 // Read the markdown file
-const markdownContent = fs.readFileSync('ex-doc-v1.md', 'utf8');
-// const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
+// const markdownContent = fs.readFileSync('ex-doc-v1.md', 'utf8');
+const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
 
 // Function to extract comments with example metadata
 function extractComments(content) {
@@ -25,6 +25,18 @@ function extractComments(content) {
 // Extract comments from the markdown file
 const comments = extractComments(markdownContent);
 
+// Function to determine which base document to use based on the comment
+function selectBaseDocument(comment) {
+  // Check if the comment's name includes "Security Scheme Object"
+  if (comment.name && comment.name.includes("Security Scheme Object")) {
+    // Read and return the second base document for examples with "Security Scheme Object"
+    return JSON.parse(fs.readFileSync('base-doc-security-scheme-object.json', 'utf8'));
+  } else {
+    // Read and return the first base document for all other cases
+    return JSON.parse(fs.readFileSync('ex-base-doc.json', 'utf8'));
+  }
+}
+
 // Function to extract JSON examples from markdown content
 function extractExamples(content) {
   const exampleRegex = /```json\s+([\s\S]*?)\s+```/g;
@@ -44,9 +56,6 @@ function extractExamples(content) {
 
 // Extract examples from the markdown file
 const examples = extractExamples(markdownContent);
-
-// Read the base AsyncAPI document for v3
-const baseDoc = JSON.parse(fs.readFileSync('base-doc-security-scheme-object.json', 'utf8'));
 
 // Function to deeply merge two objects without overwriting existing nested structures
 function deepMerge(target, source) {
@@ -88,7 +97,8 @@ const updates = comments.map((comment, index) => ({
   name: comment.name
 }));
 
-// Apply updates
+// Apply updates to the selected base document
+const baseDoc = selectBaseDocument(comments[0]); // Assuming using the first comment to decide base document
 updates.forEach(update => {
   try {
     const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
@@ -121,9 +131,11 @@ updates.forEach(update => {
 });
 
 // Save the updated document
-fs.writeFileSync('updated-doc.json', JSON.stringify(baseDoc, null, 2), 'utf8');
+fs.writeFileSync(`updated-doc.json`, JSON.stringify(baseDoc, null, 2), 'utf8');
 
 console.log('AsyncAPI v3 document updated successfully!');
 
-console.log(comments.length);
-// console.log(comments);
+
+console.log(`Number of examples extracted: ${examples.length}`);
+
+// console.log(baseDoc)
