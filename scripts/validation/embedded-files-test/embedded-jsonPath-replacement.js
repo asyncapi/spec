@@ -3,6 +3,7 @@ const { JSONPath } = require('jsonpath-plus');
 
 // Read the markdown file
 const markdownContent = fs.readFileSync('ex-doc-v1.md', 'utf8');
+// const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
 
 // Function to extract comments with example metadata
 function extractComments(content) {
@@ -45,7 +46,7 @@ function extractExamples(content) {
 const examples = extractExamples(markdownContent);
 
 // Read the base AsyncAPI document for v3
-const baseDoc = JSON.parse(fs.readFileSync('ex-base-doc.json', 'utf8'));
+const baseDoc = JSON.parse(fs.readFileSync('base-doc-security-scheme-object.json', 'utf8'));
 
 // Function to deeply merge two objects without overwriting existing nested structures
 function deepMerge(target, source) {
@@ -84,7 +85,7 @@ function setValueByPath(obj, path, value) {
 const updates = comments.map((comment, index) => ({
   json_path: comment.json_path,
   data: examples[index],
-  test: comment.test
+  name: comment.name
 }));
 
 // Apply updates
@@ -92,7 +93,7 @@ updates.forEach(update => {
   try {
     const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
 
-    console.log(`Processing update for test: ${update.test} at path: ${update.json_path}`);
+    console.log(`Processing update for ${update.name} at path ${update.json_path}`);
 
     const pathParts = update.json_path.split('.');
     const targetKey = pathParts[pathParts.length - 1];
@@ -115,7 +116,7 @@ updates.forEach(update => {
       });
     }
   } catch (e) {
-    console.error(`Error processing update for test: ${update.test} at path: ${update.json_path}`, e);
+    console.error(`Error processing update for ${update.name} at path ${update.json_path}`, e);
   }
 });
 
@@ -123,3 +124,6 @@ updates.forEach(update => {
 fs.writeFileSync('updated-doc.json', JSON.stringify(baseDoc, null, 2), 'utf8');
 
 console.log('AsyncAPI v3 document updated successfully!');
+
+console.log(comments.length);
+// console.log(comments);
