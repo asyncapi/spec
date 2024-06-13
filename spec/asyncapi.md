@@ -16,7 +16,7 @@ The AsyncAPI Specification is a project used to describe message-driven APIs in 
 
 The AsyncAPI Specification defines a set of fields that can be used in an AsyncAPI document to describe an [application](#definitionsApplication)'s API. The document may reference other files for additional details or shared fields, but it is typically a single, primary document that encapsulates the API description.
 
-The AsyncAPI document SHOULD describe the operations an [application](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
+The AsyncAPI document SHOULD describe the operations an [API](#definitionsApplication) performs. For instance, consider the following AsyncAPI definition snippet:
 
 ```yaml
 channels:
@@ -29,11 +29,11 @@ operations:
       $ref: "#/channels/userSignedUp"
 ```
 
-It means that the [application](#definitionsApplication) will receive messages from  the `userSignedUp` [channel](#definitionsChannel).
+It means that the [API](#definitionsApplication) will receive messages from  the `userSignedUp` [channel](#definitionsChannel).
 
 **The AsyncAPI specification does not assume any kind of software topology, architecture or pattern.** Therefore, a server MAY be a message broker, a web server or any other kind of computer program capable of sending and/or receiving data. However, AsyncAPI offers a mechanism called "bindings" that aims to help with more specific information about the protocol.
 
-It's NOT RECOMMENDED to derive a [receiver](#definitionsReceiver) AsyncAPI document from a [sender](#definitionsSender) one or vice versa. There are no guarantees that the channel used by an application to receive messages will be the same channel where another application is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the operation might stop making sense. For instance, given the following receiver snippet:
+It's NOT RECOMMENDED to derive a [receiver](#definitionsReceiver) AsyncAPI document from a [sender](#definitionsSender) one or vice versa. There are no guarantees that the channel used by an API to receive messages will be the same channel where another API is sending them. Also, certain fields in the document like `summary`, `description`, and the id of the operation might stop making sense. For instance, given the following receiver snippet:
 
 ```yaml
 operations:
@@ -45,7 +45,7 @@ operations:
       $ref: "#/channels/userSignedUp"
 ```
 
-We can't automatically assume that an _opposite_ application exists by simply replacing `receive` with `send`:
+We can't automatically assume that an _opposite_ API exists by simply replacing `receive` with `send`:
 
 ```yaml
 operations:
@@ -64,7 +64,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
 
 - [Definitions](#definitions)
   - [Server](#definitionsServer)
-  - [Application](#definitionsApplication)
+  - [API](#definitionsApplication)
   - [Sender](#definitionsSender)
   - [Receiver](#definitionsReceiver)
   - [Message](#definitionsMessage)
@@ -122,25 +122,25 @@ Aside from the issues mentioned above, there may also be infrastructure configur
 
 A server MAY be a message broker that is capable of sending and/or receiving between a [sender](#definitionsSender) and [receiver](#definitionsReceiver). A server MAY be a service with WebSocket API that enables message-driven communication between browser-to-server or server-to-server.
 
-### <a name="definitionsApplication"></a>Application
+### <a name="definitionsApplication"></a>API
 
-An application is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage).
+An API is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An API MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An API MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An API MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage).
 
 ### <a name="definitionsSender"></a>Sender
 
-A sender is a type of application, that is sending [messages](#definitionsMessage) to [channels](#definitionsChannel). A sender MAY send to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
+A sender is a type of API, that is sending [messages](#definitionsMessage) to [channels](#definitionsChannel). A sender MAY send to multiple channels depending on the [server](#definitionsServer), protocol, and use-case pattern.
 
 ### <a name="definitionsReceiver"></a>Receiver
 
-A receiver is a type of application that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
+A receiver is a type of API that is receiving [messages](#definitionsMessage) from [channels](#definitionsChannel). A receiver MAY receive from multiple channels depending on the [server](#definitionsServer), protocol, and the use-case pattern. A receiver MAY forward a received message further without changing it. A receiver MAY act as a consumer and react to the message. A receiver MAY act as a processor that, for example, aggregates multiple messages in one and forwards them.
 
 ### <a name="definitionsMessage"></a>Message
 
-A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and applications. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the application which can act as supporting metadata. The payload contains the data, defined by the application, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response.
+A message is the mechanism by which information is exchanged via a channel between [servers](#definitionsServer) and APIs. A message MAY contain a payload and MAY also contain headers. The headers MAY be subdivided into [protocol](#definitionsProtocol)-defined headers and header properties defined by the API which can act as supporting metadata. The payload contains the data, defined by the API, which MUST be serialized into a format (JSON, XML, Avro, binary, etc.). Since a message is a generic mechanism, it can support multiple interaction patterns such as event, command, request, or response.
 
 ### <a name="definitionsChannel"></a>Channel
 
-A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) applications send messages to channels and [receiver](#definitionsReceiver) applications receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
+A channel is an addressable component, made available by the [server](#definitionsServer), for the organization of [messages](#definitionsMessage). [Sender](#definitionsSender) APIs send messages to channels and [receiver](#definitionsReceiver) APIs receive messages from channels. [Servers](#definitionsServer) MAY support many channel instances, allowing messages with different content to be addressed to different channels. Depending on the [server](#definitionsServer) implementation, the channel MAY be included in the message via protocol-defined headers.
 
 ### <a name="definitionsProtocol"></a>Protocol
 
@@ -183,7 +183,7 @@ In order to preserve the ability to round-trip between YAML and JSON formats, YA
 An AsyncAPI document MAY be made up of a single document or be divided into multiple,
 connected parts at the discretion of the author. In the latter case, [Reference Objects](#referenceObject) are used.
 
-It is important to note that everything that is defined in an AsyncAPI document MUST be used by the implemented [Application](#definitionsApplication), with the exception of the [Components Object](#componentsObject). Everything that is defined inside the Components Object represents a resource that MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
+It is important to note that everything that is defined in an AsyncAPI document MUST be used by the implemented [API](#definitionsApplication), with the exception of the [Components Object](#componentsObject). Everything that is defined inside the Components Object represents a resource that MAY or MAY NOT be used by the implemented [API](#definitionsApplication).
 
 By convention, the AsyncAPI Specification (A2S) file is named `asyncapi.json` or `asyncapi.yaml`.
 
@@ -203,13 +203,13 @@ It combines resource listing and API declaration together into one document.
 Field Name | Type | Description
 ---|:---:|---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
-<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
+<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [API](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
 <a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
 <a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
-<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
-<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
-<a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
+<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [API](#definitionsApplication).
+<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [API](#definitionsApplication) MUST implement.
+<a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [API](#definitionsApplication).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -225,9 +225,9 @@ In subsequent versions of the AsyncAPI Specification, care will be given such th
 
 #### <a name="A2SIdString"></a>Identifier
 
-This field represents a unique universal identifier of the [application](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](https://tools.ietf.org/html/rfc3986).
+This field represents a unique universal identifier of the [API](#definitionsApplication) the AsyncAPI document is defining. It must conform to the URI format, according to [RFC3986](https://tools.ietf.org/html/rfc3986).
 
-It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the application during long periods of time, even after it becomes unavailable or ceases to exist.
+It is RECOMMENDED to use a [URN](https://tools.ietf.org/html/rfc8141) to globally and uniquely identify the API during long periods of time, even after it becomes unavailable or ceases to exist.
 
 ##### Examples
 
@@ -260,13 +260,13 @@ The metadata can be used by the clients if needed.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
-<a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
-<a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the API.
+<a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the API (not to be confused with the specification version).
+<a name="infoObjectDescription"></a>description | `string` | A short description of the API. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
 <a name="infoObjectTermsOfService"></a>termsOfService | `string` | A URL to the Terms of Service for the API. This MUST be in the form of an absolute URL.
 <a name="infoObjectContact"></a>contact | [Contact Object](#contactObject) | The contact information for the exposed API.
 <a name="infoObjectLicense"></a>license | [License Object](#licenseObject) | The license information for the exposed API.
-<a name="infoObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for application API documentation control. Tags can be used for logical grouping of applications.
+<a name="infoObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for the API documentation control. Tags can be used for logical grouping of APIs.
 <a name="infoObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation of the exposed API.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
@@ -384,7 +384,7 @@ The Servers Object is a map of [Server Objects](#serverObject).
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this application MAY connect to.
+<a name="serversObjectServer"></a>`^[A-Za-z0-9_\-]+$` | [Server Object](#serverObject) \| [Reference Object](#referenceObject) | The definition of a server this API MAY connect to.
 
 ##### Servers Object Example
 
@@ -583,7 +583,7 @@ defaultContentType: application/json
 
 #### <a name="channelsObject"></a>Channels Object
 
-An object containing all the [Channel Object](#channelObject) definitions the [Application](#definitionsApplication) MUST use during runtime.
+An object containing all the [Channel Object](#channelObject) definitions the [API](#definitionsApplication) MUST use during runtime.
 
 ##### Patterned Fields
 
@@ -623,7 +623,7 @@ Describes a shared communication channel.
 Field Name | Type | Description
 ---|:---:|---
 <a name="channelObjectAddress"></a>address | `string` \| `null` | An optional string representation of this channel's address. The address is typically the "topic name", "routing key", "event type", or "path". When `null` or absent, it MUST be interpreted as unknown. This is useful when the address is generated dynamically at runtime or can't be known upfront. It MAY contain [Channel Address Expressions](#channelAddressExpressions). Query parameters and fragments SHALL NOT be used, instead use [bindings](#channelBindingsObject) to define them.
-<a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any application at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
+<a name="channelObjectMessages"></a>messages | [Messages Object](#messagesObject) | A map of the messages that will be sent to this channel by any API at any time. **Every message sent to this channel MUST be valid against one, and only one, of the [message objects](#messageObject) defined in this map.**
 <a name="channelObjectTitle"></a>title | `string` | A human-friendly title for the channel.
 <a name="channelObjectSummary"></a>summary | `string` | A short summary of the channel.
 <a name="channelObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
@@ -744,15 +744,15 @@ userCompletedOrder:
 
 #### <a name="operationsObject"></a>Operations Object
 
-Holds a dictionary with all the [operations](#operationObject) this application MUST implement.
+Holds a dictionary with all the [operations](#operationObject) this API MUST implement.
 
-> If you're looking for a place to define operations that MAY or MAY NOT be implemented by the application, consider defining them in [`components/operations`](#componentsOperations).
+> If you're looking for a place to define operations that MAY or MAY NOT be implemented by the API, consider defining them in [`components/operations`](#componentsOperations).
 
 ##### Patterned Fields
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The operation this application MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="operationsObjectOperation"></a>{operationId} | [Operation Object](#operationObject) \| [Reference Object](#referenceObject) | The operation this API MUST implement. The field name (`operationId`) MUST be a string used to identify the operation in the document where it is defined, and its value is **case-sensitive**. Tools and libraries MAY use the `operationId` to uniquely identify an operation, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Operations Object Example
 
@@ -810,7 +810,7 @@ Describes a specific operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="operationObjectAction"></a>action | `"send"` &#124; `"receive"` | **Required**. Use `send` when it's expected that the application will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the application should expect receiving messages from the given [`channel`](#operationObjectChannel).
+<a name="operationObjectAction"></a>action | `"send"` &#124; `"receive"` | **Required**. Use `send` when it's expected that the API will send a message to the given [`channel`](#operationObjectChannel), and `receive` when the API should expect receiving messages from the given [`channel`](#operationObjectChannel).
 <a name="operationObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required**. A `$ref` pointer to the definition of the channel in which this operation is performed. If the operation is located in the [root Operations Object](#operationsObject), it MUST point to a channel definition located in the [root Channels Object](#channelsObject), and MUST NOT point to a channel definition located in the [Components Object](#componentsObject) or anywhere else. If the operation is located in the [Components Object](#componentsObject), it MAY point to a [Channel Object](#channelObject) in any location. Please note the `channel` property value MUST be a [Reference Object](#referenceObject) and, therefore, MUST NOT contain a [Channel Object](#channelObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 <a name="operationObjectTitle"></a>title | `string` | A human-friendly title for the operation.
 <a name="operationObjectSummary"></a>summary | `string` | A short summary of what the operation is about.
@@ -1184,7 +1184,7 @@ Describes a message received on a given channel and operation.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
+<a name="messageObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the API headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
@@ -1218,11 +1218,11 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     "type": "object",
     "properties": {
       "correlationId": {
-        "description": "Correlation ID set by application",
+        "description": "Correlation ID set by API",
         "type": "string"
       },
       "applicationInstanceId": {
-        "description": "Unique identifier for a given instance of the publishing application",
+        "description": "Unique identifier for a given instance of the publishing API",
         "type": "string"
       }
     }
@@ -1280,10 +1280,10 @@ headers:
   type: object
   properties:
     correlationId:
-      description: Correlation ID set by application
+      description: Correlation ID set by API
       type: string
     applicationInstanceId:
-      description: Unique identifier for a given instance of the publishing application
+      description: Unique identifier for a given instance of the publishing API
       type: string
 payload:
   type: object
@@ -1357,7 +1357,7 @@ If you're looking to apply traits to an operation, see the [Operation Trait Obje
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="messageTraitObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
+<a name="messageTraitObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the API headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
 <a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
@@ -1650,7 +1650,7 @@ my.org.User
           "type": "object",
           "properties": {
             "applicationInstanceId": {
-              "description": "Unique identifier for a given instance of the publishing application",
+              "description": "Unique identifier for a given instance of the publishing API",
               "type": "string"
             }
           }
@@ -1756,7 +1756,7 @@ components:
         type: object
         properties:
           applicationInstanceId:
-            description: Unique identifier for a given instance of the publishing application
+            description: Unique identifier for a given instance of the publishing API
             type: string
       payload:
         type: object
