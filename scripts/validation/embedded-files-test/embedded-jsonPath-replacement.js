@@ -2,6 +2,7 @@ const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
 
 // Read the markdown file
+// const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
 const markdownContent = fs.readFileSync('ex-doc-v1.md', 'utf8');
 
 // Function to extract comments with example metadata
@@ -9,7 +10,7 @@ function extractComments(content) {
   const commentRegex = /<!-- asyncapi-example-tester:(\{.*?\}) -->/g;
   let match;
   const comments = [];
-  
+
   while ((match = commentRegex.exec(content)) !== null) {
     try {
       comments.push({
@@ -20,7 +21,7 @@ function extractComments(content) {
       console.error("Failed to parse comment JSON:", match[1], e);
     }
   }
-  
+
   return comments;
 }
 
@@ -29,14 +30,14 @@ function extractExamples(content) {
   const exampleRegex = /```json\s+([\s\S]*?)\s+```/g;
   let match;
   const examples = [];
-  
+
   while ((match = exampleRegex.exec(content)) !== null) {
     examples.push({
       json: match[1],
       index: match.index
     });
   }
-  
+
   return examples;
 }
 
@@ -64,8 +65,6 @@ const combinedData = comments.map((comment) => {
     return null;
   }
 }).filter(item => item !== null);
-
-
 
 // Function to determine which base document to use based on the comment
 function selectBaseDocument(comment) {
@@ -108,51 +107,61 @@ function setValueByPath(obj, path, value) {
   });
 }
 
-// Create updates array from combinedData
-const updates = combinedData.map(item => ({
-  json_path: item.json_path,
-  data: item.example,
-  name: item.name
-}));
+// Function to apply updates and save the document
+function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
+  const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
 
-// Apply updates to the selected base document
-const baseDoc = selectBaseDocument(combinedData[0]); // Assuming using the first item to decide base document
-updates.forEach(update => {
-  try {
-    const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
+  updates.forEach(update => {
+    try {
+      const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
 
-    console.log(`\nProcessing update for ${update.name} at path ${update.json_path}`);
+      console.log(`\nProcessing update for ${update.name} at path ${update.json_path}`);
 
-    const pathParts = update.json_path.split('.');
-    const targetKey = pathParts[pathParts.length - 1];
+      const pathParts = update.json_path.split('.');
+      const targetKey = pathParts[pathParts.length - 1];
 
-    // Check if the top-level key of the example JSON matches the target key
-    let dataToMerge = update.data;
-    if (dataToMerge.hasOwnProperty(targetKey)) {
-      dataToMerge = dataToMerge[targetKey];
+      // Check if the top-level key of the example JSON matches the target key
+      let dataToMerge = update.data;
+      if (dataToMerge.hasOwnProperty(targetKey)) {
+        dataToMerge = dataToMerge[targetKey];
+      }
+
+      if (results.length === 0) {
+        console.log(`\nPath not found, creating path: ${update.json_path}`);
+        setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
+      } else {
+        results.forEach(result => {
+          const parent = result.parent;
+          const parentProperty = result.parentProperty;
+          console.log(`\nMerging data at path: ${update.json_path}`);
+          parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge); // Deep merge the existing data with the new data
+        });
+      }
+    } catch (e) {
+      console.error(`\nError processing update for ${update.name} at path ${update.json_path}`, e);
     }
+  });
 
-    if (results.length === 0) {
-      console.log(`\nPath not found, creating path: ${update.json_path}`);
-      setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
-    } else {
-      results.forEach(result => {
-        const parent = result.parent;
-        const parentProperty = result.parentProperty;
-        console.log(`\nMerging data at path: ${update.json_path}`);
-        parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge); // Deep merge the existing data with the new data
-      });
-    }
-  } catch (e) {
-    console.error(`\nError processing update for ${update.name} at path ${update.json_path}`, e);
-  }
+  fs.writeFileSync(outputPath, JSON.stringify(baseDoc, null, 2), 'utf8');
+}
+
+// Iterate over the combinedData array and apply updates for each item
+combinedData.forEach((item, index) => {
+  const baseDocPath = item.name && item.name.includes("Security Scheme Object")
+    ? 'base-doc-security-scheme-object.json'
+    : 'ex-base-doc.json';
+  const outputPath = `./updated-docs/updated-doc-${index}.json`;
+
+  // Apply updates and save the document
+  applyUpdatesAndSave([item], baseDocPath, outputPath);
+
+  // Delete the updated document after saving
+  // fs.unlinkSync(outputPath);
 });
 
-// Save the updated document
-fs.writeFileSync(`updated-doc.json`, JSON.stringify(baseDoc, null, 2), 'utf8');
-
-
-// Output the combined data
+console.log('\nAsyncAPI v3 document updated successfully for all items!');
+// console.log(`\nNumber of examples extracted: ${examples.length}`);
 console.log(JSON.stringify(combinedData, null, 2));
-console.log('\nAsyncAPI v3 document updated successfully!');
-console.log(`\nNumber of examples extracted: ${examples.length}`);
+console.log(`\nNumber of examples extracted: ${combinedData.length}`);
+
+fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
