@@ -82,6 +82,16 @@
           "queue": "my-queue"
         }
       }
+    },
+    "rabbitmqInProd": {
+      "host": "{prod}.in.mycompany.com",
+      "protocol": "amqp",
+      "description": "Production server"
+      },
+    "rabbitmqInStaging": {
+      "host": "{stage}.in.mycompany.com",
+      "protocol": "amqp",
+      "description": "Staging server"
     }
   },
   "channels": {
@@ -559,9 +569,7 @@
           }
         },
         "scopes": [
-          "subscribe:auth_revocations",
-          "write:pets",
-          "read:pets"
+          "subscribe:auth_revocations"
         ]
       }
     },
