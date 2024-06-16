@@ -21,5 +21,6 @@ jobs:
           node-version: '20'
       - name: Install Dependencies
         run: npm install
+          working-directory: ./scripts/validation/
       - name: Validate AsyncAPI documents
         run: npm run validate:examples
