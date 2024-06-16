@@ -143,22 +143,32 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
 }
 
 // Iterate over the combinedData array and apply updates for each item
+const outputDir = path.join(__dirname, 'updated-docs');
+const validationPromises = []; // Array to store all validation promises
 combinedData.forEach((item, index) => {
   const baseDocPath = item.name && item.name.includes("Security Scheme Object")
     ? 'base-doc-security-scheme-object.json'
     : 'ex-base-doc.json';
     // use this line for final version
   // const outputPath = `./updated-docs/${item.name}.json`;
-  const outputPath = `./updated-docs/updated-doc-${index + 1}.json`;
+
+
+  // Check if the directory exists, and if not, create it
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  const outputPath = path.join(outputDir, `updated-doc-${index + 1}.json`);
+  // const outputPath = `./updated-docs/updated-doc-${index + 1}.json`;
 
   // Apply updates and save the document
   applyUpdatesAndSave([item], baseDocPath, outputPath);
 
   // Validate the output file
-  // validateFile(outputPath);
+  // validateParser(outputPath);
 
   // Use the AsyncAPI CLI to validate the output file
-  validateAsyncAPI(outputPath)
+  const validationPromise = validateCli(outputPath)
   .then((output) => {
     console.log('\nValidation output:', output);
   })
@@ -167,10 +177,12 @@ combinedData.forEach((item, index) => {
   });
   // Delete the updated document after saving
   // fs.unlinkSync(outputPath);
+
+  validationPromises.push(validationPromise);
 });
 
 //  Function to validate a file using AsyncAPI parser
-async function validateFile(filePath) {
+async function validateParser(filePath) {
   const document = fs.readFileSync(filePath, 'utf8');
   try {
     const diagnostics = await parser.validate(document);
@@ -180,11 +192,11 @@ async function validateFile(filePath) {
         if (diagnostic.level === 'error') {
           console.error(`Error in ${filePath}: ${diagnostic.message}`);
         } else {
-          console.log(`Warning in ${filePath}: ${diagnostic.message}`);
+          console.log(`\n\nWarning in ${filePath}: ${diagnostic.message}`);
         }
       });
     } else {
-      console.log(`${filePath} is valid.`);
+      console.log(`\n\n${filePath} is valid.`);
     }
   } catch (error) {
     console.error(`Validation failed for ${filePath}: ${error.message}`);
@@ -192,7 +204,7 @@ async function validateFile(filePath) {
 }
 
 // Function to validate a file using AsyncAPI CLI
-async function validateAsyncAPI(filePath) {
+async function validateCli(filePath) {
   return new Promise((resolve, reject) => {
     // Construct the command to run the AsyncAPI CLI validate command
     const command = `npx asyncapi validate ${path.resolve(filePath)}`;
@@ -215,8 +227,31 @@ async function validateAsyncAPI(filePath) {
   });
 }
 
-console.log('\nAsyncAPI v3 document updated successfully for all items!');
-console.log(JSON.stringify(combinedData, null, 2));
+// Function to delete a folder and its contents recursively
+async function deleteFolderRecursive(dir) {
+  try {
+    const files = await fs.promises.readdir(dir);
+
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const fileStat = await fs.promises.stat(filePath);
+
+      if (fileStat.isDirectory()) {
+        await deleteFolderRecursive(filePath);
+      } else {
+        await fs.promises.unlink(filePath);
+      }
+    }
+
+    await fs.promises.rmdir(dir);
+    console.log(`Folder ${dir} and its contents have been deleted.`);
+    console.log('\n\nAll examples validated successfully!');
+  } catch (err) {
+    console.error('Error deleting folder:', err);
+  }
+}
+
+// console.log(JSON.stringify(combinedData, null, 2));
 console.log(`\nNumber of examples extracted: ${combinedData.length}`);
 
 fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
@@ -225,3 +260,15 @@ let num = 43;
 const currentExample = JSON.stringify(combinedData[num-1], null, 2);
 console.log(`\nexample ${num} = ${currentExample} `)
 // console.log(`\n${combinedData[num-1].name} = ${currentExample} `)
+
+// Wait for all validation promises to resolve
+Promise.all(validationPromises)
+  .then(() => {
+    // All validations are complete, delete the folder
+    // deleteFolderRecursive(outputDir);
+  })
+  .catch((error) => {
+    console.error('Error during validations:', error);
+  });
+
+
