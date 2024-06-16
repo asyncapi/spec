@@ -1,10 +1,10 @@
 {
   "name": "validation",
   "version": "1.0.0",
-  "description": "for example validation files",
-  "main": "validate-embedded-examples.js",
+  "description": "for validation of embedded examples in asyncapi.md file",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "validate:examples": "node embedded-examples-validation.js"
   },
   "author": "Animesh Kumar",
   "license": "ISC",

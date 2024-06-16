@@ -158,8 +158,10 @@ combinedData.forEach((item, index) => {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  const outputPath = path.join(outputDir, `updated-doc-${index + 1}.json`);
+  const processedExampleName = item.name.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+  const outputPath = path.join(outputDir, `${processedExampleName}.json`);
   // const outputPath = `./updated-docs/updated-doc-${index + 1}.json`;
+  // console.log(`\n${combinedData[num-1].name} = ${currentExample}`);
 
   // Apply updates and save the document
   applyUpdatesAndSave([item], baseDocPath, outputPath);
@@ -259,7 +261,7 @@ console.log(`\nNumber of examples extracted: ${combinedData.length}`);
 let num = 43;
 const currentExample = JSON.stringify(combinedData[num-1], null, 2);
 console.log(`\nexample ${num} = ${currentExample} `)
-// console.log(`\n${combinedData[num-1].name} = ${currentExample} `)
+// console.log(`\n${combinedData[num-1].name} = ${currentExample}`);
 
 // Wait for all validation promises to resolve
 Promise.all(validationPromises)
