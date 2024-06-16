@@ -1,5 +1,9 @@
 const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
+const { exec } = require('child_process');
+const path = require('path');
+const { Parser } = require('@asyncapi/parser');
+const parser = new Parser();
 
 // Read the markdown file
 const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
@@ -145,14 +149,71 @@ combinedData.forEach((item, index) => {
     : 'ex-base-doc.json';
     // use this line for final version
   // const outputPath = `./updated-docs/${item.name}.json`;
-  const outputPath = `./updated-docs/updated-doc-${index+1}.json`;
+  const outputPath = `./updated-docs/updated-doc-${index + 1}.json`;
 
   // Apply updates and save the document
   applyUpdatesAndSave([item], baseDocPath, outputPath);
 
+  // Validate the output file
+  // validateFile(outputPath);
+
+  // Use the AsyncAPI CLI to validate the output file
+  validateAsyncAPI(outputPath)
+  .then((output) => {
+    console.log('\nValidation output:', output);
+  })
+  .catch((error) => {
+    console.error('Validation error:', error);
+  });
   // Delete the updated document after saving
   // fs.unlinkSync(outputPath);
 });
+
+//  Function to validate a file using AsyncAPI parser
+async function validateFile(filePath) {
+  const document = fs.readFileSync(filePath, 'utf8');
+  try {
+    const diagnostics = await parser.validate(document);
+
+    if (diagnostics.length > 0) {
+      diagnostics.forEach(diagnostic => {
+        if (diagnostic.level === 'error') {
+          console.error(`Error in ${filePath}: ${diagnostic.message}`);
+        } else {
+          console.log(`Warning in ${filePath}: ${diagnostic.message}`);
+        }
+      });
+    } else {
+      console.log(`${filePath} is valid.`);
+    }
+  } catch (error) {
+    console.error(`Validation failed for ${filePath}: ${error.message}`);
+  }
+}
+
+// Function to validate a file using AsyncAPI CLI
+async function validateAsyncAPI(filePath) {
+  return new Promise((resolve, reject) => {
+    // Construct the command to run the AsyncAPI CLI validate command
+    const command = `npx asyncapi validate ${path.resolve(filePath)}`;
+    
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        // If there is an error executing the command, reject the promise
+        return reject(`exec error: ${error}`);
+      }
+
+      if (stderr) {
+        // If there is an error message in stderr, log it and reject the promise
+        console.error(`stderr: ${stderr}`);
+        return reject(stderr);
+      }
+
+      // If no error, resolve the promise with stdout
+      resolve(stdout);
+    });
+  });
+}
 
 console.log('\nAsyncAPI v3 document updated successfully for all items!');
 console.log(JSON.stringify(combinedData, null, 2));
