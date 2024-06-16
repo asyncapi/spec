@@ -2,8 +2,7 @@ const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
 
 // Read the markdown file
-// const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
-const markdownContent = fs.readFileSync('ex-doc-v1.md', 'utf8');
+const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
 
 // Function to extract comments with example metadata
 function extractComments(content) {
@@ -61,23 +60,15 @@ const combinedData = comments.map((comment) => {
       return null;
     }
   } else {
-    console.error(`No matching example found for comment: ${comment.json.name}`);
+    console.error(`No matching example found for comment: '${comment.json.name}'`);
     return null;
   }
 }).filter(item => item !== null);
 
-// Function to determine which base document to use based on the comment
-function selectBaseDocument(comment) {
-  const baseDocPath = comment.name && comment.name.includes("Security Scheme Object")
-    ? 'base-doc-security-scheme-object.json'
-    : 'ex-base-doc.json';
-  return JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
-}
-
 // Function to deeply merge two objects without overwriting existing nested structures
 function deepMerge(target, source) {
   for (const key of Object.keys(source)) {
-    if (source[key] instanceof Object && key in target) {
+    if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
       target[key] = deepMerge(target[key], source[key]);
     } else {
       target[key] = source[key];
@@ -93,11 +84,7 @@ function setValueByPath(obj, path, value) {
 
   pathParts.forEach((part, index) => {
     if (index === pathParts.length - 1) {
-      if (current[part] === undefined) {
-        current[part] = value; // Set the new value if the path does not exist
-      } else {
-        current[part] = deepMerge(current[part], value); // Deep merge if the path exists
-      }
+      current[part] = value; // Set the new value directly
     } else {
       if (!current[part]) {
         current[part] = {}; // Create object if it doesn't exist
@@ -113,35 +100,41 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
 
   updates.forEach(update => {
     try {
-      const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
-
-      console.log(`\nProcessing update for ${update.name} at path ${update.json_path}`);
-
-      const pathParts = update.json_path.split('.');
-      const targetKey = pathParts[pathParts.length - 1];
-
-      // Check if the top-level key of the example JSON matches the target key
-      let dataToMerge = update.data;
-      if (dataToMerge.hasOwnProperty(targetKey)) {
-        dataToMerge = dataToMerge[targetKey];
-      }
-
-      if (results.length === 0) {
-        console.log(`\nPath not found, creating path: ${update.json_path}`);
-        setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
+      if (update.json_path === "$") {
+        console.log(`\nProcessing update for '${update.name}' at root path '$'`);
+        for (const key in update.example) {
+          baseDoc[key] = update.example[key];
+        }
       } else {
-        results.forEach(result => {
-          const parent = result.parent;
-          const parentProperty = result.parentProperty;
-          console.log(`\nMerging data at path: ${update.json_path}`);
-          parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge); // Deep merge the existing data with the new data
-        });
+        const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
+
+        console.log(`\nProcessing update for '${update.name}' at path '${update.json_path}'`);
+
+        const pathParts = update.json_path.split('.');
+        const targetKey = pathParts[pathParts.length - 1];
+
+        // Check if the top-level key of the example JSON matches the target key
+        let dataToMerge = update.example;
+        if (dataToMerge.hasOwnProperty(targetKey)) {
+          dataToMerge = dataToMerge[targetKey];
+        }
+
+        if (results.length === 0) {
+          console.log(`\nPath not found, creating path: '${update.json_path}'`);
+          setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
+        } else {
+          results.forEach(result => {
+            const parent = result.parent;
+            const parentProperty = result.parentProperty;
+            console.log(`\nMerging data at path: '${update.json_path}'`);
+            parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge); // Deep merge the existing data with the new data
+          });
+        }
       }
     } catch (e) {
-      console.error(`\nError processing update for ${update.name} at path ${update.json_path}`, e);
+      console.error(`\nError processing update for '${update.name}' at path '${update.json_path}'`, e);
     }
   });
-
   fs.writeFileSync(outputPath, JSON.stringify(baseDoc, null, 2), 'utf8');
 }
 
@@ -150,7 +143,9 @@ combinedData.forEach((item, index) => {
   const baseDocPath = item.name && item.name.includes("Security Scheme Object")
     ? 'base-doc-security-scheme-object.json'
     : 'ex-base-doc.json';
-  const outputPath = `./updated-docs/updated-doc-${index}.json`;
+    // use this line for final version
+  // const outputPath = `./updated-docs/${item.name}.json`;
+  const outputPath = `./updated-docs/updated-doc-${index+1}.json`;
 
   // Apply updates and save the document
   applyUpdatesAndSave([item], baseDocPath, outputPath);
@@ -160,8 +155,12 @@ combinedData.forEach((item, index) => {
 });
 
 console.log('\nAsyncAPI v3 document updated successfully for all items!');
-// console.log(`\nNumber of examples extracted: ${examples.length}`);
 console.log(JSON.stringify(combinedData, null, 2));
 console.log(`\nNumber of examples extracted: ${combinedData.length}`);
 
 fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
+
+let num = 43;
+const currentExample = JSON.stringify(combinedData[num-1], null, 2);
+console.log(`\nexample ${num} = ${currentExample} `)
+// console.log(`\n${combinedData[num-1].name} = ${currentExample} `)
