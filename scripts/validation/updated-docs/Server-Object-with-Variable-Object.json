@@ -22,10 +22,10 @@
   "servers": {
     "production": {
       "host": "rabbitmq.in.mycompany.com:5672",
-      "pathname": "/v1",
+      "pathname": "/{env}",
       "protocol": "amqp",
       "protocolVersion": "1.0",
-      "description": "Production RabbitMQ broker (uses the `production` vhost).",
+      "description": "RabbitMQ broker. Use the `env` variable to point to either `production` or `staging`.",
       "title": "Production Server",
       "summary": "Production environment server",
       "security": [
@@ -48,6 +48,15 @@
         "amqp": {
           "exchange": "my-exchange",
           "queue": "my-queue"
+        }
+      },
+      "variables": {
+        "env": {
+          "description": "Environment to connect to. It can be either `production` or `staging`.",
+          "enum": [
+            "production",
+            "staging"
+          ]
         }
       }
     },
@@ -87,7 +96,7 @@
       "host": "{prod}.in.mycompany.com",
       "protocol": "amqp",
       "description": "Production server"
-      },
+    },
     "rabbitmqInStaging": {
       "host": "{stage}.in.mycompany.com",
       "protocol": "amqp",
@@ -228,7 +237,7 @@
           }
         ]
       },
-      "traits":[]
+      "traits": []
     }
   },
   "components": {
@@ -277,7 +286,11 @@
             "description": "The email of the user"
           }
         },
-        "required": ["id", "name", "email"]
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
       },
       "signup": {
         "type": "object",
@@ -292,7 +305,10 @@
             "description": "The source of the signup"
           }
         },
-        "required": ["timestamp", "source"]
+        "required": [
+          "timestamp",
+          "source"
+        ]
       },
       "ComplexModel": {
         "type": "object",
@@ -427,7 +443,7 @@
         "bindings": {
           "$ref": "#/components/messageBindings/user"
         },
-        "examples":[]
+        "examples": []
       },
       "userSignedUp": {
         "name": "UserSignup",
@@ -436,9 +452,15 @@
         "description": "A longer description",
         "contentType": "application/json",
         "tags": [
-          { "name": "user" },
-          { "name": "signup" },
-          { "name": "register" }
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
         ],
         "headers": {
           "type": "object",
@@ -469,7 +491,9 @@
           "location": "$message.header#/correlationId"
         },
         "traits": [
-          { "$ref": "#/components/messageTraits/commonHeaders" }
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
         ],
         "examples": [
           {
@@ -490,7 +514,7 @@
           }
         ]
       },
-      "userSignedUpReply":{
+      "userSignedUpReply": {
         "name": "UserSignupReply",
         "title": "User signup reply",
         "summary": "User signup reply message",

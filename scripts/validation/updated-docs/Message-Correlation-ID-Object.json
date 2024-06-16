@@ -87,7 +87,7 @@
       "host": "{prod}.in.mycompany.com",
       "protocol": "amqp",
       "description": "Production server"
-      },
+    },
     "rabbitmqInStaging": {
       "host": "{stage}.in.mycompany.com",
       "protocol": "amqp",
@@ -228,7 +228,7 @@
           }
         ]
       },
-      "traits":[]
+      "traits": []
     }
   },
   "components": {
@@ -277,7 +277,11 @@
             "description": "The email of the user"
           }
         },
-        "required": ["id", "name", "email"]
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
       },
       "signup": {
         "type": "object",
@@ -292,7 +296,10 @@
             "description": "The source of the signup"
           }
         },
-        "required": ["timestamp", "source"]
+        "required": [
+          "timestamp",
+          "source"
+        ]
       },
       "ComplexModel": {
         "type": "object",
@@ -427,7 +434,7 @@
         "bindings": {
           "$ref": "#/components/messageBindings/user"
         },
-        "examples":[]
+        "examples": []
       },
       "userSignedUp": {
         "name": "UserSignup",
@@ -436,9 +443,15 @@
         "description": "A longer description",
         "contentType": "application/json",
         "tags": [
-          { "name": "user" },
-          { "name": "signup" },
-          { "name": "register" }
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
         ],
         "headers": {
           "type": "object",
@@ -469,7 +482,9 @@
           "location": "$message.header#/correlationId"
         },
         "traits": [
-          { "$ref": "#/components/messageTraits/commonHeaders" }
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
         ],
         "examples": [
           {
@@ -490,7 +505,7 @@
           }
         ]
       },
-      "userSignedUpReply":{
+      "userSignedUpReply": {
         "name": "UserSignupReply",
         "title": "User signup reply",
         "summary": "User signup reply message",

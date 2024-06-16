@@ -82,16 +82,6 @@
           "queue": "my-queue"
         }
       }
-    },
-    "rabbitmqInProd": {
-      "host": "{prod}.in.mycompany.com",
-      "protocol": "amqp",
-      "description": "Production server"
-      },
-    "rabbitmqInStaging": {
-      "host": "{stage}.in.mycompany.com",
-      "protocol": "amqp",
-      "description": "Staging server"
     }
   },
   "channels": {
@@ -227,8 +217,7 @@
             "$ref": "#/channels/userSignupReply/messages/userSignedUpReply"
           }
         ]
-      },
-      "traits":[]
+      }
     }
   },
   "components": {
@@ -277,7 +266,11 @@
             "description": "The email of the user"
           }
         },
-        "required": ["id", "name", "email"]
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
       },
       "signup": {
         "type": "object",
@@ -292,7 +285,10 @@
             "description": "The source of the signup"
           }
         },
-        "required": ["timestamp", "source"]
+        "required": [
+          "timestamp",
+          "source"
+        ]
       },
       "ComplexModel": {
         "type": "object",
@@ -426,8 +422,7 @@
         },
         "bindings": {
           "$ref": "#/components/messageBindings/user"
-        },
-        "examples":[]
+        }
       },
       "userSignedUp": {
         "name": "UserSignup",
@@ -436,9 +431,15 @@
         "description": "A longer description",
         "contentType": "application/json",
         "tags": [
-          { "name": "user" },
-          { "name": "signup" },
-          { "name": "register" }
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
         ],
         "headers": {
           "type": "object",
@@ -469,7 +470,9 @@
           "location": "$message.header#/correlationId"
         },
         "traits": [
-          { "$ref": "#/components/messageTraits/commonHeaders" }
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
         ],
         "examples": [
           {
@@ -489,25 +492,6 @@
             }
           }
         ]
-      },
-      "userSignedUpReply":{
-        "name": "UserSignupReply",
-        "title": "User signup reply",
-        "summary": "User signup reply message",
-        "contentType": "application/json",
-        "payload": {
-          "type": "object",
-          "properties": {
-            "status": {
-              "type": "string",
-              "description": "Status of the signup process"
-            },
-            "message": {
-              "type": "string",
-              "description": "Additional information"
-            }
-          }
-        }
       },
       "userCompletedOrder": {
         "summary": "User completed order event",
@@ -582,15 +566,16 @@
         "type": "oauth2",
         "description": "The oauth security descriptions",
         "flows": {
-          "clientCredentials": {
-            "tokenUrl": "https://example.com/api/oauth/dialog",
+          "implicit": {
+            "authorizationUrl": "https://example.com/api/oauth/dialog",
             "availableScopes": {
-              "subscribe:auth_revocations": "Scope required for authorization revocation topic"
+              "write:pets": "modify pets in your account",
+              "read:pets": "read your pets"
             }
           }
         },
         "scopes": [
-          "subscribe:auth_revocations"
+          "write:pets"
         ]
       }
     },

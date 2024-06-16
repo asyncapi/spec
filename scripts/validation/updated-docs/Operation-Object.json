@@ -87,7 +87,7 @@
       "host": "{prod}.in.mycompany.com",
       "protocol": "amqp",
       "description": "Production server"
-      },
+    },
     "rabbitmqInStaging": {
       "host": "{stage}.in.mycompany.com",
       "protocol": "amqp",
@@ -175,7 +175,7 @@
       "summary": "Action to sign a user up.",
       "description": "A longer description",
       "channel": {
-        "$ref": "#/channels/user"
+        "$ref": "#/channels/userSignup"
       },
       "security": [
         {
@@ -191,6 +191,10 @@
           },
           "scopes": [
             "subscribe:auth_revocations"
+          ],
+          "petstore_auth": [
+            "write:pets",
+            "read:pets"
           ]
         }
       ],
@@ -212,7 +216,7 @@
       },
       "messages": [
         {
-          "$ref": "#/channels/user/messages/userSignedUp"
+          "$ref": "/components/messages/userSignedUp"
         }
       ],
       "reply": {
@@ -224,11 +228,15 @@
         },
         "messages": [
           {
-            "$ref": "#/channels/userSignupReply/messages/userSignedUpReply"
+            "$ref": "/components/messages/userSignedUpReply"
           }
         ]
       },
-      "traits":[]
+      "traits": [
+        {
+          "$ref": "#/components/operationTraits/kafka"
+        }
+      ]
     }
   },
   "components": {
@@ -277,7 +285,11 @@
             "description": "The email of the user"
           }
         },
-        "required": ["id", "name", "email"]
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
       },
       "signup": {
         "type": "object",
@@ -292,7 +304,10 @@
             "description": "The source of the signup"
           }
         },
-        "required": ["timestamp", "source"]
+        "required": [
+          "timestamp",
+          "source"
+        ]
       },
       "ComplexModel": {
         "type": "object",
@@ -427,7 +442,7 @@
         "bindings": {
           "$ref": "#/components/messageBindings/user"
         },
-        "examples":[]
+        "examples": []
       },
       "userSignedUp": {
         "name": "UserSignup",
@@ -436,9 +451,15 @@
         "description": "A longer description",
         "contentType": "application/json",
         "tags": [
-          { "name": "user" },
-          { "name": "signup" },
-          { "name": "register" }
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
         ],
         "headers": {
           "type": "object",
@@ -469,7 +490,9 @@
           "location": "$message.header#/correlationId"
         },
         "traits": [
-          { "$ref": "#/components/messageTraits/commonHeaders" }
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
         ],
         "examples": [
           {
@@ -490,7 +513,7 @@
           }
         ]
       },
-      "userSignedUpReply":{
+      "userSignedUpReply": {
         "name": "UserSignupReply",
         "title": "User signup reply",
         "summary": "User signup reply message",

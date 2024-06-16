@@ -87,7 +87,7 @@
       "host": "{prod}.in.mycompany.com",
       "protocol": "amqp",
       "description": "Production server"
-      },
+    },
     "rabbitmqInStaging": {
       "host": "{stage}.in.mycompany.com",
       "protocol": "amqp",
@@ -228,7 +228,7 @@
           }
         ]
       },
-      "traits":[]
+      "traits": []
     }
   },
   "components": {
@@ -277,7 +277,11 @@
             "description": "The email of the user"
           }
         },
-        "required": ["id", "name", "email"]
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
       },
       "signup": {
         "type": "object",
@@ -292,7 +296,10 @@
             "description": "The source of the signup"
           }
         },
-        "required": ["timestamp", "source"]
+        "required": [
+          "timestamp",
+          "source"
+        ]
       },
       "ComplexModel": {
         "type": "object",
@@ -347,6 +354,96 @@
           },
           "tag": {
             "type": "string"
+          }
+        }
+      },
+      "WithPolymorphism": {
+        "schemas": {
+          "Pet": {
+            "type": "object",
+            "discriminator": "petType",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "petType": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "petType"
+            ]
+          },
+          "Cat": {
+            "description": "A representation of a cat. Note that `Cat` will be used as the discriminator value.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Pet"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "huntingSkill": {
+                    "type": "string",
+                    "description": "The measured skill for hunting",
+                    "enum": [
+                      "clueless",
+                      "lazy",
+                      "adventurous",
+                      "aggressive"
+                    ]
+                  }
+                },
+                "required": [
+                  "huntingSkill"
+                ]
+              }
+            ]
+          },
+          "Dog": {
+            "description": "A representation of a dog. Note that `Dog` will be used as the discriminator value.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Pet"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "packSize": {
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "the size of the pack the dog is from",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "packSize"
+                ]
+              }
+            ]
+          },
+          "StickInsect": {
+            "description": "A representation of an Australian walking stick. Note that `StickBug` will be used as the discriminator value.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Pet"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "petType": {
+                    "const": "StickBug"
+                  },
+                  "color": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "color"
+                ]
+              }
+            ]
           }
         }
       }
@@ -427,7 +524,7 @@
         "bindings": {
           "$ref": "#/components/messageBindings/user"
         },
-        "examples":[]
+        "examples": []
       },
       "userSignedUp": {
         "name": "UserSignup",
@@ -436,9 +533,15 @@
         "description": "A longer description",
         "contentType": "application/json",
         "tags": [
-          { "name": "user" },
-          { "name": "signup" },
-          { "name": "register" }
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
         ],
         "headers": {
           "type": "object",
@@ -469,7 +572,9 @@
           "location": "$message.header#/correlationId"
         },
         "traits": [
-          { "$ref": "#/components/messageTraits/commonHeaders" }
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
         ],
         "examples": [
           {
@@ -490,7 +595,7 @@
           }
         ]
       },
-      "userSignedUpReply":{
+      "userSignedUpReply": {
         "name": "UserSignupReply",
         "title": "User signup reply",
         "summary": "User signup reply message",

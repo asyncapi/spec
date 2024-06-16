@@ -1422,7 +1422,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Message Example Object Example
 
-<!-- asyncapi-example-tester:{"name":"Message Example Object","json_path":"$.components.messages.userSignUp.examples[0]"} -->
+<!-- asyncapi-example-tester:{"name":"Message Example Object","json_path":"$.components.messages.userSignUp.examples"} -->
 ```json
 {
   "name": "SimpleSignup",

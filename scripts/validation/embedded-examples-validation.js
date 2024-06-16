@@ -131,7 +131,13 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
             const parent = result.parent;
             const parentProperty = result.parentProperty;
             console.log(`\nMerging data at path: '${update.json_path}'`);
-            parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge); // Deep merge the existing data with the new data
+            if (Array.isArray(parent[parentProperty])) {
+              // If the existing data is an array, add the update data as an array item
+              parent[parentProperty].push(dataToMerge);
+            } else {
+              // Otherwise, deep merge the existing data with the new data
+              parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge);
+            }
           });
         }
       }
@@ -145,13 +151,10 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
 // Iterate over the combinedData array and apply updates for each item
 const outputDir = path.join(__dirname, 'updated-docs');
 const validationPromises = []; // Array to store all validation promises
-combinedData.forEach((item, index) => {
+combinedData.forEach((item) => {
   const baseDocPath = item.name && item.name.includes("Security Scheme Object")
     ? 'base-doc-security-scheme-object.json'
     : 'base-doc.json';
-    // use this line for final version
-  // const outputPath = `./updated-docs/${item.name}.json`;
-
 
   // Check if the directory exists, and if not, create it
   if (!fs.existsSync(outputDir)) {
@@ -166,16 +169,16 @@ combinedData.forEach((item, index) => {
   // Apply updates and save the document
   applyUpdatesAndSave([item], baseDocPath, outputPath);
 
-  // Validate the output file
-  // validateParser(outputPath);
+  // Validate the output file using the AsyncAPI parser
+  // const validationPromise = validateParser(outputPath);
 
   // Use the AsyncAPI CLI to validate the output file
   const validationPromise = validateCli(outputPath)
   .then((output) => {
-    console.log('\nValidation output:', output);
+    console.log(`\n${output}`);
   })
   .catch((error) => {
-    console.error('Validation error:', error);
+    console.error(error);
   });
   // Delete the updated document after saving
   // fs.unlinkSync(outputPath);
@@ -194,11 +197,11 @@ async function validateParser(filePath) {
         if (diagnostic.level === 'error') {
           console.error(`Error in ${filePath}: ${diagnostic.message}`);
         } else {
-          console.log(`\n\nWarning in ${filePath}: ${diagnostic.message}`);
+          console.log(`Warning in ${filePath}: ${diagnostic.message}`);
         }
       });
     } else {
-      console.log(`\n\n${filePath} is valid.`);
+      console.log(`${filePath} is valid.`);
     }
   } catch (error) {
     console.error(`Validation failed for ${filePath}: ${error.message}`);
@@ -209,7 +212,7 @@ async function validateParser(filePath) {
 async function validateCli(filePath) {
   return new Promise((resolve, reject) => {
     // Construct the command to run the AsyncAPI CLI validate command
-    const command = `npx asyncapi validate ${path.resolve(filePath)}`;
+    const command = `npx asyncapi validate ${filePath}`;
     
     exec(command, (error, stdout, stderr) => {
       if (error) {
@@ -258,16 +261,16 @@ console.log(`\nNumber of examples extracted: ${combinedData.length}`);
 
 // fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
 
-let num = 43;
-const currentExample = JSON.stringify(combinedData[num-1], null, 2);
-console.log(`\nexample ${num} = ${currentExample} `)
+// let num = 43;
+// const currentExample = JSON.stringify(combinedData[num-1], null, 2);
+// console.log(`\nexample ${num} = ${currentExample} `)
 // console.log(`\n${combinedData[num-1].name} = ${currentExample}`);
 
 // Wait for all validation promises to resolve
 Promise.all(validationPromises)
   .then(() => {
     // All validations are complete, delete the folder
-    deleteFolderRecursive(outputDir);
+    // deleteFolderRecursive(outputDir); // Commented out to keep the updated files for debugging
   })
   .catch((error) => {
     console.error('Error during validations:', error);

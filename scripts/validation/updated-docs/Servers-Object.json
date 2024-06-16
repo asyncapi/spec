@@ -24,8 +24,8 @@
       "host": "rabbitmq.in.mycompany.com:5672",
       "pathname": "/v1",
       "protocol": "amqp",
-      "protocolVersion": "1.0",
-      "description": "Production RabbitMQ broker (uses the `production` vhost).",
+      "protocolVersion": "0-9-1",
+      "description": "RabbitMQ broker for the production environment.",
       "title": "Production Server",
       "summary": "Production environment server",
       "security": [
@@ -36,8 +36,8 @@
       ],
       "tags": [
         {
-          "name": "production",
-          "description": "Production environment"
+          "name": "env:production",
+          "description": "This environment is the live environment available for final users."
         }
       ],
       "externalDocs": {
@@ -52,11 +52,11 @@
       }
     },
     "staging": {
-      "host": "rabbitmq.in.mycompany.com:5672",
+      "host": "rabbitmq-staging.in.mycompany.com:5672",
       "pathname": "/v1",
       "protocol": "amqp",
-      "protocolVersion": "1.0",
-      "description": "Staging RabbitMQ broker (uses the `staging` vhost).",
+      "protocolVersion": "0-9-1",
+      "description": "RabbitMQ broker for the staging environment.",
       "title": "Staging Server",
       "summary": "Staging environment server",
       "security": [
@@ -68,8 +68,8 @@
       ],
       "tags": [
         {
-          "name": "staging",
-          "description": "Staging environment"
+          "name": "env:staging",
+          "description": "This environment is a replica of the production environment."
         }
       ],
       "externalDocs": {
@@ -87,11 +87,23 @@
       "host": "{prod}.in.mycompany.com",
       "protocol": "amqp",
       "description": "Production server"
-      },
+    },
     "rabbitmqInStaging": {
       "host": "{stage}.in.mycompany.com",
       "protocol": "amqp",
       "description": "Staging server"
+    },
+    "development": {
+      "host": "localhost:5672",
+      "description": "Development AMQP broker.",
+      "protocol": "amqp",
+      "protocolVersion": "0-9-1",
+      "tags": [
+        {
+          "name": "env:development",
+          "description": "This environment is meant for developers to run their own tests."
+        }
+      ]
     }
   },
   "channels": {
@@ -228,7 +240,7 @@
           }
         ]
       },
-      "traits":[]
+      "traits": []
     }
   },
   "components": {
@@ -277,7 +289,11 @@
             "description": "The email of the user"
           }
         },
-        "required": ["id", "name", "email"]
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
       },
       "signup": {
         "type": "object",
@@ -292,7 +308,10 @@
             "description": "The source of the signup"
           }
         },
-        "required": ["timestamp", "source"]
+        "required": [
+          "timestamp",
+          "source"
+        ]
       },
       "ComplexModel": {
         "type": "object",
@@ -427,7 +446,7 @@
         "bindings": {
           "$ref": "#/components/messageBindings/user"
         },
-        "examples":[]
+        "examples": []
       },
       "userSignedUp": {
         "name": "UserSignup",
@@ -436,9 +455,15 @@
         "description": "A longer description",
         "contentType": "application/json",
         "tags": [
-          { "name": "user" },
-          { "name": "signup" },
-          { "name": "register" }
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
         ],
         "headers": {
           "type": "object",
@@ -469,7 +494,9 @@
           "location": "$message.header#/correlationId"
         },
         "traits": [
-          { "$ref": "#/components/messageTraits/commonHeaders" }
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
         ],
         "examples": [
           {
@@ -490,7 +517,7 @@
           }
         ]
       },
-      "userSignedUpReply":{
+      "userSignedUpReply": {
         "name": "UserSignupReply",
         "title": "User signup reply",
         "summary": "User signup reply message",
