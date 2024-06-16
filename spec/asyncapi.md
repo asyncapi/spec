@@ -2009,7 +2009,7 @@ properties:
 
 For a simple string to string mapping:
 
-<!-- asyncapi-example-tester:{"name":"Schema Object - Map/Dictionary model","json_path":"$.components.schemas.Additional"} -->
+<!-- asyncapi-example-tester:{"name":"Schema Object - Map-Dictionary model","json_path":"$.components.schemas.Additional"} -->
 ```json
 {
   "type": "object",
@@ -2373,7 +2373,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ###### User/Password Authentication Sample
 
-<!-- asyncapi-example-tester:{"name":"Security Scheme Object - user/pass","json_path":"$.components.securitySchemes.oauth"} -->
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - user-pass","json_path":"$.components.securitySchemes.oauth"} -->
 ```json
 {
   "type": "userPassword"
