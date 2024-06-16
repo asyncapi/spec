@@ -24,3 +24,4 @@ jobs:
         working-directory: ./scripts/validation/
       - name: Validate AsyncAPI documents
         run: npm run validate:examples
+        working-directory: ./scripts/validation/
