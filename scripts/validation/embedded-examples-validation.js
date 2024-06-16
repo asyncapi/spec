@@ -6,7 +6,7 @@ const { Parser } = require('@asyncapi/parser');
 const parser = new Parser();
 
 // Read the markdown file
-const markdownContent = fs.readFileSync('../../../spec/asyncapi.md', 'utf8');
+const markdownContent = fs.readFileSync('../../spec/asyncapi.md', 'utf8');
 
 // Function to extract comments with example metadata
 function extractComments(content) {
@@ -148,7 +148,7 @@ const validationPromises = []; // Array to store all validation promises
 combinedData.forEach((item, index) => {
   const baseDocPath = item.name && item.name.includes("Security Scheme Object")
     ? 'base-doc-security-scheme-object.json'
-    : 'ex-base-doc.json';
+    : 'base-doc.json';
     // use this line for final version
   // const outputPath = `./updated-docs/${item.name}.json`;
 
@@ -254,7 +254,7 @@ async function deleteFolderRecursive(dir) {
 // console.log(JSON.stringify(combinedData, null, 2));
 console.log(`\nNumber of examples extracted: ${combinedData.length}`);
 
-fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
+// fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
 
 let num = 43;
 const currentExample = JSON.stringify(combinedData[num-1], null, 2);
@@ -265,7 +265,7 @@ console.log(`\nexample ${num} = ${currentExample} `)
 Promise.all(validationPromises)
   .then(() => {
     // All validations are complete, delete the folder
-    // deleteFolderRecursive(outputDir);
+    deleteFolderRecursive(outputDir);
   })
   .catch((error) => {
     console.error('Error during validations:', error);
