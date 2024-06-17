@@ -273,7 +273,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Info Object Example
 
-
 <!-- asyncapi-example-tester:{"name":"Info Object","json_path":"$.info"} -->
 ```json
 {
@@ -344,7 +343,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-
 ```yaml
 name: API Support
 url: https://www.example.com/support
@@ -373,7 +371,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
 }
 ```
-
 
 ```yaml
 name: Apache 2.0
@@ -795,7 +792,6 @@ Field Pattern | Type | Description
   }
 }
 ```
-
 
 ```yaml
 onUserSignUp:
