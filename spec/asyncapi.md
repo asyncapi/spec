@@ -1866,7 +1866,6 @@ Name | Allowed values | Notes
 
 ###### Multi Format Schema Object Example with Avro
 
-
 <!-- asyncapi-example-tester:{"name":"Muti Format Schema Object - Avro","json_path":"$.channels"} -->
 ```yaml
 channels:
