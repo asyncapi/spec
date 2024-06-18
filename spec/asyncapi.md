@@ -1388,9 +1388,9 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-<!-- asyncapi-example-tester:{"name":"Message Trait Object","json_path":"$.components.messageTraits.commonHeaders"} -->
 ##### Message Trait Object Example
 
+<!-- asyncapi-example-tester:{"name":"Message Trait Object","json_path":"$.components.messageTraits.commonHeaders"} -->
 ```json
 {
   "contentType": "application/json"
