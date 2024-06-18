@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
 const path = require('path');
+const yaml = require('js-yaml');
 const { Parser } = require('@asyncapi/parser');
 const parser = new Parser();
 
@@ -25,8 +26,7 @@ function extractCommentsAndExamples(content) {
       if (format === 'json') {
         example = JSON.parse(exampleContent);
       } else if (format === 'yaml') {
-        // Add YAML parsing if needed, using a library like js-yaml
-        // example = yaml.load(exampleContent);
+        example = yaml.load(exampleContent);
       } else {
         throw new Error(`Unsupported format: ${format}`);
       }
@@ -92,7 +92,7 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
       } else {
         const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
 
-        console.log(`\nProcessing update for '${update.name}' at path '${update.json_path}'`);
+        console.log(`\nProcessing update for '${update.name}-${update.format}-format' at path '${update.json_path}'`);
 
         const pathParts = update.json_path.split('.');
         const targetKey = pathParts[pathParts.length - 1];
@@ -222,7 +222,7 @@ console.log(`\nNumber of examples extracted: ${combinedData.length}`);
 Promise.all(validationPromises)
   .then(() => {
     // All validations are complete, delete the folder
-    // deleteFolderRecursive(outputDir); // Commented out to keep the updated files for debugging
+    deleteFolderRecursive(outputDir); // Commented out to keep the updated files for debugging
   })
   .catch((error) => {
     console.error('Error during validations:', error);

@@ -9,7 +9,8 @@
   "author": "Animesh Kumar",
   "license": "ISC",
   "devDependencies": {
-    "@asyncapi/cli": "^2.0.2",
+    "@asyncapi/parser": "^3.1.0",
+    "js-yaml": "^4.1.0",
     "jsonpath-plus": "^9.0.0"
   }
 }
