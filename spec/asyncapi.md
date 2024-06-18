@@ -362,9 +362,9 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-<!-- asyncapi-example-tester:{"name":"License Object","json_path":"$.info.license"} -->
 ##### License Object Example
 
+<!-- asyncapi-example-tester:{"name":"License Object","json_path":"$.info.license"} -->
 ```json
 {
   "name": "Apache 2.0",
@@ -835,9 +835,9 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-<!-- asyncapi-example-tester:{"name":"Operation Object","json_path":"$.operations.sendUserSignUp"} -->
 ##### Operation Object Example
 
+<!-- asyncapi-example-tester:{"name":"Operation Object","json_path":"$.operations.sendUserSignUp"} -->
 ```json
 {
   "title": "User sign up",
@@ -1215,9 +1215,9 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
-<!-- asyncapi-example-tester:{"name":"Message Object","json_path":"$.components.messages.userSignedUp"} -->
 ##### Message Object Example
 
+<!-- asyncapi-example-tester:{"name":"Message Object","json_path":"$.components.messages.userSignedUp"} -->
 ```json
 {
   "name": "UserSignup",
