@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
-const { exec } = require('child_process');
 const path = require('path');
 const { Parser } = require('@asyncapi/parser');
 const parser = new Parser();
@@ -8,66 +7,47 @@ const parser = new Parser();
 // Read the markdown file
 const markdownContent = fs.readFileSync('../../spec/asyncapi.md', 'utf8');
 
-// Function to extract comments with example metadata
-function extractComments(content) {
-  const commentRegex = /<!-- asyncapi-example-tester:(\{.*?\}) -->/g;
+// Function to extract comments and examples from the markdown content
+function extractCommentsAndExamples(content) {
+  const combinedRegex = /<!--\s*asyncapi-example-tester:\s*({.*?})\s*-->\s*\n```(.*)?\n([\s\S]*?)\n```/g;
   let match;
-  const comments = [];
+  const combinedData = [];
 
-  while ((match = commentRegex.exec(content)) !== null) {
+  while ((match = combinedRegex.exec(content)) !== null) {
     try {
-      comments.push({
-        json: JSON.parse(match[1]),
-        index: match.index
+      const json = JSON.parse(match[1]);
+      const format = match[2].trim();
+      const exampleContent = match[3].trim();
+
+      console.log(`Extracted example in format: ${format}`);
+
+      let example;
+      if (format === 'json') {
+        example = JSON.parse(exampleContent);
+      } else if (format === 'yaml') {
+        // Add YAML parsing if needed, using a library like js-yaml
+        // example = yaml.load(exampleContent);
+      } else {
+        throw new Error(`Unsupported format: ${format}`);
+      }
+
+      combinedData.push({
+        name: json.name,
+        json_path: json.json_path,
+        example: example,
+        format: format,
       });
     } catch (e) {
-      console.error("Failed to parse comment JSON:", match[1], e);
+      console.error("Failed to parse comment JSON or example:", match[1], e);
+      // process.exit(1);
     }
   }
 
-  return comments;
+  return combinedData;
 }
 
-// Function to extract JSON examples from markdown content
-function extractExamples(content) {
-  const exampleRegex = /```json\s+([\s\S]*?)\s+```/g;
-  let match;
-  const examples = [];
-
-  while ((match = exampleRegex.exec(content)) !== null) {
-    examples.push({
-      json: match[1],
-      index: match.index
-    });
-  }
-
-  return examples;
-}
-
-// Extract comments from the markdown file
-const comments = extractComments(markdownContent);
-// Extract examples from the markdown file
-const examples = extractExamples(markdownContent);
-
-// Create array of objects with properties: 'name', 'json_path', 'example'
-const combinedData = comments.map((comment) => {
-  const matchingExample = examples.find(example => example.index > comment.index);
-  if (matchingExample) {
-    try {
-      return {
-        name: comment.json.name,
-        json_path: comment.json.json_path,
-        example: JSON.parse(matchingExample.json)
-      };
-    } catch (e) {
-      console.error("Failed to parse example JSON:", matchingExample.json, e);
-      return null;
-    }
-  } else {
-    console.error(`No matching example found for comment: '${comment.json.name}'`);
-    return null;
-  }
-}).filter(item => item !== null);
+// Extract comments and examples from the markdown file
+const combinedData = extractCommentsAndExamples(markdownContent);
 
 // Function to deeply merge two objects without overwriting existing nested structures
 function deepMerge(target, source) {
@@ -143,6 +123,7 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
       }
     } catch (e) {
       console.error(`\nError processing update for '${update.name}' at path '${update.json_path}'`, e);
+      // process.exit(1);
     }
   });
   fs.writeFileSync(outputPath, JSON.stringify(baseDoc, null, 2), 'utf8');
@@ -162,7 +143,7 @@ combinedData.forEach((item) => {
   }
 
   const processedExampleName = item.name.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-  const outputPath = path.join(outputDir, `${processedExampleName}.json`);
+  const outputPath = path.join(outputDir, `${processedExampleName}-${item.format}-format.json`);
   // const outputPath = `./updated-docs/updated-doc-${index + 1}.json`;
   // console.log(`\n${combinedData[num-1].name} = ${currentExample}`);
 
@@ -170,16 +151,8 @@ combinedData.forEach((item) => {
   applyUpdatesAndSave([item], baseDocPath, outputPath);
 
   // Validate the output file using the AsyncAPI parser
-  // const validationPromise = validateParser(outputPath);
+  const validationPromise = validateParser(outputPath);
 
-  // Use the AsyncAPI CLI to validate the output file
-  const validationPromise = validateCli(outputPath)
-  .then((output) => {
-    console.log(`\n${output}`);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
   // Delete the updated document after saving
   // fs.unlinkSync(outputPath);
 
@@ -196,6 +169,7 @@ async function validateParser(filePath) {
       diagnostics.forEach(diagnostic => {
         if (diagnostic.level === 'error') {
           console.error(`Error in ${filePath}: ${diagnostic.message}`);
+          // process.exit(1);
         } else {
           console.log(`Warning in ${filePath}: ${diagnostic.message}`);
         }
@@ -205,31 +179,8 @@ async function validateParser(filePath) {
     }
   } catch (error) {
     console.error(`Validation failed for ${filePath}: ${error.message}`);
+    // process.exit(1);
   }
-}
-
-// Function to validate a file using AsyncAPI CLI
-async function validateCli(filePath) {
-  return new Promise((resolve, reject) => {
-    // Construct the command to run the AsyncAPI CLI validate command
-    const command = `npx asyncapi validate ${filePath}`;
-    
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        // If there is an error executing the command, reject the promise
-        return reject(`exec error: ${error}`);
-      }
-
-      if (stderr) {
-        // If there is an error message in stderr, log it and reject the promise
-        console.error(`stderr: ${stderr}`);
-        return reject(stderr);
-      }
-
-      // If no error, resolve the promise with stdout
-      resolve(stdout);
-    });
-  });
 }
 
 // Function to delete a folder and its contents recursively
@@ -253,6 +204,7 @@ async function deleteFolderRecursive(dir) {
     console.log('\n\nAll examples validated successfully!');
   } catch (err) {
     console.error('Error deleting folder:', err);
+    // process.exit(1);
   }
 }
 
@@ -274,6 +226,5 @@ Promise.all(validationPromises)
   })
   .catch((error) => {
     console.error('Error during validations:', error);
+    // process.exit(1);
   });
-
-
