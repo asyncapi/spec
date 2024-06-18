@@ -1,0 +1,708 @@
+{
+  "asyncapi": "3.0.0",
+  "info": {
+    "title": "AsyncAPI",
+    "version": "1.x.x",
+    "description": "This is a very good base doc, probably.",
+    "termsOfService": "https://asyncapi.org/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "externalDocs": {
+      "description": "Find more info here",
+      "url": "https://www.asyncapi.org"
+    },
+    "tags": [
+      {
+        "name": "e-commerce"
+      }
+    ]
+  },
+  "servers": {
+    "production": {
+      "host": "rabbitmq.in.mycompany.com:5672",
+      "pathname": "/v1",
+      "protocol": "amqp",
+      "protocolVersion": "1.0",
+      "description": "Production RabbitMQ broker (uses the `production` vhost).",
+      "title": "Production Server",
+      "summary": "Production environment server",
+      "security": [
+        {
+          "type": "http",
+          "scheme": "bearer"
+        }
+      ],
+      "tags": [
+        {
+          "name": "production",
+          "description": "Production environment"
+        }
+      ],
+      "externalDocs": {
+        "description": "Additional documentation for the production server",
+        "url": "https://example.com/docs/production"
+      },
+      "bindings": {
+        "amqp": {
+          "exchange": "my-exchange",
+          "queue": "my-queue"
+        }
+      }
+    },
+    "staging": {
+      "host": "rabbitmq.in.mycompany.com:5672",
+      "pathname": "/v1",
+      "protocol": "amqp",
+      "protocolVersion": "1.0",
+      "description": "Staging RabbitMQ broker (uses the `staging` vhost).",
+      "title": "Staging Server",
+      "summary": "Staging environment server",
+      "security": [
+        {
+          "type": "apiKey",
+          "in": "user",
+          "description": "Provide your API key as the user and leave the password empty."
+        }
+      ],
+      "tags": [
+        {
+          "name": "staging",
+          "description": "Staging environment"
+        }
+      ],
+      "externalDocs": {
+        "description": "Additional documentation for the staging server",
+        "url": "https://example.com/docs/staging"
+      },
+      "bindings": {
+        "amqp": {
+          "exchange": "my-exchange",
+          "queue": "my-queue"
+        }
+      }
+    },
+    "rabbitmqInProd": {
+      "host": "{prod}.in.mycompany.com",
+      "protocol": "amqp",
+      "description": "Production server"
+    },
+    "rabbitmqInStaging": {
+      "host": "{stage}.in.mycompany.com",
+      "protocol": "amqp",
+      "description": "Staging server"
+    }
+  },
+  "channels": {
+    "user": {
+      "address": "users.{userId}",
+      "title": "Users channel",
+      "description": "This channel is used to exchange messages about user events.",
+      "messages": {
+        "userSignedUp": {
+          "$ref": "#/components/messages/userSignedUp"
+        },
+        "userCompletedOrder": {
+          "$ref": "#/components/messages/userCompletedOrder"
+        }
+      },
+      "parameters": {
+        "userId": {
+          "$ref": "#/components/parameters/userId"
+        }
+      },
+      "servers": [
+        {
+          "$ref": "#/servers/production"
+        }
+      ],
+      "bindings": {
+        "amqp": {
+          "is": "queue",
+          "queue": {
+            "exclusive": true
+          }
+        }
+      },
+      "tags": [
+        {
+          "name": "user",
+          "description": "User-related messages"
+        }
+      ],
+      "externalDocs": {
+        "description": "Find more info here",
+        "url": "https://example.com"
+      }
+    },
+    "userSignup": {
+      "address": "users.signup",
+      "description": "Channel for user signups",
+      "messages": {
+        "userSignedUp": {
+          "$ref": "#/components/messages/userSignedUp"
+        }
+      }
+    },
+    "userSignupReply": {
+      "address": "users.signup.reply",
+      "description": "Channel for user signup replies",
+      "messages": {
+        "userSignedUpReply": {
+          "summary": "User signup reply message",
+          "payload": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "description": "Status of the signup process"
+              },
+              "message": {
+                "type": "string",
+                "description": "Additional information"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "operations": {
+    "sendUserSignUp": {
+      "action": "send",
+      "title": "User sign up",
+      "summary": "Action to sign a user up.",
+      "description": "A longer description",
+      "channel": {
+        "$ref": "#/channels/user"
+      },
+      "security": [
+        {
+          "type": "oauth2",
+          "description": "The oauth security descriptions",
+          "flows": {
+            "clientCredentials": {
+              "tokenUrl": "https://example.com/api/oauth/dialog",
+              "availableScopes": {
+                "subscribe:auth_revocations": "Scope required for authorization revocation topic"
+              }
+            }
+          },
+          "scopes": [
+            "subscribe:auth_revocations"
+          ]
+        }
+      ],
+      "tags": [
+        {
+          "name": "user"
+        },
+        {
+          "name": "signup"
+        },
+        {
+          "name": "register"
+        }
+      ],
+      "bindings": {
+        "amqp": {
+          "ack": false
+        }
+      },
+      "messages": [
+        {
+          "$ref": "#/channels/user/messages/userSignedUp"
+        }
+      ],
+      "reply": {
+        "address": {
+          "location": "$message.header#/replyTo"
+        },
+        "channel": {
+          "$ref": "#/channels/userSignupReply"
+        },
+        "messages": [
+          {
+            "$ref": "#/channels/userSignupReply/messages/userSignedUpReply"
+          }
+        ]
+      },
+      "traits": []
+    }
+  },
+  "components": {
+    "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AvroExample": {
+        "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
+        "schema": {
+          "type": "record",
+          "name": "UserCreate",
+          "namespace": "com.example",
+          "fields": [
+            {
+              "name": "id",
+              "type": "int"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "userCreate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the user"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "The email of the user"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email"
+        ]
+      },
+      "signup": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp of the signup"
+          },
+          "source": {
+            "type": "string",
+            "description": "The source of the signup"
+          }
+        },
+        "required": [
+          "timestamp",
+          "source"
+        ]
+      },
+      "ComplexModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zip": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorModel": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "Pet": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "age": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "servers": {
+      "development": {
+        "host": "{stage}.in.mycompany.com",
+        "protocol": "amqp",
+        "description": "RabbitMQ broker",
+        "bindings": {
+          "$ref": "#/components/serverBindings/devAmqp"
+        },
+        "variables": {
+          "stage": {
+            "$ref": "#/components/serverVariables/stage"
+          }
+        },
+        "security": [
+          {
+            "$ref": "#/components/securitySchemes/oauth"
+          }
+        ]
+      }
+    },
+    "serverVariables": {
+      "stage": {
+        "default": "demo",
+        "description": "This value is assigned by the service provider in this example of `mycompany.com`"
+      }
+    },
+    "channels": {
+      "user": {
+        "address": "users.{userId}",
+        "title": "Users channel",
+        "description": "This channel is used to exchange messages about user events.",
+        "messages": {
+          "userSignedUp": {
+            "$ref": "#/components/messages/userSignUp"
+          }
+        },
+        "parameters": {
+          "userId": {
+            "$ref": "#/components/parameters/userId"
+          }
+        },
+        "servers": [
+          {
+            "$ref": "#/components/servers/development"
+          }
+        ],
+        "bindings": {
+          "$ref": "#/components/channelBindings/user"
+        },
+        "tags": [
+          {
+            "$ref": "#/components/tags/user"
+          }
+        ],
+        "externalDocs": {
+          "$ref": "#/components/externalDocs/infoDocs"
+        }
+      }
+    },
+    "messages": {
+      "userSignUp": {
+        "summary": "Action to sign a user up.",
+        "traits": [
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
+        ],
+        "payload": {
+          "$ref": "#/components/schemas/Category"
+        },
+        "correlationId": {
+          "$ref": "#/components/correlationIds/default"
+        },
+        "bindings": {
+          "$ref": "#/components/messageBindings/user"
+        },
+        "examples": []
+      },
+      "userSignedUp": {
+        "name": "UserSignup",
+        "title": "User signup",
+        "summary": "Action to sign a user up.",
+        "description": "A longer description",
+        "contentType": "application/json",
+        "tags": [
+          {
+            "name": "user"
+          },
+          {
+            "name": "signup"
+          },
+          {
+            "name": "register"
+          }
+        ],
+        "headers": {
+          "type": "object",
+          "properties": {
+            "correlationId": {
+              "description": "Correlation ID set by application",
+              "type": "string"
+            },
+            "applicationInstanceId": {
+              "description": "Unique identifier for a given instance of the publishing application",
+              "type": "string"
+            }
+          }
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "$ref": "#/components/schemas/userCreate"
+            },
+            "signup": {
+              "$ref": "#/components/schemas/signup"
+            }
+          }
+        },
+        "correlationId": {
+          "description": "Default Correlation ID",
+          "location": "$message.header#/correlationId"
+        },
+        "traits": [
+          {
+            "$ref": "#/components/messageTraits/commonHeaders"
+          }
+        ],
+        "examples": [
+          {
+            "name": "SimpleSignup",
+            "summary": "A simple UserSignup example message",
+            "headers": {
+              "correlationId": "my-correlation-id",
+              "applicationInstanceId": "myInstanceId"
+            },
+            "payload": {
+              "user": {
+                "someUserKey": "someUserValue"
+              },
+              "signup": {
+                "someSignupKey": "someSignupValue"
+              }
+            }
+          }
+        ]
+      },
+      "userSignedUpReply": {
+        "name": "UserSignupReply",
+        "title": "User signup reply",
+        "summary": "User signup reply message",
+        "contentType": "application/json",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "Status of the signup process"
+            },
+            "message": {
+              "type": "string",
+              "description": "Additional information"
+            }
+          }
+        }
+      },
+      "userCompletedOrder": {
+        "summary": "User completed order event",
+        "contentType": "application/json",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "orderId": {
+              "type": "string",
+              "description": "The ID of the order"
+            },
+            "userId": {
+              "type": "string",
+              "description": "The ID of the user"
+            },
+            "amount": {
+              "type": "number",
+              "description": "The total amount of the order"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "userId": {
+        "description": "Id of the user."
+      }
+    },
+    "correlationIds": {
+      "default": {
+        "description": "Default Correlation ID",
+        "location": "$message.header#/correlationId"
+      }
+    },
+    "operations": {
+      "sendUserSignUp": {
+        "action": "send",
+        "title": "User sign up",
+        "channel": {
+          "$ref": "#/channels/user"
+        },
+        "bindings": {
+          "$ref": "#/components/operationBindings/sendUser"
+        },
+        "traits": [
+          {
+            "$ref": "#/components/operationTraits/binding"
+          }
+        ],
+        "reply": {
+          "$ref": "#/components/replies/signupReply"
+        }
+      }
+    },
+    "replies": {
+      "signupReply": {
+        "address": {
+          "$ref": "#/components/replyAddresses/signupReply"
+        },
+        "channel": {
+          "$ref": "#/channels/userSignupReply"
+        }
+      }
+    },
+    "replyAddresses": {
+      "signupReply": {
+        "location": "$message.header#/replyTo"
+      }
+    },
+    "securitySchemes": {
+      "oauth": {
+        "type": "oauth2",
+        "description": "The oauth security descriptions",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://example.com/api/oauth/dialog",
+            "availableScopes": {
+              "subscribe:auth_revocations": "Scope required for authorization revocation topic"
+            }
+          }
+        },
+        "scopes": [
+          "subscribe:auth_revocations"
+        ]
+      }
+    },
+    "operationTraits": {
+      "binding": {
+        "bindings": {
+          "amqp": {
+            "ack": false
+          }
+        }
+      },
+      "kafka": {
+        "bindings": {
+          "kafka": {
+            "groupId": false
+          }
+        }
+      }
+    },
+    "messageTraits": {
+      "commonHeaders": {
+        "headers": {
+          "type": "object",
+          "properties": {
+            "my-app-header": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            }
+          }
+        }
+      }
+    },
+    "tags": {
+      "user": {
+        "name": "user",
+        "description": "User-related messages"
+      }
+    },
+    "externalDocs": {
+      "infoDocs": {
+        "url": "https://example.com/docs",
+        "description": "Find more info here"
+      }
+    },
+    "serverBindings": {
+      "devAmqp": {
+        "amqp": {
+          "exchange": "my-exchange",
+          "queue": "my-queue"
+        }
+      }
+    },
+    "channelBindings": {
+      "user": {
+        "amqp": {
+          "is": "queue",
+          "queue": {
+            "exclusive": true
+          }
+        }
+      }
+    },
+    "operationBindings": {
+      "sendUser": {
+        "amqp": {
+          "ack": false
+        }
+      }
+    },
+    "messageBindings": {
+      "user": {
+        "amqp": {
+          "contentEncoding": "gzip",
+          "messageType": "user.signup",
+          "bindingVersion": "0.3.0"
+        }
+      }
+    }
+  }
+}
