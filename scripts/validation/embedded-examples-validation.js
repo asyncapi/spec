@@ -134,20 +134,19 @@ async function validateParser(document, name) {
     if (diagnostics.length > 0) {
       diagnostics.forEach(diagnostic => {
         if (diagnostic.level === 'error') {
-          console.error(`Error in ${name}: ${diagnostic.message}`);
-          // process.exit(1);
+          console.error(`\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`);
         } else {
-          console.log(`Warning in ${name}: ${diagnostic.message}`);
+          console.log(`\x1b[31mWarning in ${name}: ${diagnostic.message}\x1b[0m`);
         }
       });
     } else {
       console.log(`${name} is valid.`);
     }
   } catch (error) {
-    console.error(`Validation failed for ${name}: ${error.message}`);
-    // process.exit(1);
+    console.error(`\x1b[31mValidation failed for ${name}: ${error.message}\x1b[0m`);
   }
 }
+
 
 // Iterate over the combinedData array, apply updates, and validate each document
 const baseDocPath = './base-doc.json';
