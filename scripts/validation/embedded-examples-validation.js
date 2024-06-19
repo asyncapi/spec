@@ -1,6 +1,5 @@
 const fs = require('fs');
 const { JSONPath } = require('jsonpath-plus');
-const path = require('path');
 const yaml = require('js-yaml');
 const { Parser } = require('@asyncapi/parser');
 const parser = new Parser();
@@ -20,7 +19,7 @@ function extractCommentsAndExamples(content) {
       const format = match[2].trim();
       const exampleContent = match[3].trim();
 
-      console.log(`Extracted example in format: ${format}`);
+      // console.log(`Extracted example in format: ${format}`);
 
       let example;
       if (format === 'json') {
@@ -78,21 +77,19 @@ function setValueByPath(obj, path, value) {
   });
 }
 
-// Function to apply updates and save the document
-function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
-  const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
-
+// Function to apply updates to the document
+function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
       if (update.json_path === "$") {
-        console.log(`\nProcessing update for '${update.name}' at root path '$'`);
+        // console.log(`\nProcessing update for '${update.name}' at root path '$'`);
         for (const key in update.example) {
           baseDoc[key] = update.example[key];
         }
       } else {
         const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
 
-        console.log(`\nProcessing update for '${update.name}-${update.format}-format' at path '${update.json_path}'`);
+        // console.log(`\nProcessing update for '${update.name}-${update.format}-format' at path '${update.json_path}'`);
 
         const pathParts = update.json_path.split('.');
         const targetKey = pathParts[pathParts.length - 1];
@@ -104,13 +101,13 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
         }
 
         if (results.length === 0) {
-          console.log(`\nPath not found, creating path: '${update.json_path}'`);
+          // console.log(`\nPath not found, creating path: '${update.json_path}'`);
           setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
         } else {
           results.forEach(result => {
             const parent = result.parent;
             const parentProperty = result.parentProperty;
-            console.log(`\nMerging data at path: '${update.json_path}'`);
+            // console.log(`\nMerging data at path: '${update.json_path}'`);
             if (Array.isArray(parent[parentProperty])) {
               // If the existing data is an array, add the update data as an array item
               parent[parentProperty].push(dataToMerge);
@@ -126,103 +123,55 @@ function applyUpdatesAndSave(updates, baseDocPath, outputPath) {
       // process.exit(1);
     }
   });
-  fs.writeFileSync(outputPath, JSON.stringify(baseDoc, null, 2), 'utf8');
+  return baseDoc;
 }
 
-// Iterate over the combinedData array and apply updates for each item
-const outputDir = path.join(__dirname, 'updated-docs');
-const validationPromises = []; // Array to store all validation promises
-combinedData.forEach((item) => {
-  const baseDocPath = item.name && item.name.includes("Security Scheme Object")
-    ? 'base-doc-security-scheme-object.json'
-    : 'base-doc.json';
-
-  // Check if the directory exists, and if not, create it
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
-
-  const processedExampleName = item.name.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-  const outputPath = path.join(outputDir, `${processedExampleName}-${item.format}-format.json`);
-  // const outputPath = `./updated-docs/updated-doc-${index + 1}.json`;
-  // console.log(`\n${combinedData[num-1].name} = ${currentExample}`);
-
-  // Apply updates and save the document
-  applyUpdatesAndSave([item], baseDocPath, outputPath);
-
-  // Validate the output file using the AsyncAPI parser
-  const validationPromise = validateParser(outputPath);
-
-  // Delete the updated document after saving
-  // fs.unlinkSync(outputPath);
-
-  validationPromises.push(validationPromise);
-});
-
-//  Function to validate a file using AsyncAPI parser
-async function validateParser(filePath) {
-  const document = fs.readFileSync(filePath, 'utf8');
+// Function to validate a document using AsyncAPI parser
+async function validateParser(document, name) {
   try {
     const diagnostics = await parser.validate(document);
 
     if (diagnostics.length > 0) {
       diagnostics.forEach(diagnostic => {
         if (diagnostic.level === 'error') {
-          console.error(`Error in ${filePath}: ${diagnostic.message}`);
+          console.error(`Error in ${name}: ${diagnostic.message}`);
           // process.exit(1);
         } else {
-          console.log(`Warning in ${filePath}: ${diagnostic.message}`);
+          console.log(`Warning in ${name}: ${diagnostic.message}`);
         }
       });
     } else {
-      console.log(`${filePath} is valid.`);
+      console.log(`${name} is valid.`);
     }
   } catch (error) {
-    console.error(`Validation failed for ${filePath}: ${error.message}`);
+    console.error(`Validation failed for ${name}: ${error.message}`);
     // process.exit(1);
   }
 }
 
-// Function to delete a folder and its contents recursively
-async function deleteFolderRecursive(dir) {
-  try {
-    const files = await fs.promises.readdir(dir);
+// Iterate over the combinedData array, apply updates, and validate each document
+const baseDocPath = './base-doc.json';
+const baseDocSecuritySchemePath = './base-doc-security-scheme-object.json';
 
-    for (const file of files) {
-      const filePath = path.join(dir, file);
-      const fileStat = await fs.promises.stat(filePath);
+const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
+const baseDocSecurityScheme = JSON.parse(fs.readFileSync(baseDocSecuritySchemePath, 'utf8'));
 
-      if (fileStat.isDirectory()) {
-        await deleteFolderRecursive(filePath);
-      } else {
-        await fs.promises.unlink(filePath);
-      }
-    }
+const validationPromises = combinedData.map(async (item) => {
+  const baseDocument = item.name && item.name.includes("Security Scheme Object")
+    ? JSON.parse(JSON.stringify(baseDocSecurityScheme)) // Deep copy for each iteration
+    : JSON.parse(JSON.stringify(baseDoc)); // Deep copy for each iteration
 
-    await fs.promises.rmdir(dir);
-    console.log(`Folder ${dir} and its contents have been deleted.`);
-    console.log('\n\nAll examples validated successfully!');
-  } catch (err) {
-    console.error('Error deleting folder:', err);
-    // process.exit(1);
-  }
-}
+  const updatedDocument = applyUpdates([item], baseDocument);
 
-// console.log(JSON.stringify(combinedData, null, 2));
-console.log(`\nNumber of examples extracted: ${combinedData.length}`);
+  const documentString = JSON.stringify(updatedDocument, null, 2);
+  await validateParser(documentString, `${item.name}-${item.format}-format`);
+});
 
-// fs.writeFileSync(`extracted-examples.json`, JSON.stringify(combinedData, null, 2), 'utf8');
+console.log(`\nNumber of examples extracted: ${combinedData.length}\n`);
 
-// let num = 43;
-// const currentExample = JSON.stringify(combinedData[num-1], null, 2);
-// console.log(`\nexample ${num} = ${currentExample} `)
-// console.log(`\n${combinedData[num-1].name} = ${currentExample}`);
-
-// Wait for all validation promises to resolve
 Promise.all(validationPromises)
   .then(() => {
-    // All validations are complete, delete the folder
-    deleteFolderRecursive(outputDir); // Commented out to keep the updated files for debugging
+    console.log('\n\nAll examples validated successfully!');
   })
   .catch((error) => {
     console.error('Error during validations:', error);
