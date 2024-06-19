@@ -1,7 +1,8 @@
 const fs = require('fs');
-const { JSONPath } = require('jsonpath-plus');
 const yaml = require('js-yaml');
 const { Parser } = require('@asyncapi/parser');
+const mergePatch = require('json-merge-patch');
+const jsonpointer = require('jsonpointer');
 const parser = new Parser();
 
 // Read the markdown file
@@ -18,8 +19,6 @@ function extractCommentsAndExamples(content) {
       const json = JSON.parse(match[1]);
       const format = match[2].trim();
       const exampleContent = match[3].trim();
-
-      // console.log(`Extracted example in format: ${format}`);
 
       let example;
       if (format === 'json') {
@@ -48,75 +47,18 @@ function extractCommentsAndExamples(content) {
 // Extract comments and examples from the markdown file
 const combinedData = extractCommentsAndExamples(markdownContent);
 
-// Function to deeply merge two objects without overwriting existing nested structures
-function deepMerge(target, source) {
-  for (const key of Object.keys(source)) {
-    if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
-      target[key] = deepMerge(target[key], source[key]);
-    } else {
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-
-// Function to set a value in a JSON object using JSONPath, creating missing fields if necessary
-function setValueByPath(obj, path, value) {
-  const pathParts = path.replace(/\$/g, '').split('.').slice(1); // Remove the root "$" and split path
-  let current = obj;
-
-  pathParts.forEach((part, index) => {
-    if (index === pathParts.length - 1) {
-      current[part] = value; // Set the new value directly
-    } else {
-      if (!current[part]) {
-        current[part] = {}; // Create object if it doesn't exist
-      }
-      current = current[part];
-    }
-  });
-}
-
-// Function to apply updates to the document
+// Function to apply JSON Merge Patch updates to the document
 function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
       if (update.json_path === "$") {
-        // console.log(`\nProcessing update for '${update.name}' at root path '$'`);
-        for (const key in update.example) {
-          baseDoc[key] = update.example[key];
-        }
+        // Apply patch directly at the root
+        baseDoc = mergePatch.apply(baseDoc, update.example);
       } else {
-        const results = JSONPath({ path: update.json_path, json: baseDoc, resultType: 'all' });
-
-        // console.log(`\nProcessing update for '${update.name}-${update.format}-format' at path '${update.json_path}'`);
-
-        const pathParts = update.json_path.split('.');
-        const targetKey = pathParts[pathParts.length - 1];
-
-        // Check if the top-level key of the example JSON matches the target key
-        let dataToMerge = update.example;
-        if (dataToMerge.hasOwnProperty(targetKey)) {
-          dataToMerge = dataToMerge[targetKey];
-        }
-
-        if (results.length === 0) {
-          // console.log(`\nPath not found, creating path: '${update.json_path}'`);
-          setValueByPath(baseDoc, update.json_path, dataToMerge); // Create the path if it doesn't exist
-        } else {
-          results.forEach(result => {
-            const parent = result.parent;
-            const parentProperty = result.parentProperty;
-            // console.log(`\nMerging data at path: '${update.json_path}'`);
-            if (Array.isArray(parent[parentProperty])) {
-              // If the existing data is an array, add the update data as an array item
-              parent[parentProperty].push(dataToMerge);
-            } else {
-              // Otherwise, deep merge the existing data with the new data
-              parent[parentProperty] = deepMerge(parent[parentProperty], dataToMerge);
-            }
-          });
-        }
+        // Apply patch at a specified JSON Pointer path
+        const targetObject = jsonpointer.get(baseDoc, update.json_path);
+        const patchedObject = mergePatch.apply(targetObject || {}, update.example);
+        jsonpointer.set(baseDoc, update.json_path, patchedObject);
       }
     } catch (e) {
       console.error(`\nError processing update for '${update.name}' at path '${update.json_path}'`, e);
@@ -146,7 +88,6 @@ async function validateParser(document, name) {
     console.error(`\x1b[31mValidation failed for ${name}: ${error.message}\x1b[0m`);
   }
 }
-
 
 // Iterate over the combinedData array, apply updates, and validate each document
 const baseDocPath = './base-doc.json';

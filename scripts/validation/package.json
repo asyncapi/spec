@@ -11,6 +11,8 @@
   "devDependencies": {
     "@asyncapi/parser": "^3.1.0",
     "js-yaml": "^4.1.0",
-    "jsonpath-plus": "^9.0.0"
+    "json-merge-patch": "^1.0.2",
+    "jsonpath-plus": "^9.0.0",
+    "jsonpointer": "^5.0.1"
   }
 }
