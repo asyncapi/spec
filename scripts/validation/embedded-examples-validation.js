@@ -31,7 +31,7 @@ function extractCommentsAndExamples(content) {
 
       combinedData.push({
         name: json.name,
-        json_path: json.json_path,
+        json_pointer: json.json_pointer,
         example: example,
         format: format,
       });
@@ -51,17 +51,17 @@ const combinedData = extractCommentsAndExamples(markdownContent);
 function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
-      if (update.json_path === "$") {
+      if (update.json_pointer === "") {
         // Apply patch directly at the root
         baseDoc = mergePatch.apply(baseDoc, update.example);
       } else {
         // Apply patch at a specified JSON Pointer path
-        const targetObject = jsonpointer.get(baseDoc, update.json_path);
+        const targetObject = jsonpointer.get(baseDoc, update.json_pointer);
         const patchedObject = mergePatch.apply(targetObject || {}, update.example);
-        jsonpointer.set(baseDoc, update.json_path, patchedObject);
+        jsonpointer.set(baseDoc, update.json_pointer, patchedObject);
       }
     } catch (e) {
-      console.error(`\nError processing update for '${update.name}' at path '${update.json_path}'`, e);
+      console.error(`\nError processing update for '${update.name}' at path '${update.json_pointer}'`, e);
       // process.exit(1);
     }
   });
