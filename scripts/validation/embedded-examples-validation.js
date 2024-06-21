@@ -37,7 +37,6 @@ function extractCommentsAndExamples(content) {
       });
     } catch (e) {
       console.error("Failed to parse comment JSON or example:", match[1], e);
-      // process.exit(1);
     }
   }
 
@@ -51,18 +50,36 @@ const combinedData = extractCommentsAndExamples(markdownContent);
 function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
-      if (update.json_pointer === "") {
-        // Apply patch directly at the root
+      const jsonPointerPath = update.json_pointer;
+
+      // Handle root document case
+      if (jsonPointerPath === '') {
         baseDoc = mergePatch.apply(baseDoc, update.example);
-      } else {
-        // Apply patch at a specified JSON Pointer path
-        const targetObject = jsonpointer.get(baseDoc, update.json_pointer);
-        const patchedObject = mergePatch.apply(targetObject || {}, update.example);
-        jsonpointer.set(baseDoc, update.json_pointer, patchedObject);
+        return;
       }
+
+
+      const parentPath = jsonPointerPath.replace(/\/[^/]+$/, '') || '/';
+      const targetKey = jsonPointerPath.split('/').pop();
+      const parentObject = jsonpointer.get(baseDoc, parentPath) || {};
+
+      // Check if the target key points to an array
+      if (Array.isArray(parentObject[targetKey])) {
+        // Apply patch inside the array
+        parentObject[targetKey] = parentObject[targetKey].map((item) => {
+          if (item.name === update.example.name) {
+            return mergePatch.apply(item, update.example);
+          }
+          return item;
+        });
+      } else {
+        // Apply regular merge if not an array
+        parentObject[targetKey] = mergePatch.apply(parentObject[targetKey] || {}, update.example);
+      }
+
+      jsonpointer.set(baseDoc, parentPath, parentObject);
     } catch (e) {
       console.error(`\nError processing update for '${update.name}' at path '${update.json_pointer}'`, e);
-      // process.exit(1);
     }
   });
   return baseDoc;
@@ -115,5 +132,4 @@ Promise.all(validationPromises)
   })
   .catch((error) => {
     console.error('Error during validations:', error);
-    // process.exit(1);
   });
