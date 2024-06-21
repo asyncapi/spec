@@ -58,26 +58,11 @@ function applyUpdates(updates, baseDoc) {
         return;
       }
 
+      // For non-root cases, use jsonpointer to get and set the correct location
+      const targetObject = jsonpointer.get(baseDoc, jsonPointerPath);
+      const updatedObject = mergePatch.apply(targetObject || {}, update.example);
+      jsonpointer.set(baseDoc, jsonPointerPath, updatedObject);
 
-      const parentPath = jsonPointerPath.replace(/\/[^/]+$/, '') || '/';
-      const targetKey = jsonPointerPath.split('/').pop();
-      const parentObject = jsonpointer.get(baseDoc, parentPath) || {};
-
-      // Check if the target key points to an array
-      if (Array.isArray(parentObject[targetKey])) {
-        // Apply patch inside the array
-        parentObject[targetKey] = parentObject[targetKey].map((item) => {
-          if (item.name === update.example.name) {
-            return mergePatch.apply(item, update.example);
-          }
-          return item;
-        });
-      } else {
-        // Apply regular merge if not an array
-        parentObject[targetKey] = mergePatch.apply(parentObject[targetKey] || {}, update.example);
-      }
-
-      jsonpointer.set(baseDoc, parentPath, parentObject);
     } catch (e) {
       console.error(`\nError processing update for '${update.name}' at path '${update.json_pointer}'`, e);
     }
