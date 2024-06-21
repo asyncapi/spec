@@ -46,11 +46,17 @@ function extractCommentsAndExamples(content) {
 // Extract comments and examples from the markdown file
 const combinedData = extractCommentsAndExamples(markdownContent);
 
+// Function to convert URI Fragment to JSON Pointer
+function uriFragmentToJsonPointer(uriFragment) {
+  if (uriFragment === '#') return '';
+  return uriFragment.slice(1).split('/').map(decodeURIComponent).join('/');
+}
+
 // Function to apply JSON Merge Patch updates to the document
 function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
-      const jsonPointerPath = update.json_pointer;
+      const jsonPointerPath = uriFragmentToJsonPointer(update.json_pointer);
 
       // Handle root document case
       if (jsonPointerPath === '') {
