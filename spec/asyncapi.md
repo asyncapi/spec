@@ -951,7 +951,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Operation Trait Object Example
 
-<!-- asyncapi-example-tester:{"name":"Operation Traits Object","json_pointer":"/operations/sendUserSignUp/traits"} -->
+<!-- asyncapi-example-tester:{"name":"Operation Traits Object","json_pointer":"/operations/sendUserSignUp/traits/0"} -->
 ```json
 {
   "bindings": {
@@ -962,7 +962,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{"name":"Operation Traits Object","json_pointer":"/operations/sendUserSignUp/traits"} -->
+<!-- asyncapi-example-tester:{"name":"Operation Traits Object","json_pointer":"/operations/sendUserSignUp/traits/0"} -->
 ```yaml
 bindings:
   amqp:
@@ -1438,7 +1438,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Message Example Object Example
 
-<!-- asyncapi-example-tester:{"name":"Message Example Object","json_pointer":"/components/messages/userSignUp/examples"} -->
+<!-- asyncapi-example-tester:{"name":"Message Example Object","json_pointer":"/components/messages/userSignUp/examples/0"} -->
 ```json
 {
   "name": "SimpleSignup",
@@ -1458,7 +1458,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
-<!-- asyncapi-example-tester:{"name":"Message Example Object","json_pointer":"/components/messages/userSignUp/examples"} -->
+<!-- asyncapi-example-tester:{"name":"Message Example Object","json_pointer":"/components/messages/userSignUp/examples/0"} -->
 ```yaml
 name: SimpleSignup
 summary: A simple UserSignup example message
@@ -1610,7 +1610,7 @@ my.org.User
 
 ##### Components Object Example
 
-<!-- asyncapi-example-tester:{"name":"Components Object","json_pointer":"/components"} -->
+<!-- asyncapi-example-tester:{"name":"Components Object","json_pointer":""} -->
 ```json
 {
   "components": {
@@ -1744,7 +1744,7 @@ my.org.User
 }
 ```
 
-<!-- asyncapi-example-tester:{"name":"Components Object","json_pointer":"/components"} -->
+<!-- asyncapi-example-tester:{"name":"Components Object","json_pointer":""} -->
 ```yaml
 components:
   schemas:
