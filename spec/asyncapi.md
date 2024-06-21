@@ -894,7 +894,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     { "$ref": "#/components/operationTraits/kafka" }
   ],
   "messages": [
-    { "$ref": "/components/messages/userSignedUp" }
+    { "$ref": "#/channels/userSignup/messages/userSignedUp" }
   ],
   "reply": {
     "address": {
@@ -941,7 +941,7 @@ bindings:
 traits:
   - $ref: '#/components/operationTraits/kafka'
 messages:
-  - $ref: /components/messages/userSignedUp
+  - $ref: '#/channels/userSignup/messages/userSignedUp'
 reply:
   address:
     location: '$message.header#/replyTo'
