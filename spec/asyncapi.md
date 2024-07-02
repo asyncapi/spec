@@ -2611,6 +2611,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### OAuth Flow Object Examples
 
+###### clientCredentials Oauth Flow Object Example
+
 <!-- asyncapi-example-tester:{"name":"Security Scheme OAuth Flow Object","json_pointer":"#/components/securitySchemes/oauth/flows/clientCredentials"} -->
 ```json
 {
@@ -2621,8 +2623,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   }
 }
 ```
-<!-- "authorizationUrl": "https://example.com/api/oauth/dialog", -->
-<!-- validation passes when we remove this line -->
 <!-- asyncapi-example-tester:{"name":"Security Scheme OAuth Flow Object","json_pointer":"#/components/securitySchemes/oauth/flows/clientCredentials"} -->
 ```yaml
 tokenUrl: https://example.com/api/oauth/token
