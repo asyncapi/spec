@@ -7,12 +7,11 @@
     "validate:examples": "node embedded-examples-validation.js"
   },
   "author": "Animesh Kumar",
-  "license": "ISC",
+  "license": "Apache 2.0",
   "devDependencies": {
     "@asyncapi/parser": "^3.1.0",
     "js-yaml": "^4.1.0",
     "json-merge-patch": "^1.0.2",
-    "jsonpath-plus": "^9.0.0",
     "jsonpointer": "^5.0.1"
   }
 }
