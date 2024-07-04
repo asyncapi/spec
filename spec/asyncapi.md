@@ -861,19 +861,6 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "action": "send",
   "security": [
     {
-      "type": "oauth2",
-      "description": "The oauth security descriptions",
-      "flows": {
-        "clientCredentials": {
-          "tokenUrl": "https://example.com/api/oauth/dialog",
-          "availableScopes": {
-            "subscribe:auth_revocations": "Scope required for authorization revocation topic"
-          }
-        }
-      },
-      "scopes": [
-        "subscribe:auth_revocations"
-      ],
      "petstore_auth": [
        "write:pets",
        "read:pets"
@@ -894,7 +881,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     { "$ref": "#/components/operationTraits/kafka" }
   ],
   "messages": [
-    { "$ref": "#/channels/userSignup/messages/userSignedUp" }
+    { "$ref": "/components/messages/userSignedUp" }
   ],
   "reply": {
     "address": {
@@ -904,8 +891,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
       "$ref": "#/channels/userSignupReply"
     },
     "messages": [
-      { "$ref": "#/channels/userSignupReply/messages/userSignedUpReply" }
-    ]
+      { "$ref": "/components/messages/userSignedUpReply" }
+    ],
   }
 }
 ```
@@ -919,18 +906,9 @@ channel:
   $ref: '#/channels/userSignup'
 action: send
 security:
-  - type: oauth2
-    description: The oauth security descriptions
-    flows:
-      clientCredentials:
-        tokenUrl: 'https://example.com/api/oauth/dialog'
-        availableScopes:
-          'subscribe:auth_revocations': Scope required for authorization revocation topic
-    scopes:
-      - 'subscribe:auth_revocations'
-    petstore_auth:
-      - 'write:pets'
-      - 'read:pets'
+  - petstore_auth:
+    - write:pets
+    - read:pets
 tags:
   - name: user
   - name: signup
@@ -939,16 +917,16 @@ bindings:
   amqp:
     ack: false
 traits:
-  - $ref: '#/components/operationTraits/kafka'
+  - $ref: "#/components/operationTraits/kafka"
 messages:
-  - $ref: '#/channels/userSignup/messages/userSignedUp'
+  - $ref: '#/components/messages/userSignedUp'
 reply:
   address:
     location: '$message.header#/replyTo'
   channel:
     $ref: '#/channels/userSignupReply'
   messages:
-    - $ref: '#/channels/userSignupReply/messages/userSignedUpReply'
+    - $ref: '#/components/messages/userSignedUpReply'
 ```
 
 #### <a name="operationTraitObject"></a>Operation Trait Object
