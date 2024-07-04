@@ -892,7 +892,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     },
     "messages": [
       { "$ref": "/components/messages/userSignedUpReply" }
-    ],
+    ]
   }
 }
 ```
