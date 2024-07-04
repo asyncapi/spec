@@ -98,16 +98,12 @@ async function validateParser(document, name) {
 }
 
 // Iterate over the combinedData array, apply updates, and validate each document
-const baseDocPath = './base-doc.json';
-const baseDocSecuritySchemePath = './base-doc-security-scheme-object.json';
+const baseDocPath = './base-doc-combined.json';
 
 const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
-const baseDocSecurityScheme = JSON.parse(fs.readFileSync(baseDocSecuritySchemePath, 'utf8'));
 
 const validationPromises = combinedData.map(async (item) => {
-  const baseDocument = item.name && item.name.includes("Security Scheme Object")
-    ? JSON.parse(JSON.stringify(baseDocSecurityScheme)) // Deep copy for each iteration
-    : JSON.parse(JSON.stringify(baseDoc)); // Deep copy for each iteration
+  const baseDocument = JSON.parse(JSON.stringify(baseDoc));
 
   const updatedDocument = applyUpdates([item], baseDocument);
 

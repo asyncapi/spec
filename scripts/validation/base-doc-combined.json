@@ -578,6 +578,43 @@
       }
     },
     "securitySchemes": {
+      "userPasswordAuth": {
+        "type": "userPassword",
+        "description": "User password security scheme"
+      },
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "description": "API key security scheme",
+        "in": "user"
+      },
+      "X509Auth": {
+        "type": "X509",
+        "description": "X509 security scheme"
+      },
+      "symmetricEncryptionAuth": {
+        "type": "symmetricEncryption",
+        "description": "Symmetric encryption security scheme"
+      },
+      "basicAuth": {
+        "type": "http",
+        "description": "Basic security scheme",
+        "scheme": "basic"
+      },
+      "httpApiAuth": {
+        "type": "httpApiKey",
+        "name":"API Key Sample",
+        "description": "api_key",
+        "in":"header"
+      },
+      "JWTAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "saslAuth": {
+        "type": "scramSha256",
+        "description": "SASL security scheme" 
+      },
       "oauth": {
         "type": "oauth2",
         "description": "The oauth security descriptions",
