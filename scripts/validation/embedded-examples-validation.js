@@ -120,7 +120,7 @@ console.log(`\nNumber of examples extracted: ${combinedData.length}\n`);
 
 Promise.all(validationPromises)
   .then(() => {
-    console.log('\n\nValidation Complete! Check logs for any errors/warnings');
+    console.log('\n\nAll files are valid!');
   })
   .catch((error) => {
     console.error('Error during validations:', error);
