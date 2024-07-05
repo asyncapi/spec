@@ -1383,7 +1383,7 @@ Example using Avro to define the payload:
   "payload": {
     "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
     "schema": {
-      "$ref": "../user-create.avsc"
+      "$ref": "./user-create.avsc"
     }
   }
 }
