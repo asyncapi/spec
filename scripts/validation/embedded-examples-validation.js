@@ -37,6 +37,7 @@ function extractCommentsAndExamples(content) {
       });
     } catch (e) {
       console.error("Failed to parse comment JSON or example:", match[1], e);
+      process.exit(1);
     }
   }
 
@@ -71,6 +72,7 @@ function applyUpdates(updates, baseDoc) {
 
     } catch (e) {
       console.error(`\nError processing update for '${update.name}' at path '${update.json_pointer}'`, e);
+      process.exit(1);
     }
   });
   return baseDoc;
@@ -85,8 +87,10 @@ async function validateParser(document, name) {
       diagnostics.forEach(diagnostic => {
         if (diagnostic.level === 'error') {
           console.error(`\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`);
+          process.exit(1);
         } else {
-          console.log(`\x1b[31mWarning in ${name}: ${diagnostic.message}\x1b[0m`);
+          console.log(`\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`);
+          process.exit(1);
         }
       });
     } else {
@@ -94,6 +98,7 @@ async function validateParser(document, name) {
     }
   } catch (error) {
     console.error(`\x1b[31mValidation failed for ${name}: ${error.message}\x1b[0m`);
+    process.exit(1);
   }
 }
 
@@ -119,4 +124,5 @@ Promise.all(validationPromises)
   })
   .catch((error) => {
     console.error('Error during validations:', error);
+    process.exit(1);
   });
