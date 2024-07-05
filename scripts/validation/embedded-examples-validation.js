@@ -115,7 +115,7 @@ console.log(`\nNumber of examples extracted: ${combinedData.length}\n`);
 
 Promise.all(validationPromises)
   .then(() => {
-    console.log('\n\nAll examples validated successfully!');
+    console.log('\n\nValidation Complete! Check logs for any errors/warnings');
   })
   .catch((error) => {
     console.error('Error during validations:', error);
