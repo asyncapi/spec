@@ -1383,7 +1383,7 @@ Example using Avro to define the payload:
   "payload": {
     "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
     "schema": {
-      "$ref": "user-create.avsc"
+      "$ref": "./user-create.avsc"
     }
   }
 }
@@ -1402,7 +1402,7 @@ tags:
 payload:
   schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
   schema:
-    $ref: 'user-create.avsc'
+    $ref: './user-create.avsc'
 ```
 
 #### <a name="messageTraitObject"></a>Message Trait Object
@@ -1664,7 +1664,7 @@ my.org.User
       "AvroExample": {
         "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
         "schema": {
-          "$ref": "user-create.avsc"
+          "$ref": "./user-create.avsc"
         }
       }
     },
@@ -1789,7 +1789,7 @@ components:
     AvroExample:
       schemaFormat: application/vnd.apache.avro+json;version=1.9.0
       schema:
-        $ref: 'user-create.avsc'
+        $ref: './user-create.avsc'
   servers:
     development:
       host: "{stage}.in.mycompany.com:{port}"
