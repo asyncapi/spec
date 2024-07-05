@@ -1806,10 +1806,14 @@ components:
   serverVariables:
     stage:
       default: demo
-      description: This value is assigned by the service provider, in this example `mycompany.com`
+      description: |
+        This value is assigned by the service provider, in this example
+        `mycompany.com`
     port:
-      enum: ["5671", "5672"]
-      default: "5672"
+      enum:
+        - '5671'
+        - '5672'
+      default: '5672'
   channels:
     user/signedup:
       subscribe:
@@ -1828,7 +1832,9 @@ components:
         type: object
         properties:
           applicationInstanceId:
-            description: Unique identifier for a given instance of the publishing application
+            description: |
+              Unique identifier for a given instance of the publishing
+              application
             type: string
       payload:
         type: object
@@ -1843,7 +1849,7 @@ components:
   correlationIds:
     default:
       description: Default Correlation ID
-      location: $message.header#/correlationId
+      location: '$message.header#/correlationId'
   messageTraits:
     commonHeaders:
       headers:
@@ -1890,7 +1896,7 @@ Name | Allowed values | Notes
 
 ###### Multi Format Schema Object Example with Avro
 
-<!-- asyncapi-example-tester:{"name":"Multi Format Schema Object - Avro","json_pointer":"#/"} -->
+<!-- asyncapi-example-tester:{"name":"Multi Format Schema Object - Avro","json_pointer":"#"} -->
 ```yaml
 channels:
   example:
