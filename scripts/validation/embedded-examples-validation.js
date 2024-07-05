@@ -51,7 +51,6 @@ const combinedData = extractCommentsAndExamples(markdownContent);
 function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
-      const jsonPointerPath = update.json_pointer;
 
       // Handle root document case
       if (jsonPointerPath === '') {
