@@ -1787,7 +1787,7 @@ components:
         name:
           type: string
     AvroExample:
-      schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+      schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
       schema:
         $ref: './user-create.avsc'
   servers:
@@ -1798,9 +1798,9 @@ components:
       protocolVersion: 0-9-1
       variables:
         stage:
-          $ref: "#/components/serverVariables/stage"
+          $ref: '#/components/serverVariables/stage'
         port:
-          $ref: "#/components/serverVariables/port"
+          $ref: '#/components/serverVariables/port'
   serverVariables:
     stage:
       default: demo
@@ -1812,7 +1812,7 @@ components:
     user/signedup:
       subscribe:
         message:
-          $ref: "#/components/messages/userSignUp"
+          $ref: '#/components/messages/userSignUp'
   messages:
     userSignUp:
       summary: Action to sign a user up.
@@ -1832,9 +1832,9 @@ components:
         type: object
         properties:
           user:
-            $ref: "#/components/schemas/userCreate"
+            $ref: '#/components/schemas/userCreate'
           signup:
-            $ref: "#/components/schemas/signup"
+            $ref: '#/components/schemas/signup'
   parameters:
     userId:
       description: Id of the user.
