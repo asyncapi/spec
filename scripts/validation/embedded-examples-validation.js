@@ -85,9 +85,14 @@ async function validateParser(document, name) {
 
     if (diagnostics.length > 0) {
       diagnostics.forEach(diagnostic => {
-        const errorMessage = `\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`
-        console.log(errorMessage);
-        process.exit(1);
+        const errorMessage = `\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`;
+        if (diagnostic.level === 'error') {
+          console.error(errorMessage);
+          process.exit(1);
+        } else {
+          console.log(errorMessage);
+          process.exit(1);
+        }
       });
     } else {
       console.log(`${name} is valid.`);
