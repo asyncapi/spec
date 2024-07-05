@@ -335,6 +335,8 @@ Field Name | Type | Description
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
+##### Contact Object Example
+
 <!-- asyncapi-example-tester:{"name":"Contact Object","json_pointer":"#/info/contact"} -->
 ```json
 {
