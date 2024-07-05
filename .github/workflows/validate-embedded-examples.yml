@@ -1,0 +1,23 @@
+name: Validate Embedded Examples in asyncapi.md
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+
+jobs:
+  validate-examples:
+    name: Validate Examples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./scripts/validation/
+      - name: Validate AsyncAPI documents
+        run: npm run validate:examples
+        working-directory: ./scripts/validation/

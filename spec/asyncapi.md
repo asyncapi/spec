@@ -26,7 +26,7 @@ operations:
   onUserSignedUp:
     action: receive
     channel:
-      $ref: "#/channels/userSignedUp"
+      $ref: '#/channels/userSignedUp'
 ```
 
 It means that the [application](#definitionsApplication) will receive messages from  the `userSignedUp` [channel](#definitionsChannel).
@@ -42,7 +42,7 @@ operations:
     description: Event received when a user signed up on the product.
     action: receive
     channel:
-      $ref: "#/channels/userSignedUp"
+      $ref: '#/channels/userSignedUp'
 ```
 
 We can't automatically assume that an _opposite_ application exists by simply replacing `receive` with `send`:
@@ -54,7 +54,7 @@ operations:
     description: Event received when a user signed up on the product. # <-- This doesn't make sense now. Should speak about sending an event, not receiving it.
     action: send
     channel:
-      $ref: "#/channels/userSignedUp"
+      $ref: '#/channels/userSignedUp'
 ```
 
 Aside from the issues mentioned above, there may also be infrastructure configuration that is not represented here. For instance, a system may use a read-only channel for receiving messages, a different one for sending them, and an intermediary process that will forward messages from one channel to the other.
@@ -273,6 +273,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Info Object Example
 
+<!-- asyncapi-example-tester:{"name":"Info Object","json_pointer":"/info"} -->
 ```json
 {
   "title": "AsyncAPI Sample App",
@@ -300,6 +301,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Info Object","json_pointer":"/info"} -->
 ```yaml
 title: AsyncAPI Sample App
 version: 1.0.1
@@ -335,6 +337,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Contact Object Example
 
+<!-- asyncapi-example-tester:{"name":"Contact Object","json_pointer":"/info/contact"} -->
 ```json
 {
   "name": "API Support",
@@ -343,6 +346,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Contact Object","json_pointer":"/info/contact"} -->
 ```yaml
 name: API Support
 url: https://www.example.com/support
@@ -364,6 +368,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### License Object Example
 
+<!-- asyncapi-example-tester:{"name":"License Object","json_pointer":"/info/license"} -->
 ```json
 {
   "name": "Apache 2.0",
@@ -371,6 +376,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"License Object","json_pointer":"/info/license"} -->
 ```yaml
 name: Apache 2.0
 url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -388,6 +394,7 @@ Field Pattern | Type | Description
 
 ##### Servers Object Example
 
+<!-- asyncapi-example-tester:{"name":"Servers Object","json_pointer":"/servers"} -->
 ```json
 {
   "development": {
@@ -429,6 +436,7 @@ Field Pattern | Type | Description
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Servers Object","json_pointer":"/servers"} -->
 ```yaml
 development:
   host: localhost:5672
@@ -436,24 +444,24 @@ development:
   protocol: amqp
   protocolVersion: 0-9-1
   tags:
-    - name: "env:development"
-      description: "This environment is meant for developers to run their own tests."
+    - name: 'env:development'
+      description: 'This environment is meant for developers to run their own tests.'
 staging:
   host: rabbitmq-staging.in.mycompany.com:5672
   description: RabbitMQ broker for the staging environment.
   protocol: amqp
   protocolVersion: 0-9-1
   tags:
-    - name: "env:staging"
-      description: "This environment is a replica of the production environment."
+    - name: 'env:staging'
+      description: 'This environment is a replica of the production environment.'
 production:
   host: rabbitmq.in.mycompany.com:5672
   description: RabbitMQ broker for the production environment.
   protocol: amqp
   protocolVersion: 0-9-1
   tags:
-    - name: "env:production"
-      description: "This environment is the live environment available for final users."
+    - name: 'env:production'
+      description: 'This environment is the live environment available for final users.'
 ```
 
 #### <a name="serverObject"></a>Server Object
@@ -481,6 +489,7 @@ Field Name | Type | Description
 
 A single server would be described as:
 
+<!-- asyncapi-example-tester:{"name":"Server Object","json_pointer":"/servers/production"} -->
 ```json
 {
   "host": "kafka.in.mycompany.com:9092",
@@ -490,6 +499,7 @@ A single server would be described as:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Server Object","json_pointer":"/servers/production"} -->
 ```yaml
 host: kafka.in.mycompany.com:9092
 description: Production Kafka broker.
@@ -499,6 +509,7 @@ protocolVersion: '3.2'
 
 An example of a server that has a `pathname`:
 
+<!-- asyncapi-example-tester:{"name":"Server Object with pathname","json_pointer":"/servers/production"} -->
 ```json
 {
   "host": "rabbitmq.in.mycompany.com:5672",
@@ -508,6 +519,7 @@ An example of a server that has a `pathname`:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Server Object with pathname","json_pointer":"/servers/production"} -->
 ```yaml
 host: rabbitmq.in.mycompany.com:5672
 pathname: /production
@@ -532,6 +544,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Server Variable Object Example
 
+<!-- asyncapi-example-tester:{"name":"Server Object with Variable Object","json_pointer":"/servers/production"} -->
 ```json
 {
   "host": "rabbitmq.in.mycompany.com:5672",
@@ -550,6 +563,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Server Object with Variable Object","json_pointer":"/servers/production"} -->
 ```yaml
 host: 'rabbitmq.in.mycompany.com:5672'
 pathname: '/{env}'
@@ -571,12 +585,14 @@ In case a message can't be encoded/decoded using this value, schema parsers MUST
 
 ##### Default Content Type Example
 
+<!-- asyncapi-example-tester:{"name":"Default Content Type at root doc","json_pointer":""} -->  
 ```json
 {
   "defaultContentType": "application/json"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Default Content Type at root doc","json_pointer":""} -->  
 ```yaml
 defaultContentType: application/json
 ```
@@ -593,6 +609,7 @@ Field Pattern | Type | Description
 
 ##### Channels Object Example
 
+<!-- asyncapi-example-tester:{"name":"Channels Object","json_pointer":"/channels"} -->
 ```json
 {
   "userSignedUp": {
@@ -606,6 +623,7 @@ Field Pattern | Type | Description
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Channels Object","json_pointer":"/channels"} -->
 ```yaml
 userSignedUp:
   address: 'user.signedup'
@@ -637,6 +655,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Channel Object Example
 
+<!-- asyncapi-example-tester:{"name":"Channel Object","json_pointer":"/channels/user"} -->
 ```json
 {
   "address": "users.{userId}",
@@ -678,6 +697,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Channel Object","json_pointer":"/channels/user"} -->
 ```yaml
 address: 'users.{userId}'
 title: Users channel
@@ -724,6 +744,7 @@ Field Pattern | Type | Description
 
 ##### Messages Object Example
 
+<!-- asyncapi-example-tester:{"name":"Messages Object","json_pointer":"/channels/user/messages"} -->
 ```json
 {
   "userSignedUp": {
@@ -735,6 +756,7 @@ Field Pattern | Type | Description
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Messages Object","json_pointer":"/channels/user/messages"} -->
 ```yaml
 userSignedUp:
   $ref: '#/components/messages/userSignedUp'
@@ -756,6 +778,7 @@ Field Pattern | Type | Description
 
 ##### Operations Object Example
 
+<!-- asyncapi-example-tester:{"name":"Operations Object","json_pointer":"/operations"} -->
 ```json
 {
   "onUserSignUp": {
@@ -783,6 +806,7 @@ Field Pattern | Type | Description
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Operations Object","json_pointer":"/operations"} -->
 ```yaml
 onUserSignUp:
   title: User sign up
@@ -827,6 +851,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Operation Object Example
 
+<!-- asyncapi-example-tester:{"name":"Operation Object","json_pointer":"/operations/sendUserSignUp"} -->
 ```json
 {
   "title": "User sign up",
@@ -838,6 +863,19 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "action": "send",
   "security": [
     {
+      "type": "oauth2",
+      "description": "The oauth security descriptions",
+      "flows": {
+        "clientCredentials": {
+          "tokenUrl": "https://example.com/api/oauth/dialog",
+          "availableScopes": {
+            "subscribe:auth_revocations": "Scope required for authorization revocation topic"
+          }
+        }
+      },
+      "scopes": [
+        "subscribe:auth_revocations"
+      ],
      "petstore_auth": [
        "write:pets",
        "read:pets"
@@ -858,7 +896,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     { "$ref": "#/components/operationTraits/kafka" }
   ],
   "messages": [
-    { "$ref": "/components/messages/userSignedUp" }
+    { "$ref": "#/channels/userSignup/messages/userSignedUp" }
   ],
   "reply": {
     "address": {
@@ -868,12 +906,13 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
       "$ref": "#/channels/userSignupReply"
     },
     "messages": [
-      { "$ref": "/components/messages/userSignedUpReply" }
-    ],
+      { "$ref": "#/channels/userSignupReply/messages/userSignedUpReply" }
+    ]
   }
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Operation Object","json_pointer":"/operations/sendUserSignUp"} -->
 ```yaml
 title: User sign up
 summary: Action to sign a user up.
@@ -882,9 +921,18 @@ channel:
   $ref: '#/channels/userSignup'
 action: send
 security:
-  - petstore_auth:
-    - write:pets
-    - read:pets
+  - type: oauth2
+    description: The oauth security descriptions
+    flows:
+      clientCredentials:
+        tokenUrl: 'https://example.com/api/oauth/dialog'
+        availableScopes:
+          'subscribe:auth_revocations': Scope required for authorization revocation topic
+    scopes:
+      - 'subscribe:auth_revocations'
+    petstore_auth:
+      - 'write:pets'
+      - 'read:pets'
 tags:
   - name: user
   - name: signup
@@ -893,16 +941,16 @@ bindings:
   amqp:
     ack: false
 traits:
-  - $ref: "#/components/operationTraits/kafka"
+  - $ref: '#/components/operationTraits/kafka'
 messages:
-  - $ref: '#/components/messages/userSignedUp'
+  - $ref: '#/channels/userSignup/messages/userSignedUp'
 reply:
   address:
     location: '$message.header#/replyTo'
   channel:
     $ref: '#/channels/userSignupReply'
   messages:
-    - $ref: '#/components/messages/userSignedUpReply'
+    - $ref: '#/channels/userSignupReply/messages/userSignedUpReply'
 ```
 
 #### <a name="operationTraitObject"></a>Operation Trait Object
@@ -927,6 +975,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Operation Trait Object Example
 
+<!-- asyncapi-example-tester:{"name":"Operation Traits Object","json_pointer":"/operations/sendUserSignUp/traits/0"} -->
 ```json
 {
   "bindings": {
@@ -937,6 +986,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Operation Traits Object","json_pointer":"/operations/sendUserSignUp/traits/0"} -->
 ```yaml
 bindings:
   amqp:
@@ -974,6 +1024,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Examples
 
+<!-- asyncapi-example-tester:{"name":"Operation Reply Address Object","json_pointer":"/operations/sendUserSignUp/reply/address"} -->
 ```json
 {
   "description": "Consumer inbox",
@@ -981,6 +1032,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Operation Reply Address Object","json_pointer":"/operations/sendUserSignUp/reply/address"} -->
 ```yaml
 description: Consumer Inbox
 location: $message.header#/replyTo
@@ -1000,6 +1052,7 @@ Field Pattern | Type | Description
 
 ##### Parameters Object Example
 
+<!-- asyncapi-example-tester:{"name":"Channel Parameters Object","json_pointer":"/channels/user"} -->
 ```json
 {
   "address": "user/{userId}/signedup",
@@ -1011,6 +1064,7 @@ Field Pattern | Type | Description
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Channel Parameters Object","json_pointer":"/channels/user"} -->
 ```yaml
 address: user/{userId}/signedup
 parameters:
@@ -1036,6 +1090,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Parameter Object Example
 
+<!-- asyncapi-example-tester:{"name":"Channel Parameter Object","json_pointer":"/channels/user"} -->
 ```json
 {
   "address": "user/{userId}/signedup",
@@ -1048,6 +1103,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Channel Parameter Object","json_pointer":"/channels/user"} -->
 ```yaml
 address: user/{userId}/signedup
 parameters:
@@ -1202,6 +1258,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Message Object Example
 
+<!-- asyncapi-example-tester:{"name":"Message Object","json_pointer":"/components/messages/userSignedUp"} -->
 ```json
 {
   "name": "UserSignup",
@@ -1266,6 +1323,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Message Object","json_pointer":"/components/messages/userSignedUp"} -->
 ```yaml
 name: UserSignup
 title: User signup
@@ -1289,14 +1347,14 @@ payload:
   type: object
   properties:
     user:
-      $ref: "#/components/schemas/userCreate"
+      $ref: '#/components/schemas/userCreate'
     signup:
-      $ref: "#/components/schemas/signup"
+      $ref: '#/components/schemas/signup'
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
 traits:
-  - $ref: "#/components/messageTraits/commonHeaders"
+  - $ref: '#/components/messageTraits/commonHeaders'
 examples:
   - name: SimpleSignup
     summary: A simple UserSignup example message
@@ -1312,6 +1370,7 @@ examples:
 
 Example using Avro to define the payload:
 
+<!-- asyncapi-example-tester:{"name":"Message Object","json_pointer":"/components/messages/userSignedUp"} -->
 ```json
 {
   "name": "UserSignup",
@@ -1326,12 +1385,13 @@ Example using Avro to define the payload:
   "payload": {
     "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
     "schema": {
-      "$ref": "path/to/user-create.avsc#/UserCreate"
+      "$ref": "./user-create.avsc"
     }
   }
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Message Object","json_pointer":"/components/messages/userSignedUp"} -->
 ```yaml
 name: UserSignup
 title: User signup
@@ -1344,7 +1404,7 @@ tags:
 payload:
   schemaFormat: 'application/vnd.apache.avro+yaml;version=1.9.0'
   schema:
-    $ref: 'path/to/user-create.avsc/#UserCreate'
+    $ref: './user-create.avsc'
 ```
 
 #### <a name="messageTraitObject"></a>Message Trait Object
@@ -1373,12 +1433,14 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Message Trait Object Example
 
+<!-- asyncapi-example-tester:{"name":"Message Trait Object","json_pointer":"/components/messageTraits/commonHeaders"} -->
 ```json
 {
   "contentType": "application/json"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Message Trait Object","json_pointer":"/components/messageTraits/commonHeaders"} -->
 ```yaml
 contentType: application/json
 ```
@@ -1400,6 +1462,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Message Example Object Example
 
+<!-- asyncapi-example-tester:{"name":"Message Example Object","json_pointer":"/components/messages/userSignUp/examples/0"} -->
 ```json
 {
   "name": "SimpleSignup",
@@ -1419,6 +1482,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Message Example Object","json_pointer":"/components/messages/userSignUp/examples/0"} -->
 ```yaml
 name: SimpleSignup
 summary: A simple UserSignup example message
@@ -1452,6 +1516,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Tag Object Example
 
+<!-- asyncapi-example-tester:{"name":"Tag Object","json_pointer":"/components/tags/user"} -->
 ```json
 {
  "name": "user",
@@ -1459,6 +1524,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Tag Object","json_pointer":"/components/tags/user"} -->
 ```yaml
 name: user
 description: User-related messages
@@ -1479,6 +1545,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### External Documentation Object Example
 
+<!-- asyncapi-example-tester:{"name":"External Docs Object","json_pointer":"/components/externalDocs/infoDocs"} -->
 ```json
 {
   "description": "Find more info here",
@@ -1486,6 +1553,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"External Docs Object","json_pointer":"/components/externalDocs/infoDocs"} -->
 ```yaml
 description: Find more info here
 url: https://example.com
@@ -1509,12 +1577,14 @@ This object cannot be extended with additional properties and any properties add
 
 ##### Reference Object Example
 
+<!-- asyncapi-example-tester:{"name":"Reference Object","json_pointer":"/components/messages/userSignUp/payload"} -->
 ```json
 {
   "$ref": "#/components/schemas/Pet"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Reference Object","json_pointer":"/components/messages/userSignUp/payload"} -->
 ```yaml
   $ref: '#/components/schemas/Pet'
 ```
@@ -1564,6 +1634,7 @@ my.org.User
 
 ##### Components Object Example
 
+<!-- asyncapi-example-tester:{"name":"Components Object","json_pointer":""} -->
 ```json
 {
   "components": {
@@ -1595,7 +1666,7 @@ my.org.User
       "AvroExample": {
         "schemaFormat": "application/vnd.apache.avro+json;version=1.9.0",
         "schema": {
-          "$ref": "path/to/user-create.avsc#/UserCreate"
+          "$ref": "./user-create.avsc"
         }
       }
     },
@@ -1697,6 +1768,7 @@ my.org.User
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Components Object","json_pointer":""} -->
 ```yaml
 components:
   schemas:
@@ -1717,32 +1789,36 @@ components:
         name:
           type: string
     AvroExample:
-      schemaFormat: application/vnd.apache.avro+json;version=1.9.0
+      schemaFormat: 'application/vnd.apache.avro+json;version=1.9.0'
       schema:
-        $ref: 'path/to/user-create.avsc/#UserCreate'
+        $ref: './user-create.avsc'
   servers:
     development:
-      host: "{stage}.in.mycompany.com:{port}"
+      host: '{stage}.in.mycompany.com:{port}'
       description: RabbitMQ broker
       protocol: amqp
       protocolVersion: 0-9-1
       variables:
         stage:
-          $ref: "#/components/serverVariables/stage"
+          $ref: '#/components/serverVariables/stage'
         port:
-          $ref: "#/components/serverVariables/port"
+          $ref: '#/components/serverVariables/port'
   serverVariables:
     stage:
       default: demo
-      description: This value is assigned by the service provider, in this example `mycompany.com`
+      description: |
+        This value is assigned by the service provider, in this example
+        `mycompany.com`
     port:
-      enum: ["5671", "5672"]
-      default: "5672"
+      enum:
+        - '5671'
+        - '5672'
+      default: '5672'
   channels:
     user/signedup:
       subscribe:
         message:
-          $ref: "#/components/messages/userSignUp"
+          $ref: '#/components/messages/userSignUp'
   messages:
     userSignUp:
       summary: Action to sign a user up.
@@ -1756,22 +1832,24 @@ components:
         type: object
         properties:
           applicationInstanceId:
-            description: Unique identifier for a given instance of the publishing application
+            description: |
+              Unique identifier for a given instance of the publishing
+              application
             type: string
       payload:
         type: object
         properties:
           user:
-            $ref: "#/components/schemas/userCreate"
+            $ref: '#/components/schemas/userCreate'
           signup:
-            $ref: "#/components/schemas/signup"
+            $ref: '#/components/schemas/signup'
   parameters:
     userId:
       description: Id of the user.
   correlationIds:
     default:
       description: Default Correlation ID
-      location: $message.header#/correlationId
+      location: '$message.header#/correlationId'
   messageTraits:
     commonHeaders:
       headers:
@@ -1818,6 +1896,7 @@ Name | Allowed values | Notes
 
 ###### Multi Format Schema Object Example with Avro
 
+<!-- asyncapi-example-tester:{"name":"Multi Format Schema Object - Avro","json_pointer":""} -->
 ```yaml
 channels:
   example:
@@ -1923,6 +2002,7 @@ As such, inline schema definitions, which do not have a given id, _cannot_ be us
 
 ###### Primitive Sample
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Primitive","json_pointer":"/components/schemas/Email"} -->
 ```json
 {
   "type": "string",
@@ -1930,6 +2010,7 @@ As such, inline schema definitions, which do not have a given id, _cannot_ be us
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Primitive","json_pointer":"/components/schemas/Email"} -->
 ```yaml
 type: string
 format: email
@@ -1937,6 +2018,7 @@ format: email
 
 ###### Simple Model
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Simple model","json_pointer":"/components/schemas/Person"} -->
 ```json
 {
   "type": "object",
@@ -1959,6 +2041,7 @@ format: email
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Simple model","json_pointer":"/components/schemas/Person"} -->
 ```yaml
 type: object
 required:
@@ -1978,6 +2061,7 @@ properties:
 
 For a simple string to string mapping:
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Map-Dictionary model","json_pointer":"/components/schemas/Additional"} -->
 ```json
 {
   "type": "object",
@@ -1987,6 +2071,7 @@ For a simple string to string mapping:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Map-Dictionary model","json_pointer":"/components/schemas/Additional"} -->
 ```yaml
 type: object
 additionalProperties:
@@ -1995,6 +2080,7 @@ additionalProperties:
 
 For a string to model mapping:
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Allowing Complex model","json_pointer":"/components/schemas/WithComplex"} -->
 ```json
 {
   "type": "object",
@@ -2004,6 +2090,7 @@ For a string to model mapping:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - Allowing Complex model","json_pointer":"/components/schemas/WithComplex"} -->
 ```yaml
 type: object
 additionalProperties:
@@ -2012,6 +2099,7 @@ additionalProperties:
 
 ###### Model with Example
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With examples model","json_pointer":"/components/schemas/WithExamples"} -->
 ```json
 {
   "type": "object",
@@ -2036,6 +2124,7 @@ additionalProperties:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With examples model","json_pointer":"/components/schemas/WithExamples"} -->
 ```yaml
 type: object
 properties:
@@ -2053,6 +2142,7 @@ examples:
 
 ###### Model with Boolean Schemas
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With boolean model","json_pointer":"/components/schemas/WithBoolean"} -->
 ```json
 {
   "type": "object",
@@ -2066,6 +2156,7 @@ examples:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With boolean model","json_pointer":"/components/schemas/WithBoolean"} -->
 ```yaml
 type: object
 required:
@@ -2077,6 +2168,7 @@ properties:
 
 ###### Models with Composition
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With composition model","json_pointer":"/components/schemas/WithComposition"} -->
 ```json
 {
   "schemas": {
@@ -2119,6 +2211,7 @@ properties:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With composition model","json_pointer":"/components/schemas/WithComposition"} -->
 ```yaml
 schemas:
   ErrorModel:
@@ -2146,6 +2239,7 @@ schemas:
 
 ###### Models with Polymorphism Support
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With polymorphism model","json_pointer":"/components/schemas/WithPolymorphism"} -->
 ```json
 {
   "schemas": {
@@ -2239,6 +2333,7 @@ schemas:
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Schema Object - With polymorphism model","json_pointer":"/components/schemas/WithPolymorphism"} -->
 ```yaml
 schemas:
   Pet:
@@ -2336,18 +2431,21 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ###### User/Password Authentication Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - user-pass","json_pointer":"/components/securitySchemes/userPasswordAuth"} -->
 ```json
 {
   "type": "userPassword"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - user-pass","json_pointer":"/components/securitySchemes/userPasswordAuth"} -->
 ```yaml
 type: userPassword
 ```
 
 ###### API Key Authentication Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - API key auth","json_pointer":"/components/securitySchemes/apiKeyAuth"} -->
 ```json
 {
   "type": "apiKey",
@@ -2355,6 +2453,7 @@ type: userPassword
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - API key auth","json_pointer":"/components/securitySchemes/apiKeyAuth"} -->
 ```yaml
 type: apiKey
 in: user
@@ -2362,30 +2461,35 @@ in: user
 
 ###### X.509 Authentication Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - X.509","json_pointer":"/components/securitySchemes/X509Auth"} -->
 ```json
 {
   "type": "X509"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - X.509","json_pointer":"/components/securitySchemes/X509Auth"} -->
 ```yaml
 type: X509
 ```
 
 ###### End-to-end Encryption Authentication Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - end to end encryption","json_pointer":"/components/securitySchemes/symmetricEncryptionAuth"} -->
 ```json
 {
   "type": "symmetricEncryption"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - end to end encryption","json_pointer":"/components/securitySchemes/symmetricEncryptionAuth"} -->
 ```yaml
 type: symmetricEncryption
 ```
 
 ###### Basic Authentication Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - basic","json_pointer":"/components/securitySchemes/basicAuth"} -->
 ```json
 {
   "type": "http",
@@ -2393,6 +2497,7 @@ type: symmetricEncryption
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - basic","json_pointer":"/components/securitySchemes/basicAuth"} -->
 ```yaml
 type: http
 scheme: basic
@@ -2400,6 +2505,7 @@ scheme: basic
 
 ###### API Key Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - API key","json_pointer":"/components/securitySchemes/httpApiAuth"} -->
 ```json
 {
   "type": "httpApiKey",
@@ -2408,6 +2514,7 @@ scheme: basic
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - API key","json_pointer":"/components/securitySchemes/httpApiAuth"} -->
 ```yaml
 type: httpApiKey
 name: api_key
@@ -2416,6 +2523,7 @@ in: header
 
 ###### JWT Bearer Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - JWT","json_pointer":"/components/securitySchemes/JWTAuth"} -->
 ```json
 {
   "type": "http",
@@ -2424,6 +2532,7 @@ in: header
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - JWT","json_pointer":"/components/securitySchemes/JWTAuth"} -->
 ```yaml
 type: http
 scheme: bearer
@@ -2432,6 +2541,7 @@ bearerFormat: JWT
 
 ###### Implicit OAuth2 Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - implicity OAuth2","json_pointer":"/components/securitySchemes/oauth"} -->
 ```json
 {
   "type": "oauth2",
@@ -2450,6 +2560,7 @@ bearerFormat: JWT
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - implicity OAuth2","json_pointer":"/components/securitySchemes/oauth"} -->
 ```yaml
 type: oauth2
 flows:
@@ -2464,12 +2575,14 @@ scopes:
 
 ###### SASL Sample
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - SASL","json_pointer":"/components/securitySchemes/saslAuth"} -->
 ```json
 {
   "type": "scramSha512"
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Security Scheme Object - SASL","json_pointer":"/components/securitySchemes/saslAuth"} -->
 ```yaml
 type: scramSha512
 ```
@@ -2506,9 +2619,11 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### OAuth Flow Object Examples
 
-```JSON
+###### clientCredentials Oauth Flow Object Example
+
+<!-- asyncapi-example-tester:{"name":"Security Scheme OAuth Flow Object","json_pointer":"/components/securitySchemes/oauth/flows/clientCredentials"} -->
+```json
 {
-  "authorizationUrl": "https://example.com/api/oauth/dialog",
   "tokenUrl": "https://example.com/api/oauth/token",
   "availableScopes": {
     "write:pets": "modify pets in your account",
@@ -2516,9 +2631,8 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   }
 }
 ```
-
-```YAML
-authorizationUrl: https://example.com/api/oauth/dialog
+<!-- asyncapi-example-tester:{"name":"Security Scheme OAuth Flow Object","json_pointer":"/components/securitySchemes/oauth/flows/clientCredentials"} -->
+```yaml
 tokenUrl: https://example.com/api/oauth/token
 availableScopes:
   write:pets: modify pets in your account
@@ -2542,6 +2656,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 
 ##### Examples
 
+<!-- asyncapi-example-tester:{"name":"Message Correlation ID Object","json_pointer":"/components/correlationIds/default"} -->
 ```json
 {
   "description": "Default Correlation ID",
@@ -2549,6 +2664,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 }
 ```
 
+<!-- asyncapi-example-tester:{"name":"Message Correlation ID Object","json_pointer":"/components/correlationIds/default"} -->
 ```yaml
 description: Default Correlation ID
 location: $message.header#/correlationId
