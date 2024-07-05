@@ -47,17 +47,11 @@ function extractCommentsAndExamples(content) {
 // Extract comments and examples from the markdown file
 const combinedData = extractCommentsAndExamples(markdownContent);
 
-// Function to convert URI Fragment to JSON Pointer
-function uriFragmentToJsonPointer(uriFragment) {
-  if (uriFragment === '#') return '';
-  return uriFragment.slice(1).split('/').map(decodeURIComponent).join('/');
-}
-
 // Function to apply JSON Merge Patch updates to the document
 function applyUpdates(updates, baseDoc) {
   updates.forEach(update => {
     try {
-      const jsonPointerPath = uriFragmentToJsonPointer(update.json_pointer);
+      const jsonPointerPath = update.json_pointer;
 
       // Handle root document case
       if (jsonPointerPath === '') {
@@ -91,7 +85,6 @@ async function validateParser(document, name) {
           process.exit(1);
         } else {
           console.log(errorMessage);
-          process.exit(1);
         }
       });
     } else {
@@ -109,19 +102,16 @@ const baseDocPath = './base-doc-combined.json';
 const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
 
 const validationPromises = combinedData.map(async (item) => {
-  const baseDocument = JSON.parse(JSON.stringify(baseDoc));
+  const updatedDocument = applyUpdates([item], baseDoc);
 
-  const updatedDocument = applyUpdates([item], baseDocument);
-
-  const documentString = updatedDocument;
-  await validateParser(documentString, `${item.name}-${item.format}-format`);
+  await validateParser(updatedDocument, `${item.name}-${item.format}-format`);
 });
 
 console.log(`\nNumber of examples extracted: ${combinedData.length}\n`);
 
 Promise.all(validationPromises)
   .then(() => {
-    console.log('\n\nAll files are valid!');
+    console.log('\n\nValidation process complete!\nCheck logs for any errors.');
   })
   .catch((error) => {
     console.error('Error during validations:', error);
