@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "UserCreate",
+  "namespace": "com.example",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    }
+  ]
+}
