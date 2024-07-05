@@ -85,13 +85,9 @@ async function validateParser(document, name) {
 
     if (diagnostics.length > 0) {
       diagnostics.forEach(diagnostic => {
-        if (diagnostic.level === 'error') {
-          console.error(`\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`);
-          process.exit(1);
-        } else {
-          console.log(`\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`);
-          process.exit(1);
-        }
+        const errorMessage = `\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`
+        console.log(errorMessage);
+        process.exit(1);
       });
     } else {
       console.log(`${name} is valid.`);
@@ -112,7 +108,7 @@ const validationPromises = combinedData.map(async (item) => {
 
   const updatedDocument = applyUpdates([item], baseDocument);
 
-  const documentString = JSON.stringify(updatedDocument, null, 2);
+  const documentString = updatedDocument;
   await validateParser(documentString, `${item.name}-${item.format}-format`);
 });
 
