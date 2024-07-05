@@ -26,7 +26,7 @@ operations:
   onUserSignedUp:
     action: receive
     channel:
-      $ref: "#/channels/userSignedUp"
+      $ref: '#/channels/userSignedUp'
 ```
 
 It means that the [application](#definitionsApplication) will receive messages from  the `userSignedUp` [channel](#definitionsChannel).
@@ -42,7 +42,7 @@ operations:
     description: Event received when a user signed up on the product.
     action: receive
     channel:
-      $ref: "#/channels/userSignedUp"
+      $ref: '#/channels/userSignedUp'
 ```
 
 We can't automatically assume that an _opposite_ application exists by simply replacing `receive` with `send`:
@@ -54,7 +54,7 @@ operations:
     description: Event received when a user signed up on the product. # <-- This doesn't make sense now. Should speak about sending an event, not receiving it.
     action: send
     channel:
-      $ref: "#/channels/userSignedUp"
+      $ref: '#/channels/userSignedUp'
 ```
 
 Aside from the issues mentioned above, there may also be infrastructure configuration that is not represented here. For instance, a system may use a read-only channel for receiving messages, a different one for sending them, and an intermediary process that will forward messages from one channel to the other.
@@ -444,24 +444,24 @@ development:
   protocol: amqp
   protocolVersion: 0-9-1
   tags:
-    - name: "env:development"
-      description: "This environment is meant for developers to run their own tests."
+    - name: 'env:development'
+      description: 'This environment is meant for developers to run their own tests.'
 staging:
   host: rabbitmq-staging.in.mycompany.com:5672
   description: RabbitMQ broker for the staging environment.
   protocol: amqp
   protocolVersion: 0-9-1
   tags:
-    - name: "env:staging"
-      description: "This environment is a replica of the production environment."
+    - name: 'env:staging'
+      description: 'This environment is a replica of the production environment.'
 production:
   host: rabbitmq.in.mycompany.com:5672
   description: RabbitMQ broker for the production environment.
   protocol: amqp
   protocolVersion: 0-9-1
   tags:
-    - name: "env:production"
-      description: "This environment is the live environment available for final users."
+    - name: 'env:production'
+      description: 'This environment is the live environment available for final users.'
 ```
 
 #### <a name="serverObject"></a>Server Object
@@ -1347,14 +1347,14 @@ payload:
   type: object
   properties:
     user:
-      $ref: "#/components/schemas/userCreate"
+      $ref: '#/components/schemas/userCreate'
     signup:
-      $ref: "#/components/schemas/signup"
+      $ref: '#/components/schemas/signup'
 correlationId:
   description: Default Correlation ID
   location: $message.header#/correlationId
 traits:
-  - $ref: "#/components/messageTraits/commonHeaders"
+  - $ref: '#/components/messageTraits/commonHeaders'
 examples:
   - name: SimpleSignup
     summary: A simple UserSignup example message
@@ -1794,7 +1794,7 @@ components:
         $ref: './user-create.avsc'
   servers:
     development:
-      host: "{stage}.in.mycompany.com:{port}"
+      host: '{stage}.in.mycompany.com:{port}'
       description: RabbitMQ broker
       protocol: amqp
       protocolVersion: 0-9-1
