@@ -47,49 +47,59 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.gravitee.io" target="_blank">
-  <img src="./assets/Gravitee.png" alt="Gravitee logo" height="70">
+  <img src="./assets/Gravitee.png" alt="Gravitee" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://postman.com" target="_blank">
+  <img src="./assets/postman.png" alt="Postman" height="90">
 </a>
 
 ### Gold
   
-<a href="https://postman.com" target="_blank">
-  <img src="./assets/postman.png" alt="Postman logo" height="90">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://ibm.com" target="_blank">
-  <img src="./assets/ibm.png" alt="IBM logo" height="70">
+  <img src="./assets/ibm.png" alt="IBM" height="70">
 </a>
 
 ### Silver
 
 <a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
-  <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh logo" height="70">
+  <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh" height="70">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.svix.com/" target="_blank">
-  <img src="./assets/svix.png" alt="Svix logo" height="70">
+  <img src="./assets/svix.png" alt="Svix" height="70">
 </a>
 
 <br/>
 
 <a href="https://www.hivemq.com/" target="_blank">
-  <img src="./assets/hivemq-white-bg.png" alt="HiveMQ logo" height="70">
+  <img src="./assets/hivemq-white-bg.png" alt="HiveMQ" height="70">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.aklivity.io/" target="_blank">
-  <img src="./assets/aklivity.png" alt="Aklivity logo" height="70">
+  <img src="./assets/aklivity.png" alt="Aklivity" height="70">
 </a>
 
 <br/>
 
 <a href="https://smartbear.com" target="_blank">
-  <img src="./assets/smartbear.png" alt="SmartBear logo" height="70">
+  <img src="./assets/smartbear.png" alt="SmartBear" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://www.hdi.global" target="_blank">
+  <img src="./assets/hdi.png" alt="HDI" height="70">
+</a>
+
+<br/>
+
+<a href="https://route4me.com" target="_blank">
+  <img src="./assets/route4me.png" alt="Best Route Planning and Route Optimization Software" height="70">
 </a>
 
 ### Bronze
 
 <a href="https://redhat.com" target="_blank">
-  <img src="./assets/redhat.png" alt="RedHat logo" height="70">
+  <img src="./assets/redhat.png" alt="RedHat" height="70">
 </a>
 
 ## Contributors
