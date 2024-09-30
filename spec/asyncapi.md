@@ -1244,7 +1244,7 @@ Field Name | Type | Description
 <a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
-<a name="messageObjectVersion"></a>version | `string` | The version of the message.
+<a name="messageObjectVersion"></a>version | `string` | A version for the message.
 <a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
