@@ -1,0 +1,28 @@
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+name: Trigger MAINTAINERS.yaml file update
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      # Check all valid CODEOWNERS locations: 
+      # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#codeowners-file-location
+      - 'CODEOWNERS'
+      - '.github/CODEOWNERS'
+      - '.docs/CODEOWNERS'
+
+jobs:
+  trigger-maintainers-update:
+    name: Trigger updating MAINTAINERS.yaml because of CODEOWNERS change
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@ff45666b9427631e3450c54a1bcbee4d9ff4d7c0 # https://github.com/peter-evans/repository-dispatch/releases/tag/v3.0.0
+        with:
+          # The PAT with the 'public_repo' scope is required
+          token: ${{ secrets.GH_TOKEN }}
+          repository: ${{ github.repository_owner }}/community
+          event-type: trigger-maintainers-update
