@@ -12,8 +12,26 @@ const toVersion = '3.0.0';
  */
 function convertExample(exampleFile) {
   console.warn(`Converting: ${exampleFile}`);
-  const document = fs.readFileSync(exampleFile, 'utf-8');
-  const loadedDocument = jsYaml.load(document);
+  let document;
+
+  try {
+    document = fs.readFileSync(exampleFile, 'utf8');
+    
+  } catch (error) {
+    console.error(`Error reading file ${exampleFile}:`, error);
+    return;
+    
+  }
+ 
+  let loadedDocument;
+  try {
+    loadedDocument = jsYaml.load(document);
+    
+  } catch (error) {
+    console.error(`Error parsing YAML for file ${exampleFile}:`, error);
+    return;
+    
+  }
   if(loadedDocument.asyncapi === undefined) {
     //Probably encountered a common file (used in other files), ignore
     console.error(`___________________________________________________________________________________
@@ -27,7 +45,13 @@ ________________________________________________________________________________
     console.warn(`${exampleFile} is already version ${toVersion}`);
     return;
   }
-  const convertedDocument = convert(document, toVersion, { });
+  let convertedDocument;
+  try {
+    convertedDocument = convert(document, toVersion, { });
+  } catch (error) {
+    console.error(`Error converting file ${exampleFile}:`, error);
+    return;
+  }
   fs.writeFileSync(exampleFile, convertedDocument);
 }
 
@@ -37,7 +61,13 @@ ________________________________________________________________________________
  * @param {*} directoryPath full path to a directory to convert examples from.
  */
 async function convertExampleDir(directoryPath) {
-  let examplesFiles = await fs.promises.readdir(directoryPath);
+  let examplesFiles;
+  try {
+    examplesFiles =  fs.readdir(directoryPath);
+  } catch (error) {
+    console.error(`Error reading directory ${directoryPath}:`, error);
+    return;
+  }
   examplesFiles = examplesFiles.map((file) => path.resolve(directoryPath, file));
   const nestedDirectory = examplesFiles.filter((file) => fs.lstatSync(file).isDirectory());
   for (const dir of nestedDirectory) {
@@ -53,5 +83,9 @@ async function convertExampleDir(directoryPath) {
  * 
  */
 (async () => {
-  await convertExampleDir(examplesDirectory);
+  try {
+    await convertExampleDir(examplesDirectory);
+  } catch (error) {
+    console.error('Error during conversion process:', error);
+  }
 })()
