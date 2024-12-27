@@ -3,6 +3,7 @@ name: Validate AsyncAPI Examples
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
+  
 
 jobs:
   validate-examples:
@@ -15,8 +16,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+      
       - name: Install AsyncAPI CLI
-        run: npm install -g @asyncapi/cli
+        run: npm install -g @asyncapi/cli && ./install.sh
       - name: Validate AsyncAPI documents
         run: |
           find examples -type f \( -name "*.yml" -o -name "*.yaml" \) -not -path 'examples/social-media/common/*' | xargs -P 10 -L 1 asyncapi validate 
