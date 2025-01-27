@@ -485,6 +485,8 @@ Field Name | Type | Description
 <a name="serverObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this server.
 <a name="serverObjectBindings"></a>bindings | [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the server.
 
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
 ##### Server Object Example
 
 A single server would be described as:
