@@ -1,0 +1,57 @@
+# This action is centrally managed in https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
+
+name: Transfer Issues between repositories
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  transfer:
+    if: ${{(!github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot') && (startsWith(github.event.comment.body, '/transfer-issue') || startsWith(github.event.comment.body, '/ti'))}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Extract Input
+        id: extract_step
+        run: |
+          COMMENT="${{github.event.comment.body}}"
+          REPO=$(echo $COMMENT | awk '{print $2}')
+          echo repo=$REPO >> $GITHUB_OUTPUT
+      - name: Check Repo
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{secrets.GH_TOKEN}}
+          script: |
+            const r = "${{github.repository}}"
+            const [owner, repo] = r.split('/')
+            const repoToMove = process.env.REPO_TO_MOVE
+            const issue_number = context.issue.number
+            try {
+              const {data} = await github.rest.repos.get({
+                owner,
+                repo: repoToMove
+              })
+            }catch (e) {
+              const body = `${repoToMove} is not a repo under ${owner}. You can only transfer issue to repos that belong to the same organization.`
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body
+              })
+                process.exit(1)
+            }
+        env:
+          REPO_TO_MOVE: ${{steps.extract_step.outputs.repo}}
+      - name: Transfer Issue
+        id: transferIssue
+        working-directory: ./
+        run: |
+          gh issue transfer ${{github.event.issue.number}} asyncapi/${{steps.extract_step.outputs.repo}}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          
