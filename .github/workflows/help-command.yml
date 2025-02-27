@@ -58,5 +58,6 @@ jobs:
               At the moment the following comments are supported in issues:
   
               - \`/good-first-issue {js | ts | java | go | docs | design | ci-cd}\` or \`/gfi {js | ts | java | go | docs | design | ci-cd}\` - label an issue as a \`good first issue\`.
-              example: \`/gfi js\` or \`/good-first-issue ci-cd\``
+              example: \`/gfi js\` or \`/good-first-issue ci-cd\`
+              - \`/transfer-issue {repo-name}\` or \`/ti {repo-name}\` - transfer issue from the source repository to the other repository passed by the user. example: \`/ti cli\` or \`/transfer-issue cli\`.`
             })
