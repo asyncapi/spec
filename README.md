@@ -43,7 +43,7 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 ### Platinum
 
 <a href="https://solace.com/?utm_source=github&utm_medium=onlinereferral&utm_campaign=asyncapi_sponsorship" target="_blank">
-  <img src="./assets/solace.png" alt="Solace: powering event-driven architetures, integrations and AI" height="70">
+  <img src="./assets/solace.png" alt="Solace: powering event-driven architectures, integrations and AI" height="70">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.gravitee.io" target="_blank">
