@@ -42,7 +42,7 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 ### Platinum
 
-<a href="https://solace.com" target="_blank">
+<a href="https://solace.com/?utm_source=github&utm_medium=onlinereferral&utm_campaign=asyncapi_sponsorship" target="_blank">
   <img src="./assets/solace.png" alt="Solace logo" height="70">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
