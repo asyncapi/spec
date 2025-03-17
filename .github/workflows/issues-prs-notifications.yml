@@ -26,7 +26,7 @@ jobs:
         with:
           markdown: "[${{github.event.issue.title}}](${{github.event.issue.html_url}}) \n ${{github.event.issue.body}}"
       - name: Send info about issue
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
           SLACK_TITLE: 🐛 New Issue in ${{github.repository}} 🐛
@@ -44,7 +44,7 @@ jobs:
         with:
           markdown: "[${{github.event.pull_request.title}}](${{github.event.pull_request.html_url}}) \n ${{github.event.pull_request.body}}"
       - name: Send info about pull request
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
           SLACK_TITLE: 💪 New Pull Request in ${{github.repository}} 💪
@@ -62,7 +62,7 @@ jobs:
         with:
           markdown: "[${{github.event.discussion.title}}](${{github.event.discussion.html_url}}) \n ${{github.event.discussion.body}}"
       - name: Send info about pull request
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
           SLACK_TITLE: 💬 New Discussion in ${{github.repository}} 💬
