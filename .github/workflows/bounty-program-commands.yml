@@ -32,8 +32,7 @@ jobs:
 
     steps:
       - name: ❌ @${{github.actor}} made an unauthorized attempt to use a Bounty Program's command
-        uses: actions/github-script@v6
-
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -59,8 +58,7 @@ jobs:
 
     steps:
       - name: Add label `bounty`
-        uses: actions/github-script@v6
-
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -101,8 +99,7 @@ jobs:
 
     steps:
       - name: Remove label `bounty`
-        uses: actions/github-script@v6
-
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
