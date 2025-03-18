@@ -40,7 +40,26 @@ jobs:
               });
 
               const commits = await github.paginate(commitOpts);
-              return commits;
+
+              if (commits.length === 0) {
+                core.setFailed('No commits found in the PR');
+                return '';
+              }
+
+              // Get unique authors from the commits list
+              const authors = commits.reduce((acc, commit) => {
+                const username = commit.author?.login || commit.commit.author?.name;
+                if (username && !acc[username]) {
+                  acc[username] = {
+                    name: commit.commit.author?.name,
+                    email: commit.commit.author?.email,
+                  }
+                }
+
+                return acc;
+              }, {});
+
+              return authors;
             } catch (error) {
               core.setFailed(error.message);
               return [];
@@ -51,25 +70,12 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const commits = ${{ steps.authors.outputs.result }};
+            const authors = ${{ steps.authors.outputs.result }};
 
-            if (commits.length === 0) {
-              core.setFailed('No commits found in the PR');
+            if (Object.keys(authors).length === 0) {
+              core.setFailed('No authors found in the PR');
               return '';
             }
-
-            // Get unique authors from the commits list
-            const authors = commits.reduce((acc, commit) => {
-              const username = commit.author?.login || commit.commit.author?.name;
-              if (username && !acc[username]) {
-                acc[username] = {
-                  name: commit.commit.author?.name,
-                  email: commit.commit.author?.email,
-                }
-              }
-
-              return acc;
-            }, {});
 
             // Create a string of the form "Co-authored-by: Name <email>"
             // ref: https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors
