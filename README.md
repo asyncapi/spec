@@ -98,8 +98,12 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 ### Bronze
 
-<a href="https://redhat.com" target="_blank">
-  <img src="./assets/redhat.png" alt="RedHat" height="70">
+<a href="https://www.apideck.com/" target="_blank">
+  <img src="./assets/apideck.png" alt="APIDeck" height="30">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://opensource.mercedes-benz.com/" target="_blank">
+  <img src="./assets/mercedes-benz.png" alt="Mercedes Benz" height="70">
 </a>
 
 ## Contributors
