@@ -53,6 +53,10 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 <a href="https://postman.com" target="_blank">
   <img src="./assets/postman.png" alt="Postman" height="90">
 </a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://konghq.com/" target="_blank">
+  <img src="./assets/kong.png" alt="Kong" height="90">
+</a>
 
 ### Gold
   
