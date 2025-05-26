@@ -10,7 +10,7 @@ on:
 
 jobs:
   create_help_comment_pr:
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to PR
@@ -39,7 +39,7 @@ jobs:
             })
 
   create_help_comment_issue:
-    if: ${{ !github.event.issue.pull_request && contains(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
+    if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/help') && github.actor != 'asyncapi-bot' }}
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to Issue
