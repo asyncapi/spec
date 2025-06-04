@@ -1,0 +1,52 @@
+#
+# This file enables maintainers to issue Holopin digital badges (stickers) to contributors,
+# and details which badges are available for your repo.
+#
+# - Prerequisite: Repo maintainer(s) must be members of the Holopin organization
+# - Open a Holopin account and ask  @thulieblack or @derberg to add you to the AsyncAPI Holopin org so that you can start issuing badges.
+
+# - Docs: https://docs.holopin.io/issuing-rewards/regular-badges
+#
+# Usage - Issuing Badges:
+# 1. To issue a badge, comment in an Issue or PR:
+#      @holopin-bot @username sticker-alias
+#    (Replace @username and sticker-alias as needed)
+# 
+#  - Docs: https://docs.holopin.io/integrations/github
+#
+
+
+organization: asyncapi
+defaultSticker: cm9sq1lb7148060cjmbvrpbcjh
+stickers:
+  - id: cm9sq1lb7148060cjmbvrpbcjh
+    alias: contributor-badge
+  - id: cm9sq9gav08040cl7wllo7t58
+    alias: maintainer-badge
+  - id: cm9sqfgt969010cjsedmcnnor
+    alias: triager-badge
+  - id: cm9sqidpx183630cjmkyo9jsi3
+    alias: ambassador-badge
+  - id: cm9sqoota86860cjslsvmyok6
+    alias: leader-badge
+  - id: cm9sqr74o209520cjmt9rksacd
+    alias: speaker-badge
+  - id: cm9sqsqag213480cjm3x8w3a4l
+    alias: volunteer-badge
+  - id: cm9squ4eq103310cjs0b6pjodo
+    alias: mentor-badge
+  - id: cm9sqpuco89820cjscmppqm99
+    alias: champion-badge
+  - id: cmae21gwr24210dl5oghsouey
+    alias: bronze-badge
+  - id: cmae22qm526240dl57yhq8opq   
+    alias: silver-badge
+  - id: cmae2583o30150dl56bl3ms9z
+    alias: gold-badge
+  - id: cmae26orl110420dkypr5dy0yn
+    alias: platinum-badge
+  - id: cmae288m9116470dky1ku70j1u
+    alias: diamond-badge
+ # more stickers
+
+# To issue the badges tag @holopin-bot @username sticker-alias
