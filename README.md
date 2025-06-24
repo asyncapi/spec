@@ -42,16 +42,8 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 ### Platinum
 
-<a href="https://solace.com/?utm_source=github&utm_medium=onlinereferral&utm_campaign=asyncapi_sponsorship" target="_blank">
-  <img src="./assets/solace.png" alt="Solace: powering event-driven architectures, integrations and AI" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.gravitee.io" target="_blank">
   <img src="./assets/Gravitee.png" alt="Gravitee" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://postman.com" target="_blank">
-  <img src="./assets/postman.png" alt="Postman" height="90">
 </a>
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://konghq.com/" target="_blank">
@@ -59,7 +51,11 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 </a>
 
 ### Gold
-  
+
+<a href="https://solace.com/?utm_source=github&utm_medium=onlinereferral&utm_campaign=asyncapi_sponsorship" target="_blank">
+  <img src="./assets/solace.png" alt="Solace: powering event-driven architectures, integrations and AI" height="70">
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;  
 <a href="https://ibm.com" target="_blank">
   <img src="./assets/ibm.png" alt="IBM" height="70">
 </a>
@@ -76,22 +72,12 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 <br/>
 
-<a href="https://www.hivemq.com/" target="_blank">
-  <img src="./assets/hivemq-white-bg.png" alt="HiveMQ" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.aklivity.io/" target="_blank">
   <img src="./assets/aklivity.png" alt="Aklivity" height="70">
 </a>
-
-<br/>
-
+&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://smartbear.com" target="_blank">
   <img src="./assets/smartbear.png" alt="SmartBear" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://www.hdi.global" target="_blank">
-  <img src="./assets/hdi.png" alt="HDI" height="70">
 </a>
 
 <br/>
