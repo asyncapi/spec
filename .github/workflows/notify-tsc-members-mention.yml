@@ -66,10 +66,11 @@ jobs:
           CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          TITLE: ${{github.event.issue.title}}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.issue.html_url}}', '${{github.event.issue.title}}');
+            sendEmail('${{github.event.issue.html_url}}', '$TITLE');
 
   pull_request:
     if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.body, '@asyncapi/tsc_members')
@@ -111,10 +112,11 @@ jobs:
           CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          TITLE: ${{github.event.pull_request.title}}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.pull_request.html_url}}', '${{github.event.pull_request.title}}');
+            sendEmail('${{github.event.pull_request.html_url}}', '$TITLE');
 
   discussion:
     if: github.event_name == 'discussion' && contains(github.event.discussion.body, '@asyncapi/tsc_members')
@@ -156,10 +158,11 @@ jobs:
           CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          TITLE: ${{github.event.discussion.title}}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.discussion.html_url}}', '${{github.event.discussion.title}}');
+            sendEmail('${{github.event.discussion.html_url}}', '$TITLE');
 
   issue_comment:
     if: ${{ github.event_name == 'issue_comment' && !github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members') }}
@@ -201,10 +204,11 @@ jobs:
           CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          TITLE: ${{github.event.issue.title}}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}', '${{github.event.issue.title}}');
+            sendEmail('${{github.event.comment.html_url}}', '$TITLE');
 
   pr_comment:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members')
@@ -246,10 +250,11 @@ jobs:
           CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          TITLE: ${{github.event.issue.title}}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}', '${{github.event.issue.title}}');
+            sendEmail('${{github.event.comment.html_url}}', '$TITLE');
 
   discussion_comment:
     if: github.event_name == 'discussion_comment' && contains(github.event.comment.body, '@asyncapi/tsc_members')
@@ -291,7 +296,8 @@ jobs:
           CALENDAR_ID: ${{ secrets.CALENDAR_ID }}
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
+          TITLE: ${{github.event.discussion.title}}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}', '${{github.event.discussion.title}}');
+            sendEmail('${{github.event.comment.html_url}}', '$TITLE');
