@@ -23,8 +23,12 @@ jobs:
       - name: Convert markdown to slack markdown for issue
         uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: issuemarkdown
+        env:
+          ISSUE_TITLE: ${{github.event.issue.title}}
+          ISSUE_URL: ${{github.event.issue.html_url}}
+          ISSUE_BODY: ${{github.event.issue.body}}
         with:
-          markdown: "[${{github.event.issue.title}}](${{github.event.issue.html_url}}) \n ${{github.event.issue.body}}"
+          markdown: "[${{ env.ISSUE_TITLE }}](${{ env.ISSUE_URL }}) \n ${{ env.ISSUE_BODY }}"
       - name: Send info about issue
         uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
         env:
@@ -41,8 +45,12 @@ jobs:
       - name: Convert markdown to slack markdown for pull request
         uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: prmarkdown
+        env:
+          PR_TITLE: ${{github.event.pull_request.title}}
+          PR_URL: ${{github.event.pull_request.html_url}}
+          PR_BODY: ${{github.event.pull_request.body}}
         with:
-          markdown: "[${{github.event.pull_request.title}}](${{github.event.pull_request.html_url}}) \n ${{github.event.pull_request.body}}"
+          markdown: "[${{ env.PR_TITLE }}](${{ env.PR_URL }}) \n ${{ env.PR_BODY }}"
       - name: Send info about pull request
         uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
         env:
@@ -59,8 +67,12 @@ jobs:
       - name: Convert markdown to slack markdown for pull request
         uses: asyncapi/.github/.github/actions/slackify-markdown@master
         id: discussionmarkdown
+        env:
+          DISCUSSION_TITLE: ${{github.event.discussion.title}}
+          DISCUSSION_URL: ${{github.event.discussion.html_url}}
+          DISCUSSION_BODY: ${{github.event.discussion.body}}
         with:
-          markdown: "[${{github.event.discussion.title}}](${{github.event.discussion.html_url}}) \n ${{github.event.discussion.body}}"
+          markdown: "[${{ env.DISCUSSION_TITLE }}](${{ env.DISCUSSION_URL }}) \n ${{ env.DISCUSSION_BODY }}"
       - name: Send info about pull request
         uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
         env:

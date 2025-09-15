@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Add comment to PR
         uses: actions/github-script@v7
+        env:
+          ACTOR: ${{ github.actor }}
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -25,7 +27,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Hello, @${{ github.actor }}! 👋🏼 
+              body: `Hello, @${process.env.ACTOR}! 👋🏼 
 
                     I'm 🧞🧞🧞 Genie 🧞🧞🧞 from the magic lamp. Looks like somebody needs a hand!
         
@@ -44,6 +46,8 @@ jobs:
     steps:
       - name: Add comment to Issue
         uses: actions/github-script@v7
+        env:
+          ACTOR: ${{ github.actor }}
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -51,7 +55,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Hello, @${{ github.actor }}! 👋🏼 
+              body: `Hello, @${process.env.ACTOR}! 👋🏼 
 
               I'm 🧞🧞🧞 Genie 🧞🧞🧞 from the magic lamp. Looks like somebody needs a hand!
   
