@@ -3,7 +3,7 @@
   "description": "This script converts the official examples to newer versions once released.",
   "dependencies": {
     "@asyncapi/converter": "^1.4.6",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.1"
   },
   "main": "index.js",
   "scripts": {
