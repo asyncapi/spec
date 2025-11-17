@@ -52,7 +52,8 @@ jobs:
             }
       - if: steps.orphans.outputs.found == 'true'
         name: Convert markdown to slack markdown
-        uses: asyncapi/.github/.github/actions/slackify-markdown@master
+        # This workflow is from our own org repo and safe to reference by 'master'.
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master # //NOSONAR
         id: issuemarkdown
         with:
           markdown: "-> [${{steps.orphans.outputs.title}}](${{steps.orphans.outputs.url}})"

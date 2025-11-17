@@ -21,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Convert markdown to slack markdown for issue
-        uses: asyncapi/.github/.github/actions/slackify-markdown@master
+        # This workflow is from our own org repo and safe to reference by 'master'.
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master # //NOSONAR
         id: issuemarkdown
         env:
           ISSUE_TITLE: ${{github.event.issue.title}}
@@ -43,7 +44,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Convert markdown to slack markdown for pull request
-        uses: asyncapi/.github/.github/actions/slackify-markdown@master
+        # This workflow is from our own org repo and safe to reference by 'master'.
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master # //NOSONAR
         id: prmarkdown
         env:
           PR_TITLE: ${{github.event.pull_request.title}}
@@ -65,7 +67,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Convert markdown to slack markdown for pull request
-        uses: asyncapi/.github/.github/actions/slackify-markdown@master
+        # This workflow is from our own org repo and safe to reference by 'master'.
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master # //NOSONAR
         id: discussionmarkdown
         env:
           DISCUSSION_TITLE: ${{github.event.discussion.title}}
