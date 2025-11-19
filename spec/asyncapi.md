@@ -124,7 +124,7 @@ A server MAY be a message broker that is capable of sending and/or receiving bet
 
 ### <a name="definitionsApplication"></a>Application
 
-An application is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage).
+An application is any kind of computer program or a group of them. It MUST be a [sender](#definitionsSender), a [receiver](#definitionsReceiver), or both. An application MAY be a microservice, IoT device (sensor), mainframe process, message broker, etc. An application MAY be written in any number of different programming languages as long as they support the selected [protocol](#definitionsProtocol). An application MUST also use a protocol supported by the [server](#definitionsServer) in order to connect and exchange [messages](#definitionsMessage), or expose the protocol described in the AsyncAPI document.
 
 ### <a name="definitionsSender"></a>Sender
 
