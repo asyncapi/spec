@@ -17,7 +17,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Convert markdown to slack markdown for issue
-        uses: asyncapi/.github/.github/actions/slackify-markdown@master
+        # This workflow is from our own org repo and safe to reference by 'master'.
+        uses: asyncapi/.github/.github/actions/slackify-markdown@master # //NOSONAR
         id: markdown
         env:
           RELEASE_TAG: ${{github.event.release.tag_name}}
