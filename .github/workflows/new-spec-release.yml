@@ -38,20 +38,20 @@ jobs:
           script: |
             const fs = require("fs");
 
-            const specFiles = fs.readdirSync("./website/pages/docs/reference/specification");
+            const specFiles = fs.readdirSync("./website/markdown/docs/reference/specification");
 
             const nextRelease = `${{github.event.release.tag_name}}`;
             const prefixRelease = nextRelease.split("-")[0];
 
             for (const filename of specFiles) {
               if (filename.startsWith(prefixRelease)) {
-                fs.unlinkSync(`./website/pages/docs/reference/specification/${filename}`);
+                fs.unlinkSync(`./website/markdown/docs/reference/specification/${filename}`);
               }
             }
       - name: Copy Spec file from Current Repo to Another
         working-directory: ./website
         run: |
-          cp ../spec/spec/asyncapi.md ./pages/docs/reference/specification/${{github.event.release.tag_name}}.md
+          cp ../spec/spec/asyncapi.md ./markdown/docs/reference/specification/${{github.event.release.tag_name}}.md
       - name: Remove Table of Contents from Spec
         uses: actions/github-script@v6
         with:
