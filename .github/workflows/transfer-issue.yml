@@ -23,8 +23,8 @@ jobs:
         env:
           COMMENT: "${{ github.event.comment.body }}"
         run: |
-          REPO=$(echo $COMMENT | awk '{print $2}')
-          echo repo=$REPO >> $GITHUB_OUTPUT
+          REPO=$(echo "$COMMENT" | awk '{print $2}')
+          echo "repo=$REPO" >> $GITHUB_OUTPUT
       - name: Check Repo
         uses: actions/github-script@v7
         with:
@@ -55,7 +55,8 @@ jobs:
         id: transferIssue
         working-directory: ./
         run: |
-          gh issue transfer ${{github.event.issue.number}} asyncapi/${{steps.extract_step.outputs.repo}}
+          gh issue transfer "$ISSUE_NUMBER" "asyncapi/$REPO_NAME"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          REPO_NAME: ${{ steps.extract_step.outputs.repo }}

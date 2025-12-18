@@ -27,6 +27,8 @@ jobs:
     steps:
       - name: Add ready-to-merge label
         uses: actions/github-script@v7
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -56,7 +58,7 @@ jobs:
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `Hello, @${{ github.actor }}! 👋🏼
+                body: `Hello, @${process.env.GITHUB_ACTOR}! 👋🏼
                        This PR is not up to date with the base branch and can't be merged.
                        Please update your branch manually with the latest version of the base branch.
                        PRO-TIP: To request an update from the upstream branch, simply comment \`/u\` or \`/update\` and our bot will handle the update operation promptly.
