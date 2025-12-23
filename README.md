@@ -30,7 +30,7 @@ Feel like contributing? Check out our [contributor's guide](./CONTRIBUTING.md).
 
 ## Examples
 
-Check out the [examples](https://github.com/asyncapi/asyncapi/blob/master/examples) directory for examples.
+Check out the [examples](https://github.com/asyncapi/asyncapi/blob/main/examples) directory for examples.
 
 ## Case Studies and Adopters
 
