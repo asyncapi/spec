@@ -99,8 +99,23 @@ const baseDocPath = './base-doc-combined.json';
 
 const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
 
+/**
+ * Creates a deep copy of the base document to ensure each validation
+ * operates on an isolated copy, preventing cross-contamination between
+ * example validations.
+ *
+ * @param {object} doc - The document to clone
+ * @returns {object} A deep copy of the document
+ */
+function cloneDocument(doc) {
+  return JSON.parse(JSON.stringify(doc));
+}
+
 const validationPromises = combinedData.map(async (item) => {
-  const updatedDocument = applyUpdates([item], baseDoc);
+  // Create a fresh copy of baseDoc for each validation to prevent mutations
+  // from affecting subsequent validations
+  const baseDocCopy = cloneDocument(baseDoc);
+  const updatedDocument = applyUpdates([item], baseDocCopy);
 
   await validateParser(updatedDocument, `${item.name}-${item.format}-format`);
 });
