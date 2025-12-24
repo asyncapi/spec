@@ -5,12 +5,24 @@ const mergePatch = require('json-merge-patch');
 const jsonpointer = require('jsonpointer');
 const parser = new Parser();
 
-// Read the markdown file
-const markdownContent = fs.readFileSync('../../spec/asyncapi.md', 'utf8');
+// Iterate over the combinedData array, apply updates, and validate each document
+const baseDocPath = './base-doc-combined.json';
+// ALLOW CUSTOM MARKDOWN PATH FOR TESTING
+const markdownPath = process.argv[2] || '../../spec/asyncapi.md';
+const markdownContent = fs.readFileSync(markdownPath, 'utf8');
+
+const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
+
+// DEBUG LOGGING
+console.log(`Using markdown file: ${markdownPath}`);
+
+// Re-extract data since we might be using a different file
+const combinedData = extractCommentsAndExamples(markdownContent);
+
 
 // Function to extract comments and examples from the markdown content
 function extractCommentsAndExamples(content) {
-  const combinedRegex = /<!--\s*asyncapi-example-tester:\s*({.*?})\s*-->\s*\n```(.*)?\n([\s\S]*?)\n```/g;
+  const combinedRegex = /<!--\s*asyncapi-example-tester:\s*({.*?})\s*-->\s*```(.*)?[\r\n]+([\s\S]*?)[\r\n]+```/g;
   let match;
   const combinedData = [];
 
@@ -44,8 +56,7 @@ function extractCommentsAndExamples(content) {
   return combinedData;
 }
 
-// Extract comments and examples from the markdown file
-const combinedData = extractCommentsAndExamples(markdownContent);
+
 
 // Function to apply JSON Merge Patch updates to the document
 function applyUpdates(updates, baseDoc) {
@@ -95,12 +106,14 @@ async function validateParser(document, name) {
 }
 
 // Iterate over the combinedData array, apply updates, and validate each document
-const baseDocPath = './base-doc-combined.json';
 
-const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
 
 const validationPromises = combinedData.map(async (item) => {
-  const updatedDocument = applyUpdates([item], baseDoc);
+  const baseDocCopy = JSON.parse(JSON.stringify(baseDoc));
+  const updatedDocument = applyUpdates([item], baseDocCopy);
+  
+  // DEBUGGING: Log the title to see if it's contaminated
+  // console.log(`[${item.name}] Info Title: ${updatedDocument.info.title}`);
 
   await validateParser(updatedDocument, `${item.name}-${item.format}-format`);
 });
