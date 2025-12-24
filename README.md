@@ -22,7 +22,7 @@ The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncap
 - [Version 1.0.0](https://github.com/asyncapi/spec/blob/1.0.0/README.md) (deprecated)
 </details>
 
-</br>
+<br>
 
 Looking for the JSON Schema files? Check out our [spec-json-schemas](https://github.com/asyncapi/spec-json-schemas) repo.
 
