@@ -59,62 +59,6 @@ operations:
 
 Aside from the issues mentioned above, there may also be infrastructure configuration that is not represented here. For instance, a system may use a read-only channel for receiving messages, a different one for sending them, and an intermediary process that will forward messages from one channel to the other.
 
-## Table of Contents
-<!-- TOC depthFrom:2 depthTo:4 withLinks:1 updateOnSave:0 orderedList:0 -->
-
-- [Definitions](#definitions)
-  - [Server](#definitions-server)
-  - [Application](#definitions-application)
-  - [Sender](#definitions-sender)
-  - [Receiver](#definitions-receiver)
-  - [Message](#definitions-message)
-  - [Channel](#definitions-channel)
-  - [Protocol](#definitions-protocol)
-- [Specification](#specification)
-  - [Format](#format)
-  - [File Structure](#file-structure)
-  - [Absolute URLs](#absolute-urls)
-  - [Schema](#schema)
-    - [AsyncAPI Object](#a2s-object)
-    - [AsyncAPI Version String](#a2s-version-string)
-    - [Identifier](#a2s-id-string)
-    - [Info Object](#info-object)
-    - [Contact Object](#contact-object)
-    - [License Object](#license-object)
-    - [Servers Object](#servers-object)
-    - [Server Object](#server-object)
-    - [Server Variable Object](#server-variable-object)
-    - [Default Content Type](#default-content-type-string)
-    - [Channels Object](#channels-object)
-    - [Channel Object](#channel-object)
-    - [Operations Object](#operations-object)
-    - [Operation Object](#operation-object)
-    - [Operation Trait Object](#operation-trait-object)
-    - [Operation Reply Object](#operation-reply-object)
-    - [Operation Reply Address Object](#operation-reply-address-object)
-    - [Message Object](#message-object)
-    - [Message Trait Object](#message-trait-object)
-    - [Message Example Object](#message-example-object)
-    - [Tags Object](#tags-object)
-    - [Tag Object](#tag-object)
-    - [External Documentation Object](#external-documentation-object)
-    - [Components Object](#components-object)
-    - [Reference Object](#reference-object)
-    - [Multi Format Schema Object](#multi-format-schema-object)
-    - [Schema Object](#schema-object)
-    - [Security Scheme Object](#security-scheme-object)
-    - [OAuth Flows Object](#oauth-flows-object)
-    - [OAuth Flow Object](#oauth-flow-object)
-    - [Server Bindings Object](#server-bindings-object)
-    - [Parameters Object](#parameters-object)
-    - [Parameter Object](#parameter-object)
-    - [Channel Bindings Object](#channel-bindings-object)
-    - [Operation Bindings Object](#operation-bindings-object)
-    - [Message Bindings Object](#message-bindings-object)
-    - [Correlation ID Object](#correlation-id-object)
-    - [Specification Extensions](#specification-extensions)
-
-<!-- /TOC -->
 
 ## <a name="definitions"></a>Definitions
 
@@ -607,7 +551,7 @@ An object containing all the [Channel Object](#channel-object) definitions the [
 
 Field Pattern | Type | Description
 ---|:---:|---
-<a name="channels-object-channel"></a>{channelId} | [Channel Object](#channel-object) \| [Reference Object](#reference-object) | An identifier for the described channel. The `channelId` value is **case-sensitive**. Tools and libraries MAY use the `channelId` to uniquely identify a channel, therefore, it is RECOMMENDED to follow common programming naming conventions.
+<a name="channels-object-channel"></a>\{channelId} | [Channel Object](#channel-object) \| [Reference Object](#reference-object) | An identifier for the described channel. The `channelId` value is **case-sensitive**. Tools and libraries MAY use the `channelId` to uniquely identify a channel, therefore, it is RECOMMENDED to follow common programming naming conventions.
 
 ##### Channels Object Example
 
