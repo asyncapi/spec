@@ -23,7 +23,7 @@ Each release can have a different release coordinator. If you are interested and
 
 Many of the steps needed to release a new version of the AsyncAPI specification (e.g. merging, creating branches, creating releases) need support from administrators for individual github.com/asyncapi repositories.
 
-Each repository contains a `CODEOWNERS` file (e.g. https://github.com/asyncapi/parser-js/blob/master/CODEOWNERS) that identifies the people who can help.
+Each repository contains a `CODEOWNERS` file (e.g. https://github.com/asyncapi/parser-js/blob/main/CODEOWNERS) that identifies the people who can help.
 
 ---
 ## When?
