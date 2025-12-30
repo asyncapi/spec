@@ -1246,7 +1246,8 @@ Field Name | Type | Description
 <a name="messageObjectPayload"></a>payload | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Definition of the message payload. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
-<a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message.
+<a name="messageObjectName"></a>name | `string` | A machine-friendly name for the message. REQUIRED when `version` field is present.
+<a name="messageObjectVersion"></a>version | `string` | The version of this message. If provided, the `name` field MUST also be provided. This allows tooling to understand relationships between different versions of the same message.
 <a name="messageObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
@@ -1409,6 +1410,125 @@ payload:
     $ref: './user-create.avsc'
 ```
 
+Example with message versioning to track evolution of messages:
+
+<!-- asyncapi-example-tester:{"name":"Message Object with Versioning",\"json_pointer\":\"/components/messages/lightMeasuredV1\"} -->
+```json
+{
+  "lightMeasuredV1": {
+    "name": "lightMeasured",
+    "version": "1.0.0",
+    "title": "Light Measured Event",
+    "summary": "Inform about environmental lighting conditions of a particular streetlight.",
+    "contentType": "application/json",
+    "tags": [
+      { "name": "lighting" }
+    ],
+    "payload": {
+      "type": "object",
+      "properties": {
+        "lumens": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Light intensity measured in lumens."
+        },
+        "sentAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when the message was sent."
+        }
+      }
+    }
+  },
+  "lightMeasuredV2": {
+    "name": "lightMeasured",
+    "version": "2.0.0",
+    "title": "Light Measured Event",
+    "summary": "Inform about environmental lighting conditions of a particular streetlight. Version 2.0.0 adds color temperature.",
+    "contentType": "application/json",
+    "tags": [
+      { "name": "lighting" }
+    ],
+    "payload": {
+      "type": "object",
+      "properties": {
+        "lumens": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Light intensity measured in lumens."
+        },
+        "colorTemperature": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 40000,
+          "description": "Color temperature in Kelvin."
+        },
+        "sentAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date and time when the message was sent."
+        }
+      }
+    }
+  }
+}
+```
+
+<!-- asyncapi-example-tester:{"name":"Message Object with Versioning",\"json_pointer\":\"/components/messages/lightMeasuredV1\"} -->
+```yaml
+lightMeasuredV1:
+  name: lightMeasured
+  version: 1.0.0
+  title: Light Measured Event
+  summary: Inform about environmental lighting conditions of a particular streetlight.
+  contentType: application/json
+  tags:
+    - name: lighting
+  payload:
+    type: object
+    properties:
+      lumens:
+        type: integer
+        minimum: 0
+        description: Light intensity measured in lumens.
+      sentAt:
+        type: string
+        format: date-time
+        description: Date and time when the message was sent.
+
+lightMeasuredV2:
+  name: lightMeasured
+  version: 2.0.0
+  title: Light Measured Event
+  summary: Inform about environmental lighting conditions of a particular streetlight. Version 2.0.0 adds color temperature.
+  contentType: application/json
+  tags:
+    - name: lighting
+  payload:
+    type: object
+    properties:
+      lumens:
+        type: integer
+        minimum: 0
+        description: Light intensity measured in lumens.
+      colorTemperature:
+        type: integer
+        minimum: 1000
+        maximum: 40000
+        description: Color temperature in Kelvin.
+      sentAt:
+        type: string
+        format: date-time
+        description: Date and time when the message was sent.
+```
+
+In the above example, both messages share the same `name` (`lightMeasured`) but have different `version` values. This allows tooling to understand that `lightMeasuredV2` is an evolution of `lightMeasuredV1`. The `version` field enables:
+- Documentation tools to display message evolution timelines
+- Compatibility checkers to validate version transitions
+- Automated changelog generation based on version changes
+- Clear tracking of which message versions are deprecated or current
+
+
 #### <a name="messageTraitObject"></a>Message Trait Object
 
 Describes a trait that MAY be applied to a [Message Object](#messageObject). This object MAY contain any property from the [Message Object](#messageObject), except `payload` and `traits`.
@@ -1422,7 +1542,8 @@ Field Name | Type | Description
 <a name="messageTraitObjectHeaders"></a>headers | [Multi Format Schema Object](#multiFormatSchemaObject) &#124; [Schema Object](#schemaObject) &#124; [Reference Object](#referenceObject) | Schema definition of the application headers. Schema MUST be a map of key-value pairs. It **MUST NOT** define the protocol headers. If this is a [Schema Object](#schemaObject), then the `schemaFormat` will be assumed to be "application/vnd.aai.asyncapi+json;version=`asyncapi`" where the version is equal to the [AsyncAPI Version String](#A2SVersionString).
 <a name="messageTraitObjectCorrelationId"></a>correlationId | [Correlation ID Object](#correlationIdObject) &#124; [Reference Object](#referenceObject) | Definition of the correlation ID used for message tracing or matching.
 <a name="messageTraitObjectContentType"></a>contentType | `string` | The content type to use when encoding/decoding a message's payload. The value MUST be a specific media type (e.g. `application/json`). When omitted, the value MUST be the one specified on the [defaultContentType](#defaultContentTypeString) field.
-<a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message.
+<a name="messageTraitObjectName"></a>name | `string` | A machine-friendly name for the message. REQUIRED when `version` field is present.
+<a name="messageTraitObjectVersion"></a>version | `string` | The version of this message. If provided, the `name` field MUST also be provided. This allows tooling to understand relationships between different versions of the same message.
 <a name="messageTraitObjectTitle"></a>title | `string` | A human-friendly title for the message.
 <a name="messageTraitObjectSummary"></a>summary | `string` | A short summary of what the message is about.
 <a name="messageTraitObjectDescription"></a>description | `string` | A verbose explanation of the message. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.

@@ -1,0 +1,238 @@
+asyncapi: 3.0.0
+info:
+  title: Streetlight API with Message Versioning
+  version: 1.0.0
+  description: |
+    This example demonstrates message-level versioning in AsyncAPI.
+    It shows how multiple versions of the same message can coexist in a single
+    AsyncAPI document, allowing for gradual migration and backward compatibility.
+
+servers:
+  production:
+    host: mqtt.streetlights.com
+    protocol: mqtt
+    description: Production MQTT broker
+
+channels:
+  lightMeasured:
+    address: 'light/measured'
+    messages:
+      lightMeasuredV1:
+        $ref: '#/components/messages/lightMeasuredV1'
+      lightMeasuredV2:
+        $ref: '#/components/messages/lightMeasuredV2'
+  
+  lightControl:
+    address: 'light/control'
+    messages:
+      turnOnV1:
+        $ref: '#/components/messages/turnOnV1'
+      turnOnV2:
+        $ref: '#/components/messages/turnOnV2'
+
+operations:
+  receiveLightMeasurement:
+    action: receive
+    channel:
+      $ref: '#/channels/lightMeasured'
+    summary: Receive light measurement events
+    description: |
+      This operation receives light measurement events. It supports both v1.0.0 and v2.0.0
+      of the lightMeasured message to maintain backward compatibility during the migration period.
+  
+  sendLightControl:
+    action: send
+    channel:
+      $ref: '#/channels/lightControl'
+    summary: Send light control commands
+    description: |
+      This operation sends commands to control streetlights. Supports multiple versions
+      of the control message format.
+
+components:
+  messages:
+    # Version 1.0.0 of the lightMeasured message
+    lightMeasuredV1:
+      name: lightMeasured
+      version: 1.0.0
+      title: Light Measured Event
+      summary: Inform about environmental lighting conditions (v1.0.0)
+      description: |
+        Initial version of the light measurement event.
+        Contains basic lumens measurement and timestamp.
+      contentType: application/json
+      tags:
+        - name: lighting
+        - name: measurement
+        - name: v1
+      payload:
+        type: object
+        required:
+          - lumens
+          - sentAt
+        properties:
+          lumens:
+            type: integer
+            minimum: 0
+            description: Light intensity measured in lumens
+            example: 3500
+          sentAt:
+            type: string
+            format: date-time
+            description: Date and time when the measurement was taken
+            example: '2024-03-15T14:30:00Z'
+      examples:
+        - name: normalLight
+          summary: Normal daylight measurement
+          payload:
+            lumens: 5000
+            sentAt: '2024-03-15T12:00:00Z'
+
+    # Version 2.0.0 of the lightMeasured message
+    lightMeasuredV2:
+      name: lightMeasured
+      version: 2.0.0
+      title: Light Measured Event
+      summary: Inform about environmental lighting conditions (v2.0.0)
+      description: |
+        Enhanced version of the light measurement event.
+        Adds color temperature and ambient temperature measurements.
+        
+        **Breaking changes from v1.0.0:**
+        - Added required field: colorTemperature
+        - Added optional field: ambientTemperature
+        - Changed lumens to support decimal values
+      contentType: application/json
+      tags:
+        - name: lighting
+        - name: measurement
+        - name: v2
+        - name: current
+      payload:
+        type: object
+        required:
+          - lumens
+          - colorTemperature
+          - sentAt
+        properties:
+          lumens:
+            type: number
+            minimum: 0
+            description: Light intensity measured in lumens (now supports decimals)
+            example: 3500.5
+          colorTemperature:
+            type: integer
+            minimum: 1000
+            maximum: 40000
+            description: Color temperature in Kelvin
+            example: 5500
+          ambientTemperature:
+            type: number
+            description: Ambient temperature in Celsius
+            example: 22.5
+          sentAt:
+            type: string
+            format: date-time
+            description: Date and time when the measurement was taken
+            example: '2024-03-15T14:30:00Z'
+      examples:
+        - name: enhancedMeasurement
+          summary: Enhanced measurement with color temperature
+          payload:
+            lumens: 5000.2
+            colorTemperature: 5500
+            ambientTemperature: 23.5
+            sentAt: '2024-03-15T12:00:00Z'
+
+    # Version 1.0.0 of the turnOn command
+    turnOnV1:
+      name: turnOn
+      version: 1.0.0
+      title: Turn On Light Command
+      summary: Command to turn on a streetlight (v1.0.0)
+      description: Simple on/off command for streetlights
+      contentType: application/json
+      tags:
+        - name: control
+        - name: v1
+      payload:
+        type: object
+        required:
+          - lightId
+        properties:
+          lightId:
+            type: string
+            description: Unique identifier of the streetlight
+            example: 'light-001'
+          timestamp:
+            type: string
+            format: date-time
+            description: Command timestamp
+            example: '2024-03-15T18:00:00Z'
+
+    # Version 2.0.0 of the turnOn command
+    turnOnV2:
+      name: turnOn
+      version: 2.0.0
+      title: Turn On Light Command
+      summary: Command to turn on a streetlight with brightness control (v2.0.0)
+      description: |
+        Enhanced version with brightness and color temperature control.
+        
+        **New features in v2.0.0:**
+        - Brightness level control (0-100%)
+        - Color temperature setting
+        - Transition duration for smooth changes
+      contentType: application/json
+      tags:
+        - name: control
+        - name: v2
+        - name: current
+      payload:
+        type: object
+        required:
+          - lightId
+          - brightness
+        properties:
+          lightId:
+            type: string
+            description: Unique identifier of the streetlight
+            example: 'light-001'
+          brightness:
+            type: integer
+            minimum: 0
+            maximum: 100
+            description: Brightness level in percentage
+            example: 80
+          colorTemperature:
+            type: integer
+            minimum: 2700
+            maximum: 6500
+            description: Desired color temperature in Kelvin
+            example: 4000
+          transitionDuration:
+            type: integer
+            minimum: 0
+            description: Transition duration in milliseconds
+            example: 1000
+          timestamp:
+            type: string
+            format: date-time
+            description: Command timestamp
+            example: '2024-03-15T18:00:00Z'
+      examples:
+        - name: dimmedWarmLight
+          summary: Turn on with 60% brightness and warm color
+          payload:
+            lightId: 'light-001'
+            brightness: 60
+            colorTemperature: 3000
+            transitionDuration: 2000
+            timestamp: '2024-03-15T18:00:00Z'
+
+  schemas:
+    # Shared schemas can be referenced by multiple message versions
+    timestamp:
+      type: string
+      format: date-time
+      description: ISO 8601 timestamp
