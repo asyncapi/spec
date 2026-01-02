@@ -13,5 +13,8 @@
     "js-yaml": "^4.1.1",
     "json-merge-patch": "^1.0.2",
     "jsonpointer": "^5.0.1"
+  },
+  "overrides": {
+    "brace-expansion": "^2.0.1"
   }
 }
