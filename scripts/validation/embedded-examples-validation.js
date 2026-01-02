@@ -10,7 +10,8 @@ const markdownContent = fs.readFileSync('../../spec/asyncapi.md', 'utf8');
 
 // Function to extract comments and examples from the markdown content
 function extractCommentsAndExamples(content) {
-  const combinedRegex = /<!--\s*asyncapi-example-tester:\s*({.*?})\s*-->\s*\n```(.*)?\n([\s\S]*?)\n```/g;
+  //const combinedRegex = /<!--\s*asyncapi-example-tester:\s*({.*?})\s*-->\s*\n```(.*)?\n([\s\S]*?)\n```/g;
+  const combinedRegex = /<!--\s*asyncapi-example-tester:\s*({.*?})\s*-->\s*\r?\n```(.*)?\r?\n([\s\S]*?)\r?\n```/g;
   let match;
   const combinedData = [];
 
