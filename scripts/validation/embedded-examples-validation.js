@@ -100,7 +100,7 @@ const baseDocPath = './base-doc-combined.json';
 const baseDoc = JSON.parse(fs.readFileSync(baseDocPath, 'utf8'));
 
 const validationPromises = combinedData.map(async (item) => {
-  const baseDocCopy = JSON.parse(JSON.stringify(baseDoc));
+  const baseDocCopy = structuredClone(baseDoc);
   const updatedDocument = applyUpdates([item], baseDocCopy);
 
   await validateParser(updatedDocument, `${item.name}-${item.format}-format`);
