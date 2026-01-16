@@ -202,14 +202,14 @@ It combines resource listing and API declaration together into one document.
 
 Field Name | Type | Description
 ---|:---:|---
-<a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
-<a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
-<a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
-<a name="A2SServers"></a>servers | [Servers Object](#serversObject) | Provides connection details of servers.
-<a name="A2SDefaultContentType"></a>defaultContentType | [Default Content Type](#defaultContentTypeString) | Default content type to use when encoding/decoding a message's payload.
-<a name="A2SChannels"></a>channels | [Channels Object](#channelsObject) | The channels used by this [application](#definitionsApplication).
-<a name="A2SOperations"></a>operations | [Operations Object](#operationsObject) | The operations this [application](#definitionsApplication) MUST implement.
-<a name="A2SComponents"></a>components | [Components Object](#componentsObject) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitionsApplication).
+<a name="a2s-asyncapi"></a></a>asyncapi | [AsyncAPI Version String](#a2s-version-string) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
+<a name="a2s-id"></a>id | [Identifier](#a2s-id-string) | Identifier of the [application](#definitions-application) the AsyncAPI document is defining.
+<a name="a2s-info"></a>info | [Info Object](#info-object) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
+<a name="a2s-servers"></a>servers | [Servers Object](#servers-object) | Provides connection details of servers.
+<a name="a2s-default-content-type"></a>defaultContentType | [Default Content Typ(#default-content-type-string) | Default content type to use when encoding/decoding a message's payload.
+<a name="a2s-channels"></a>channels | [Channels Object](#channels-object) | The channels used by this [application](#definitions-application).
+<a name="a2s-operations"></a>operations | [Operations Object](#operations-object) | The operations this [application](#definitions-application) MUST implement.
+<a name="a2s-components"></a>components | [Components Object](#components-object) | An element to hold various reusable objects for the specification. Everything that is defined inside this object represents a resource that MAY or MAY NOT be used in the rest of the document and MAY or MAY NOT be used by the implemented [Application](#definitions-application).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
