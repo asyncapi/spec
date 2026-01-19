@@ -87,18 +87,7 @@ channels:
 
     bindings:
       kafka:
-        x-key.subject.name.strategy:
-          type: string
-          description: >
-            We use the RecordNameStrategy to infer the messages schema. Use
-            `key.subject.name.strategy=io.confluent.kafka.serializers.subject.RecordNameStrategy`
-            in your consumer configuration.
-        x-value.subject.name.strategy:
-          type: string
-          description: >
-            We use the RecordNameStrategy to infer the messages schema. Use
-            `value.subject.name.strategy=io.confluent.kafka.serializers.subject.RecordNameStrategy`
-            in your consumer configuration.
+        
     tags:
       - name: costing
     messages:
