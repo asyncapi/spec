@@ -1,0 +1,100 @@
+
+> validation@1.0.0 validate:examples
+> node embedded-examples-validation.js
+
+
+Number of examples extracted: 89
+
+Info Object-json-format is valid.
+Info Object-yaml-format is valid.
+Contact Object-json-format is valid.
+Contact Object-yaml-format is valid.
+License Object-json-format is valid.
+License Object-yaml-format is valid.
+Servers Object-json-format is valid.
+Servers Object-yaml-format is valid.
+Server Object-json-format is valid.
+Server Object-yaml-format is valid.
+Server Object with pathname-json-format is valid.
+Server Object with pathname-yaml-format is valid.
+Server Object with Variable Object-json-format is valid.
+Server Object with Variable Object-yaml-format is valid.
+Default Content Type at root doc-json-format is valid.
+Default Content Type at root doc-yaml-format is valid.
+Channels Object-json-format is valid.
+Channels Object-yaml-format is valid.
+Channel Object-json-format is valid.
+Channel Object-yaml-format is valid.
+Messages Object-json-format is valid.
+Messages Object-yaml-format is valid.
+Operations Object-json-format is valid.
+Operations Object-yaml-format is valid.
+Operation Object-json-format is valid.
+Operation Object-yaml-format is valid.
+Operation Traits Object-json-format is valid.
+Operation Traits Object-yaml-format is valid.
+Operation Reply Address Object-json-format is valid.
+Operation Reply Address Object-yaml-format is valid.
+Channel Parameters Object-json-format is valid.
+Channel Parameters Object-yaml-format is valid.
+Channel Parameter Object-json-format is valid.
+Channel Parameter Object-yaml-format is valid.
+Message Object-json-format is valid.
+Message Object-yaml-format is valid.
+Message Object-json-format is valid.
+Message Object-yaml-format is valid.
+Message Trait Object-json-format is valid.
+Message Trait Object-yaml-format is valid.
+Message Example Object-json-format is valid.
+Message Example Object-yaml-format is valid.
+Tag Object-json-format is valid.
+Tag Object-yaml-format is valid.
+External Docs Object-json-format is valid.
+External Docs Object-yaml-format is valid.
+Reference Object-json-format is valid.
+Reference Object-yaml-format is valid.
+Components Object-json-format is valid.
+Components Object-yaml-format is valid.
+Multi Format Schema Object - Avro-yaml-format is valid.
+Schema Object - Primitive-json-format is valid.
+Schema Object - Primitive-yaml-format is valid.
+Schema Object - Simple model-json-format is valid.
+Schema Object - Simple model-yaml-format is valid.
+Schema Object - Map-Dictionary model-json-format is valid.
+Schema Object - Map-Dictionary model-yaml-format is valid.
+Schema Object - Allowing Complex model-json-format is valid.
+Schema Object - Allowing Complex model-yaml-format is valid.
+Schema Object - With examples model-json-format is valid.
+Schema Object - With examples model-yaml-format is valid.
+Schema Object - With boolean model-json-format is valid.
+Schema Object - With boolean model-yaml-format is valid.
+Schema Object - With composition model-json-format is valid.
+Schema Object - With composition model-yaml-format is valid.
+Schema Object - With polymorphism model-json-format is valid.
+Schema Object - With polymorphism model-yaml-format is valid.
+Security Scheme Object - user-pass-json-format is valid.
+Security Scheme Object - user-pass-yaml-format is valid.
+Security Scheme Object - API key auth-json-format is valid.
+Security Scheme Object - API key auth-yaml-format is valid.
+Security Scheme Object - X.509-json-format is valid.
+Security Scheme Object - X.509-yaml-format is valid.
+Security Scheme Object - end to end encryption-json-format is valid.
+Security Scheme Object - end to end encryption-yaml-format is valid.
+Security Scheme Object - basic-json-format is valid.
+Security Scheme Object - basic-yaml-format is valid.
+Security Scheme Object - API key-json-format is valid.
+Security Scheme Object - API key-yaml-format is valid.
+Security Scheme Object - JWT-json-format is valid.
+Security Scheme Object - JWT-yaml-format is valid.
+Security Scheme Object - implicity OAuth2-json-format is valid.
+Security Scheme Object - implicity OAuth2-yaml-format is valid.
+Security Scheme Object - SASL-json-format is valid.
+Security Scheme Object - SASL-yaml-format is valid.
+Security Scheme OAuth Flow Object-json-format is valid.
+Security Scheme OAuth Flow Object-yaml-format is valid.
+Message Correlation ID Object-json-format is valid.
+Message Correlation ID Object-yaml-format is valid.
+
+
+Validation process complete!
+Check logs for any errors.
