@@ -4,7 +4,7 @@
 
 Part of this content has been taken from the great work done by the folks at the [OpenAPI Initiative](https://openapis.org).
 
-### Version 3.0.0
+### Version 3.1.0
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
@@ -144,7 +144,7 @@ A channel is an addressable component, made available by the [server](#definitio
 
 ### <a name="definitionsProtocol"></a>Protocol
 
-A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar.  
+A protocol is the mechanism (wireline protocol or API) by which [messages](#definitionsMessage) are exchanged between the application and the [channel](#definitionsChannel). Example protocols include, but are not limited to, AMQP, HTTP, JMS, Kafka, Anypoint MQ, MQTT, Solace, STOMP, Mercure, WebSocket, Google Pub/Sub, Pulsar, ROS 2.  
 
 ### <a name="definitionsBindings"></a>Bindings
 
@@ -1141,6 +1141,7 @@ Field Name | Type | Description
 <a name="serverBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Server Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#server-binding-object) | Protocol-specific information for an IBM MQ server.
 <a name="serverBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Server Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#server) | Protocol-specific information for a Google Cloud Pub/Sub server.
 <a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
+<a name="serverBindingsObjectROS2"></a>`ros2` | [ROS 2 Server Binding](https://github.com/asyncapi/bindings/tree/master/ros2#server-binding-object) | Protocol-specific information for a ROS 2 server.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1171,6 +1172,7 @@ Field Name | Type | Description
 <a name="channelBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Channel Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#channel-binding-object) | Protocol-specific information for an IBM MQ channel.
 <a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
 <a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
+<a name="channelBindingsObjectROS2"></a>`ros2` | [ROS 2 Channel Binding](https://github.com/asyncapi/bindings/tree/master/ros2#channel-binding-object) | Protocol-specific information for a ROS 2 channel.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1201,6 +1203,7 @@ Field Name | Type | Description
 <a name="operationBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Operation Binding](https://github.com/asyncapi/bindings/blob/master/googlepubsub#operation) | Protocol-specific information for a Google Cloud Pub/Sub operation.
 <a name="operationBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Operation Binding](https://github.com/asyncapi/bindings/blob/master/ibmmq#operation-binding-object) | Protocol-specific information for an IBM MQ operation.
 <a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
+<a name="operationBindingsObjectROS2"></a>`ros2` | [ROS 2 Operation Binding](https://github.com/asyncapi/bindings/tree/master/ros2#operation-binding-fields) | Protocol-specific information for a ROS 2 operation.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1231,6 +1234,7 @@ Field Name | Type | Description
 <a name="messageBindingsObjectIBMMQ"></a>`ibmmq` | [IBM MQ Message Binding](https://github.com/asyncapi/bindings/tree/master/ibmmq#message-binding-object) | Protocol-specific information for an IBM MQ message.
 <a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
 <a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
+<a name="messageBindingsObjectROS2"></a>`ros2` | [ROS 2 Message Binding](https://github.com/asyncapi/bindings/tree/master/ros2#message-binding-fields) | Protocol-specific information for a ROS 2 message.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1882,7 +1886,7 @@ The following table contains a set of values that every implementation MUST supp
 
 Name | Allowed values | Notes
 ---|:---:|---
-[AsyncAPI 3.0.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.0.0`, `application/vnd.aai.asyncapi+json;version=3.0.0`, `application/vnd.aai.asyncapi+yaml;version=3.0.0` | This is the default when a `schemaFormat` is not provided.
+[AsyncAPI 3.1.0 Schema Object](#schemaObject) | `application/vnd.aai.asyncapi;version=3.1.0`, `application/vnd.aai.asyncapi+json;version=3.1.0`, `application/vnd.aai.asyncapi+yaml;version=3.1.0` | This is the default when a `schemaFormat` is not provided.
 [JSON Schema Draft 07](https://json-schema.org/specification-links.html#draft-7) | `application/schema+json;version=draft-07`, `application/schema+yaml;version=draft-07` |
 
 The following table contains a set of values that every implementation is RECOMMENDED to support.

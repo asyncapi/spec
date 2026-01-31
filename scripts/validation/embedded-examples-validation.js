@@ -75,8 +75,12 @@ async function validateParser(document, name) {
   try {
     const diagnostics = await parser.validate(document);
 
-    if (diagnostics.length > 0) {
-      diagnostics.forEach(diagnostic => {
+    // Ignore asyncapi-latest-version diagnostic - not relevant to this test and would require updating version each release
+    const filteredDiagnostics = diagnostics.filter(d => d.code !== 'asyncapi-latest-version');
+
+    if (filteredDiagnostics.length > 0) {
+      filteredDiagnostics.forEach(diagnostic => {
+
         const errorMessage = `\x1b[31mError in ${name}: ${diagnostic.message}\x1b[0m`;
         if (diagnostic.level === 'error') {
           console.error(errorMessage);
