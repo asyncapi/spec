@@ -259,7 +259,7 @@ The metadata can be used by the clients if needed.
 ##### Fixed Fields
 
 Field Name | Type | Description
----|:---:|---
+--- | :---: | ---
 <a name="infoObjectTitle"></a>title | `string` | **REQUIRED.** The title of the application.
 <a name="infoObjectVersion"></a>version | `string` | **REQUIRED** Provides the version of the application API (not to be confused with the specification version).
 <a name="infoObjectDescription"></a>description | `string` | A short description of the application. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
@@ -328,7 +328,7 @@ Contact information for the exposed API.
 ##### Fixed Fields
 
 Field Name | Type | Description
----|:---:|---
+--- | :---: | ---
 <a name="contactObjectName"></a>name | `string` | The identifying name of the contact person/organization.
 <a name="contactObjectUrl"></a>url | `string` | The URL pointing to the contact information. This MUST be in the form of an absolute URL.
 <a name="contactObjectEmail"></a>email | `string` | The email address of the contact person/organization. MUST be in the format of an email address.
@@ -360,7 +360,7 @@ License information for the exposed API.
 ##### Fixed Fields
 
 Field Name | Type | Description
----|:---:|---
+--- | :---: | ---
 <a name="licenseObjectName"></a>name | `string` | **REQUIRED.** The license name used for the API.
 <a name="licenseObjectUrl"></a>url | `string` | A URL to the license used for the API. This MUST be in the form of an absolute URL.
 
