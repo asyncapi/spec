@@ -201,7 +201,7 @@ It combines resource listing and API declaration together into one document.
 ##### Fixed Fields
 
 Field Name | Type | Description
----|:---:|---
+--- | :---: | ---
 <a name="A2SAsyncAPI"></a>asyncapi | [AsyncAPI Version String](#A2SVersionString) | **REQUIRED.** Specifies the AsyncAPI Specification version being used. It can be used by tooling Specifications and clients to interpret the version. The structure shall be `major`.`minor`.`patch`, where `patch` versions _must_ be compatible with the existing `major`.`minor` tooling. Typically patch versions will be introduced to address errors in the documentation, and tooling should typically be compatible with the corresponding `major`.`minor` (1.0.*). Patch versions will correspond to patches of this document.
 <a name="A2SId"></a>id | [Identifier](#A2SIdString) | Identifier of the [application](#definitionsApplication) the AsyncAPI document is defining.
 <a name="A2SInfo"></a>info | [Info Object](#infoObject) | **REQUIRED.** Provides metadata about the API. The metadata can be used by the clients if needed.
@@ -2696,7 +2696,7 @@ The table below provides examples of runtime expressions and examples of their u
 #### <a name="runtimeExpressionExamples"></a>Examples
 
 Source Location | Example expression  | Notes
----|:---|:---|
+--- | :--- | :---
 Message Header Property | `$message.header#/MQMD/CorrelId` | Correlation ID is set using the `CorrelId` value from the `MQMD` header.
 Message Payload Property | `$message.payload#/messageId` | Correlation ID is set using the `messageId` value from the message payload.
 
@@ -2755,12 +2755,12 @@ Common Name | `type` | [`format`](#dataTypeFormat) | Comments
 ----------- | ------ | -------- | --------
 integer | `integer` | `int32` | signed 32 bits
 long | `integer` | `int64` | signed 64 bits
-float | `number` | `float` | |
-double | `number` | `double` | |
-string | `string` | | |
+float | `number` | `float` |
+double | `number` | `double` |
+string | `string` | |
 byte | `string` | `byte` | base64 encoded characters
 binary | `string` | `binary` | any sequence of octets
-boolean | `boolean` | | |
+boolean | `boolean` | |
 date | `string` | `date` | As defined by `full-date` - [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6)
 dateTime | `string` | `date-time` | As defined by `date-time` - [RFC3339](https://www.rfc-editor.org/rfc/rfc3339.html#section-5.6)
 password | `string` | `password` | Used to hint UIs the input needs to be obscured.
