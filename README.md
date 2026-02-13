@@ -6,10 +6,11 @@ The latest draft specification can be found at [spec/asyncapi.md](./spec/asyncap
 
 **The human-readable markdown file is the source of truth for the specification.**
 
-- [Version 3.0.0](https://github.com/asyncapi/spec/blob/v3.0.0/spec/asyncapi.md) (latest) ([website](https://www.asyncapi.com/docs/reference/specification/latest))
+- [Version 3.1.0](https://github.com/asyncapi/spec/blob/v3.1.0/spec/asyncapi.md) (latest) ([website](https://www.asyncapi.com/docs/reference/specification/latest))
 <details>
   <summary>Click to see reference links to older versions of the specification.</summary>
 
+- [Version 3.0.0](https://github.com/asyncapi/spec/blob/v3.0.0/spec/asyncapi.md)
 - [Version 2.6.0](https://github.com/asyncapi/spec/blob/v2.6.0/spec/asyncapi.md)
 - [Version 2.5.0](https://github.com/asyncapi/spec/blob/v2.5.0/spec/asyncapi.md)
 - [Version 2.4.0](https://github.com/asyncapi/spec/blob/v2.4.0/spec/asyncapi.md)

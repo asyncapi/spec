@@ -1,4 +1,4 @@
-asyncapi: 3.0.0
+asyncapi: 3.1.0
 id: 'tag:stream.gitter.im,2022:api'
 info:
   title: Gitter Streaming API
