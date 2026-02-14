@@ -1,0 +1,94 @@
+asyncapi: 3.0.0
+info:
+  title: Security AND Logic Example
+  version: 1.0.0
+  description: |
+    This example demonstrates the use of AND logic for multiple security schemes.
+    The API requires BOTH OAuth2 AND API Key authentication simultaneously.
+
+servers:
+  production:
+    host: api.example.com
+    protocol: https
+    description: Production server requiring both OAuth2 and API Key
+    security:
+      # Outer array for OR logic - only one group needs to be satisfied
+      # Inner array for AND logic - all schemes in the group must be satisfied
+      - 
+        # This inner array requires BOTH OAuth2 AND API Key
+        - $ref: '#/components/securitySchemes/oauth2'
+        - $ref: '#/components/securitySchemes/apiKey'
+
+channels:
+  userEvents:
+    address: /users/events
+    messages:
+      userCreated:
+        $ref: '#/components/messages/UserCreated'
+
+operations:
+  receiveUserEvents:
+    action: receive
+    channel:
+      $ref: '#/channels/userEvents'
+    security:
+      # Example 1: Require OAuth2 AND API Key together
+      - 
+        - $ref: '#/components/securitySchemes/oauth2'
+        - $ref: '#/components/securitySchemes/apiKey'
+    messages:
+      - $ref: '#/channels/userEvents/messages/userCreated'
+
+  sendUserNotification:
+    action: send
+    channel:
+      $ref: '#/channels/userEvents'
+    security:
+      # Example 2: Multiple options with AND logic
+      # Option 1: OAuth2 AND API Key
+      # OR
+      # Option 2: mTLS (client certificate)
+      - 
+        - $ref: '#/components/securitySchemes/oauth2'
+        - $ref: '#/components/securitySchemes/apiKey'
+      - 
+        - $ref: '#/components/securitySchemes/clientCertificate'
+    messages:
+      - $ref: '#/channels/userEvents/messages/userCreated'
+
+components:
+  messages:
+    UserCreated:
+      payload:
+        type: object
+        properties:
+          userId:
+            type: string
+            description: Unique identifier for the user
+          email:
+            type: string
+            format: email
+          timestamp:
+            type: string
+            format: date-time
+
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 authentication
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.example.com/oauth/token
+          scopes:
+            'read:users': Read user information
+            'write:users': Create and update users
+
+    apiKey:
+      type: httpApiKey
+      name: X-API-Key
+      in: header
+      description: API Key for request validation
+
+    clientCertificate:
+      type: X509
+      description: Client certificate (mTLS) authentication
