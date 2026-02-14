@@ -1908,6 +1908,8 @@ channels:
   example:
     messages:
       myMessage:
+        name: UserCreated
+        title: User created event
         payload:
           schemaFormat: 'application/vnd.apache.avro;version=1.9.0'
           schema:
@@ -1920,7 +1922,7 @@ channels:
                 type: string
               - name: age
                 type: int
-```
+
 
 #### <a name="schemaObject"></a>Schema Object
 
