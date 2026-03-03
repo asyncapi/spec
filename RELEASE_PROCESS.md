@@ -100,11 +100,11 @@ Depending on the type of release you are working on, you should use one branch o
 Once you know which branch you should use, there are some initial changes that need to be made.
 
 The process for doing this is the same for each of these:
-- the [release coordinator](#%22release-coordinator%22) should create a fork, if not created yet, of the relevant repository for these changes.
-- the [release coordinator](#%22release-coordinator%22) should ensure the chosen **release branch** is up-to-date with the **default branch** (normally `master`) before adding any changes.
+- the [release coordinator](#release-coordinator) should create a fork, if not created yet, of the relevant repository for these changes.
+- the [release coordinator](#release-coordinator) should ensure the chosen **release branch** is up-to-date with the **default branch** (normally `master`) before adding any changes.
 - the commit message for the change should start with `chore:`
 - the change should be contributed in a pull request targeting the chosen **release branch**. 
-- the [release coordinator](#%22release-coordinator%22) will need to ask the [code owners](#code-owners) for the relevant repository to approve and merge this pull request
+- the [release coordinator](#release-coordinator) will need to ask the [code owners](#code-owners) for the relevant repository to approve and merge this pull request
 
 #### Step 3.1 - Update version numbers in official examples
 Repository: [spec](https://github.com/asyncapi/spec)
@@ -156,7 +156,7 @@ An example of doing this is:
 
 Each new release is announced by a blog post. You can see all of these at https://www.asyncapi.com/blog?tags=Release+Notes
 
-The [release coordinator](#%22release-coordinator%22) should create an empty placeholder blog post that can be added to by different contributors to the release throughout the release process.
+The [release coordinator](#release-coordinator) should create an empty placeholder blog post that can be added to by different contributors to the release throughout the release process.
 
 The steps to follow for this are:
 - Create a fork of the [website](https://github.com/asyncapi/website) repository
@@ -177,7 +177,7 @@ Pull requests should be opened for all [repositories covered by this process](#r
 
 These should be full, not draft, pull requests to allow automated tests to run.
 
-They should point from the [release branches](#step-3---create-release-branches) to the default/master branches for each repository.
+They should point from the [release branches](#step-3---update-release-branches) to the default/master branches for each repository.
 
 Add a **do-not-merge** label to the pull request by making a comment in the PR saying `/dnm`.
 Add a **autoupdate** label to the pull request by making a comment in the PR saying `/au`.
@@ -187,7 +187,7 @@ _Note: The automation bot will keep the release branch up to date with the lates
 
 ### Step 6 - bring updates into release branch
 
-The [release coordinator](#%22release-coordinator%22) should help to seek out possible updates that are good candidates for including in the release.
+The [release coordinator](#release-coordinator) should help to seek out possible updates that are good candidates for including in the release.
 
 There are lots of ways to do this:
 - ask for contributions in [Slack](https://www.asyncapi.com/slack-invite)
@@ -195,7 +195,7 @@ There are lots of ways to do this:
 - look for open accepted issues (see the [contribution guide](CONTRIBUTING.md) for a description of the requirements for a proposal to reach `Stage 3: Accepted`)
 - look for open pull requests in the [repositories covered by this process](#repositories)
 
-For each feature that is being brought into the release, a pull request should be created from the feature branch (the branch with the accepted changes in) to the [release branch](#step-3---create-release-branches).
+For each feature that is being brought into the release, a pull request should be created from the feature branch (the branch with the accepted changes in) to the [release branch](#step-3---update-release-branches).
 
 Pull requests must be:
 - labeled as an accepted proposal,
@@ -205,16 +205,16 @@ Pull requests must be:
 
 ### Step 7 - update announcement blog post
 
-As features are identified for inclusion in the release, the [draft announcement blog post](#step-6---prepare-announcement-blog-post) should be updated with descriptions of them. The [release cooordinator](#%22release-coordinator%22) should coordinate with the feature contributors to write a description of each change. They should be able to provide input and also be allowed to work as co-authors for the release notes post.
+As features are identified for inclusion in the release, the [draft announcement blog post](#step-4---prepare-announcement-blog-post) should be updated with descriptions of them. The [release cooordinator](#release-coordinator) should coordinate with the feature contributors to write a description of each change. They should be able to provide input and also be allowed to work as co-authors for the release notes post.
 
 Changes in the specification need to be well described. We need clear information on what has changed, why, and who contributed to the change. The purpose of the announcement blog post is to be a more user-friendly alternative to a regular changelog.
 
-Every feature added to the [release branch](#step-3---create-release-branches) needs to be properly described in the release notes post.
+Every feature added to the [release branch](#step-3---update-release-branches) needs to be properly described in the release notes post.
 
 
 ### Step 8 - prepare release notes
 
-In addition to the [announcement blog post](#step-9---update-announcement-blog-post), the [release coordinator](#%22release-coordinator%22) should prepare release notes for each of the [repositories covered by this process](#repositories).
+In addition to the [announcement blog post](#step-7---update-announcement-blog-post), the [release coordinator](#release-coordinator) should prepare release notes for each of the [repositories covered by this process](#repositories).
 
 These should:
 - be written in markdown
@@ -241,13 +241,13 @@ Including a link to the [release issue](#step-2---create-a-release-issue) is a g
 
 ### Step 10 - reviews
 
-At least one [code owner](#code-owners) must approve the [release pull requests](#step-7---create-pull-requests) in all related [repositories](#repositories).
+At least one [code owner](#code-owners) must approve the [release pull requests](#step-5---create-pull-requests) in all related [repositories](#repositories).
 
 
 ### Step 11 - release candidates
 
 Pre-release release candidates are generated automatically by the automation bot when:
-- a pull request with a **fix** or **feat** prefix in the title is merged into the [release branch](#step-3---create-release-branches)
+- a pull request with a **fix** or **feat** prefix in the title is merged into the [release branch](#step-3---update-release-branches)
 
 An example of a pull request created by the automation bot is: https://github.com/asyncapi/spec-json-schemas/pull/151 
 
@@ -262,7 +262,7 @@ An example release candidate is: https://github.com/asyncapi/spec/releases/tag/v
 
 ### Step 12 - Notify code owners of critical repositories about the pre-releases
 
-In order to let code owners of critical repositories have enough time to work on the changes needed on tooling, the [release coordinator](#%22release-coordinator%22) should notify code owners about the pre-releases.
+In order to let code owners of critical repositories have enough time to work on the changes needed on tooling, the [release coordinator](#release-coordinator) should notify code owners about the pre-releases.
 As per today, the following repositories are considered critical:
 
 - [HTML Template](https://github.com/asyncapi/html-template)
@@ -272,7 +272,7 @@ As per today, the following repositories are considered critical:
 
 ### Step 13 - merge the release branches
 
-Once everything is ready, it is time to merge the [release branches](#step-3---create-release-branches) using the [draft pull requests prepared earlier](#step-7---create-pull-requests).
+Once everything is ready, it is time to merge the [release branches](#step-3---update-release-branches) using the [draft pull requests prepared earlier](#step-5---create-pull-requests).
 
 Merging can only be done by [code owners](#code-owners).
 
@@ -287,13 +287,13 @@ Release means merge of pull requests created from a release branch against the m
 
 ### Step 14 - publish releases
 
-The [release coordinator](#%22release-coordinator%22) should ask the [code owners](#code-owners) for each repository to update the release in Github created by the automation bot, by adding the [release notes they have prepared](#step-10---prepare-release-notes).
+The [release coordinator](#release-coordinator) should ask the [code owners](#code-owners) for each repository to update the release in Github created by the automation bot, by adding the [release notes they have prepared](#step-8---prepare-release-notes).
 
 
 ### Step 15 - notify tool maintainers
 
 Our current CI/CD automation will fill PR's updating the dependencies **automatically** on all repositories after the release. 
-However, the [release coordinator](#%22release-coordinator%22) should notify maintainers of the dependant repositories that a new release happened, as those might want to adopt the new features. 
+However, the [release coordinator](#release-coordinator) should notify maintainers of the dependant repositories that a new release happened, as those might want to adopt the new features. 
 
 Some of the dependant repositories are:
   - [Avro Schema parser](https://github.com/asyncapi/avro-schema-parser)
@@ -327,14 +327,14 @@ Alternatively, you can use the following GH search queries:
 
 You can check the following [example of notification to maintainers](https://github.com/asyncapi/spec/issues/735#issuecomment-1109801674).
 
-The [release coordinator](#%22release-coordinator%22) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
+The [release coordinator](#release-coordinator) should also make sure other maintainers from other projects under the AsyncAPI GitHub organization released their packages.
 
 
 ### Step 16 - notify the community
 
 Every release of the release candidate is automatically published on the AsyncAPI Twitter account and in the releases-dedicated Slack channel.
 
-If the [release coordinator](#%22release-coordinator%22) uses social networks like Twitter or LinkedIn, it is a great idea for them to promote the work that they've done to prepare the release by announcing it on their own private accounts. These can then be promoted and shared from the official AsyncAPI social accounts, to highlight and demonstrate the community-driven nature of releases. 
+If the [release coordinator](#release-coordinator) uses social networks like Twitter or LinkedIn, it is a great idea for them to promote the work that they've done to prepare the release by announcing it on their own private accounts. These can then be promoted and shared from the official AsyncAPI social accounts, to highlight and demonstrate the community-driven nature of releases. 
 
 Feel free to use other communication channels. Make sure that as many people as possible know about the change. Feel free to contact vendors upfront or other people that are interested in changes in the specification.
 
