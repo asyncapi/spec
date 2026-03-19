@@ -2704,7 +2704,7 @@ Runtime expressions preserve the type of the referenced value.
 
 ### <a name="traitsMergeMechanism"></a>Traits Merge Mechanism
 
-Traits MUST be merged with the target object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the target object.
+Traits MUST be merged with the target object using the [JSON Merge Patch](https://tools.ietf.org/html/rfc7386) algorithm in the same order they are defined. A property on a trait MUST NOT override the same property on the target object. When a trait or target object property has a `null` value, it MUST be preserved as-is and MUST NOT be interpreted as a deletion directive, regardless of the JSON Merge Patch algorithm's treatment of `null` values.
 
 #### Example
 
@@ -2726,6 +2726,45 @@ name: UserSignup
 description: A longer description.
 tags:
   - name: user
+```
+
+#### Null Value Example
+
+A `null` value on the target object MUST be preserved and MUST NOT be deleted during trait merging:
+
+```yaml
+x-test: null
+bindings:
+  kafka:
+    x-test: null
+traits:
+  - x-test: someValue
+    bindings:
+      kafka:
+        x-test: someValue
+```
+
+Would look like the following after applying traits (target `null` values are preserved, trait values do not override):
+
+```yaml
+x-test: null
+bindings:
+  kafka:
+    x-test: null
+```
+
+A `null` value on a trait MUST NOT be used to delete a property from the target object:
+
+```yaml
+x-test: someValue
+traits:
+  - x-test: null
+```
+
+Would look like the following after applying traits (`null` from trait does not delete or override target value):
+
+```yaml
+x-test: someValue
 ```
 
 ### <a name="specificationExtensions"></a>Specification Extensions
