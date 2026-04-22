@@ -8,6 +8,9 @@ on:
     types: 
       - published
 
+permissions:
+  contents: read            # To checkout code and read release information
+
 jobs:
 
   slack-announce:
@@ -16,6 +19,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Convert markdown to slack markdown for issue
         # This workflow is from our own org repo and safe to reference by 'master'.
         uses: asyncapi/.github/.github/actions/slackify-markdown@master # //NOSONAR
@@ -42,11 +47,13 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Get version of last and previous release
         uses: actions/github-script@v7
         id: versions
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const query = `query($owner:String!, $name:String!) {
               repository(owner:$owner, name:$name){
@@ -72,12 +79,12 @@ jobs:
         env:
           PREV_VERSION: ${{steps.versions.outputs.previousver}}
           LAST_VERSION: ${{steps.versions.outputs.lastver}}
-        run: echo "type=$(npx -q -p semver-diff-cli semver-diff "$PREV_VERSION" "$LAST_VERSION")" >> $GITHUB_OUTPUT
+        run: echo "type=$(npx -q -p semver-diff-cli semver-diff "$PREV_VERSION" "$LAST_VERSION")" >> "$GITHUB_OUTPUT"
       - name: Get name of the person that is behind the newly released version
         id: author
         run: |
           AUTHOR_NAME=$(git log -1 --pretty=format:'%an')
-          printf 'name=%s\n' "$AUTHOR_NAME" >> $GITHUB_OUTPUT
+          printf 'name=%s\n' "$AUTHOR_NAME" >> "$GITHUB_OUTPUT"
       - name: Publish information about the release to Twitter # tweet only if detected version change is not a patch
         # tweet goes out even if the type is not major or minor but "You need provide version number to compare."
         # it is ok, it just means we did not identify previous version as we are tweeting out information about the release for the first time

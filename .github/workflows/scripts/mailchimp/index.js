@@ -6,6 +6,12 @@ const mailchimp = require('@mailchimp/mailchimp_marketing');
 const core = require('@actions/core');
 const htmlContent = require('./htmlContent.js');
 
+function formatMailchimpError(error) {
+    const status = error?.status || error?.response?.status;
+    const message = error?.message || error?.response?.body?.title || 'Unknown error';
+    return status ? `${ message } (status: ${ status })` : message;
+}
+
 /**
  * Sending API request to mailchimp to schedule email to subscribers
  * Input is the URL to issue/discussion or other resource
@@ -13,6 +19,28 @@ const htmlContent = require('./htmlContent.js');
 module.exports = async (link, title) => {
 
     let newCampaign;
+
+    // Validate inputs to prevent injection attacks
+    if (!link || typeof link !== 'string' || link.length > 2000) {
+        return core.setFailed('Invalid link parameter');
+    }
+    if (!title || typeof title !== 'string' || title.length > 500) {
+        return core.setFailed('Invalid title parameter');
+    }
+
+    let parsedLink;
+    try {
+        parsedLink = new URL(link);
+    } catch (error) {
+        return core.setFailed('Invalid link parameter');
+    }
+
+    if (parsedLink.protocol !== 'https:') {
+        return core.setFailed('Link must use https protocol');
+    }
+
+    // Sanitize title by removing control characters and limiting length
+    const sanitizedTitle = title.replace(/[\x00-\x1F\x7F]/g, '').substring(0, 250);
 
     mailchimp.setConfig({
         apiKey: process.env.MAILCHIMP_API_KEY,
@@ -38,7 +66,7 @@ module.exports = async (link, title) => {
                 }
             },
             settings: {
-                subject_line: `TSC attention required: ${ title }`,
+                subject_line: `TSC attention required: ${ sanitizedTitle }`,
                 preview_text: 'Check out the latest topic that TSC members have to be aware of',
                 title: `New topic info - ${ new Date(Date.now()).toUTCString()}`,
                 from_name: 'AsyncAPI Initiative',
@@ -46,16 +74,16 @@ module.exports = async (link, title) => {
             }
         });
     } catch (error) {
-        return core.setFailed(`Failed creating campaign: ${ JSON.stringify(error) }`);
+        return core.setFailed(`Failed creating campaign: ${ formatMailchimpError(error) }`);
     }
 
     /*
     * Content of the email is added separately after campaign creation
     */
     try {
-        await mailchimp.campaigns.setContent(newCampaign.id, { html: htmlContent(link, title) });
+        await mailchimp.campaigns.setContent(newCampaign.id, { html: htmlContent(parsedLink.toString(), sanitizedTitle) });
     } catch (error) {
-        return core.setFailed(`Failed adding content to campaign: ${ JSON.stringify(error) }`);
+        return core.setFailed(`Failed adding content to campaign: ${ formatMailchimpError(error) }`);
     }
 
     /*
@@ -72,7 +100,7 @@ module.exports = async (link, title) => {
             schedule_time: scheduleDate.toISOString(),
         });
     } catch (error) {
-        return core.setFailed(`Failed scheduling email: ${ JSON.stringify(error) }`);
+        return core.setFailed(`Failed scheduling email: ${ formatMailchimpError(error) }`);
     }
 
     core.info(`New email campaign created`);

@@ -7,15 +7,21 @@ on:
   schedule:
   - cron: "0 0 * * *"
 
+permissions: {}
+
 jobs:
   stale:
     if: startsWith(github.repository, 'asyncapi/')
     name: Mark issue or PR as stale
     runs-on: ubuntu-latest
+    permissions:
+      contents: read            # As delete-branch is not being used
+      issues: write             # To add comments and labels to issues
+      pull-requests: write      # To add comments and labels to PRs
     steps:
     - uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639 #v9.1.0 but pointing to commit for security reasons
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ github.token }}
         stale-issue-message: |
           This issue has been automatically marked as stale because it has not had recent activity :sleeping:
 

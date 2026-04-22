@@ -20,10 +20,16 @@ env:
       {"name": "bounty", "color": "0e8a16", "description": "Participation in the Bounty Program"}
     ]
 
+permissions: {}
+
 jobs:
   guard-against-unauthorized-use:
+    name: Guard against unauthorized use
+    permissions:
+      issues: write # required to post a comment on the issue/PR
+      pull-requests: write # required to post a comment on the issue/PR if it's a PR
     if: >
-      github.actor != ('aeworxet' || 'thulieblack') &&
+      !contains(fromJSON('["aeworxet","thulieblack"]'), github.actor) &&
       (
         startsWith(github.event.comment.body, '/bounty' )
       )
@@ -36,7 +42,7 @@ jobs:
         env:
           ACTOR: ${{ github.actor }}
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const commentText = `❌ @${process.env.ACTOR} is not authorized to use the Bounty Program's commands.
             These commands can only be used by members of the [Bounty Team](https://github.com/orgs/asyncapi/teams/bounty_team).`;
@@ -50,19 +56,22 @@ jobs:
               })
 
   add-label-bounty:
+    name: Add bounty label
+    permissions:
+      issues: write # required to read/create labels and add labels on the issue/PR
+      pull-requests: write #  required to read/create labels and add labels on the issue/PR
     if: >
-      github.actor == ('aeworxet' || 'thulieblack') &&
+      contains(fromJSON('["aeworxet","thulieblack"]'), github.actor) &&
       (
         startsWith(github.event.comment.body, '/bounty' )
       )
 
     runs-on: ubuntu-latest
-
     steps:
       - name: Add label `bounty`
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const BOUNTY_PROGRAM_LABELS = JSON.parse(process.env.BOUNTY_PROGRAM_LABELS_JSON);
             let LIST_OF_LABELS_FOR_REPO = await github.rest.issues.listLabelsForRepo({
@@ -91,19 +100,21 @@ jobs:
             })
 
   remove-label-bounty:
+    name: Remove bounty label
+    permissions:
+      issues: write # required to read/remove labels on the issue/PR
+      pull-requests: write # required to read/remove labels on the issue/PR if it's a PR
     if: >
-      github.actor == ('aeworxet' || 'thulieblack') &&
+      contains(fromJSON('["aeworxet","thulieblack"]'), github.actor) &&
       (
         startsWith(github.event.comment.body, '/unbounty' )
       )
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Remove label `bounty`
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const BOUNTY_PROGRAM_LABELS = JSON.parse(process.env.BOUNTY_PROGRAM_LABELS_JSON);
             let LIST_OF_LABELS_FOR_ISSUE = await github.rest.issues.listLabelsOnIssue({

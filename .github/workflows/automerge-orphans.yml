@@ -7,19 +7,26 @@ on:
   schedule:
   - cron: "0 0 * * *"
 
+permissions: {}
+
 jobs:
   identify-orphans:
     if: startsWith(github.repository, 'asyncapi/')
     name: Find orphans and notify
+    permissions:
+      contents: read # required by checkout and repository metadata reads
+      pull-requests: read # required to list open pull requests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Get list of orphans
         uses: actions/github-script@v7
         id: orphans
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const query = `query($owner:String!, $name:String!) {
               repository(owner:$owner, name:$name){

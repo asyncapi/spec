@@ -4,10 +4,12 @@
 name: Automerge PRs from bots
 
 on:
-  pull_request_target:
+  pull_request_target:          # Needed as GH_TOKEN_BOT_EVE needed for approval.
     types:
       - opened
-      - synchronize
+      - synchronize             # zizmor: ignore[dangerous-triggers]
+
+permissions: {}
 
 jobs:
   autoapprove-for-bot:

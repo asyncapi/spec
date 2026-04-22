@@ -6,19 +6,24 @@
 name: Remove ready-to-merge label
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - synchronize
       - edited
 
+permissions: {}
+
 jobs:
   remove-ready-label:
+    name: Remove ready-to-merge label
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # required to remove labels and post comments on PR issues 
     steps:
       - name: Remove label
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const labelToRemove = 'ready-to-merge';
             const labels = context.payload.pull_request.labels;
