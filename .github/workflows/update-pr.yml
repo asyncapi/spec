@@ -9,12 +9,16 @@
 
 name: Update PR branches from fork
 
+permissions:
+  contents: read
+
 on:
   issue_comment: 
     types: [created]
 
 jobs:
   update-pr:
+    name: Update the fork PR with upstream changes
     if: >
       startsWith(github.repository, 'asyncapi/') &&
       github.event.issue.pull_request && 
@@ -23,12 +27,16 @@ jobs:
         contains(github.event.comment.body, '/u')
       )
     runs-on: ubuntu-latest
+    permissions:
+      issues: write                     # Required to read PR details and post comments on the PR
+      pull-requests: write              # Required to update the PR branch 
+      contents: read
     steps:
       - name: Get Pull Request Details
         id: pr
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN || github.token }}
           previews: 'merge-info-preview' # https://docs.github.com/en/graphql/overview/schema-previews#merge-info-preview-more-detailed-information-about-a-pull-requests-merge-state-preview
           script: |
             const prNumber = context.payload.issue.number;
@@ -40,7 +48,7 @@ jobs:
             });
 
             // If the PR has conflicts, we don't want to update it
-            const updateable = ['behind', 'blocked', 'unknown', 'draft', 'clean'].includes(pr.mergeable_state);
+            const updateable = ['behind', 'blocked', 'unknown', 'draft', 'clean', 'unstable'].includes(pr.mergeable_state);
             console.log(`PR #${prNumber} is ${pr.mergeable_state} and is ${updateable ? 'updateable' : 'not updateable'}`);
             core.setOutput('updateable', updateable);
 
@@ -54,8 +62,10 @@ jobs:
       - name: Update the Pull Request
         if: steps.pr.outputs.updateable == 'true'
         uses: actions/github-script@v7
+        env:
+          PR_DETAILS: ${{ steps.pr.outputs.result }}
         with:
-          github-token: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN || github.token }}
           script: |
             const mutation = `mutation update($input: UpdatePullRequestBranchInput!) {
               updatePullRequestBranch(input: $input) {
@@ -65,7 +75,7 @@ jobs:
               }
             }`;
 
-            const pr_details = ${{ steps.pr.outputs.result }};
+            const pr_details = JSON.parse(process.env.PR_DETAILS);
 
             try {
               const { data } = await github.graphql(mutation, {

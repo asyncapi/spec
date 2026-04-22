@@ -4,22 +4,30 @@
 name: Welcome first time contributors
 
 on:
-  pull_request_target:
+  pull_request:
     types: 
       - opened
   issues:
     types:
       - opened
 
+permissions:
+  issues: read                  # Required to check if the issue is the user's first contribution
+  pull-requests: read           # Required to check if the pull request is the user's first contribution
+
 jobs:
   welcome:
     name: Post welcome message
-    if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor) }}
+    if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor) }} # zizmor: ignore[obfuscation]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read            # Required to read repository data for checking if it's the user's first contribution
+      issues: write             # Required to post welcome message on issues
+      pull-requests: write      # Required to post welcome message on pull requests
     steps:
     - uses: actions/github-script@v7
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ github.token }}
         script: |
           const issueMessage = `Welcome to AsyncAPI. Thanks a lot for reporting your first issue. Please check out our [contributors guide](https://github.com/asyncapi/community/blob/master/CONTRIBUTING.md) and the instructions about a [basic recommended setup](https://github.com/asyncapi/community/blob/master/git-workflow.md) useful for opening a pull request.<br />Keep in mind there are also other channels you can use to interact with AsyncAPI community. For more details check out [this issue](https://github.com/asyncapi/asyncapi/issues/115).`;
           const prMessage = `Welcome to AsyncAPI. Thanks a lot for creating your first pull request. Please check out our [contributors guide](https://github.com/asyncapi/community/blob/master/CONTRIBUTING.md) useful for opening a pull request.<br />Keep in mind there are also other channels you can use to interact with AsyncAPI community. For more details check out [this issue](https://github.com/asyncapi/asyncapi/issues/115).`;

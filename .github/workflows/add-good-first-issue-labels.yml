@@ -9,15 +9,20 @@ on:
     types:
       - created
 
+permissions: {}
+
 jobs:
   add-labels:
+    name: Add 'Good First Issue' and 'area/*' labels
     if: ${{(!github.event.issue.pull_request && github.event.issue.state != 'closed' && github.actor != 'asyncapi-bot') && (contains(github.event.comment.body, '/good-first-issue') || contains(github.event.comment.body, '/gfi' ))}}
     runs-on: ubuntu-latest
+    permissions:
+      issues: write    # This is needed to add labels to issues.
     steps:
       - name: Add label
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ github.token }}
           script: |
             const areas = ['javascript', 'typescript', 'java' , 'go', 'docs', 'ci-cd', 'design'];
             const words = context.payload.comment.body.trim().split(" ");

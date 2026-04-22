@@ -17,13 +17,15 @@ on:
     types:
       - opened
 
-  pull_request_target:
+  pull_request_target:      # Needed to access secrets. The checkout is done on base branch so script cannot be malicious.
     types:
-      - opened
-
+      - opened              # zizmor: ignore[dangerous-triggers]
   discussion:
     types:
       - created
+
+permissions:
+  contents: read            # To checkout repository
 
 jobs:
   issue:
@@ -33,6 +35,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -68,10 +72,11 @@ jobs:
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           TITLE: ${{ github.event.issue.title }}
+          HTML_URL: ${{ github.event.issue.html_url }}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.issue.html_url}}', process.env.TITLE);
+            sendEmail(process.env.HTML_URL, process.env.TITLE);
 
   pull_request:
     if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.body, '@asyncapi/tsc_members')
@@ -80,6 +85,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -115,10 +122,11 @@ jobs:
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           TITLE: ${{ github.event.pull_request.title }}
+          HTML_URL: ${{ github.event.pull_request.html_url }}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.pull_request.html_url}}', process.env.TITLE);
+            sendEmail(process.env.HTML_URL, process.env.TITLE);
 
   discussion:
     if: github.event_name == 'discussion' && contains(github.event.discussion.body, '@asyncapi/tsc_members')
@@ -127,6 +135,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -162,10 +172,11 @@ jobs:
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           TITLE: ${{ github.event.discussion.title }}
+          HTML_URL: ${{ github.event.discussion.html_url }}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.discussion.html_url}}', process.env.TITLE);
+            sendEmail(process.env.HTML_URL, process.env.TITLE);
 
   issue_comment:
     if: ${{ github.event_name == 'issue_comment' && !github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members') }}
@@ -174,6 +185,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -209,10 +222,11 @@ jobs:
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           TITLE: ${{ github.event.issue.title }}
+          HTML_URL: ${{ github.event.comment.html_url }}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}', process.env.TITLE);
+            sendEmail(process.env.HTML_URL, process.env.TITLE);
 
   pr_comment:
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(github.event.comment.body, '@asyncapi/tsc_members')
@@ -221,6 +235,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -256,10 +272,11 @@ jobs:
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           TITLE: ${{ github.event.issue.title }}
+          HTML_URL: ${{ github.event.comment.html_url }}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}', process.env.TITLE);
+            sendEmail(process.env.HTML_URL, process.env.TITLE);
 
   discussion_comment:
     if: github.event_name == 'discussion_comment' && contains(github.event.comment.body, '@asyncapi/tsc_members')
@@ -268,6 +285,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -303,7 +322,8 @@ jobs:
           CALENDAR_SERVICE_ACCOUNT: ${{ secrets.CALENDAR_SERVICE_ACCOUNT }}
           MAILCHIMP_API_KEY: ${{ secrets.MAILCHIMP_API_KEY }}
           TITLE: ${{ github.event.discussion.title }}
+          HTML_URL: ${{ github.event.comment.html_url }}
         with:
           script: |
             const sendEmail = require('./.github/workflows/scripts/mailchimp/index.js');
-            sendEmail('${{github.event.comment.html_url}}', process.env.TITLE);
+            sendEmail(process.env.HTML_URL, process.env.TITLE);

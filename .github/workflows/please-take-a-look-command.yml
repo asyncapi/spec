@@ -11,6 +11,8 @@ on:
   issue_comment:
     types: [created]
 
+permissions: {}
+
 jobs:
   ping-for-attention:
     if: >
@@ -22,6 +24,7 @@ jobs:
         contains(github.event.comment.body, '/ptal') ||
         contains(github.event.comment.body, '/PTAL') 
       )
+    name: Ping code owners for attention
     runs-on: ubuntu-latest
     steps:
       - name: Check for Please Take a Look Command
@@ -31,7 +34,7 @@ jobs:
           script: |
             const prDetailsUrl = context.payload.issue.pull_request.url;
             const { data: pull } = await github.request(prDetailsUrl);
-            const reviewers = pull.requested_reviewers.map(reviewer => reviewer.login);
+            const reviewers = (pull.requested_reviewers || []).map(reviewer => reviewer.login);
 
             const { data: reviews } = await github.rest.pulls.listReviews({
               owner: context.repo.owner,

@@ -13,6 +13,9 @@ on:
       - '.github/CODEOWNERS'
       - '.docs/CODEOWNERS'
 
+permissions: 
+  contents: read            # Just to limit GITHUB_TOKEN as we use GH_TOKEN only
+
 jobs:
   trigger-maintainers-update:
     name: Trigger updating MAINTAINERS.yaml because of CODEOWNERS change

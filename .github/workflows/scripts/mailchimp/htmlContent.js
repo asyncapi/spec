@@ -2,7 +2,24 @@
  * This code is centrally managed in https://github.com/asyncapi/.github/
  * Don't make changes to this file in this repo as they will be overwritten with changes made to the same file in above mentioned repo
  */
+
+/**
+ * Escape HTML special characters to prevent XSS
+ */
+function escapeHtml(text) {
+    if (!text) return '';
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 module.exports = (link, title) => {
+    // Sanitize inputs to prevent XSS
+    const safeLink = escapeHtml(link);
+    const safeTitle = escapeHtml(title);
 
     return `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -386,7 +403,7 @@ There is a new topic at AsyncAPI Initiative that requires Technical Steering Com
 <br>
 Please have a look if it is just something you need to be aware of, or maybe your vote is needed.
 <br>
-Topic: <a href="${ link }" style="color:#007c89;font-weight:normal;text-decoration:underline" target="_blank">${ title }</a>.
+Topic: <a href="${ safeLink }" style="color:#007c89;font-weight:normal;text-decoration:underline" target="_blank">${ safeTitle }</a>.
                         </td>
                     </tr>
                 </tbody></table>
