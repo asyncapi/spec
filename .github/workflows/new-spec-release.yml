@@ -13,12 +13,12 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Checkout Current repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: spec
           ref: ${{ github.event.release.target_commitish }}
       - name: Checkout Another repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: asyncapi/website
           path: website
