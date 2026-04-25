@@ -1,57 +1,96 @@
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs/promises');
 const { convert } = require('@asyncapi/converter');
 const jsYaml = require('js-yaml');
+
 const examplesDirectory = path.resolve(__dirname, '../../examples');
 const toVersion = '3.0.0';
 
 /**
- * This function converts a single example file into a newer version and overwrite the old one.
- * 
- * @param {*} exampleFile full path to file
+ * Converts a single AsyncAPI example file to a newer version.
+ *
+ * @param {string} exampleFile - Absolute path to file
  */
-function convertExample(exampleFile) {
-  console.warn(`Converting: ${exampleFile}`);
-  const document = fs.readFileSync(exampleFile, 'utf-8');
-  const loadedDocument = jsYaml.load(document);
-  if(loadedDocument.asyncapi === undefined) {
-    //Probably encountered a common file (used in other files), ignore
-    console.error(`___________________________________________________________________________________
-    !!!Manual change required!!! 
+async function convertExample(exampleFile) {
+  try {
+    console.warn(`Converting: ${exampleFile}`);
 
-    ${exampleFile} is a shared resource among other AsyncAPI documents, make sure to manually inspect this!
+    const document = await fs.readFile(exampleFile, 'utf-8');
+    const loadedDocument = jsYaml.load(document);
 
-___________________________________________________________________________________`);
-    return;
-  } else if(loadedDocument.asyncapi === toVersion) {
-    console.warn(`${exampleFile} is already version ${toVersion}`);
-    return;
+    if (!loadedDocument || typeof loadedDocument !== 'object') {
+      console.warn(`Skipping non-YAML object file: ${exampleFile}`);
+      return;
+    }
+
+    if (!loadedDocument.asyncapi) {
+      console.error(`
+___________________________________________________________________________________
+!!! Manual change required !!!
+
+${exampleFile} appears to be a shared resource.
+Please manually inspect this file.
+
+___________________________________________________________________________________
+      `);
+      return;
+    }
+
+    if (loadedDocument.asyncapi === toVersion) {
+      console.warn(`${exampleFile} is already version ${toVersion}`);
+      return;
+    }
+
+    const convertedDocument = await convert(document, toVersion, {});
+
+    await fs.writeFile(exampleFile, convertedDocument, 'utf-8');
+
+    console.info(`✔ Successfully converted: ${exampleFile}`);
+  } catch (error) {
+    console.error(`✖ Failed to convert ${exampleFile}:`, error.message);
   }
-  const convertedDocument = convert(document, toVersion, { });
-  fs.writeFileSync(exampleFile, convertedDocument);
 }
 
 /**
- * Convert all examples within a single directory and nested directories.
- * 
- * @param {*} directoryPath full path to a directory to convert examples from.
+ * Recursively converts all AsyncAPI example files
+ * within a directory and nested directories.
+ *
+ * @param {string} directoryPath - Absolute path to directory
  */
 async function convertExampleDir(directoryPath) {
-  let examplesFiles = await fs.promises.readdir(directoryPath);
-  examplesFiles = examplesFiles.map((file) => path.resolve(directoryPath, file));
-  const nestedDirectory = examplesFiles.filter((file) => fs.lstatSync(file).isDirectory());
-  for (const dir of nestedDirectory) {
-    await convertExampleDir(dir);
-  }
+  try {
+    const entries = await fs.readdir(directoryPath, { withFileTypes: true });
 
-  // only convert .yml files
-  examplesFiles = examplesFiles.filter((file) => path.extname(file) === '.yml' || path.extname(file) === '.yaml');
-  examplesFiles.forEach(convertExample);
+    for (const entry of entries) {
+      const fullPath = path.resolve(directoryPath, entry.name);
+
+      if (entry.isDirectory()) {
+        await convertExampleDir(fullPath);
+      } else if (entry.isFile()) {
+        const ext = path.extname(entry.name).toLowerCase();
+
+        if (ext === '.yml' || ext === '.yaml') {
+          await convertExample(fullPath);
+        }
+      }
+    }
+  } catch (error) {
+    console.error(`Failed to process directory ${directoryPath}:`, error.message);
+  }
 }
 
 /**
- * 
+ * CLI execution
  */
-(async () => {
+async function main() {
+  console.info(`Starting conversion to AsyncAPI ${toVersion}...`);
   await convertExampleDir(examplesDirectory);
-})()
+  console.info('Conversion process completed.');
+}
+
+if (require.main === module) {
+  main().catch((err) => {
+    console.error('Unexpected error during conversion:', err);
+    process.exit(1);
+  });
+}
