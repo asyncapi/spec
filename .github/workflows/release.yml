@@ -15,9 +15,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
       - name: Add plugin for conventional commits
         run: npm install --save-dev conventional-changelog-conventionalcommits@6.1.0
       - name: Release to GitHub
