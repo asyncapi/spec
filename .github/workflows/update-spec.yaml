@@ -43,7 +43,7 @@ jobs:
         run: |
           cp ../spec/spec/asyncapi.md ./markdown/docs/reference/specification/${{ steps.latest_version.outputs.latest_tag }}.md
       - name: Remove Table of Contents from Spec
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           github-token: ${{ env.GITHUB_TOKEN }}
           script: |
