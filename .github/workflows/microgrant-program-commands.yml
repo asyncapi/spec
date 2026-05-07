@@ -1,0 +1,137 @@
+# This workflow is centrally managed at https://github.com/asyncapi/.github/
+# Don't make changes to this file in this repository, as they will be overwritten with
+# changes made to the same file in the abovementioned repository.
+
+# The purpose of this workflow is to allow Microgrant Team members
+# (https://github.com/orgs/asyncapi/teams/microgrant_team) to issue commands to the
+# organization's global AsyncAPI bot related to the Microgrant Program, while at the
+# same time preventing unauthorized users from misusing them.
+
+name: Microgrant Program commands
+
+on:
+  issue_comment:
+    types:
+      - created
+
+env:
+  MICROGRANT_PROGRAM_LABELS_JSON: |
+    [
+      {"name": "microgrant", "color": "708090", "description": "Participation in the Microgrant Program"}
+    ]
+
+permissions: {}
+
+jobs:
+  guard-against-unauthorized-use:
+    name: Guard against unauthorized use
+    permissions:
+      issues: write # required to post a comment on the issue/PR
+      pull-requests: write # required to post a comment on the issue/PR if it's a PR
+    if: >
+      !contains(fromJSON('["aeworxet","thulieblack"]'), github.actor) &&
+      github.event.comment &&
+      (
+        github.event.comment.body == '/microgrant' || github.event.comment.body == '/unmicrogrant'
+      )
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ❌ @${{github.actor}} made an unauthorized attempt to use a Microgrant Program's command
+        uses: actions/github-script@v7
+        env:
+          ACTOR: ${{ github.actor }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const commentText = `❌ @${process.env.ACTOR} is not authorized to use the Microgrant Program's commands.
+            These commands can only be used by members of the [Microgrant Team](https://github.com/orgs/asyncapi/teams/microgrant_team).`;
+
+            console.log(`❌ @${process.env.ACTOR} made an unauthorized attempt to use a Microgrant Program's command.`);
+            github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: commentText
+              })
+
+  add-label-microgrant:
+    name: Add microgrant label
+    permissions:
+      issues: write # required to read/create labels and add labels on the issue/PR
+      pull-requests: write #  required to read/create labels and add labels on the issue/PR
+    if: >
+      contains(fromJSON('["aeworxet","thulieblack"]'), github.actor) &&
+      (
+        github.event.comment.body == '/microgrant'
+      )
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add label `microgrant`
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const MICROGRANT_PROGRAM_LABELS = JSON.parse(process.env.MICROGRANT_PROGRAM_LABELS_JSON);
+            let LIST_OF_LABELS_FOR_REPO = await github.rest.issues.listLabelsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                });
+                
+            LIST_OF_LABELS_FOR_REPO = LIST_OF_LABELS_FOR_REPO.data.map(key => key.name);
+
+            if (!LIST_OF_LABELS_FOR_REPO.includes(MICROGRANT_PROGRAM_LABELS[0].name)) {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: MICROGRANT_PROGRAM_LABELS[0].name,
+                color: MICROGRANT_PROGRAM_LABELS[0].color,
+                description: MICROGRANT_PROGRAM_LABELS[0].description
+              });
+            }
+
+            console.log('Adding label `microgrant`...');
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: [MICROGRANT_PROGRAM_LABELS[0].name]
+            })
+
+  remove-label-microgrant:
+    name: Remove microgrant label
+    permissions:
+      issues: write # required to read/remove labels on the issue/PR
+      pull-requests: write # required to read/remove labels on the issue/PR if it's a PR
+    if: >
+      contains(fromJSON('["aeworxet","thulieblack"]'), github.actor) &&
+      (
+        github.event.comment.body == '/unmicrogrant'
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove label `microgrant`
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const MICROGRANT_PROGRAM_LABELS = JSON.parse(process.env.MICROGRANT_PROGRAM_LABELS_JSON);
+            let LIST_OF_LABELS_FOR_ISSUE = await github.rest.issues.listLabelsOnIssue({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                });
+
+            LIST_OF_LABELS_FOR_ISSUE = LIST_OF_LABELS_FOR_ISSUE.data.map(key => key.name);
+
+            if (LIST_OF_LABELS_FOR_ISSUE.includes(MICROGRANT_PROGRAM_LABELS[0].name)) {
+              console.log('Removing label `microgrant`...');
+              github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: [MICROGRANT_PROGRAM_LABELS[0].name]
+              })
+            }
