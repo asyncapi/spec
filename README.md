@@ -63,10 +63,6 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 ### Silver
 
-<a href="https://bump.sh/asyncapi?utm_source=asyncapi&utm_medium=github_readme&utm_campaign=sponsor" target="_blank">
-  <img src="./assets/bump-sh-white-bg.png" alt="Bump.sh" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://www.svix.com/" target="_blank">
   <img src="./assets/svix.png" alt="Svix" height="70">
 </a>
@@ -91,10 +87,6 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 <a href="https://www.apideck.com/" target="_blank">
   <img src="./assets/apideck.png" alt="APIDeck" height="30">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://opensource.mercedes-benz.com/" target="_blank">
-  <img src="./assets/mercedes-benz.png" alt="Mercedes Benz" height="70">
 </a>
 
 ## Contributors
