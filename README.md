@@ -77,12 +77,6 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
   <img src="./assets/smartbear.png" alt="SmartBear" height="70">
 </a>
 
-<br/>
-
-<a href="https://route4me.com" target="_blank">
-  <img src="./assets/route4me.png" alt="Best Route Planning and Route Optimization Software" height="70">
-</a>
-
 ### Bronze
 
 <a href="https://www.apideck.com/" target="_blank">
