@@ -37,7 +37,10 @@ jobs:
         env:
           GITHUB_ACTOR: ${{ github.actor }}
         with:
-          github-token: ${{ github.token }}
+          # Use bot PAT, not the default GITHUB_TOKEN: events created by
+          # GITHUB_TOKEN do not trigger other workflows, so `Automerge For
+          # Humans` would never see the `labeled` event.
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const prDetailsUrl = context.payload.issue.pull_request.url;
             const { data: pull } = await github.request(prDetailsUrl);
@@ -93,7 +96,8 @@ jobs:
       - name: Add do-not-merge label
         uses: actions/github-script@v7
         with:
-          github-token: ${{ github.token }}
+          # Bot PAT so the `labeled` event can trigger downstream workflows.
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
@@ -119,7 +123,8 @@ jobs:
       - name: Add autoupdate label
         uses: actions/github-script@v7
         with:
-          github-token: ${{ github.token }}
+          # Bot PAT so the `labeled` event can trigger the autoupdate workflow.
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             github.rest.issues.addLabels({
               issue_number: context.issue.number,
