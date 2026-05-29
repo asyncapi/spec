@@ -78,6 +78,7 @@ jobs:
             let LIST_OF_LABELS_FOR_REPO = await github.rest.issues.listLabelsForRepo({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
+                per_page: 100,
                 });
                 
             LIST_OF_LABELS_FOR_REPO = LIST_OF_LABELS_FOR_REPO.data.map(key => key.name);
