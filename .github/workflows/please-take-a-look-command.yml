@@ -18,7 +18,7 @@ jobs:
     if: >
       github.event.issue.pull_request &&
       github.event.issue.state != 'closed' &&
-      github.actor != 'asyncapi-bot' &&
+      github.event.comment.user.login != 'asyncapi-bot' &&
       (
         contains(github.event.comment.body, '/please-take-a-look') ||
         contains(github.event.comment.body, '/ptal') ||
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for Please Take a Look Command
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |

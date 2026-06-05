@@ -18,7 +18,7 @@ permissions: {}
 
 jobs:
   issue:
-    if: github.event_name == 'issues' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    if: github.event_name == 'issues' && github.event.issue.user.login != 'asyncapi-bot' && github.event.issue.user.login != 'dependabot[bot]' && github.event.issue.user.login != 'dependabot-preview[bot]'
     name: Notify slack on every new issue
     runs-on: ubuntu-latest
     steps:
@@ -41,7 +41,7 @@ jobs:
           MSG_MINIMAL: true
 
   pull_request:
-    if: github.event_name == 'pull_request_target' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.user.login != 'asyncapi-bot' && github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'dependabot-preview[bot]'
     name: Notify slack on every new pull request
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +64,7 @@ jobs:
           MSG_MINIMAL: true
 
   discussion:
-    if: github.event_name == 'discussion' && github.actor != 'asyncapi-bot' && github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    if: github.event_name == 'discussion' && github.event.discussion.user.login != 'asyncapi-bot' && github.event.discussion.user.login != 'dependabot[bot]' && github.event.discussion.user.login != 'dependabot-preview[bot]'
     name: Notify slack on every new pull request
     runs-on: ubuntu-latest
     steps:

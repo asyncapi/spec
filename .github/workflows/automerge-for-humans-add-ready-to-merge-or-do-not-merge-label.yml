@@ -24,7 +24,7 @@ jobs:
     if: >
       github.event.issue.pull_request && 
       github.event.issue.state != 'closed' && 
-      github.actor != 'asyncapi-bot' && 
+      github.event.comment.user.login != 'asyncapi-bot' && 
       (
         contains(github.event.comment.body, '/ready-to-merge') || 
         contains(github.event.comment.body, '/rtm' )
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add ready-to-merge label
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           GITHUB_ACTOR: ${{ github.actor }}
         with:
@@ -86,7 +86,7 @@ jobs:
     if: >
       github.event.issue.pull_request &&
       github.event.issue.state != 'closed' &&
-      github.actor != 'asyncapi-bot' &&
+      github.event.comment.user.login != 'asyncapi-bot' &&
       (
         contains(github.event.comment.body, '/do-not-merge') ||
         contains(github.event.comment.body, '/dnm' )
@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add do-not-merge label
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           # Bot PAT so the `labeled` event can trigger downstream workflows.
           github-token: ${{ secrets.GH_TOKEN }}
@@ -113,7 +113,7 @@ jobs:
     if: >
       github.event.issue.pull_request && 
       github.event.issue.state != 'closed' && 
-      github.actor != 'asyncapi-bot' &&
+      github.event.comment.user.login != 'asyncapi-bot' &&
       (
         contains(github.event.comment.body, '/autoupdate') ||
         contains(github.event.comment.body, '/au' )
@@ -121,7 +121,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add autoupdate label
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           # Bot PAT so the `labeled` event can trigger the autoupdate workflow.
           github-token: ${{ secrets.GH_TOKEN }}

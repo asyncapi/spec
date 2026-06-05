@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: Get PR authors
         id: authors
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
             // Get paginated list of all commits in the PR
@@ -71,7 +71,7 @@ jobs:
 
       - name: Create commit message
         id: create-commit-message
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           AUTHORS_JSON: ${{ steps.authors.outputs.result }}
         with:
