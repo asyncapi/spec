@@ -4,9 +4,9 @@
 name: Welcome first time contributors
 
 on:
-  pull_request:
-    types: 
-      - opened
+  pull_request_target:      # Needed to write welcome comments on fork PRs; script only uses the GitHub API.
+    types:
+      - opened              # zizmor: ignore[dangerous-triggers]
   issues:
     types:
       - opened
