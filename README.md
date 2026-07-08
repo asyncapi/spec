@@ -46,10 +46,6 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 <a href="https://www.gravitee.io" target="_blank">
   <img src="./assets/Gravitee.png" alt="Gravitee" height="70">
 </a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://konghq.com/" target="_blank">
-  <img src="./assets/kong.png" alt="Kong" height="90">
-</a>
 
 ### Gold
 
@@ -71,10 +67,6 @@ Want to become a sponsor? Learn [what we do with sponsors' money](https://www.as
 
 <a href="https://www.aklivity.io/" target="_blank">
   <img src="./assets/aklivity.png" alt="Aklivity" height="70">
-</a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://smartbear.com" target="_blank">
-  <img src="./assets/smartbear.png" alt="SmartBear" height="70">
 </a>
 
 ### Bronze
