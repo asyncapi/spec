@@ -18,7 +18,7 @@ permissions:
 jobs:
   welcome:
     name: Post welcome message
-    if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.actor) }} # zizmor: ignore[obfuscation]
+    if: ${{ !contains(fromJson('["asyncapi-bot", "dependabot[bot]", "dependabot-preview[bot]", "allcontributors[bot]"]'), github.event.issue.user.login || github.event.pull_request.user.login) }} # zizmor: ignore[obfuscation]
     runs-on: ubuntu-latest
     permissions:
       contents: read            # Required to read repository data for checking if it's the user's first contribution
