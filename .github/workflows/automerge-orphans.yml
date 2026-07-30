@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Get list of orphans
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         id: orphans
         with:
           github-token: ${{ github.token }}
@@ -66,7 +66,7 @@ jobs:
           markdown: "-> [${{steps.orphans.outputs.title}}](${{steps.orphans.outputs.url}})"
       - if: steps.orphans.outputs.found == 'true'
         name: Send info about orphan to slack
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_CI_FAIL_NOTIFY}}
           SLACK_TITLE: 🚨 Not merged PR that should be automerged 🚨

@@ -33,7 +33,7 @@ jobs:
         with:
           markdown: "[${{ env.ISSUE_TITLE }}](${{ env.ISSUE_URL }}) \n ${{ env.ISSUE_BODY }}"
       - name: Send info about issue
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
           SLACK_TITLE: 🐛 New Issue in ${{github.repository}} 🐛
@@ -56,7 +56,7 @@ jobs:
         with:
           markdown: "[${{ env.PR_TITLE }}](${{ env.PR_URL }}) \n ${{ env.PR_BODY }}"
       - name: Send info about pull request
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
           SLACK_TITLE: 💪 New Pull Request in ${{github.repository}} 💪
@@ -79,7 +79,7 @@ jobs:
         with:
           markdown: "[${{ env.DISCUSSION_TITLE }}](${{ env.DISCUSSION_URL }}) \n ${{ env.DISCUSSION_BODY }}"
       - name: Send info about pull request
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_GITHUB_NEWISSUEPR}}
           SLACK_TITLE: 💬 New Discussion in ${{github.repository}} 💬

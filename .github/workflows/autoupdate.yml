@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Autoupdating
-        uses: chinthakagodawita/autoupdate@0707656cd062a3b0cf8fa9b2cda1d1404d74437e
+        uses: chinthakagodawita/autoupdate@0707656cd062a3b0cf8fa9b2cda1d1404d74437e # v1.7.0
         env:
           GITHUB_TOKEN: '${{ secrets.GH_TOKEN_BOT_EVE }}'
           PR_FILTER: "labelled"

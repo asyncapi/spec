@@ -20,12 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Autoapproving
-        uses: hmarr/auto-approve-action@44888193675f29a83e04faf4002fa8c0b537b1e4   # v3.2.1 is used https://github.com/hmarr/auto-approve-action/releases/tag/v3.2.1
+        uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363 # v4.0.0
         with:
           github-token: "${{ secrets.GH_TOKEN_BOT_EVE }}"
 
       - name: Label autoapproved
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           github-token: ${{ secrets.GH_TOKEN }}
           script: |
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Automerging
-        uses: pascalgn/automerge-action@22948e0bc22f0aa673800da838595a3e7347e584 #v0.15.6 https://github.com/pascalgn/automerge-action/releases/tag/v0.15.6
+        uses: pascalgn/automerge-action@7961b8b5eec56cc088c140b56d864285eabd3f67 # v0.16.4
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
           GITHUB_LOGIN: asyncapi-bot

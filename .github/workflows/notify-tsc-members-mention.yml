@@ -34,11 +34,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
           cache: 'npm'
@@ -53,7 +53,7 @@ jobs:
         with:
           markdown: "[${{github.event.issue.title}}](${{github.event.issue.html_url}}) \n ${{github.event.issue.body}}"
       - name: Send info about issue
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_TSC_MEMBERS_NOTIFY}}
           SLACK_TITLE: 🆘 New issue that requires TSC Members attention 🆘
@@ -66,7 +66,7 @@ jobs:
         run: npm install
         working-directory: ./.github/workflows/scripts/kit
       - name: Send email with Kit.com
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           KIT_TSC_TAG_ID: ${{ secrets.KIT_TSC_TAG_ID }}
@@ -83,11 +83,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
           cache: 'npm'
@@ -102,7 +102,7 @@ jobs:
         with:
           markdown: "[${{github.event.pull_request.title}}](${{github.event.pull_request.html_url}}) \n ${{github.event.pull_request.body}}"
       - name: Send info about pull request
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_TSC_MEMBERS_NOTIFY}}
           SLACK_TITLE: 🆘 New PR that requires TSC Members attention 🆘
@@ -115,7 +115,7 @@ jobs:
         run: npm install
         working-directory: ./.github/workflows/scripts/kit
       - name: Send email with Kit.com
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           KIT_TSC_TAG_ID: ${{ secrets.KIT_TSC_TAG_ID }}
@@ -132,11 +132,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
           cache: 'npm'
@@ -151,7 +151,7 @@ jobs:
         with:
           markdown: "[${{github.event.discussion.title}}](${{github.event.discussion.html_url}}) \n ${{github.event.discussion.body}}"
       - name: Send info about discussion
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_TSC_MEMBERS_NOTIFY}}
           SLACK_TITLE: 🆘 New discussion that requires TSC Members attention 🆘
@@ -164,7 +164,7 @@ jobs:
         run: npm install
         working-directory: ./.github/workflows/scripts/kit
       - name: Send email with Kit.com
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           KIT_TSC_TAG_ID: ${{ secrets.KIT_TSC_TAG_ID }}
@@ -181,11 +181,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
           cache: 'npm'
@@ -200,7 +200,7 @@ jobs:
         with:
           markdown: "[${{github.event.issue.title}}](${{github.event.comment.html_url}}) \n ${{github.event.comment.body}}"
       - name: Send info about issue comment
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_TSC_MEMBERS_NOTIFY}}
           SLACK_TITLE: 🆘 New comment under existing issue that requires TSC Members attention 🆘
@@ -213,7 +213,7 @@ jobs:
         run: npm install
         working-directory: ./.github/workflows/scripts/kit
       - name: Send email with Kit.com
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           KIT_TSC_TAG_ID: ${{ secrets.KIT_TSC_TAG_ID }}
@@ -230,11 +230,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
           cache: 'npm'
@@ -249,7 +249,7 @@ jobs:
         with:
           markdown: "[${{github.event.issue.title}}](${{github.event.comment.html_url}}) \n ${{github.event.comment.body}}"
       - name: Send info about PR comment
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_TSC_MEMBERS_NOTIFY}}
           SLACK_TITLE: 🆘 New comment under existing PR that requires TSC Members attention 🆘
@@ -262,7 +262,7 @@ jobs:
         run: npm install
         working-directory: ./.github/workflows/scripts/kit
       - name: Send email with Kit.com
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           KIT_TSC_TAG_ID: ${{ secrets.KIT_TSC_TAG_ID }}
@@ -279,11 +279,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
           cache: 'npm'
@@ -298,7 +298,7 @@ jobs:
         with:
           markdown: "[${{github.event.discussion.title}}](${{github.event.comment.html_url}}) \n ${{github.event.comment.body}}"
       - name: Send info about discussion comment
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_WEBHOOK: ${{secrets.SLACK_TSC_MEMBERS_NOTIFY}}
           SLACK_TITLE: 🆘 New comment under existing discussion that requires TSC Members attention 🆘
@@ -311,7 +311,7 @@ jobs:
         run: npm install
         working-directory: ./.github/workflows/scripts/kit
       - name: Send email with Kit.com
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           KIT_API_KEY: ${{ secrets.KIT_API_KEY }}
           KIT_TSC_TAG_ID: ${{ secrets.KIT_TSC_TAG_ID }}

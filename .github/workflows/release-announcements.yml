@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Convert markdown to slack markdown for issue
@@ -32,7 +32,7 @@ jobs:
         with:
           markdown: "[${{ env.RELEASE_TAG }}](${{ env.RELEASE_URL }}) \n ${{ env.RELEASE_BODY }}"
       - name: Send info about release to Slack
-        uses: rtCamp/action-slack-notify@c33737706dea87cd7784c687dadc9adf1be59990 # Using v2.3.2
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
             SLACK_WEBHOOK: ${{ secrets.SLACK_RELEASES }}
             SLACK_TITLE: Release ${{ env.RELEASE_TAG }} for ${{ env.REPO_NAME }} is out in the wild 😱💪🍾🎂
@@ -46,11 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Get version of last and previous release
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         id: versions
         with:
           github-token: ${{ github.token }}
@@ -89,7 +89,7 @@ jobs:
         # tweet goes out even if the type is not major or minor but "You need provide version number to compare."
         # it is ok, it just means we did not identify previous version as we are tweeting out information about the release for the first time
         if: steps.releasetype.outputs.type != 'null' && steps.releasetype.outputs.type != 'patch' # null means that versions are the same
-        uses: m1ner79/Github-Twittction@d1e508b6c2170145127138f93c49b7c46c6ff3a7   # using 2.0.0 https://github.com/m1ner79/Github-Twittction/releases/tag/v2.0.0
+        uses: m1ner79/Github-Twittction@d1e508b6c2170145127138f93c49b7c46c6ff3a7 # v2.0.0
         env:
           RELEASE_TAG: ${{github.event.release.tag_name}}
           REPO_NAME: ${{github.repository}}
