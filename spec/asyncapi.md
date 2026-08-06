@@ -91,6 +91,9 @@ Aside from the issues mentioned above, there may also be infrastructure configur
     - [Operation Object](#operationObject)
     - [Operation Trait Object](#operationTraitObject)
     - [Operation Reply Object](#operationReplyObject)
+    - [Operation Retry Object](#operationRetryObject)
+    - [Retry Strategy Object](#retryStrategyObject)
+    - [Operation Dead Letter Object](#operationDeadLetterObject)
     - [Operation Reply Address Object](#operationReplyAddressObject)
     - [Message Object](#messageObject)
     - [Message Trait Object](#messageTraitObject)
@@ -848,6 +851,8 @@ Field Name | Type | Description
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Operation Object](#operationObject).
 <a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Messages Object](#componentsMessages) in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience. <p>**Note**: excluding this property from the Operation implies that all messages from the channel will be included. Explicitly set the `messages` property to `[]` if this operation should contain no messages.</p>
 <a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
+<a name="operationObjectRetry"></a>retry | [Operation Retry Object](#operationRetryObject) &#124; [Reference Object](#referenceObject) | The retry route and policy for a `receive` operation when processing does not complete successfully.
+<a name="operationObjectDeadLetter"></a>deadLetter | [Operation Dead Letter Object](#operationDeadLetterObject) &#124; [Reference Object](#referenceObject) | The dead-letter route for a `receive` operation when processing cannot be recovered.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1008,6 +1013,77 @@ Field Name | Type | Description
 <a name="operationReplyObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation as reply. It MUST contain a subset of the messages defined in the [channel referenced in this operation reply](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+#### <a name="operationRetryObject"></a>Operation Retry Object
+
+Describes the retry path that MAY be applied to a `receive` Operation Object. It defines the channel and messages used to retry a failed operation, together with the retry policy. A retry route is an observable contract outcome; protocol bindings MAY define how the delay and delivery are implemented.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationRetryObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required.** A `$ref` pointer to the channel to which retry messages are sent. The same location rules as the [Operation Reply Object](#operationReplyObject) `channel` field apply.
+<a name="operationRetryObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | **Required.** A non-empty list of `$ref` pointers to messages in the referenced retry channel.
+<a name="operationRetryObjectMaxAttempts"></a>maxAttempts | `integer` | **Required.** The maximum number of retry attempts. The value MUST be greater than zero.
+<a name="operationRetryObjectStrategy"></a>strategy | [Retry Strategy Object](#retryStrategyObject) | **Required.** The delay policy applied between retry attempts.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Retry Object Example
+
+```yaml
+retry:
+  channel:
+    $ref: '#/channels/orderRetries'
+  messages:
+    - $ref: '#/channels/orderRetries/messages/retryOrder'
+  maxAttempts: 3
+  strategy:
+    type: exponential
+    initialDelaySeconds: 1
+    multiplier: 2
+    maxDelaySeconds: 60
+```
+
+#### <a name="retryStrategyObject"></a>Retry Strategy Object
+
+Describes the delay policy for retry attempts.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="retryStrategyObjectType"></a>type | `"fixed"` &#124; `"linear"` &#124; `"exponential"` | **Required.** The retry delay algorithm.
+<a name="retryStrategyObjectDelaySeconds"></a>delaySeconds | `integer` | **Required when `type` is `fixed`.** The delay between attempts. The value MUST be greater than or equal to zero.
+<a name="retryStrategyObjectInitialDelaySeconds"></a>initialDelaySeconds | `integer` | **Required when `type` is `linear` or `exponential`.** The delay before the first retry. The value MUST be greater than or equal to zero.
+<a name="retryStrategyObjectIncrementSeconds"></a>incrementSeconds | `integer` | **Required when `type` is `linear`.** The amount added to the delay after each retry. The value MUST be greater than or equal to zero.
+<a name="retryStrategyObjectMultiplier"></a>multiplier | `number` | **Required when `type` is `exponential`.** The value by which the delay is multiplied after each retry. The value MUST be greater than or equal to one.
+<a name="retryStrategyObjectMaxDelaySeconds"></a>maxDelaySeconds | `integer` | The maximum delay between attempts. The value MUST be greater than or equal to zero.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+#### <a name="operationDeadLetterObject"></a>Operation Dead Letter Object
+
+Describes the dead-letter path that MAY be applied to a `receive` Operation Object. When processing cannot be recovered, including after the associated retry policy is exhausted, the message is sent to this channel. Protocol bindings MAY define the delivery mechanism and any broker-specific metadata.
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="operationDeadLetterObjectChannel"></a>channel | [Reference Object](#referenceObject) | **Required.** A `$ref` pointer to the channel to which dead-letter messages are sent. The same location rules as the [Operation Reply Object](#operationReplyObject) `channel` field apply.
+<a name="operationDeadLetterObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | **Required.** A non-empty list of `$ref` pointers to messages in the referenced dead-letter channel.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Dead Letter Object Example
+
+```yaml
+deadLetter:
+  channel:
+    $ref: '#/channels/orderDeadLetters'
+  messages:
+    - $ref: '#/channels/orderDeadLetters/messages/deadLetterOrder'
+```
 
 #### <a name="operationReplyAddressObject"></a>Operation Reply Address Object
 
