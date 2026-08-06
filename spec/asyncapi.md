@@ -1132,6 +1132,14 @@ Describes a retry policy with the same fixed delay between every retry attempt.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
+##### Fixed Retry Strategy Object Example
+
+```yaml
+strategy:
+  type: fixed
+  delay: PT30S
+```
+
 #### <a name="linearRetryStrategyObject"></a>Linear Retry Strategy Object
 
 Describes a retry policy whose delay increases by a fixed increment after each retry attempt.
@@ -1147,6 +1155,16 @@ Describes a retry policy whose delay increases by a fixed increment after each r
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
+##### Linear Retry Strategy Object Example
+
+```yaml
+strategy:
+  type: linear
+  initialDelay: PT5S
+  delayIncrement: PT10S
+  maxDelay: PT1M
+```
+
 #### <a name="exponentialRetryStrategyObject"></a>Exponential Retry Strategy Object
 
 Describes a retry policy whose delay is multiplied after each retry attempt.
@@ -1161,6 +1179,16 @@ Describes a retry policy whose delay is multiplied after each retry attempt.
 | <a name="exponentialRetryStrategyObjectMaxDelay"></a>maxDelay         |    `string`     | The maximum delay between attempts, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`.             |
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Exponential Retry Strategy Object Example
+
+```yaml
+strategy:
+  type: exponential
+  initialDelay: PT1S
+  multiplier: 2
+  maxDelay: PT1M
+```
 
 #### <a name="operationDeadLetterObject"></a>Operation Dead Letter Object
 
