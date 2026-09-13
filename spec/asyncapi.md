@@ -92,6 +92,11 @@ Aside from the issues mentioned above, there may also be infrastructure configur
     - [Operation Trait Object](#operationTraitObject)
     - [Operation Reply Object](#operationReplyObject)
     - [Operation Reply Address Object](#operationReplyAddressObject)
+    - [Operation Retry Object](#operationRetryObject)
+    - [Fixed Retry Strategy Object](#fixedRetryStrategyObject)
+    - [Linear Retry Strategy Object](#linearRetryStrategyObject)
+    - [Exponential Retry Strategy Object](#exponentialRetryStrategyObject)
+    - [Operation Dead Letter Object](#operationDeadLetterObject)
     - [Message Object](#messageObject)
     - [Message Trait Object](#messageTraitObject)
     - [Message Example Object](#messageExampleObject)
@@ -848,6 +853,8 @@ Field Name | Type | Description
 <a name="operationObjectTraits"></a>traits | [[Operation Trait Object](#operationTraitObject) &#124; [Reference Object](#referenceObject) ] | A list of traits to apply to the operation object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Operation Object](#operationObject).
 <a name="operationObjectMessages"></a>messages | [[Reference Object](#referenceObject)] | A list of `$ref` pointers pointing to the supported [Message Objects](#messageObject) that can be processed by this operation. It MUST contain a subset of the messages defined in the [channel referenced in this operation](#operationObjectChannel), and MUST NOT point to a subset of message definitions located in the [Messages Object](#componentsMessages) in the [Components Object](#componentsObject) or anywhere else. **Every message processed by this operation MUST be valid against one, and only one, of the [message objects](#messageObject) referenced in this list.** Please note the `messages` property value MUST be a list of [Reference Objects](#referenceObject) and, therefore, MUST NOT contain [Message Objects](#messageObject). However, it is RECOMMENDED that parsers (or other software) dereference this property for a better development experience. <p>**Note**: excluding this property from the Operation implies that all messages from the channel will be included. Explicitly set the `messages` property to `[]` if this operation should contain no messages.</p>
 <a name="operationObjectReply"></a>reply | [Operation Reply Object](#operationReplyObject) &#124; [Reference Object](#referenceObject)  | The definition of the reply in a request-reply operation.
+<a name="operationObjectRetry"></a>retry | [Operation Retry Object](#operationRetryObject) &#124; [Reference Object](#referenceObject) | The retry route and policy for a `receive` operation when processing does not complete successfully.
+<a name="operationObjectDeadLetter"></a>deadLetter | [Operation Dead Letter Object](#operationDeadLetterObject) &#124; [Reference Object](#referenceObject) | The dead-letter route for a `receive` operation when processing cannot be recovered.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -862,7 +869,7 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "channel": {
     "$ref": "#/channels/userSignup"
   },
-  "action": "send",
+  "action": "receive",
   "security": [
     {
       "type": "oauth2",
@@ -910,6 +917,30 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
     "messages": [
       { "$ref": "#/channels/userSignupReply/messages/userSignedUpReply" }
     ]
+  },
+  "retry": {
+    "channel": {
+      "$ref": "#/channels/userSignupRetries"
+    },
+    "messages": [
+      { "$ref": "#/channels/userSignupRetries/messages/userSignupRetry" }
+    ],
+    "maxAttempts": 3,
+    "strategy": {
+      "type": "exponential",
+      "initialDelay": "PT1S",
+      "multiplier": 2,
+      "maxDelay": "PT1M"
+    }
+  },
+  "deadLetter": {
+    "channel": {
+      "$ref": "#/channels/userSignupDeadLetters"
+    },
+    "messages": [
+      { "$ref": "#/channels/userSignupDeadLetters/messages/userSignupDeadLetter" }
+    ],
+    "maxWaitTime": "PT15S"
   }
 }
 ```
@@ -921,7 +952,7 @@ summary: Action to sign a user up.
 description: A longer description
 channel:
   $ref: '#/channels/userSignup'
-action: send
+action: receive
 security:
   - type: oauth2
     description: The oauth security descriptions
@@ -953,6 +984,23 @@ reply:
     $ref: '#/channels/userSignupReply'
   messages:
     - $ref: '#/channels/userSignupReply/messages/userSignedUpReply'
+retry:
+  channel:
+    $ref: '#/channels/userSignupRetries'
+  messages:
+    - $ref: '#/channels/userSignupRetries/messages/userSignupRetry'
+  maxAttempts: 3
+  strategy:
+    type: exponential
+    initialDelay: PT1S
+    multiplier: 2
+    maxDelay: PT1M
+deadLetter:
+  channel:
+    $ref: '#/channels/userSignupDeadLetters'
+  messages:
+    - $ref: '#/channels/userSignupDeadLetters/messages/userSignupDeadLetter'
+  maxWaitTime: PT15S
 ```
 
 #### <a name="operationTraitObject"></a>Operation Trait Object
@@ -1038,6 +1086,133 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
 ```yaml
 description: Consumer Inbox
 location: $message.header#/replyTo
+```
+
+#### <a name="operationRetryObject"></a>Operation Retry Object
+
+Describes the retry path that MAY be applied to a `receive` Operation Object. It defines the channel and messages used to retry a failed operation, together with the retry policy. A retry route is an observable contract outcome; protocol bindings MAY define how the delivery is implemented.
+
+##### Fixed Fields
+
+| Field Name                                                |                                                                                                  Type                                                                                                  | Description                                                                                                                                                                           |
+|-----------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <a name="operationRetryObjectChannel"></a>channel         |                                                                                  [Reference Object](#referenceObject)                                                                                  | **Required.** A `$ref` pointer to the channel to which retry messages are sent. The same location rules as the [Operation Reply Object](#operationReplyObject) `channel` field apply. |
+| <a name="operationRetryObjectMessages"></a>messages       |                                                                                 [[Reference Object](#referenceObject)]                                                                                 | **Required.** A non-empty list of `$ref` pointers to messages in the referenced retry channel.                                                                                        |
+| <a name="operationRetryObjectMaxAttempts"></a>maxAttempts |                                                                                               `integer`                                                                                                | **Required.** The maximum number of retry attempts. The value MUST be greater than zero.                                                                                              |
+| <a name="operationRetryObjectStrategy"></a>strategy       | [Fixed Retry Strategy Object](#fixedRetryStrategyObject) &#124; [Linear Retry Strategy Object](#linearRetryStrategyObject) &#124; [Exponential Retry Strategy Object](#exponentialRetryStrategyObject) | **Required.** The delay policy applied between retry attempts.                                                                                                                        |
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Retry Object Example
+
+```yaml
+retry:
+  channel:
+    $ref: '#/channels/orderRetries'
+  messages:
+    - $ref: '#/channels/orderRetries/messages/retryOrder'
+  maxAttempts: 3
+  strategy:
+    type: exponential
+    initialDelay: PT1S
+    multiplier: 2
+    maxDelay: PT1M
+```
+
+#### <a name="fixedRetryStrategyObject"></a>Fixed Retry Strategy Object
+
+Describes a retry policy with the same fixed delay between every retry attempt.
+
+##### Fixed Fields
+
+| Field Name                                        |   Type    | Description                                                                                                                                                          |
+|---------------------------------------------------|:---------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <a name="fixedRetryStrategyObjectType"></a>type   | `"fixed"` | **Required.** Identifies this as a fixed retry strategy.                                                                                                             |
+| <a name="fixedRetryStrategyObjectDelay"></a>delay | `string`  | **Required.** The delay between attempts, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`. |
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Fixed Retry Strategy Object Example
+
+```yaml
+strategy:
+  type: fixed
+  delay: PT30S
+```
+
+#### <a name="linearRetryStrategyObject"></a>Linear Retry Strategy Object
+
+Describes a retry policy whose delay increases by a fixed increment after each retry attempt.
+
+##### Fixed Fields
+
+| Field Name                                                           |    Type    | Description                                                                                                                                                                              |
+|----------------------------------------------------------------------|:----------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <a name="linearRetryStrategyObjectType"></a>type                     | `"linear"` | **Required.** Identifies this as a linear retry strategy.                                                                                                                                |
+| <a name="linearRetryStrategyObjectInitialDelay"></a>initialDelay     |  `string`  | **Required.** The delay before the first retry, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`.               |
+| <a name="linearRetryStrategyObjectDelayIncrement"></a>delayIncrement |  `string`  | **Required.** The amount added to the delay after each retry, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`. |
+| <a name="linearRetryStrategyObjectMaxDelay"></a>maxDelay             |  `string`  | The maximum delay between attempts, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`.                           |
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Linear Retry Strategy Object Example
+
+```yaml
+strategy:
+  type: linear
+  initialDelay: PT5S
+  delayIncrement: PT10S
+  maxDelay: PT1M
+```
+
+#### <a name="exponentialRetryStrategyObject"></a>Exponential Retry Strategy Object
+
+Describes a retry policy whose delay is multiplied after each retry attempt.
+
+##### Fixed Fields
+
+| Field Name                                                            |      Type       | Description                                                                                                                                                                |
+|-----------------------------------------------------------------------|:---------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <a name="exponentialRetryStrategyObjectType"></a>type                 | `"exponential"` | **Required.** Identifies this as an exponential retry strategy.                                                                                                            |
+| <a name="exponentialRetryStrategyObjectInitialDelay"></a>initialDelay |    `string`     | **Required.** The delay before the first retry, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`. |
+| <a name="exponentialRetryStrategyObjectMultiplier"></a>multiplier     |    `number`     | **Required.** The value by which the delay is multiplied after each retry. The value MUST be greater than zero.                                                            |
+| <a name="exponentialRetryStrategyObjectMaxDelay"></a>maxDelay         |    `string`     | The maximum delay between attempts, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`.             |
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Exponential Retry Strategy Object Example
+
+```yaml
+strategy:
+  type: exponential
+  initialDelay: PT1S
+  multiplier: 2
+  maxDelay: PT1M
+```
+
+#### <a name="operationDeadLetterObject"></a>Operation Dead Letter Object
+
+Describes the dead-letter path that MAY be applied to a `receive` Operation Object. When processing cannot be recovered, including after the associated retry policy is exhausted, the message is sent to this channel. Protocol bindings MAY define the delivery mechanism and any broker-specific metadata.
+
+##### Fixed Fields
+
+| Field Name                                                     |                  Type                  | Description                                                                                                                                                                                              |
+|----------------------------------------------------------------|:--------------------------------------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| <a name="operationDeadLetterObjectChannel"></a>channel         |  [Reference Object](#referenceObject)  | **Required.** A `$ref` pointer to the channel to which dead-letter messages are sent. The same location rules as the [Operation Reply Object](#operationReplyObject) `channel` field apply.              |
+| <a name="operationDeadLetterObjectMessages"></a>messages       | [[Reference Object](#referenceObject)] | **Required.** A non-empty list of `$ref` pointers to messages in the referenced dead-letter channel.                                                                                                     |
+| <a name="operationDeadLetterObjectMaxWaitTime"></a>maxWaitTime |                `string`                | The maximum time an implementation waits for a dead-letter message to appear, as an ISO 8601 duration limited to seconds, minutes or hours matching `^PT(?=\d)(?:\d+H)?(?:\d+M)?(?:\d+(?:[.,]\d+)?S)?$`. |
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Operation Dead Letter Object Example
+
+```yaml
+deadLetter:
+  channel:
+    $ref: '#/channels/orderDeadLetters'
+  messages:
+    - $ref: '#/channels/orderDeadLetters/messages/deadLetterOrder'
+  maxWaitTime: PT15S
 ```
 
 #### <a name="parametersObject"></a>Parameters Object
