@@ -107,6 +107,8 @@ channels:
         $ref: '#/components/messages/manualPresenceChange'
       memberJoinedChannel:
         $ref: '#/components/messages/memberJoinedChannel'
+      memberLeftChannel:
+        $ref: '#/components/messages/memberLeftChannel'
       message:
         $ref: '#/components/messages/message'
 operations:
@@ -166,6 +168,7 @@ operations:
       - $ref: '#/channels/root/messages/imOpen'
       - $ref: '#/channels/root/messages/manualPresenceChange'
       - $ref: '#/channels/root/messages/memberJoinedChannel'
+      - $ref: '#/channels/root/messages/memberLeftChannel'
       - $ref: '#/channels/root/messages/message'
 components:
   securitySchemes:
@@ -287,7 +290,7 @@ components:
           type:
             type: string
             enum:
-              - bot_added
+              - bot_changed
           bot:
             type: object
             properties:
