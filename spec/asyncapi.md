@@ -87,6 +87,7 @@ Aside from the issues mentioned above, there may also be infrastructure configur
     - [Default Content Type](#defaultContentTypeString)
     - [Channels Object](#channelsObject)
     - [Channel Object](#channelObject)
+    - [Channel Trait Object](#channelTraitObject)
     - [Operations Object](#operationsObject)
     - [Operation Object](#operationObject)
     - [Operation Trait Object](#operationTraitObject)
@@ -652,6 +653,7 @@ Field Name | Type | Description
 <a name="channelObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
 <a name="channelObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
 <a name="channelObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+<a name="channelObjectTraits"></a>traits | [[Channel Trait Object](#channelTraitObject) &#124; [Reference Object](#referenceObject)] | A list of traits to apply to the channel object. Traits MUST be merged using [traits merge mechanism](#traits-merge-mechanism). The resulting object MUST be a valid [Channel Object](#channelObject).
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -695,7 +697,10 @@ This object MAY be extended with [Specification Extensions](#specificationExtens
   "externalDocs": {
     "description": "Find more info here",
     "url": "https://example.com"
-  }
+  },
+  "traits": [
+    { "$ref": "#/components/channelTraits/kafkaTopicsCommon" }
+  ]
 }
 ```
 
@@ -726,6 +731,60 @@ tags:
 externalDocs:
   description: 'Find more info here'
   url: 'https://example.com'
+traits:
+  - $ref: '#/components/channelTraits/kafkaTopicsCommon'
+```
+
+#### <a name="channelTraitObject"></a>Channel Trait Object
+
+Describes a trait that MAY be applied to a [Channel Object](#channelObject). This object MAY contain any property from the [Channel Object](#channelObject), except the `address`, `messages` and `traits` ones.
+
+If you're looking to apply traits to an operation, see the [Operation Trait Object](#operationTraitObject).
+If you're looking to apply traits to a message, see the [Message Trait Object](#messageTraitObject).
+
+##### Fixed Fields
+
+Field Name | Type | Description
+---|:---:|---
+<a name="channelTraitObjectTitle"></a>title | `string` | A human-friendly title for the channel.
+<a name="channelTraitObjectSummary"></a>summary | `string` | A short summary of the channel.
+<a name="channelTraitObjectDescription"></a>description | `string` | An optional description of this channel. [CommonMark syntax](https://spec.commonmark.org/) can be used for rich text representation.
+<a name="channelTraitObjectServers"></a>servers | [[Reference Object](#referenceObject)] | An array of `$ref` pointers to the definition of the servers in which this channel is available.
+<a name="channelTraitObjectParameters"></a>parameters | [Parameters Object](#parametersObject) | A map of the parameters included in the channel address.
+<a name="channelTraitObjectTags"></a>tags | [Tags Object](#tagsObject) | A list of tags for logical grouping of channels.
+<a name="channelTraitObjectExternalDocs"></a>externalDocs | [External Documentation Object](#externalDocumentationObject) \| [Reference Object](#referenceObject) | Additional external documentation for this channel.
+<a name="channelTraitObjectBindings"></a>bindings | [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject) | A map where the keys describe the name of the protocol and the values describe protocol-specific definitions for the channel.
+
+This object MAY be extended with [Specification Extensions](#specificationExtensions).
+
+##### Channel Trait Object Example
+
+<!-- asyncapi-example-tester:{"name":"Channel Trait Object","json_pointer":"/components/channelTraits/kafkaTopicsCommon"} -->
+```json
+{
+  "parameters": {
+    "userId": {
+      "$ref": "#/components/parameters/userId"
+    }
+  },
+  "bindings": {
+    "kafka": {
+      "partitions": 10,
+      "replicas": 3
+    }
+  }
+}
+```
+
+<!-- asyncapi-example-tester:{"name":"Channel Trait Object","json_pointer":"/components/channelTraits/kafkaTopicsCommon"} -->
+```yaml
+parameters:
+  userId:
+    $ref: '#/components/parameters/userId'
+bindings:
+  kafka:
+    partitions: 10
+    replicas: 3
 ```
 
 #### <a name="channelAddressExpressions"></a>Channel Address Expressions
@@ -1619,6 +1678,7 @@ Field Name | Type | Description
 <a name="componentsTags"></a> tags | Map[`string`, [Tag Object](#tagObject) \| [Reference Object](#referenceObject)] | An object to hold reusable [Tag Objects](#tagObject).
 <a name="componentsOperationTraits"></a> operationTraits | Map[`string`, [Operation Trait Object](#operationTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Trait Objects](#operationTraitObject).
 <a name="componentsMessageTraits"></a> messageTraits | Map[`string`, [Message Trait Object](#messageTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Message Trait Objects](#messageTraitObject).
+<a name="componentsChannelTraits"></a> channelTraits | Map[`string`, [Channel Trait Object](#channelTraitObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Trait Objects](#channelTraitObject).
 <a name="componentsServerBindings"></a> serverBindings | Map[`string`, [Server Bindings Object](#serverBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Server Bindings Objects](#serverBindingsObject).
 <a name="componentsChannelBindings"></a> channelBindings | Map[`string`, [Channel Bindings Object](#channelBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Channel Bindings Objects](#channelBindingsObject).
 <a name="componentsOperationBindings"></a> operationBindings | Map[`string`, [Operation Bindings Object](#operationBindingsObject) \| [Reference Object](#referenceObject)]  | An object to hold reusable [Operation Bindings Objects](#operationBindingsObject).
@@ -1769,6 +1829,21 @@ my.org.User
           }
         }
       }
+    },
+    "channelTraits": {
+      "kafkaTopicsCommon": {
+        "parameters": {
+          "userId": {
+            "$ref": "#/components/parameters/userId"
+          }
+        },
+        "bindings": {
+          "kafka": {
+            "partitions": 10,
+            "replicas": 3
+          }
+        }
+      }
     }
   }
 }
@@ -1865,6 +1940,15 @@ components:
             type: integer
             minimum: 0
             maximum: 100
+  channelTraits:
+    kafkaTopicsCommon:
+      parameters:
+        userId:
+          $ref: '#/components/parameters/userId'
+      bindings:
+        kafka:
+          partitions: 10
+          replicas: 3
 ```
 
 #### <a name="multiFormatSchemaObject"></a>Multi Format Schema Object
