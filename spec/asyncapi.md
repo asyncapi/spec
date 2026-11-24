@@ -1143,6 +1143,12 @@ Field Name | Type | Description
 <a name="serverBindingsObjectPulsar"></a>`pulsar` | [Pulsar Server Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#server-binding-object) | Protocol-specific information for a Pulsar server.
 <a name="serverBindingsObjectROS2"></a>`ros2` | [ROS 2 Server Binding](https://github.com/asyncapi/bindings/tree/master/ros2#server-binding-object) | Protocol-specific information for a ROS 2 server.
 
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="serverBindingsObjectCustom"></a>{protocol} | Any | Protocol-specific information for a server using a custom protocol not listed above. The key MUST NOT match a fixed field name or begin with `x-`. The AsyncAPI Specification does not define or validate its contents.
+
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="channelBindingsObject"></a>Channel Bindings Object
@@ -1173,6 +1179,12 @@ Field Name | Type | Description
 <a name="channelBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Channel Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#channel) | Protocol-specific information for a Google Cloud Pub/Sub channel.
 <a name="channelBindingsObjectPulsar"></a>`pulsar` | [Pulsar Channel Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#channel-binding-object) | Protocol-specific information for a Pulsar channel.
 <a name="channelBindingsObjectROS2"></a>`ros2` | [ROS 2 Channel Binding](https://github.com/asyncapi/bindings/tree/master/ros2#channel-binding-object) | Protocol-specific information for a ROS 2 channel.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="channelBindingsObjectCustom"></a>{protocol} | Any | Protocol-specific information for a channel using a custom protocol not listed above. The key MUST NOT match a fixed field name or begin with `x-`. The AsyncAPI Specification does not define or validate its contents.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
@@ -1205,6 +1217,12 @@ Field Name | Type | Description
 <a name="operationBindingsObjectPulsar"></a>`pulsar` | [Pulsar Operation Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#operation-binding-fields) | Protocol-specific information for a Pulsar operation.
 <a name="operationBindingsObjectROS2"></a>`ros2` | [ROS 2 Operation Binding](https://github.com/asyncapi/bindings/tree/master/ros2#operation-binding-fields) | Protocol-specific information for a ROS 2 operation.
 
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="operationBindingsObjectCustom"></a>{protocol} | Any | Protocol-specific information for a operation using a custom protocol not listed above. The key MUST NOT match a fixed field name or begin with `x-`. The AsyncAPI Specification does not define or validate its contents.
+
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
 #### <a name="messageBindingsObject"></a>Message Bindings Object
@@ -1235,6 +1253,12 @@ Field Name | Type | Description
 <a name="messageBindingsObjectGooglePubSub"></a>`googlepubsub` | [Google Cloud Pub/Sub Message Binding](https://github.com/asyncapi/bindings/tree/master/googlepubsub#message) | Protocol-specific information for a Google Cloud Pub/Sub message.
 <a name="messageBindingsObjectPulsar"></a>`pulsar` | [Pulsar Message Binding](https://github.com/asyncapi/bindings/tree/master/pulsar#message-binding-fields) | Protocol-specific information for a Pulsar message.
 <a name="messageBindingsObjectROS2"></a>`ros2` | [ROS 2 Message Binding](https://github.com/asyncapi/bindings/tree/master/ros2#message-binding-fields) | Protocol-specific information for a ROS 2 message.
+
+##### Patterned Fields
+
+Field Pattern | Type | Description
+---|:---:|---
+<a name="messageBindingsObjectCustom"></a>{protocol} | Any | Protocol-specific information for a message using a custom protocol not listed above. The key MUST NOT match a fixed field name or begin with `x-`. The AsyncAPI Specification does not define or validate its contents.
 
 This object MAY be extended with [Specification Extensions](#specificationExtensions).
 
