@@ -282,6 +282,9 @@ components:
         - properties:
             errorMessage:
               type: string
+            status:
+              type: string
+              const: error
           required:
             - errorMessage
         - $ref: '#/components/schemas/subscriptionStatusCommon'
@@ -294,6 +297,16 @@ components:
             channelName:
               type: string
               description: Channel Name on successful subscription. For payloads 'ohlc' and 'book', respective interval or depth will be added as suffix.
+            status:
+              type: string
+              enum:
+                - subscribed
+                - unsubscribed
+            subscription:
+              type: object
+              properties:
+                depth:
+                  $ref: '#/components/schemas/depth'
           required:
             - channelID
             - channelName
@@ -309,16 +322,21 @@ components:
         reqid:
           $ref: '#/components/schemas/reqid'
         pair:
-          $ref: '#/components/schemas/pair'
+          $ref: '#/components/schemas/currencyPair'
         status:
-          $ref: '#/components/schemas/status'
+          type: string
+          enum:
+            - subscribed
+            - unsubscribed
+            - error
         subscription:
           required:
             - name
           type: object
           properties:
             depth:
-              $ref: '#/components/schemas/depth'
+              type: integer
+              description: Depth associated with book subscription in number of levels each side.
             interval:
               $ref: '#/components/schemas/interval'
             maxratecount:
@@ -379,10 +397,12 @@ components:
     reqid:
       type: integer
       description: client originated ID reflected in response message.
+    currencyPair:
+      type: string
+      description: Format of each pair is "A/B", where A and B are ISO 4217-A3 for standardized assets and popular unique symbol if not standardized.
+      pattern: '[A-Z\s]+\/[A-Z\s]+'
     pair:
       type: array
       description: Array of currency pairs.
       items:
-        type: string
-        description: Format of each pair is "A/B", where A and B are ISO 4217-A3 for standardized assets and popular unique symbol if not standardized.
-        pattern: '[A-Z\s]+\/[A-Z\s]+'
+        $ref: '#/components/schemas/currencyPair'
